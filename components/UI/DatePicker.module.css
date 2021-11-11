@@ -1,0 +1,65 @@
+.ddWrapper {
+  position: relative;
+  font-family: "Cairo", sans-serif;
+}
+
+.ddButton {
+  background: none;
+  border: none;
+  font-family: "Cairo", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f4e31;
+}
+
+.ddButtonText:hover {
+  text-decoration: underline;
+}
+
+.ddButton:hover {
+  font-weight: 600;
+}
+
+.ddArrow {
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.ddCalendar {
+  position: absolute;
+  display: grid;
+  grid-template-rows: 55px 1fr;
+  background-color: #d4f3da;
+  width: 250px;
+  right: 0;
+  box-shadow: #0000003d 0px 3px 8px;
+}
+
+.ddCalendarYear {
+  align-self: center;
+}
+
+.ddCalendarHeader {
+  text-align: center;
+  font-size: 20px;
+}
+
+.ddCalendarMonths {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  background-color: #fff;
+  place-items: center center;
+  height: 240px;
+}
+
+.month {
+  color: #2d8058;
+  font-weight: 600;
+  padding: 15px 20px;
+}
+
+.month:hover {
+  background-color: #2D8058;
+  color: #FFF;
+}

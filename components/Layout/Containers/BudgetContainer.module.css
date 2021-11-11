@@ -1,0 +1,76 @@
+.budgetContainer {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 60% 40%;
+  grid-template-areas: "title tabs" "content content";
+}
+
+.budgetTitle {
+  grid-area: title;
+}
+
+.budgetTabs {
+  grid-area: tabs;
+  align-self: flex-end;
+  justify-self: flex-end;
+}
+
+.sorting {
+  font-family: "Cairo", sans-serif;
+  color: #0f4e31;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sortingBtn,
+.tabBtn {
+  background: none;
+  border: none;
+  color: #0f4e31;
+}
+
+.tabBtn {
+  padding: 10px 24px;
+  font-size: 16px;
+}
+
+.tabBtn:hover {
+  text-decoration: underline;
+}
+
+.tabBtnActive {
+  padding: 10px 24px;
+  font-size: 16px;
+  border: none;
+  background-color: #d4f3da;
+  border-bottom: 2px solid #0f4e31;
+}
+
+.budgetItemsList {
+  grid-area: content;
+  background-color: #d4f3da;
+  padding: 20px;
+}
+
+.break {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .budgetContainer {
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: auto;
+    grid-template-areas: "title" "tabs" "content";
+  }
+}
+
+@media (max-width: 620px) {
+  .budgetItemsList {
+    padding: 10px;
+  }
+
+  .break {
+    display: block;
+    line-height: 0;
+  }
+}

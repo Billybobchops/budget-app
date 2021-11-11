@@ -1,0 +1,14 @@
+.lightOverlay {
+  display: none;
+}
+
+@media (max-width: 1485px) {
+  .lightOverlay {
+    display: block;
+    background-color: #d4f3daea;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 20;
+  }
+}

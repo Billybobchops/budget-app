@@ -1,0 +1,10 @@
+.button {
+  color: #fff;
+  background-color: #2D8058;
+  border: none;
+  font-family: "Cairo", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 30px;
+}
+

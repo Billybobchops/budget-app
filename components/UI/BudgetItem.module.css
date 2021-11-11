@@ -1,0 +1,66 @@
+.container {
+  background-color: #fff;
+  box-shadow: #0000004f 0px 3px 5px;
+  padding: 16px 0;
+  margin-bottom: 18px;
+  font-family: "Cairo", sans-serif;
+  color: #04311c;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.emptyCell,
+.col1,
+.col2,
+.col3,
+.col4,
+.col5 {
+  border: 0.5px dashed red;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.slash {
+  margin: 0 5px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.under {
+  max-width: max-content;
+}
+
+.emptyCell {
+  width: 4%;
+}
+
+.col1 {
+  width: 18%;
+}
+
+.col2 {
+  width: 16%;
+}
+
+.col3 {
+  width: 1fr;
+}
+
+.col4 {
+  width: 15%;
+  text-align: center;
+}
+
+.col5 {
+  width: 6%;
+  text-align: center;
+}

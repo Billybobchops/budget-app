@@ -1,0 +1,49 @@
+.container,
+.expense {
+  background-color: #fff;
+  box-shadow: #0000004f 0px 3px 5px;
+  padding: 16px 0;
+  margin-bottom: 18px;
+  font-family: "Cairo", sans-serif;
+  color: #04311c;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.expense {
+  background-color: #ffdddd;
+}
+
+.emptyCell {
+  width: 4%;
+}
+
+.col1 {
+  width: 20%;
+}
+
+.col2 {
+  width: 14%;
+}
+
+.col3 {
+  width: 1fr;
+}
+
+.col4 {
+  width: 15%;
+  /* text-align: center; */
+}
+
+.col5 {
+  width: 6%;
+  text-align: center;
+}

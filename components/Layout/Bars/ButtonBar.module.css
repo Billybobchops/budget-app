@@ -1,0 +1,20 @@
+.buttonBar {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "header" "buttons";
+  align-items: center;
+  border-bottom: 1px solid #2d8058;
+  margin-bottom: 30px;
+}
+
+.buttonBarTitle {
+  padding-bottom: 10px;
+}
+
+.headerContainer {
+  grid-area: header;
+}
+
+.buttonContainer {
+  grid-area: buttons;
+}

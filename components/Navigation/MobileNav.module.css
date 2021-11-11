@@ -1,0 +1,70 @@
+.mobileNav,
+.navigation {
+  display: none;
+}
+
+.logo {
+  max-width: 7rem;
+}
+
+@media (max-width: 1485px) {
+  .mobileNav {
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d4f3da;
+  }
+
+  .icon {
+    font-size: 26px;
+    color: #04311c;
+  }
+
+  .iconBtn {
+    border: none;
+    background: transparent;
+  }
+
+  .navigation {
+    display: grid;
+    height: 100vh;
+    justify-content: center;
+    margin-top: 50px;
+  }
+
+  .mobileNavLink {
+    font-family: "Cairo", sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #2d8058;
+    line-height: 60px;
+  }
+
+  .mobileNavLink:hover,
+  .mobileNavLink:active {
+    color: #bd275c;
+  }
+  
+  .listItem {
+    list-style-type: none;
+    color: #2d8058;
+    margin-bottom: 30px;
+  }
+
+  .mobileIcon {
+    margin-right: 18px;
+  }
+}
+
+@media (max-width: 425px) {
+  .navigation {
+    margin-top: 20px;
+  }
+
+  .mobileNavLink {
+    font-size: 20px;
+    line-height: 40px;
+  }
+}

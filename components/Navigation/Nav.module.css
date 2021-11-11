@@ -1,0 +1,45 @@
+.navigation {
+  position: fixed;
+}
+
+.logo {
+  max-width: 10rem;
+  margin: 50px 0 20px 0;
+}
+
+.navLink {
+  font-family: "Cairo", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #2d8058;
+}
+
+.navLink:hover,
+.navLink:active {
+  color: #bd275c;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.listItem {
+  color: #2d8058;
+  margin-bottom: 10px;
+}
+
+.icon {
+  margin-right: 18px;
+}
+
+@media (max-width: 1485px) {
+  .navLink {
+    display: none;
+  }
+
+  .logo {
+    display: none;
+  }
+}

@@ -1,0 +1,29 @@
+.label {
+  font-family: "Cairo", sans-serif;
+  font-weight: 600;
+  color: #04311c;
+}
+
+.input {
+  display: block;
+  border: 1px solid #2d8058;
+  width: calc(100% - 14px); 
+  padding: 0 0 0 14px;
+  min-height: 50px;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.input:focus {
+  outline: none;
+  border: 1px solid #d4f3da;
+  border-bottom: 4px solid #d4f3da;
+}
+
+.input::placeholder {
+  font-family: "Cairo", sans-serif;
+  font-weight: 700;
+  color: #2d8058;
+  font-size: 15px;
+}
+
