@@ -7,7 +7,7 @@ const BudgetItem = (props) => {
     <div className={classes.container}>
       <table className={classes.table}>
         <tbody>
-          <tr>
+          <tr className={classes.initialRow}>
             <td className={classes.emptyCell}></td>
             <td className={classes.col1}>
               <div className={classes.bold}>{props.title}</div>
@@ -17,15 +17,12 @@ const BudgetItem = (props) => {
             </td>
             <td className={classes.col3}>
               <div className={classes.flex}>
-                <div className={classes.budgeted}>
-                  <span className={classes.bold}>Budgeted</span>{" "}
-                  {props.budgetedAmount}
-                </div>
-                <div className={classes.slash}>/</div>
                 <div className={classes.spent}>
                   <span className={classes.bold}>Spent</span>{" "}
                   {props.spentAmount}
                 </div>
+                <div className={classes.slash}>/</div>
+                <div className={classes.budgeted}>{props.budgetedAmount}</div>
               </div>
             </td>
             <td className={classes.col4}>
@@ -37,6 +34,20 @@ const BudgetItem = (props) => {
           </tr>
         </tbody>
       </table>
+
+      <div className={classes.secondaryRow}>
+        <div className={classes.bold}>{props.title}</div>
+        <div className={classes.date}>{`Bills on ${props.date}`}</div>
+        <div className={classes.flex}>
+          <div className={classes.spent}>{props.spentAmount}</div>
+          <div className={classes.slash}>/</div>
+          <div className={classes.budgeted}>{props.budgetedAmount}</div>
+        </div>
+        <div className={classes.under}>Balanced!</div>
+        <div className={classes.options}>
+          <FontAwesomeIcon icon={faEllipsisH} />
+        </div>
+      </div>
     </div>
   );
 };

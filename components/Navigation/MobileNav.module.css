@@ -5,6 +5,8 @@
 
 .logo {
   max-width: 7rem;
+  /* width: 100%; */
+  height: 47px;
 }
 
 @media (max-width: 1485px) {
@@ -46,7 +48,7 @@
   .mobileNavLink:active {
     color: #bd275c;
   }
-  
+
   .listItem {
     list-style-type: none;
     color: #2d8058;
@@ -55,6 +57,12 @@
 
   .mobileIcon {
     margin-right: 18px;
+  }
+}
+
+@media (max-width: 620px) {
+  .mobileNav {
+    padding: 20px;
   }
 }
 

@@ -23,7 +23,7 @@ const IncomeExpenses = () => {
         hasProfileBar={true}
         hasBudgetMessage={true}
         hasMonthlyBreakdown={false}
-        hasUpcomingBills={false}
+        hasUpcomingBills={true}
       />
     </PageBackground>
   );

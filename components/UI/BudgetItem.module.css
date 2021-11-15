@@ -13,18 +13,12 @@
   border-collapse: collapse;
 }
 
-.emptyCell,
-.col1,
-.col2,
-.col3,
-.col4,
-.col5 {
-  border: 0.5px dashed red;
+.secondaryRow {
+  display: none;
 }
 
 .flex {
   display: flex;
-  align-items: center;
 }
 
 .slash {
@@ -63,4 +57,78 @@
 .col5 {
   width: 6%;
   text-align: center;
+}
+
+@media (max-width: 960px) {
+  .container {
+    padding: 6px 0;
+  }
+
+  .initialRow,
+  .table {
+    display: none;
+  }
+
+  .secondaryRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 40px;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: "title date options" "budget balance options";
+  }
+
+  .bold {
+    grid-area: title;
+  }
+
+  .flex {
+    grid-area: budget;
+  }
+
+  .bold,
+  .flex {
+    padding-left: 12px;
+  }
+
+  .date {
+    grid-area: date;
+    width: 100%;
+    text-align: right;
+  }
+
+  .under {
+    grid-area: balance;
+  }
+
+  .date,
+  .under {
+    justify-self: end;
+    padding-right: 12px;
+  }
+
+  .options {
+    grid-area: options;
+    place-self: center;
+  }
+
+  .bold,
+  .date {
+    border-bottom: 1px solid #62d5b5;
+  }
+}
+
+@media (max-width: 400px) {
+  .secondaryRow {
+    grid-template-columns: 1fr 1fr 60px;
+    grid-template-areas: "title title options" "budget budget options";
+  }
+
+  .date,
+  .under {
+    display: none;
+  }
+
+  .bold,
+  .flex {
+    padding-left: 20px;
+  }
 }

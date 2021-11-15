@@ -38,7 +38,7 @@ const Nav = () => {
         />
         <NavLink href="/planner" icon={faList} linkText="Planner" />
         <NavLink
-          href="/sinking-funds-calculatorr"
+          href="/sinking-funds-calculator"
           icon={faCalculator}
           linkText="Sinking Funds Calculator"
         />

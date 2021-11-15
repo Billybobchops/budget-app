@@ -18,7 +18,8 @@ const BudgetWrapper = (props) => {
             <span className={classes.break}>
               <br />
             </span>
-            <button className={classes.sortingBtn}>High to Low</button>|
+            <button className={classes.sortingBtn}>High to Low</button>
+            <span className={classes.slash}>|</span>
             <button className={classes.sortingBtn}>Low to High</button>
           </div>
         </div>

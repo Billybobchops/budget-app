@@ -1,6 +1,6 @@
 .button {
   color: #fff;
-  background-color: #BD275C;
+  background-color: #bd275c;
   border-radius: 50px;
   border: none;
   font-family: "Cairo", sans-serif;
@@ -10,3 +10,9 @@
   margin: 0 12px 12px 0;
 }
 
+@media (max-width: 360px) {
+  .button {
+    font-size: 12px;
+    margin: 0 9px 9px 0;
+  }
+}

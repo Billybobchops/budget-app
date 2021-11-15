@@ -91,7 +91,7 @@ const MobileNav = () => {
                     icon={faCalculator}
                     className={classes.mobileIcon}
                   />
-                  Sinking Funds calculator
+                  Sinking Funds Calculator
                 </a>
               </Link>
             </li>
