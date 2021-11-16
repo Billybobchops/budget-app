@@ -3,10 +3,20 @@ import { useState } from "react";
 import BudgetCategory from "../../UI/BudgetCategory";
 import BudgetItem from "../../UI/BudgetItem";
 
-const BudgetWrapper = (props) => {
-  const [activeTab, setActiveTab] = useState(["Monthly"]);
+const Tab = (props) => {
+  let tabClass = `${classes.tabBtn} ${
+    props.activeTab ? classes.tabBtnActive : ""
+  }`;
+  return (
+    <button className={tabClass} onClick={props.onClick}>
+      {props.title}
+    </button>
+  );
+};
 
-  let tabClass = `tabBtn`;
+const BudgetWrapper = (props) => {
+  const tabLables = ["Monthly", "Annual"];
+  const [activeTab, setActiveTab] = useState(tabLables[0]);
 
   return (
     <div className={classes.budgetContainer}>
@@ -14,7 +24,9 @@ const BudgetWrapper = (props) => {
         <h2>Budget</h2>
         <div>
           <div className={classes.sorting}>
-            Percentage of Planned Net Income:{" "}
+            <span className={classes.sortingTitle}>
+              Percentage of Planned Net Income:
+            </span>
             <span className={classes.break}>
               <br />
             </span>
@@ -25,15 +37,25 @@ const BudgetWrapper = (props) => {
         </div>
       </div>
       <div className={classes.budgetTabs}>
-        <button className={`${classes[tabClass]}`}>Daily</button>
-        <button className={`${classes[tabClass]}`}>Monthly</button>
-        <button className={`${classes[tabClass]}`}>Annually</button>
+        {tabLables.map((tab) => {
+          return (
+            <Tab
+              title={tab}
+              key={tab}
+              activeTab={activeTab === tab}
+              onClick={() => {
+                setActiveTab(tab);
+              }}
+            />
+          );
+        })}
       </div>
       <div className={classes.budgetItemsList}>{props.children}</div>
     </div>
   );
 };
-
+1;
+// Eventually loop and render Categories inside of the BudgetWrapper component...
 const BudgetContainer = (props) => {
   return (
     <BudgetWrapper>
