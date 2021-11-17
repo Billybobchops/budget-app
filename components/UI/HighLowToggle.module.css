@@ -1,0 +1,42 @@
+.sorting {
+  font-family: "Cairo", sans-serif;
+  color: #0f4e31;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sortingTitle {
+  margin-right: 10px;
+}
+
+.sortingBtn {
+  padding: 0;
+  font-size: 15px;
+}
+
+.slash {
+  padding: 0 11px;
+}
+
+.sortingBtn {
+  background: none;
+  border: none;
+  color: #0f4e31;
+}
+
+.break {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  .break {
+    display: block;
+    line-height: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .sorting {
+    margin-bottom: 20px;
+  }
+}

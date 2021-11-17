@@ -15,27 +15,6 @@
   justify-self: flex-end;
 }
 
-.sorting {
-  font-family: "Cairo", sans-serif;
-  color: #0f4e31;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.sortingTitle {
-  margin-right: 10px;
-}
-
-.sortingBtn {
-  padding: 0;
-  font-size: 15px;
-}
-
-.slash {
-  padding: 0 11px;
-}
-
-.sortingBtn,
 .tabBtn {
   background: none;
   border: none;
@@ -52,7 +31,6 @@
 }
 
 .tabBtnActive {
-  /* padding: 10px 24px; */
   font-size: 16px;
   border: none;
   background-color: #d4f3da;
@@ -63,10 +41,6 @@
   grid-area: content;
   background-color: #d4f3da;
   padding: 20px;
-}
-
-.break {
-  display: none;
 }
 
 @media (max-width: 960px) {
@@ -81,20 +55,11 @@
   .budgetItemsList {
     padding: 10px;
   }
-
-  .break {
-    display: block;
-    line-height: 0;
-  }
 }
 
 @media (max-width: 480px) {
   .tabBtn {
     font-size: 14px;
     padding: 10px 18px;
-  }
-
-  .sorting {
-    margin-bottom: 20px;
   }
 }
