@@ -3,6 +3,13 @@ import BudgetCategory from "../../UI/BudgetCategory";
 import HighLowToggle from "../../UI/HighLowToggle";
 import Tabs from "../../UI/Tabs";
 
+const dummyCategories = [
+  { title: "Needs" },
+  { title: "Saving" },
+  { title: "Giving" },
+  { title: "Wants" },
+];
+
 const BudgetWrapper = (props) => {
   return (
     <div className={classes.budgetContainer}>
@@ -19,13 +26,12 @@ const BudgetWrapper = (props) => {
 };
 
 // Eventually loop and render Categories dynamically instead of static content...
-const BudgetContainer = (props) => {
+const BudgetContainer = () => {
   return (
     <BudgetWrapper>
-      <BudgetCategory categoryTitle="Needs" />
-      <BudgetCategory categoryTitle="Saving" />
-      <BudgetCategory categoryTitle="Giving" />
-      <BudgetCategory categoryTitle="Wants" />
+      {dummyCategories.map((category) => {
+        return <BudgetCategory key={category.title} categoryTitle={category.title} />;
+      })}
     </BudgetWrapper>
   );
 };

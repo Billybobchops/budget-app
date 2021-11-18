@@ -10,7 +10,7 @@ const UpcomingBill = (props) => {
       <div className={classes.flex}>
         <div className={classes.spent}>{props.spentAmount}</div>
         <div className={classes.slash}>/</div>
-        <div className={classes.budgeted}>{props.budgetedAmount}</div>
+        <div className={classes.budgeted}>{`$${props.budgetedAmount}`}</div>
       </div>
       <div className={classes.under}>Balanced!</div>
       <div className={classes.options}>

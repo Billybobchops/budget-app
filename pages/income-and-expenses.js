@@ -22,7 +22,6 @@ const IncomeExpenses = () => {
       <Sidebar
         hasProfileBar={true}
         hasBudgetMessage={true}
-        hasMonthlyBreakdown={false}
         hasUpcomingBills={true}
       />
     </PageBackground>

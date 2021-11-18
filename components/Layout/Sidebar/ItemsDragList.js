@@ -1,4 +1,4 @@
-import classes from "./UpcomingBills.module.css";
+import classes from "./ItemsDragList.module.css";
 import UpcomingBill from "../../UI/UpcomingBill";
 
 const dummyBudgetItems = [
@@ -25,11 +25,11 @@ const dummyBudgetItems = [
   },
 ];
 
-const UpcomingBills = () => {
+const ItemsDragList = () => {
   return (
     <div className={classes.container}>
       <div>
-        <h2 className={classes.title}>Upcoming Bills</h2>
+        <h2 className={classes.title}>Drag Budget Items to a Paycheck</h2>
       </div>
       <div className={classes.background}>
         {dummyBudgetItems.map((item) => {
@@ -48,4 +48,4 @@ const UpcomingBills = () => {
   );
 };
 
-export default UpcomingBills;
+export default ItemsDragList;

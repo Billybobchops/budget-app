@@ -9,12 +9,7 @@ const SinkingFunds = () => {
       <MainGrid>
         <Header title="Sinking Funds Calculator" hasDatePicker={false} />
       </MainGrid>
-      <Sidebar
-        hasProfileBar={true}
-        hasBudgetMessage={true}
-        hasMonthlyBreakdown={false}
-        hasUpcomingBills={false}
-      />
+      <Sidebar hasProfileBar={true} hasBudgetMessage={true} />
     </PageBackground>
   );
 };

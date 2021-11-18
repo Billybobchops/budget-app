@@ -1,4 +1,4 @@
-import classes from "./BudgetCategory.module.css";
+import classes from "./PlannerAccordion.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
@@ -7,6 +7,30 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import BudgetItem from "../UI/BudgetItem";
+
+const dummyBudgetItems = [
+  {
+    category: "Wants",
+    title: "Date Night",
+    billDate: "2021-09-29",
+    budgetAmount: 50,
+    plannedPaycheck: "Paycheck 1",
+  },
+  {
+    category: "Wants",
+    title: "Spotify",
+    billDate: "2021-09-29",
+    budgetAmount: 13,
+    plannedPaycheck: "Paycheck 1",
+  },
+  {
+    category: "Needs",
+    title: "Groceries",
+    billDate: "2021-09-29",
+    budgetAmount: 200,
+    plannedPaycheck: "Paycheck 1",
+  },
+];
 
 const Table = (props) => {
   return (
@@ -18,7 +42,7 @@ const Table = (props) => {
   );
 };
 
-const BudgetCategory = (props) => {
+const PlannerAccordion = (props) => {
   const [isActive, setIsActive] = useState(false);
 
   const activeHandler = () => {
@@ -39,17 +63,19 @@ const BudgetCategory = (props) => {
             <td className={classes.head1}>{chevron}</td>
             <td className={classes.head2}>
               <div className={classes.title}>
-                {props.categoryTitle} -
-                <span className={classes.percentage}> xx% of Income</span>
+                {props.title} -
+                <span className={classes.percentage}> {props.nickname}</span>
               </div>
             </td>
             <td className={classes.head3}>
               <div className={classes.flex}>
                 <div className={classes.spent}>
-                  <span className={classes.bold}>Spent</span> $123.43
+                  <span className={classes.bold}>Expected Pay</span> $850
                 </div>
                 <div className={classes.slash}>/</div>
-                <div className={classes.budgeted}>$1,000.43</div>
+                <div className={classes.budgeted}>
+                  <span className={classes.bold}>Budgeted</span> $43.25
+                </div>
               </div>
             </td>
             <td className={classes.head4}>
@@ -61,16 +87,19 @@ const BudgetCategory = (props) => {
           </tr>
         </Table>
       </div>
-      {isActive && (
-        <BudgetItem
-          title="Date Night"
-          date="09.03.21"
-          budgetedAmount="$50"
-          spentAmount="$50"
-        />
-      )}
+      {isActive && dummyBudgetItems.map((item) => {
+          return (
+            <BudgetItem
+              key={item.title}
+              title={item.title}
+              date={item.billDate}
+              spentAmount="$5"
+              budgetedAmount={item.budgetAmount}
+            />
+          );
+        })}
     </>
   );
 };
 
-export default BudgetCategory;
+export default PlannerAccordion;
