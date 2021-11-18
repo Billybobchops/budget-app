@@ -1,49 +1,61 @@
-.container,
-.expense {
+.container {
   background-color: #fff;
   box-shadow: #0000004f 0px 3px 5px;
-  padding: 16px 0;
+  padding: 8px 0;
   margin-bottom: 18px;
   font-family: "Cairo", sans-serif;
   color: #04311c;
-}
 
-.table {
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
-}
-
-.bold {
-  font-weight: 700;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 60px;
+  grid-template-areas: "title nickname date ammount options";
 }
 
 .expense {
   background-color: #ffdddd;
 }
 
-.emptyCell {
-  width: 4%;
+.title {
+  font-weight: 700;
+  padding-left: 16px;
+  grid-area: title;
 }
 
-.col1 {
-  width: 20%;
+.nickname {
+  grid-area: nickname;
 }
 
-.col2 {
-  width: 14%;
+.date {
+  grid-area: date;
 }
 
-.col3 {
-  width: 1fr;
+.ammount {
+  grid-area: ammount;
 }
 
-.col4 {
-  width: 15%;
-  /* text-align: center; */
+.options {
+  grid-area: options;
+  place-self: center;
 }
 
-.col5 {
-  width: 6%;
-  text-align: center;
+@media (max-width: 800px) {
+  .container {
+    grid-template-areas: "title title title date options" "nickname nickname nickname ammount options";
+  }
+
+  .title,
+  .date,
+  .option {
+    border-bottom: 1px solid #62d5b5;
+  }
+
+  .nickname {
+    padding-left: 16px;
+  }
+
+  .date,
+  .ammount {
+    text-align: right;
+    padding-right: 16px;
+  }
 }

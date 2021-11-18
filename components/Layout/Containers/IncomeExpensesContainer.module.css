@@ -1,4 +1,8 @@
 .container {
-  background-color: #D4F3DA;
+  background-color: #d4f3da;
   padding: 20px;
+}
+
+.title {
+  padding-bottom: 10px;
 }
