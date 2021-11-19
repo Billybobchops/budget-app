@@ -8,6 +8,30 @@ import {
 import { useState } from "react";
 import BudgetItem from "../UI/BudgetItem";
 
+const dummyBudgetItems = [
+  {
+    category: "Wants",
+    title: "Date Night",
+    billDate: "09.29.21",
+    budgetAmount: 50,
+    plannedPaycheck: "Paycheck 1",
+  },
+  {
+    category: "Wants",
+    title: "Spotify",
+    billDate: "09.29.21",
+    budgetAmount: 13,
+    plannedPaycheck: "Paycheck 1",
+  },
+  {
+    category: "Needs",
+    title: "Groceries",
+    billDate: "09.29.21",
+    budgetAmount: 200,
+    plannedPaycheck: "Paycheck 1",
+  },
+];
+
 const Table = (props) => {
   return (
     <div className={classes.container}>
@@ -61,14 +85,17 @@ const BudgetCategory = (props) => {
           </tr>
         </Table>
       </div>
-      {isActive && (
-        <BudgetItem
-          title="Date Night"
-          date="09.03.21"
-          budgetedAmount="$50"
-          spentAmount="$50"
-        />
-      )}
+      {isActive && dummyBudgetItems.map((item) => {
+          return (
+            <BudgetItem
+              key={item.title}
+              title={item.title}
+              date={item.billDate}
+              spentAmount="$5"
+              budgetedAmount={`$${item.budgetAmount}`}
+            />
+          );
+        })}
     </>
   );
 };

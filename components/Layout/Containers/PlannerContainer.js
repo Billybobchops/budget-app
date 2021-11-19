@@ -1,6 +1,29 @@
 import PlannerAccordion from "../../UI/PlannerAccordion";
 import classes from "./PlannerContainer.module.css";
 
+const dummyPaychecks = [
+  {
+    title: "Paycheck 1",
+    nickname: "Test Nickname B1",
+    expectedPay: 700,
+  },
+  {
+    title: "Paycheck 2",
+    nickname: "Test Nickname K1",
+    expectedPay: 850,
+  },
+  {
+    title: "Paycheck 3",
+    nickname: "Test Nickname B2",
+    expectedPay: 700,
+  },
+  {
+    title: "Paycheck 4",
+    nickname: "Test Nickname K2",
+    expectedPay: 850,
+  },
+];
+
 const PlannerWrapper = (props) => {
   return (
     <section>
@@ -21,10 +44,16 @@ const PlannerWrapper = (props) => {
 const PlannerContainer = () => {
   return (
     <PlannerWrapper>
-      <PlannerAccordion title="Paycheck 1" nickname="B1" />
-      <PlannerAccordion title="Paycheck 2" nickname="K1" />
-      <PlannerAccordion title="Paycheck 3" nickname="B2" />
-      <PlannerAccordion title="Paycheck 4" nickname="K2" />
+      {dummyPaychecks.map((check) => {
+        return (
+          <PlannerAccordion
+            key={check.title}
+            title={check.title}
+            nickname={check.nickname}
+            expectedPay={check.expectedPay}
+          />
+        );
+      })}
     </PlannerWrapper>
   );
 };

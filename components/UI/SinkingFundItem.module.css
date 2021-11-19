@@ -1,0 +1,127 @@
+.container {
+  background-color: #fff;
+  box-shadow: #0000004f 0px 3px 5px;
+  padding: 16px 0;
+  margin-bottom: 18px;
+  font-family: "Cairo", sans-serif;
+  color: #04311c;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.secondaryRow {
+  display: none;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.cost {
+  max-width: max-content;
+}
+
+.emptyCell {
+  width: 4%;
+}
+
+.col1 {
+  width: 18%;
+}
+
+.col2 {
+  width: 16%;
+}
+
+.col3 {
+  width: 1fr;
+}
+
+.col4 {
+  width: 15%; 
+  /* needs to be wider! */
+  text-align: center;
+}
+
+.col5 {
+  width: 6%;
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .container {
+    padding: 6px 0;
+  }
+
+  .initialRow,
+  .table {
+    display: none;
+  }
+
+  .secondaryRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 40px;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: "title date options" "budget balance options";
+  }
+
+  .bold {
+    grid-area: title;
+  }
+
+  .flex {
+    grid-area: budget;
+  }
+
+  .bold,
+  .flex {
+    padding-left: 12px;
+  }
+
+  .date {
+    grid-area: date;
+    width: 100%;
+    text-align: right;
+  }
+
+  .cost {
+    grid-area: balance;
+  }
+
+  .date,
+  .cost {
+    justify-self: end;
+    padding-right: 12px;
+  }
+
+  .options {
+    grid-area: options;
+    place-self: center;
+  }
+
+  .bold,
+  .date {
+    border-bottom: 1px solid #62d5b5;
+  }
+}
+
+@media (max-width: 400px) {
+  .secondaryRow {
+    grid-template-columns: 1fr 1fr 60px;
+    grid-template-areas: "title title options" "budget budget options";
+  }
+
+  .date,
+  .cost {
+    display: none;
+  }
+
+  .bold,
+  .flex {
+    padding-left: 20px;
+  }
+}

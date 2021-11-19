@@ -1,8 +1,8 @@
-import classes from "./BudgetItem.module.css";
+import classes from "./SinkingFundItem.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
-const BudgetItem = (props) => {
+const SinkingFundsItem = (props) => {
   return (
     <div className={classes.container}>
       <table className={classes.table}>
@@ -15,18 +15,11 @@ const BudgetItem = (props) => {
             <td className={classes.col2}>
               <div>{`Bills on ${props.date}`}</div>
             </td>
-            <td className={classes.col3}>
-              <div className={classes.flex}>
-                <div>
-                  <span className={classes.bold}>Spent</span>{" "}
-                  {props.spentAmount}
-                </div>
-                <div className={classes.slash}>/</div>
-                <div>{props.budgetedAmount}</div>
-              </div>
-            </td>
+            <td className={classes.col3}>{`Total Cost $${props.ammount}`}</td>
             <td className={classes.col4}>
-              <div className={classes.under}>Balanced!</div>
+              <div
+                className={classes.cost}
+              >{`$${props.payment}/${props.timeType} for ${props.timeLength} ${props.timeType}s`}</div>
             </td>
             <td className={classes.col5}>
               <FontAwesomeIcon icon={faEllipsisH} />
@@ -38,12 +31,10 @@ const BudgetItem = (props) => {
       <div className={classes.secondaryRow}>
         <div className={classes.bold}>{props.title}</div>
         <div className={classes.date}>{`Bills on ${props.date}`}</div>
-        <div className={classes.flex}>
-          <div className={classes.spent}>{props.spentAmount}</div>
-          <div className={classes.slash}>/</div>
-          <div className={classes.budgeted}>{props.budgetedAmount}</div>
-        </div>
-        <div className={classes.under}>Balanced!</div>
+        <div>{`Total Cost $${props.ammount}`}</div>
+        <div
+          className={classes.cost}
+        >{`$${props.payment}/${props.timeType} for ${props.timeLength} ${props.timeType}s`}</div>
         <div className={classes.options}>
           <FontAwesomeIcon icon={faEllipsisH} />
         </div>
@@ -52,4 +43,7 @@ const BudgetItem = (props) => {
   );
 };
 
-export default BudgetItem;
+export default SinkingFundsItem;
+
+// 24 months = total amount / 24
+// 2 years = total amount / (2 * 12)

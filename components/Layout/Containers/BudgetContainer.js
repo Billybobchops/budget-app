@@ -16,6 +16,7 @@ const BudgetWrapper = (props) => {
       <div className={classes.budgetTitle}>
         <h2>Budget</h2>
         <div>
+          <p>Percentage of Planned Net Income:</p>
           <HighLowToggle />
         </div>
       </div>
@@ -25,12 +26,13 @@ const BudgetWrapper = (props) => {
   );
 };
 
-// Eventually loop and render Categories dynamically instead of static content...
 const BudgetContainer = () => {
   return (
     <BudgetWrapper>
       {dummyCategories.map((category) => {
-        return <BudgetCategory key={category.title} categoryTitle={category.title} />;
+        return (
+          <BudgetCategory key={category.title} categoryTitle={category.title} />
+        );
       })}
     </BudgetWrapper>
   );

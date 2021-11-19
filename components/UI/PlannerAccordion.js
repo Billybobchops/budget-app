@@ -12,21 +12,21 @@ const dummyBudgetItems = [
   {
     category: "Wants",
     title: "Date Night",
-    billDate: "2021-09-29",
+    billDate: "09.29.21",
     budgetAmount: 50,
     plannedPaycheck: "Paycheck 1",
   },
   {
     category: "Wants",
     title: "Spotify",
-    billDate: "2021-09-29",
+    billDate: "09.29.21",
     budgetAmount: 13,
     plannedPaycheck: "Paycheck 1",
   },
   {
     category: "Needs",
     title: "Groceries",
-    billDate: "2021-09-29",
+    billDate: "09.29.21",
     budgetAmount: 200,
     plannedPaycheck: "Paycheck 1",
   },
@@ -69,12 +69,13 @@ const PlannerAccordion = (props) => {
             </td>
             <td className={classes.head3}>
               <div className={classes.flex}>
-                <div className={classes.spent}>
-                  <span className={classes.bold}>Expected Pay</span> $850
-                </div>
-                <div className={classes.slash}>/</div>
                 <div className={classes.budgeted}>
                   <span className={classes.bold}>Budgeted</span> $43.25
+                </div>
+                <div className={classes.slash}>/</div>
+                <div className={classes.spent}>
+                  <span className={classes.bold}>Expected Pay</span> $
+                  {props.expectedPay}
                 </div>
               </div>
             </td>
@@ -87,7 +88,8 @@ const PlannerAccordion = (props) => {
           </tr>
         </Table>
       </div>
-      {isActive && dummyBudgetItems.map((item) => {
+      {isActive &&
+        dummyBudgetItems.map((item) => {
           return (
             <BudgetItem
               key={item.title}

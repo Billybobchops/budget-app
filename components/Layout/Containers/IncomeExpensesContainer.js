@@ -8,6 +8,8 @@ const dummyIncomeExpenseItems = [
     date: "09.02.21",
     ammount: 50.85,
     expense: true,
+    plannedPaycheck: null,
+    category: "Needs",
   },
   {
     title: "Paycheck 1",
@@ -15,6 +17,8 @@ const dummyIncomeExpenseItems = [
     date: "09.02.21",
     ammount: 1005.85,
     expense: false,
+    plannedPaycheck: "Paycheck 1",
+    category: null,
   },
 ];
 

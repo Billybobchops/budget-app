@@ -57,7 +57,7 @@
   border-bottom: 1px solid #62d5b5;
 }
 
-@media (max-width: 1830px) {
+@media (max-width: 2010px) {
   .container {
     grid-template-columns: 1fr 1fr 60px;
     grid-template-areas: "title title options" "budget budget options";
