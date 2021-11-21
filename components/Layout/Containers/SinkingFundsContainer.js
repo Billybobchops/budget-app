@@ -8,14 +8,28 @@ const dummySinkingFunds = [
     billDate: "09.12.21",
     timeType: "month",
     timeLength: 12,
-    ammount: 100,
+    ammount: 52,
   },
   {
     title: "New Surfboard",
-    billDate: "09.12.21",
+    billDate: "",
     timeType: "year",
     timeLength: 2,
     ammount: 1500,
+  },
+  {
+    title: "Dashlane Password Service",
+    billDate: "09.12.21",
+    timeType: "month",
+    timeLength: 12,
+    ammount: 89.88,
+  },
+  {
+    title: "Car Repairs",
+    billDate: "",
+    timeType: "month",
+    timeLength: 12,
+    ammount: 400,
   },
 ];
 
@@ -50,16 +64,27 @@ const SinkingFundsContainer = () => {
   return (
     <SinkingFundsWrapper>
       {dummySinkingFunds.map((fund) => {
-        console.log(fund.timeType === "year" ? fund.timeLength * 12 : fund.timeLength);
         return (
           <SinkingFundsItem
             key={fund.title}
             title={fund.title}
             date={fund.billDate}
             ammount={fund.ammount}
-            timeLength={fund.timeType === "year" ? fund.timeLength * 12 : fund.timeLength}
-            payment={fund.ammount / fund.timeLength.toFixed(2)}
-            timeType={fund.timeType}
+            payment={
+              fund.timeLength % 12 === 0 && fund.timeType === "month"
+                ? fund.ammount / fund.timeLength
+                : fund.ammount / (fund.timeLength * 12)
+            }
+            timeLength={
+              fund.timeLength % 12 === 0 && fund.timeType === "month"
+                ? fund.timeLength / 12
+                : fund.timeLength
+            }
+            timeType={
+              fund.timeLength % 12 === 0 && fund.timeType === "month"
+                ? "year"
+                : fund.timeType
+            }
           />
         );
       })}
@@ -68,5 +93,3 @@ const SinkingFundsContainer = () => {
 };
 
 export default SinkingFundsContainer;
-
-// BUG 24 years....ugh

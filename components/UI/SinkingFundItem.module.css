@@ -26,24 +26,23 @@
 }
 
 .emptyCell {
-  width: 4%;
+  width: 15px;
 }
 
 .col1 {
-  width: 18%;
+  width: 26%;
 }
 
 .col2 {
-  width: 16%;
+  width: 20%;
 }
 
 .col3 {
-  width: 1fr;
+  width: 22%;
 }
 
 .col4 {
-  width: 15%; 
-  /* needs to be wider! */
+  width: 1fr;
   text-align: center;
 }
 
@@ -78,7 +77,8 @@
   }
 
   .bold,
-  .flex {
+  .flex,
+  .total {
     padding-left: 12px;
   }
 
@@ -109,19 +109,44 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 560px) {
   .secondaryRow {
     grid-template-columns: 1fr 1fr 60px;
-    grid-template-areas: "title title options" "budget budget options";
+    grid-template-areas: "title title options" "balance balance options";
   }
 
   .date,
-  .cost {
+  .total {
     display: none;
   }
 
   .bold,
-  .flex {
+  .flex,
+  .cost {
     padding-left: 20px;
+  }
+
+  .bold,
+  .cost {
+    font-size: 15px;
+  }
+
+  .cost {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 355px) {
+  .container {
+    padding: 4px 0;
+  }
+
+  .secondaryRow {
+    grid-template-columns: 1fr 1fr 30px;
+  }
+
+  .bold,
+  .cost {
+    font-size: 14px;
   }
 }

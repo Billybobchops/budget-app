@@ -13,13 +13,17 @@ const SinkingFundsItem = (props) => {
               <div className={classes.bold}>{props.title}</div>
             </td>
             <td className={classes.col2}>
-              <div>{`Bills on ${props.date}`}</div>
+              <div>{`${props.date !== "" ? "Bills on " : "--"}${
+                props.date
+              }`}</div>
             </td>
-            <td className={classes.col3}>{`Total Cost $${props.ammount}`}</td>
+            <td className={classes.col3}>{`Total $${props.ammount}`}</td>
             <td className={classes.col4}>
-              <div
-                className={classes.cost}
-              >{`$${props.payment}/${props.timeType} for ${props.timeLength} ${props.timeType}s`}</div>
+              <div className={classes.cost}>{`$${props.payment.toFixed(
+                2
+              )}/month for ${props.timeLength} ${props.timeType}${
+                props.timeLength > 1 ? "s" : ""
+              }`}</div>
             </td>
             <td className={classes.col5}>
               <FontAwesomeIcon icon={faEllipsisH} />
@@ -30,11 +34,15 @@ const SinkingFundsItem = (props) => {
 
       <div className={classes.secondaryRow}>
         <div className={classes.bold}>{props.title}</div>
-        <div className={classes.date}>{`Bills on ${props.date}`}</div>
-        <div>{`Total Cost $${props.ammount}`}</div>
-        <div
-          className={classes.cost}
-        >{`$${props.payment}/${props.timeType} for ${props.timeLength} ${props.timeType}s`}</div>
+        <div className={classes.date}>{`${
+          props.date !== "" ? "Bills on " : "--"
+        }${props.date}`}</div>
+        <div className={classes.total}>{`Total $${props.ammount}`}</div>
+        <div className={classes.cost}>{`$${props.payment.toFixed(
+          2
+        )}/month for ${props.timeLength} ${props.timeType}${
+          props.timeLength > 1 ? "s" : ""
+        }`}</div>
         <div className={classes.options}>
           <FontAwesomeIcon icon={faEllipsisH} />
         </div>
@@ -44,6 +52,3 @@ const SinkingFundsItem = (props) => {
 };
 
 export default SinkingFundsItem;
-
-// 24 months = total amount / 24
-// 2 years = total amount / (2 * 12)
