@@ -13,8 +13,8 @@ const PlannerPage = () => {
   const [budgetItems, setBudgetItems] = useState(dummyData.budgetItems);
 
   const onDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
-    console.log(result);
+    const { destination, source } = result;
+
     // Guard clause: if user drops draggable outside of droppable
     if (!destination) return;
     // The user dropped the item back in the same position

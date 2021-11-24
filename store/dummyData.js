@@ -21,6 +21,20 @@ const dummyData = {
       plannedPaycheck: "Paycheck 1",
       budgetAmount: 200,
     },
+    {
+      title: "Utilities",
+      category: "Needs",
+      billDate: "09.29.21",
+      plannedPaycheck: "Paycheck 1",
+      budgetAmount: 200,
+    },
+    {
+      title: "Gas",
+      category: "Needs",
+      billDate: "09.29.21",
+      plannedPaycheck: "Paycheck 1",
+      budgetAmount: 80,
+    },
   ],
 
   dummyPaychecks: [
@@ -29,21 +43,21 @@ const dummyData = {
       nickname: "Test Nickname B1",
       expectedPay: 700,
     },
-    // {
-    //   title: "Paycheck 2",
-    //   nickname: "Test Nickname K1",
-    //   expectedPay: 850,
-    // },
-    // {
-    //   title: "Paycheck 3",
-    //   nickname: "Test Nickname B2",
-    //   expectedPay: 700,
-    // },
-    // {
-    //   title: "Paycheck 4",
-    //   nickname: "Test Nickname K2",
-    //   expectedPay: 850,
-    // },
+    {
+      title: "Paycheck 2",
+      nickname: "Test Nickname K1",
+      expectedPay: 850,
+    },
+    {
+      title: "Paycheck 3",
+      nickname: "Test Nickname B2",
+      expectedPay: 700,
+    },
+    {
+      title: "Paycheck 4",
+      nickname: "Test Nickname K2",
+      expectedPay: 850,
+    },
   ],
 };
 
