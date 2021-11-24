@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import BudgetItem from "../UI/BudgetItem";
+import { Droppable } from "react-beautiful-dnd";
 
 const dummyBudgetItems = [
   {
@@ -57,45 +58,61 @@ const BudgetCategory = (props) => {
 
   return (
     <>
-      <div onClick={activeHandler}>
-        <Table>
-          <tr>
-            <td className={classes.head1}>{chevron}</td>
-            <td className={classes.head2}>
-              <div className={classes.title}>
-                {props.categoryTitle} -
-                <span className={classes.percentage}> xx% of Income</span>
-              </div>
-            </td>
-            <td className={classes.head3}>
-              <div className={classes.flex}>
-                <div className={classes.spent}>
-                  <span className={classes.bold}>Spent</span> $123.43
-                </div>
-                <div className={classes.slash}>/</div>
-                <div className={classes.budgeted}>$1,000.43</div>
-              </div>
-            </td>
-            <td className={classes.head4}>
-              <div className={classes.under}>Under $567</div>
-            </td>
-            <td className={classes.head5}>
-              <FontAwesomeIcon icon={faEllipsisH} />
-            </td>
-          </tr>
-        </Table>
-      </div>
-      {isActive && dummyBudgetItems.map((item) => {
-          return (
-            <BudgetItem
-              key={item.title}
-              title={item.title}
-              date={item.billDate}
-              spentAmount="$5"
-              budgetedAmount={`$${item.budgetAmount}`}
-            />
-          );
-        })}
+      <Droppable droppableId={props.categoryTitle}>
+        {(provided) => (
+          <>
+            <div
+              onClick={activeHandler}
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              <Table>
+                <tr>
+                  <td className={classes.head1}>{chevron}</td>
+                  <td className={classes.head2}>
+                    <div className={classes.title}>
+                      {props.categoryTitle} -
+                      <span className={classes.percentage}> xx% of Income</span>
+                    </div>
+                  </td>
+                  <td className={classes.head3}>
+                    <div className={classes.flex}>
+                      <div className={classes.spent}>
+                        <span className={classes.bold}>Spent</span> $123.43
+                      </div>
+                      <div className={classes.slash}>/</div>
+                      <div className={classes.budgeted}>$1,000.43</div>
+                    </div>
+                  </td>
+                  <td className={classes.head4}>
+                    <div className={classes.under}>Under $567</div>
+                  </td>
+                  <td className={classes.head5}>
+                    <FontAwesomeIcon icon={faEllipsisH} />
+                  </td>
+                </tr>
+              </Table>
+            </div>
+
+            <ul className={classes.list}>
+              {isActive &&
+                dummyBudgetItems.map((item, index) => {
+                  return (
+                    <BudgetItem
+                      key={item.title}
+                      title={item.title}
+                      date={item.billDate}
+                      spentAmount="$5"
+                      budgetedAmount={`$${item.budgetAmount}`}
+                      index={index}
+                    />
+                  );
+                })}
+              {provided.placeholder}
+            </ul>
+          </>
+        )}
+      </Droppable>
     </>
   );
 };

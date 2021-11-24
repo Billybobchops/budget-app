@@ -6,8 +6,11 @@ import Button from "../components/UI/Buttons/Button";
 import TotalsBar from "../components/Layout/Bars/TotalsBar";
 import BudgetContainer from "../components/Layout/Containers/BudgetContainer";
 import Sidebar from "../components/Layout/Sidebar/Sidebar";
+import { DragDropContext } from "react-beautiful-dnd";
 
 const Overview = () => {
+  const onDragEnd = (result) => {};
+  
   return (
     <PageBackground>
       <MainGrid>
@@ -17,7 +20,9 @@ const Overview = () => {
           <Button text="Budget Item" />
         </ButtonBar>
         <TotalsBar />
-        <BudgetContainer />
+        <DragDropContext onDragEnd={onDragEnd}>
+          <BudgetContainer />
+        </DragDropContext>
       </MainGrid>
       <Sidebar
         hasProfileBar={true}

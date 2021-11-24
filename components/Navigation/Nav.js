@@ -27,7 +27,7 @@ const Nav = () => {
   return (
     <nav className={classes.navigation}>
       <div className={classes.logo}>
-        <Image src={logo} alt="Logo" />
+        <Image src={logo} alt="Logo" priority />
       </div>
       <ul className={classes.list}>
         <NavLink href="/overview" icon={faChartPie} linkText="Overview" />
