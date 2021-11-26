@@ -8,6 +8,10 @@
   list-style-type: none;
 }
 
+.backgroundDrag {
+  background-color: #caf7ea;
+}
+
 .table {
   width: 100%;
   text-align: left;

@@ -9,12 +9,13 @@
 }
 
 .list {
-  padding: 0;
+  padding: 0 0 10px 0;
   list-style-type: none;
 }
 
-.spacer {
-  height: 15px;
+.backgroundDrag {
+  background-color: #A4F2CD;
+  transition: background-color 0.5s ease;
 }
 
 .table {

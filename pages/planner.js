@@ -29,6 +29,7 @@ const PlannerPage = () => {
     newItems.splice(destination.index, 0, removed);
 
     setBudgetItems(newItems);
+    // PERSIST THIS CHANGE ^ BY CALL THE DB ENDPOINT AFTER THIS UPDATE!!!!
   };
 
   return (
