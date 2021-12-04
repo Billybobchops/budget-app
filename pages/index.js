@@ -19,18 +19,33 @@ const Video = () => {
 export default function HomeAuth() {
   let [isNewUser, setIsNewUser] = useState(true);
 
-  const setIsNewUserTrue = () => {
-    setIsNewUser(true);
+  const toggleUserStatus = (e) => {
+    e.preventDefault();
+    setIsNewUser(!isNewUser);
   };
 
-  const setIsNewUserFalse = () => {
-    setIsNewUser(false);
+  const createAccount = () => {
+    console.log(`creating account`);
+  };
+
+  const loginHandler = () => {
+    console.log(`logging in`);
   };
 
   const authForm = (
     <>
-      {!isNewUser && <LoginForm onSignUpClick={setIsNewUserTrue} />}
-      {isNewUser && <SignUpForm onLoginClick={setIsNewUserFalse} />}
+      {isNewUser && (
+        <SignUpForm
+          onSignInClick={toggleUserStatus}
+          onCreateAccountClick={createAccount}
+        />
+      )}
+      {!isNewUser && (
+        <LoginForm
+          onSignUpClick={toggleUserStatus}
+          onLoginClick={loginHandler}
+        />
+      )}
     </>
   );
 

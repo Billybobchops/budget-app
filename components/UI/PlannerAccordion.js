@@ -77,9 +77,9 @@ const PlannerAccordion = (props) => {
                   </Table>
                 </div>
 
-                <ul className={classes.list}>
-                  {isActive &&
-                    props.items.map((item, index) => {
+                {isActive && (
+                  <ul className={classes.list}>
+                    {props.items.map((item, index) => {
                       if (props.title === item.plannedPaycheck)
                         return (
                           <BudgetItem
@@ -92,8 +92,9 @@ const PlannerAccordion = (props) => {
                           />
                         );
                     })}
-                  {provided.placeholder}
-                </ul>
+                    {provided.placeholder}
+                  </ul>
+                )}
               </div>
             </div>
           );

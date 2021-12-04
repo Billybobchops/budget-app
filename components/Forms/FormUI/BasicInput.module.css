@@ -7,7 +7,8 @@
 .input {
   display: block;
   border: 1px solid #2d8058;
-  width: calc(100% - 14px); 
+  /* width: calc(100% - 14px);  */
+  width: 100%;
   padding: 0 0 0 14px;
   min-height: 50px;
   margin-bottom: 10px;
@@ -25,5 +26,18 @@
   font-weight: 700;
   color: #2d8058;
   font-size: 15px;
+}
+
+.errorMessage {
+  color: #BF0D0D;
+  display: block;
+  font-size: 14.5px;
+}
+
+.errorInput {
+  margin-bottom: 2px;
+  border: 1px solid #BF0D0D;
+  color: #BF0D0D;
+  background-color: #bf0d0d13;
 }
 

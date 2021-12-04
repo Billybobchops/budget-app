@@ -25,6 +25,7 @@ const dummyBudgetItems = [
   },
 ];
 
+// REPLACE UPCOMING BILLS WITH BUDGET ITEM AND DELETE ITS FILE
 const UpcomingBills = () => {
   return (
     <div className={classes.container}>

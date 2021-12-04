@@ -9,7 +9,8 @@
 }
 
 .backgroundDrag {
-  background-color: #caf7ea;
+  background-color: #D0FFE9;
+  border-left: 7px solid #04311C;
 }
 
 .table {

@@ -1,36 +1,23 @@
 import classes from "./AuthForms.module.css";
 import FormBackground from "./FormUI/FormBackground";
-import BasicInput from "./FormUI/BasicInput";
 import SubmitButton from "./FormUI/SubmitButton";
+import useForm from "../../hooks/useForm";
+import { authConfig } from "./formUtils/authConfig";
 
 const LoginForm = (props) => {
-  const loginHandler = (e) => {
-    e.preventDefault();
-  };
+  const { renderFormInputs, isFormValid } = useForm(authConfig);
+  const { onLoginClick, onSignUpClick } = props;
 
   return (
-    <form onSubmit={loginHandler}>
+    <form onSubmit={onLoginClick}>
       <FormBackground>
         <h1 className={classes.header}>Welcome Back!</h1>
-        <BasicInput
-          type="email"
-          id="email"
-          label="Email"
-          name="email"
-          placeholder="Enter your email address"
-        />
-        <BasicInput
-          type="password"
-          id="password"
-          label="Password"
-          name="password"
-          placeholder="Enter your password"
-        />
+        {renderFormInputs()}
         <p className={classes.paragraph}>Forgot your password?</p>
-        <SubmitButton value="Login" />
+        <SubmitButton value="Login" disabled={!isFormValid()} />
         <p className={classes.paragraph}>
           New User?{" "}
-          <button onClick={props.onSignUpClick} className={classes.buttonLink}>
+          <button onClick={onSignUpClick} className={classes.buttonLink}>
             Sign up here.
           </button>
         </p>
