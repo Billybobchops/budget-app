@@ -34,7 +34,7 @@ export const authConfig = {
     validationRules: [
       requiredRule("Password"),
       minLengthRule("Password", 8),
-      maxLengthRule("Password", 20),
+      maxLengthRule("Password", 35),
     ],
   },
 };

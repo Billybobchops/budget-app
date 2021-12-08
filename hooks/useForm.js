@@ -59,7 +59,7 @@ function useForm(formObj) {
    *
    * @param {object} formObj - object representation of a form
    */
-  
+
   const isFormValid = useCallback(() => {
     let isValid = true;
     const arr = Object.values(form);
@@ -74,7 +74,7 @@ function useForm(formObj) {
     return isValid;
   }, [form]);
 
-  return { renderFormInputs, isFormValid };
+  return { renderFormInputs, isFormValid, form };
 }
 
 export default useForm;

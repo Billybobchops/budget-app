@@ -3,8 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import profilePicture from "../../../public/Profile-picture.png";
 import SquareButton from "../../UI/Buttons/SquareButton";
+import { useAuth } from "../../../hooks/useAuth";
 
 const ProfileBar = () => {
+  const { logout } = useAuth();
+
+  const logoutHandler = () => {
+    logout();
+  };
+
   return (
     <div className={classes.container}>
       <div className={classes.profilePicture}>
@@ -17,7 +24,7 @@ const ProfileBar = () => {
       <Link href="/my-account">
         <a className={classes.link}>My Account</a>
       </Link>
-      <SquareButton text="Logout" />
+      <SquareButton text="Logout" onClick={logoutHandler} />
     </div>
   );
 };

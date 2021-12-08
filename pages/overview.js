@@ -7,10 +7,13 @@ import TotalsBar from "../components/Layout/Bars/TotalsBar";
 import BudgetContainer from "../components/Layout/Containers/BudgetContainer";
 import Sidebar from "../components/Layout/Sidebar/Sidebar";
 import { DragDropContext } from "react-beautiful-dnd";
+import { useAuth } from "../hooks/useAuth";
 
 const Overview = () => {
   const onDragEnd = (result) => {};
-  
+  const auth = useAuth();
+  console.log(`User login status = ${!!auth}`);
+
   return (
     <PageBackground>
       <MainGrid>

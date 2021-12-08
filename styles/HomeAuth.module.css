@@ -4,13 +4,6 @@
   grid-template-areas: "video content";
 }
 
-.video {
-  grid-area: video;
-  height: 100vh;
-  object-fit: cover;
-  width: 100%;
-}
-
 .contentColumn {
   display: grid;
   /* justify-items: center; */ /* for the logo... remove place-items: center center; */
@@ -35,10 +28,6 @@
     grid-template-areas:
       "content"
       "video";
-  }
-
-  .video {
-    height: 700px; /* WAS 500 */
   }
 
   .contentColumn {
@@ -69,11 +58,6 @@
 
   .gradient {
     top: 540px;
-  }
-  .video {
-    /* height: 300px; */
-    /* height: auto; */
-    height: 100%;
   }
 
   .logo {

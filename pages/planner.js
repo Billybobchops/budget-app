@@ -8,9 +8,13 @@ import Sidebar from "../components/Layout/Sidebar/Sidebar";
 import { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import dummyData from "../store/dummyData";
+import { useAuth } from "../hooks/useAuth";
 
 const PlannerPage = () => {
   const [budgetItems, setBudgetItems] = useState(dummyData.budgetItems);
+
+  const auth = useAuth();
+  console.log(`User login status = ${!!auth}`);
 
   const onDragEnd = (result) => {
     const { destination, source } = result;

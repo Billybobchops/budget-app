@@ -1,9 +1,8 @@
 // Import the functions you need from the SDKs you need
-// import firebase from "firebase/app";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "@firebase/auth";
+// import { getFirestore } from "firebase/firestore";
+// import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -18,22 +17,14 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+
 // A Firebase App is a container-like object that stores common
 // configuration and shares authentication across Firebase services.
 // After you initialize a Firebase App object in your code, you can
 // add and start using Firebase services.
 
-// Firebase services
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-////////////////////////////////////////////////
-
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConfig);
-//   console.log(`Firebase has successfully initialized`);
-// }
-
-// export default firebase;
+// Firebase services examples
+// const analytics = getAnalytics(app);
+// const db = getFirestore(app);
