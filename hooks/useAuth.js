@@ -5,6 +5,8 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  setPersistence,
+  browserSessionPersistence,
 } from "@firebase/auth";
 
 const authContext = createContext();
@@ -22,23 +24,27 @@ function useProvideAuth() {
   const [user, setUser] = useState(null);
   const router = useRouter();
 
-  // Wrap any Firebase methods we want to use making sure ...
-  // ... to save the user to state.
-  const signin = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        setUser(userCredential.user); // HOW IS THIS STATE PERSISTING?????????
-        console.log(userCredential);
-        console.log(`Signed in!`);
-        router.push("/overview");
-        return userCredential.user;
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
+  const signin = async (email, password) => {
+    try {
+      // set auth state persistence to SESSION instead of default local
+      await setPersistence(auth, browserSessionPersistence);
+      ///////////////////////////////
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // Signed in
+      setUser(userCredential.user);
+      router.push("/overview");
+      console.log(userCredential);
+      console.log(`Signed in!`);
+      return userCredential.user;
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorMessage);
+    }
   };
 
   const signup = (email, password) => {
@@ -51,23 +57,14 @@ function useProvideAuth() {
       });
   };
 
-  const logout = () => {
-    // return firebase
-    //   .auth()
-    //   .signOut()
-    //   .then(() => {
-    //     setUser(false);
-    //   });
-    return signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        console.log(`Sign-out successful.`);
-        setUser(false);
-        router.push("/");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      // Sign-out successful.
+      console.log(`Sign-out successful.`);
+      setUser(false);
+      router.push("/");
+    } catch (error) {}
   };
 
   const sendPasswordResetEmail = (email) => {

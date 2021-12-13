@@ -15,15 +15,17 @@ const Overview = () => {
   const auth = useRequireAuth();
   console.log(auth.user);
 
-  if (!auth.user) {return <p>Loading!</p>};
+  if (!auth.user) {
+    return <p>Loading!</p>;
+  }
 
   return (
     <PageBackground>
       <MainGrid>
-        <Header title="Overview" hasDatePicker={true} />
+        <Header title='Overview' hasDatePicker={true} />
         <ButtonBar>
-          <Button text="Budget Category" />
-          <Button text="Budget Item" />
+          <Button text='Budget Category' />
+          <Button text='Budget Item' />
         </ButtonBar>
         <TotalsBar />
         <DragDropContext onDragEnd={onDragEnd}>

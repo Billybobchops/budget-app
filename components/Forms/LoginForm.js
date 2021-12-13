@@ -15,7 +15,6 @@ const LoginForm = (props) => {
 
   const loginHandler = (event) => {
     event.preventDefault();
-    console.log(`loginHandler in LoginForm.js running`);
     signin(e, p);
   };
 
@@ -38,3 +37,5 @@ const LoginForm = (props) => {
 };
 
 export default LoginForm;
+
+// export async function getStaticProps() {}
