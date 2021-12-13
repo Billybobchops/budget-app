@@ -14,9 +14,15 @@ import {
   faCalculator,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../public/LogoPlaceholder.png";
+import { useAuth } from "../../hooks/useAuth";
 
 const MobileNav = () => {
   const [isClicked, setIsClicked] = useState(false);
+  const { logout } = useAuth();
+
+  const logoutHandler = () => {
+    logout();
+  };
 
   const keyDownHandler = () => {
     setIsClicked(false);
@@ -101,9 +107,9 @@ const MobileNav = () => {
               </Link>
             </li>
             <li className={classes.listItem}>
-              <Link href="/welcome" passHref>
-                <a className={classes.mobileNavLink}>Logout</a>
-              </Link>
+              <a className={classes.mobileNavLink} onClick={logoutHandler}>
+                Logout
+              </a>
             </li>
           </ul>
         </div>

@@ -28,7 +28,8 @@ function useProvideAuth() {
     return signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        setUser(userCredential.user);
+        setUser(userCredential.user); // HOW IS THIS STATE PERSISTING?????????
+        console.log(userCredential);
         console.log(`Signed in!`);
         router.push("/overview");
         return userCredential.user;

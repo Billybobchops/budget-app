@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ProvideAuth>
       {/* <Provider store={store}> */}
-        <Component {...pageProps} />
+      <Component {...pageProps} />
       {/* </Provider> */}
     </ProvideAuth>
   );

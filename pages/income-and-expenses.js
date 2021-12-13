@@ -6,8 +6,13 @@ import Button from "../components/UI/Buttons/Button";
 import TotalsBar from "../components/Layout/Bars/TotalsBar";
 import IncomeExpensesContainer from "../components/Layout/Containers/IncomeExpensesContainer";
 import Sidebar from "../components/Layout/Sidebar/Sidebar";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 
 const IncomeExpenses = () => {
+  const auth = useRequireAuth();
+
+  if (!auth.user) {return <p>Loading!</p>};
+
   return (
     <PageBackground>
       <MainGrid>

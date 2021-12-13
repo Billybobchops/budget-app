@@ -25,7 +25,7 @@ const LoginForm = (props) => {
         <h1 className={classes.header}>Welcome Back!</h1>
         {renderFormInputs()}
         <p className={classes.paragraph}>Forgot your password?</p>
-        <SubmitButton value="Login" disabled={!isFormValid()} />
+        <SubmitButton value='Login' disabled={!isFormValid()} />
         <p className={classes.paragraph}>
           New User?{" "}
           <button onClick={props.onSignUpClick} className={classes.buttonLink}>

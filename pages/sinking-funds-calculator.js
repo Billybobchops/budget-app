@@ -3,8 +3,13 @@ import MainGrid from "../components/Layout/MainGrid";
 import Header from "../components/Layout/Header";
 import Sidebar from "../components/Layout/Sidebar/Sidebar";
 import SinkingFundsContainer from "../components/Layout/Containers/SinkingFundsContainer";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 
 const SinkingFunds = () => {
+  const auth = useRequireAuth();
+
+  if (!auth.user) {return <p>Loading!</p>};
+
   return (
     <PageBackground>
       <MainGrid>

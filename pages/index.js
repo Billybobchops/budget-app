@@ -8,7 +8,7 @@ import classes from "../styles/HomeAuth.module.css";
 
 export default function HomeAuth() {
   let [isNewUser, setIsNewUser] = useState(true);
-  
+
   const toggleUserStatus = (e) => {
     e.preventDefault();
     setIsNewUser(!isNewUser);
