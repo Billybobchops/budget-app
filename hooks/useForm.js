@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { debounce } from "lodash";
 
 function useForm(formObj) {
   const [form, setForm] = useState(formObj);
@@ -29,6 +30,7 @@ function useForm(formObj) {
   // the state is updated and code inside this hook executes again.
   const onInputChange = useCallback(
     (event) => {
+      console.log('onInputChange running...');
       const { name, value } = event.target;
       // copy input object whose value was changed
       const inputObj = { ...form[name] };
@@ -37,6 +39,7 @@ function useForm(formObj) {
 
       // update input field's validity
       const isValidInput = isInputFieldValid(inputObj);
+
       // if input is valid and it was previously set to invalid
       // set its valid status to true
       if (isValidInput && !inputObj.valid) {
