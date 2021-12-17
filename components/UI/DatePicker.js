@@ -1,5 +1,5 @@
-import classes from "./DatePicker.module.css";
-import { useState, useRef, useEffect, useCallback } from "react";
+import classes from './DatePicker.module.css';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 const Dropdown = () => {
   return (
@@ -43,13 +43,13 @@ const DatePicker = () => {
       }
     };
 
-    document.addEventListener("mousedown", checkIfClickedOutside);
-    document.addEventListener("keydown", escFunction);
+    document.addEventListener('mousedown', checkIfClickedOutside);
+    document.addEventListener('keydown', escFunction);
 
     return () => {
       // Cleanup the event listener
-      document.removeEventListener("mousedown", checkIfClickedOutside);
-      document.removeEventListener("keydown", escFunction);
+      document.removeEventListener('mousedown', checkIfClickedOutside);
+      document.removeEventListener('keydown', escFunction);
     };
   }, [isClicked, escFunction]);
 
@@ -60,7 +60,7 @@ const DatePicker = () => {
   return (
     <div ref={picker} className={classes.ddWrapper}>
       <button className={classes.ddButton} onClick={dropDownHandler}>
-        <span className={classes.ddButtonText}>Select Month and Year</span>{" "}
+        <span className={classes.ddButtonText}>Select Month and Year</span>{' '}
         <span className={classes.ddArrow}>▼</span>
       </button>
       {isClicked && <Dropdown />}

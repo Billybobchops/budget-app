@@ -1,4 +1,4 @@
-import classes from "./AuthForms.module.css";
+import classes from "../Forms/FormUI/FormStyles.module.css";
 import FormBackground from "./FormUI/FormBackground";
 import SubmitButton from "./FormUI/SubmitButton";
 import useForm from "../../hooks/useForm";

@@ -10,11 +10,11 @@ import {
 export const authConfig = {
   email: {
     ...createFormFieldConfig(
-      "Email",
-      "email",
-      "email",
-      "",
-      "Enter your email address"
+      "Email", // label
+      "email", // name
+      "email", // type
+      "", // default value
+      "Enter your email address" // placeholder
     ),
     validationRules: [
       requiredRule("Email"),

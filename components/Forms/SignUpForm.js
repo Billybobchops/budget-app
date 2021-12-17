@@ -1,4 +1,4 @@
-import classes from "./AuthForms.module.css";
+import classes from "../Forms/FormUI/FormStyles.module.css";
 import FormBackground from "./FormUI/FormBackground";
 import SubmitButton from "./FormUI/SubmitButton";
 import useForm from "../../hooks/useForm";
@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
 } from "firebase/auth";
 import { app } from "../../firebase/firebaseClient";
 import { authConfig } from "./formUtils/authConfig";
@@ -20,22 +19,6 @@ const SignUpForm = (props) => {
   const { email, password } = form;
   const emailValue = email.value;
   const passwordValue = password.value;
-
-  // // Get the currently signed-in user
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     // User is signed in, see docs for a list of available properties
-  //     // https://firebase.google.com/docs/reference/js/firebase.User
-  
-  //     const uid = user.uid;
-  //     console.log(`the auth obj is:`);
-  //     console.log(auth);
-  //     // ...
-  //   } else {
-  //     // User is signed out
-  //     // ...
-  //   }
-  // });
 
   const createAccountHandler = () => {
     // Create a password-based account

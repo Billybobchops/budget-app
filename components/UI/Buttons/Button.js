@@ -1,9 +1,9 @@
-import classes from "./Button.module.css";
+import classes from './Button.module.css';
 
-const Button = (props) => {
+const Button = ({ text, clickHandler }) => {
   return (
-    <button type="button" className={classes.button}>
-      {props.text}
+    <button type='button' className={classes.button} onClick={clickHandler}>
+      {text}
     </button>
   );
 };

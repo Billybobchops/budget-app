@@ -1,10 +1,10 @@
-import classes from "./MobileNav.module.css";
-import LightOverlay from "../Navigation/NavigationUI/LightOverlay";
-import Portal from "./NavigationUI/Portal";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classes from './MobileNav.module.css';
+import LightOverlay from '../UI/LightOverlay';
+import Portal from '../UI/Portal';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBars,
   faTimes,
@@ -12,9 +12,9 @@ import {
   faCreditCard,
   faList,
   faCalculator,
-} from "@fortawesome/free-solid-svg-icons";
-import logo from "../../public/LogoPlaceholder.png";
-import { useAuth } from "../../hooks/useAuth";
+} from '@fortawesome/free-solid-svg-icons';
+import logo from '../../public/LogoPlaceholder.png';
+import { useAuth } from '../../hooks/useAuth';
 
 const MobileNav = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -42,7 +42,7 @@ const MobileNav = () => {
     return (
       <nav className={classes.mobileNav}>
         <div className={classes.logo}>
-          <Image src={logo} alt="Logo" />
+          <Image src={logo} alt='Logo' />
         </div>
         <button className={classes.iconBtn} onClick={clickHandler}>
           {icon}
@@ -58,7 +58,7 @@ const MobileNav = () => {
         <div className={classes.navigation}>
           <ul classes={classes.list}>
             <li className={classes.listItem}>
-              <Link href="/overview" passHref>
+              <Link href='/overview' passHref>
                 <a className={classes.mobileNavLink}>
                   <FontAwesomeIcon
                     icon={faChartPie}
@@ -69,7 +69,7 @@ const MobileNav = () => {
               </Link>
             </li>
             <li className={classes.listItem}>
-              <Link href="/income-and-expenses" passHref>
+              <Link href='/income-and-expenses' passHref>
                 <a className={classes.mobileNavLink}>
                   <FontAwesomeIcon
                     icon={faCreditCard}
@@ -80,7 +80,7 @@ const MobileNav = () => {
               </Link>
             </li>
             <li className={classes.listItem}>
-              <Link href="/planner" passHref>
+              <Link href='/planner' passHref>
                 <a className={classes.mobileNavLink}>
                   <FontAwesomeIcon
                     icon={faList}
@@ -91,7 +91,7 @@ const MobileNav = () => {
               </Link>
             </li>
             <li className={classes.listItem}>
-              <Link href="/sinking-funds-calculator" passHref>
+              <Link href='/sinking-funds-calculator' passHref>
                 <a className={classes.mobileNavLink}>
                   <FontAwesomeIcon
                     icon={faCalculator}
@@ -102,7 +102,7 @@ const MobileNav = () => {
               </Link>
             </li>
             <li className={classes.listItem}>
-              <Link href="/my-account" passHref>
+              <Link href='/my-account' passHref>
                 <a className={classes.mobileNavLink}>My Account</a>
               </Link>
             </li>
@@ -115,14 +115,14 @@ const MobileNav = () => {
         </div>
       </LightOverlay>
     ) : (
-      ""
+      ''
     );
   };
 
   return (
     <>
       <NavBar />
-      <Portal selector="#portal">
+      <Portal selector='#portal'>
         <NavLinks />
       </Portal>
     </>

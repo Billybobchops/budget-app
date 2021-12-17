@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { debounce } from "lodash";
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import debounce from 'lodash.debounce';
 
 function useForm(formObj) {
   const [form, setForm] = useState(formObj);
@@ -12,6 +12,7 @@ function useForm(formObj) {
   }
 
   // iterates over all validation rules for a given input
+  // and returns a boolean
   const isInputFieldValid = useCallback(
     (inputField) => {
       for (const rule of inputField.validationRules) {
@@ -20,42 +21,62 @@ function useForm(formObj) {
           return false;
         }
       }
-
       return true;
     },
     [form]
   );
 
+  // my Fn: extracting logic from onInputChange...
+  const updateInputValidity = useCallback(() => {}, []);
+
   // wrapped in the useCallback hook to avoid creating a new function each time
   // the state is updated and code inside this hook executes again.
   const onInputChange = useCallback(
     (event) => {
-      console.log('onInputChange running...');
-      const { name, value } = event.target;
+      const { name, value } = event.target; // email, testEmail@gmail.com
+
       // copy input object whose value was changed
       const inputObj = { ...form[name] };
       // update value to entered value
       inputObj.value = value;
 
-      // update input field's validity
-      const isValidInput = isInputFieldValid(inputObj);
+      ///////////////////////////////////////////////
+      // check input field's validity
+      const isValidInput = isInputFieldValid(inputObj); // boolean
 
-      // if input is valid and it was previously set to invalid
-      // set its valid status to true
+      // update input field's validity state...THIS IS WHAT NEEDS TO BE DEBOUNCED
+      // if input is valid (T) and it was previously set to invalid (F) set its valid status to true (T)
+      // if input is not valid (F) and it was previously valid (T) set its valid status to false (F)
+
       if (isValidInput && !inputObj.valid) {
         inputObj.valid = true;
       } else if (!isValidInput && inputObj.valid) {
-        // if input is not valid and it was previously valid
-        // set its valid status to false
         inputObj.valid = false;
       }
+
+      // if (isValidInput && !inputObj.valid) inputObj.valid = true;
+      // if (!isValidInput && inputObj.valid) inputObj.valid = false;
 
       // mark input field as touched
       inputObj.touched = true;
       setForm({ ...form, [name]: inputObj });
+
+      return inputObj;
     },
+
     [form, isInputFieldValid]
   );
+
+  const debouncedValidityHandler = useMemo(
+    () => debounce(updateInputValidity, 300),
+    [updateInputValidity]
+  );
+
+  // Stop the invocation of the debounced function
+  // after unmounting
+  useEffect(() => {
+    debouncedValidityHandler.cancel();
+  });
 
   /**
    * returns boolean value indicating whether overall form is valid

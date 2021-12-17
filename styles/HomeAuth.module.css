@@ -1,12 +1,13 @@
 .gridContainer {
   display: grid;
   grid-template-columns: 40% 60%;
-  grid-template-areas: "video content";
+  grid-template-areas: 'video content';
 }
 
 .contentColumn {
   display: grid;
-  /* justify-items: center; */ /* for the logo... remove place-items: center center; */
+  /* justify-items: center; */
+  /* for the logo remove... place-items: center center; */
   place-items: center center;
   grid-area: content;
   background-color: #62d5b5;
@@ -26,8 +27,8 @@
     grid-template-columns: 1fr;
     grid-template-rows: 700px auto;
     grid-template-areas:
-      "content"
-      "video";
+      'content'
+      'video';
   }
 
   .contentColumn {

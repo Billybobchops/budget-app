@@ -1,0 +1,33 @@
+/* .darkOverlay {
+  display: none;
+} */
+
+.darkOverlay {
+  /* display: block; */
+  background-color: #62d5b4c2;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 20;
+  display: grid;
+  place-items: center center;
+}
+
+.icon {
+  font-size: 35px;
+  color: #04311c;
+  position: absolute;
+  top: 35px;
+  right: 35px;
+}
+
+/* @media (max-width: 1485px) {
+  .darkOverlay {
+    display: block;
+    background-color: #62d5b4c2;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 20;
+  }
+} */
