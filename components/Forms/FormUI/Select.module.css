@@ -1,0 +1,41 @@
+.label {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 600;
+  color: #04311c;
+}
+
+.arrowStyle {
+  position: relative;
+}
+
+.arrowStyle::after {
+  /* content: '\f078'; */
+  content: '▼';
+  color: #04311c;
+  right: 0px;
+  top: 30px;
+  height: 33px;
+  width: 40px;
+  padding-top: 15px;
+  border: 1px solid #04311c;
+  background-color: #62d5b4d8;
+  position: absolute;
+  pointer-events: none;
+  font-size: 11px;
+  text-align: center;
+}
+
+.selectInput {
+  appearance: none;
+
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.75;
+  border: 1px solid #2d8058;
+  /* width: 100%; */
+  padding: 0 0 0 14px;
+  min-height: 50px;
+  margin-bottom: 10px;
+  font-size: 15px;
+}

@@ -6,8 +6,8 @@
 
 .input {
   display: block;
-  border: 1px solid #2d8058;
   /* width: calc(100% - 14px);  */
+  border: 1px solid #2d8058;
   width: 100%;
   padding: 0 0 0 14px;
   min-height: 50px;

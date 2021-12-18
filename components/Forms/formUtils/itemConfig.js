@@ -6,8 +6,17 @@ import {
 } from './inputValidationRules';
 import dummyData from '../../../store/dummyData';
 
-// dynamically render radio buttons from data received from firestore DB
-// this data is the category titles which become the default values
+////////////////////////////////////////////////
+// create a function to dynamically render radio buttons
+// from data received from firestore DB
+// this data is the category titles
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+// create a function to dynamically render dropdown options
+// from data received from firestore DB
+// this data is the planned paychecks
+////////////////////////////////////////////////
 
 // This is the formObj we pass into useForm() hook
 export const itemConfig = {
@@ -35,18 +44,18 @@ export const itemConfig = {
       'Giving' // default value - currently hard coded
     ),
   },
-  // categoryBtn: {
-  //   ...createFormFieldConfig(
-  //     'Add New Budget Category', // label - currently hard coded
-  //     '', // name
-  //     'button', // type
-  //     '' // default value - currently hard coded
-  //   ),
-  // },
+  categoryBtn: {
+    ...createFormFieldConfig(
+      'Add New Budget Category', // label - currently hard coded
+      '', // name
+      'button', // type
+      '' // default value - currently hard coded
+    ),
+  },
   break: {
     ...createFormFieldConfig(
-      '', // label
-      '', // name
+      null, // label
+      null, // name
       'break' // type
     ),
   },
@@ -92,20 +101,20 @@ export const itemConfig = {
       maxLengthRule('Bill Date', 25),
     ],
   },
-
+  // DROPDOWN INPUT
   plannedPaycheck: {
     ...createFormFieldConfig(
       'Which planned paycheck handles this expense?', // label
       'planned paycheck', // name
-      'text', // type
+      'dropdown', // type
       '', // default value
-      'Select from dropdown' // placeholder
+      'Select from dropdown', // placeholder
+      [ // dropdown options array
+        'I will set this up in the Planner later.',
+        'Planned Paycheck 1',
+        'Planned Paycheck 2',
+      ]
     ),
-    validationRules: [
-      requiredRule('Planned Paycheck'),
-      minLengthRule('Planned Paycheck', 10),
-      maxLengthRule('Planned Paycheck', 25),
-    ],
   },
 };
 
