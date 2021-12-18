@@ -9,8 +9,8 @@ import {
 export const categoryConfig = {
   category: {
     ...createFormFieldConfig(
-      'Budget Category Title', // label
-      'budget category', // name
+      'Category Title', // label
+      'category title', // name
       'text', // type
       '', // default value
       'Needs, wants, saving, etc.' // placeholder

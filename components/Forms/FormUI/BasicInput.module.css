@@ -15,6 +15,13 @@
   font-size: 15px;
 }
 
+.inputRadio {
+  width: auto;
+  min-height: 0;
+  display: inline;
+  margin: 12px;
+}
+
 .input:focus {
   outline: none;
   border: 1px solid #d4f3da;

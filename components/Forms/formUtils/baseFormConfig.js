@@ -1,4 +1,5 @@
-import BasicInput from "../FormUI/BasicInput";
+import BasicInput from '../FormUI/BasicInput';
+import Button from '../../UI/Buttons/Button';
 
 /**
  * creates and returns object representation of form fields
@@ -14,29 +15,33 @@ export function createFormFieldConfig(
   label,
   name,
   type,
-  defaultValue = "",
+  defaultValue = '',
   placeholder
 ) {
   return {
     renderInput: (handleChange, value, isValid, error, key) => {
-      return (
-        <BasicInput
-          label={label}
-          name={name}
-          type={type}
-          handleChange={handleChange}
-          value={value}
-          isValid={isValid}
-          errorMessage={error}
-          key={key}
-          placeholder={placeholder}
-        />
-      );
+      if (type !== 'break' && type !== 'button')
+        return (
+          <BasicInput
+            label={label}
+            name={name}
+            type={type}
+            handleChange={handleChange}
+            value={value}
+            isValid={isValid}
+            errorMessage={error}
+            key={key}
+            placeholder={placeholder}
+          />
+        );
+      if (type === 'break') return <br key={key} />;
+      // if (type === 'button')
+        // return <Button key={key} text={label} clickHandler={handleChange} />;
     },
     label,
     value: defaultValue,
     valid: false,
-    errorMessage: "",
+    errorMessage: '',
     touched: false,
   };
 }

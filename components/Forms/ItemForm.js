@@ -1,15 +1,12 @@
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
-import { categoryConfig } from './formUtils/categoryConfig';
 import useForm from '../../hooks/useForm';
+import { itemConfig } from './formUtils/itemConfig';
 import { useRef, useEffect } from 'react';
-import dummyData from '../../store/dummyData'; // remove!
 
-console.log(dummyData.categories);
-
-const CategoryForm = (props) => {
-  const { renderFormInputs, isFormValid, form } = useForm(categoryConfig);
+const ItemForm = (props) => {
+  const { renderFormInputs, isFormValid, form } = useForm(itemConfig);
   const formRef = useRef();
 
   const testFunction = () => {
@@ -34,7 +31,8 @@ const CategoryForm = (props) => {
   return (
     <form onSubmit={testFunction} ref={formRef}>
       <FormBackground>
-        <h1 className={classes.header}>Add a New Budget Category</h1>
+        <h1 className={classes.header}>Add a New Budget Item</h1>
+        <label className={classes.label}>Select a Category</label>
         {renderFormInputs()}
         <SubmitButton value='Submit' disabled={!isFormValid()} />
       </FormBackground>
@@ -42,4 +40,4 @@ const CategoryForm = (props) => {
   );
 };
 
-export default CategoryForm;
+export default ItemForm;

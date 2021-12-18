@@ -12,10 +12,12 @@ import Portal from '../components/UI/Portal';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import CategoryForm from '../components/Forms/CategoryForm';
+import ItemForm from '../components/Forms/ItemForm';
 
 const Overview = () => {
-  const [categoryBtnClicked, setCategoryBtnClicked] = useState(false);
   const [modal, setModal] = useState(false);
+  const [categoryForm, setCategoryForm] = useState(false);
+  const [itemForm, setItemForm] = useState(false);
 
   const auth = useRequireAuth();
   // console.log(auth.user);
@@ -28,20 +30,27 @@ const Overview = () => {
 
   const keyDownHandler = () => {
     setModal(false);
-    setCategoryBtnClicked(false);
+    setCategoryForm(false);
+    setItemForm(false);
   };
 
   const categoryClickHandler = () => {
     setModal(true);
-    setCategoryBtnClicked(true);
+    setCategoryForm(true);
+  };
+
+  const itemClickHandler = () => {
+    setModal(true);
+    setItemForm(true);
   };
 
   return (
     <>
       <Portal selector='#portal'>
-        {modal && categoryBtnClicked && (
+        {modal && (
           <DarkOverlay onKeyDown={keyDownHandler}>
-            <CategoryForm onOverlayClick={keyDownHandler}/>
+            {categoryForm && <CategoryForm onOverlayClick={keyDownHandler} />}
+            {itemForm && <ItemForm onOverlayClick={keyDownHandler} />}
           </DarkOverlay>
         )}
       </Portal>
@@ -53,7 +62,7 @@ const Overview = () => {
               text='Budget Category'
               clickHandler={categoryClickHandler}
             />
-            <Button text='Budget Item' />
+            <Button text='Budget Item' clickHandler={itemClickHandler} />
           </ButtonBar>
           <TotalsBar />
           <DragDropContext onDragEnd={onDragEnd}>
