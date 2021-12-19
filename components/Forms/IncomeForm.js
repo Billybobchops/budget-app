@@ -1,19 +1,22 @@
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
+import { incomeConfig } from'./formUtils/incomeConfig';
 import useForm from '../../hooks/useForm';
-import { itemConfig } from './formUtils/itemConfig';
 import { useRef, useEffect } from 'react';
+import Select from "../../components/Forms/FormUI/Select"
 
-const ItemForm = (props) => {
-  const { renderFormInputs, isFormValid, form } = useForm(itemConfig);
+const IncomeForm = (props) => {
+  const { renderFormInputs, isFormValid, form } = useForm(incomeConfig);
   const formRef = useRef();
 
-  const testFunction = (e) => {
-    e.preventDefault();
+  const testFunction = () => {
     console.log('Form submitted.');
     console.log(form);
   };
+
+  const isPlannedPaycheck = !!form.yes.value;
+  console.log(isPlannedPaycheck);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -32,13 +35,15 @@ const ItemForm = (props) => {
   return (
     <form onSubmit={testFunction} ref={formRef}>
       <FormBackground>
-        <h1 className={classes.header}>Add a New Budget Item</h1>
-        <label className={classes.label}>What Category should this belong to?</label>
+        <h1 className={classes.header}>Add New Income</h1>
+        <label className={classes.label}>Is this a planned paycheck?</label>
+        <label className={classes.miniLabel}>Planned income is set up in the planner view!</label>
         {renderFormInputs()}
+        {/* {isPlannedPaycheck && <Select name={} id={} label={} dropdownOptions={}/>} */}
         <SubmitButton value='Submit' disabled={!isFormValid()} />
       </FormBackground>
     </form>
   );
 };
 
-export default ItemForm;
+export default IncomeForm;

@@ -6,57 +6,65 @@ import {
 } from './inputValidationRules';
 import dummyData from '../../../store/dummyData';
 
-////////////////////////////////////////////////
-// create a function to dynamically render radio buttons
-// from data received from firestore DB
-// this data is the category titles
-////////////////////////////////////////////////
+// dynamically render radio buttons from data received from firestore DB
+const categories = () => {
+  const categoriesArr = [];
+  dummyData.categories.forEach((category) => {
+    categoriesArr.push({
+      [`${category}`]: {
+        ...createFormFieldConfig(
+          category, // label
+          category, // name
+          'radio' // type
+        ),
+      },
+    });
+  });
 
-////////////////////////////////////////////////
-// create a function to dynamically render dropdown options
-// from data received from firestore DB
-// this data is the planned paychecks
-////////////////////////////////////////////////
+  return categoriesArr;
+};
+
+const categoriesRadioConfig = categories();
+// console.log(categoriesRadioConfig);
+const entries = Object.entries(...categoriesRadioConfig);
+// console.log(...entries);
+
+// dynamically render dropdown options from data received from firestore DB
+const plannedPaychecks = () => {
+  const titles = [];
+  dummyData.dummyPaychecks.forEach((paycheck) => {
+    titles.push(paycheck.title);
+  });
+
+  return titles;
+};
+const titles = plannedPaychecks();
 
 // This is the formObj we pass into useForm() hook
 export const itemConfig = {
+  // ...categoriesRadioConfig,
   needs: {
     ...createFormFieldConfig(
       'Needs', // label - currently hard coded
-      'category', // name
+      'category select', // name
       'radio', // type
-      'Needs' // default value - currently hard coded
+      '' // default value - currently hard coded
     ),
   },
-  saving: {
+  wants: {
     ...createFormFieldConfig(
-      'Saving', // label - currently hard coded
-      'category', // name
+      'Wants', // label - currently hard coded
+      'category select', // name
       'radio', // type
-      'Saving' // default value - currently hard coded
-    ),
-  },
-  giving: {
-    ...createFormFieldConfig(
-      'Giving', // label - currently hard coded
-      'category', // name
-      'radio', // type
-      'Giving' // default value - currently hard coded
+      '' // default value - currently hard coded
     ),
   },
   categoryBtn: {
     ...createFormFieldConfig(
-      'Add New Budget Category', // label - currently hard coded
-      '', // name
+      'Add New Budget Category', // label
+      'categoryBtn', // name
       'button', // type
-      '' // default value - currently hard coded
-    ),
-  },
-  break: {
-    ...createFormFieldConfig(
-      null, // label
-      null, // name
-      'break' // type
+      ''
     ),
   },
   title: {
@@ -76,21 +84,19 @@ export const itemConfig = {
   budgetAmount: {
     ...createFormFieldConfig(
       'Budget Amount', // label
-      'budget amount', // name
+      'budgetAmount', // name
       'number', // type
       '', // default value
       '$0.00' // placeholder
     ),
     validationRules: [
       requiredRule('Budget Amount'),
-      minLengthRule('Budget Amount', 10),
-      maxLengthRule('Budget Amount', 25),
     ],
   },
   billDate: {
     ...createFormFieldConfig(
-      'When does this get billed?', // label
-      'bill date', // name
+      'When does this typically get billed?', // label
+      'billDate', // name
       'date', // type
       '', // default value
       '' // placeholder
@@ -105,17 +111,11 @@ export const itemConfig = {
   plannedPaycheck: {
     ...createFormFieldConfig(
       'Which planned paycheck handles this expense?', // label
-      'planned paycheck', // name
+      'plannedPaycheck', // name
       'dropdown', // type
       '', // default value
       'Select from dropdown', // placeholder
-      [ // dropdown options array
-        'I will set this up in the Planner later.',
-        'Planned Paycheck 1',
-        'Planned Paycheck 2',
-      ]
+      ['I will set this up in the Planner later.', ...titles]
     ),
   },
 };
-
-// Which planned paycheck handles this expense?

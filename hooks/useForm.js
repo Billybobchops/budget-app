@@ -11,8 +11,7 @@ function useForm(formObj) {
     });
   }
 
-  // iterates over all validation rules for a given input
-  // and returns a boolean
+  // iterates over all validation rules for a given input and returns a boolean
   const isInputFieldValid = useCallback(
     (inputField) => {
       for (const rule of inputField.validationRules) {
@@ -39,6 +38,8 @@ function useForm(formObj) {
       const inputObj = { ...form[name] };
       // update value to entered value
       inputObj.value = value;
+
+      console.log(inputObj);
 
       ///////////////////////////////////////////////
       // check input field's validity

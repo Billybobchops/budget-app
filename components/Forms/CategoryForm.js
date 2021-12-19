@@ -4,17 +4,14 @@ import SubmitButton from './FormUI/SubmitButton';
 import { categoryConfig } from './formUtils/categoryConfig';
 import useForm from '../../hooks/useForm';
 import { useRef, useEffect } from 'react';
-import dummyData from '../../store/dummyData'; // remove!
-
-console.log(dummyData.categories);
 
 const CategoryForm = (props) => {
   const { renderFormInputs, isFormValid, form } = useForm(categoryConfig);
   const formRef = useRef();
 
-  const testFunction = () => {
-    console.log('Form submitted.');
-    console.log(form);
+  const testFunction = (e) => {
+    e.preventDefault();
+    console.log(form.category.value);
   };
 
   useEffect(() => {

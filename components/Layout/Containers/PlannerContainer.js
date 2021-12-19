@@ -1,12 +1,13 @@
-import PlannerAccordion from "../../UI/PlannerAccordion";
-import classes from "./PlannerContainer.module.css";
+import PlannerAccordion from '../../UI/PlannerAccordion';
+import classes from './PlannerContainer.module.css';
+import Button from '../../UI/Buttons/Button';
 
 const PlannerWrapper = (props) => {
   return (
     <section>
       <div className={classes.actionBar}>
         <div className={classes.actionButton}>
-          <button className={classes.button}>Add Expected Income</button>
+          <Button text='Add Expected Income' evenMargin={true} ç/>
         </div>
       </div>
       <div className={classes.container}>{props.children}</div>
@@ -20,7 +21,7 @@ const PlannerWrapper = (props) => {
 
 const PlannerContainer = (props) => {
   return (
-    <PlannerWrapper>
+    <PlannerWrapper clickHandler={props.plannerHandler}>
       {props.checks.map((check) => {
         return (
           <PlannerAccordion

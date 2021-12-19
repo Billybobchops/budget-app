@@ -10,15 +10,15 @@ export const categoryConfig = {
   category: {
     ...createFormFieldConfig(
       'Category Title', // label
-      'category title', // name
+      'category', // name
       'text', // type
       '', // default value
       'Needs, wants, saving, etc.' // placeholder
     ),
     validationRules: [
-      requiredRule('Email'),
-      minLengthRule('Email', 10),
-      maxLengthRule('Email', 25),
+      requiredRule('Category'),
+      minLengthRule('Category', 10),
+      maxLengthRule('Category', 25),
     ],
   },
 };

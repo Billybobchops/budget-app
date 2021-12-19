@@ -1,5 +1,5 @@
 import BasicInput from '../FormUI/BasicInput';
-import Button from '../../UI/Buttons/Button';
+import TinyButton from '../FormUI/TinyButton';
 import Select from '../FormUI/Select';
 
 /**
@@ -37,7 +37,7 @@ export function createFormFieldConfig(
           />
         );
       if (type === 'break') return <br key={key} />;
-      if (type === 'button') return <Button key={key} text={label} />;
+      if (type === 'button') return <TinyButton key={key} text={label} />;
       if (type === 'dropdown')
         return (
           <Select key={key} label={label} dropdownOptions={dropdownOptions} />

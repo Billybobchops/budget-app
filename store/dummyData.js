@@ -1,10 +1,5 @@
 const dummyData = {
-  categories: [
-    { title: 'Needs' },
-    { title: 'Saving' },
-    { title: 'Giving' },
-    { title: 'Wants' },
-  ],
+  categories: ['Needs', 'Saving', 'Giving', 'Wants'],
 
   budgetItems: [
     {

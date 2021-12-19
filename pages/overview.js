@@ -9,9 +9,9 @@ import BudgetContainer from '../components/Layout/Containers/BudgetContainer';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
+import CategoryForm from '../components/Forms/CategoryForm';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
-import CategoryForm from '../components/Forms/CategoryForm';
 import ItemForm from '../components/Forms/ItemForm';
 
 const Overview = () => {
