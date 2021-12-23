@@ -32,14 +32,19 @@ function useForm(formObj) {
   // the state is updated and code inside this hook executes again.
   const onInputChange = useCallback(
     (event) => {
-      const { name, value } = event.target; // email, testEmail@gmail.com
+      // const { value, id } = event.target; // new way
+      // const inputObj = { ...form[id] }; // new way
 
+      const { name, value } = event.target; // Original way
       // copy input object whose value was changed
-      const inputObj = { ...form[name] };
-      // update value to entered value
+      const inputObj = { ...form[name] }; // Original way
+      // update value to entered value (controlled component)
       inputObj.value = value;
 
-      console.log(inputObj);
+      // update radio button if checked
+      // if (inputObj.type === 'radio') inputObj.checked = true;
+      // if (inputObj.type === 'radio') console.log(`This is a radio button`);
+      // if (inputObj.type === 'radio') console.log(inputObj.checked);
 
       ///////////////////////////////////////////////
       // check input field's validity

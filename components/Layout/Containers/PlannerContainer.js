@@ -7,7 +7,7 @@ const PlannerWrapper = (props) => {
     <section>
       <div className={classes.actionBar}>
         <div className={classes.actionButton}>
-          <Button text='Add Expected Income' evenMargin={true} ç/>
+          <Button text='Add Expected Income' evenMargin={true} clickHandler={props.clickHandler}/>
         </div>
       </div>
       <div className={classes.container}>{props.children}</div>

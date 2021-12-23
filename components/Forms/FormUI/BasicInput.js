@@ -13,22 +13,16 @@ const BasicInput = (props) => {
     handleChange,
   } = props;
 
-  const inputRadio = `${type === 'radio' && 'inputRadio'}`;
   const inputError = `${errorMessage && !isValid && 'errorInput'}`;
 
   return (
     <>
-      {type !== 'radio' && (
-        <label className={classes.label} htmlFor={id}>
-          {label}
-        </label>
-      )}
+      <label className={classes.label} htmlFor={id}>
+        {label}
+      </label>
+
       <input
-        className={`${[
-          classes.input,
-          classes[inputRadio],
-          classes[inputError],
-        ].join(' ')}`}
+        className={`${[classes.input, classes[inputError]].join(' ')}`}
         type={type}
         id={id}
         name={name}
@@ -36,11 +30,7 @@ const BasicInput = (props) => {
         value={value}
         onChange={handleChange}
       ></input>
-      {type === 'radio' && (
-        <label className={classes.label} htmlFor={id}>
-          {label}
-        </label>
-      )}
+
       {errorMessage && !isValid && (
         <span className={classes.errorMessage}>{errorMessage}</span>
       )}

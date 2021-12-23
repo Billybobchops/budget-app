@@ -14,6 +14,8 @@ const ItemForm = (props) => {
     console.log('Form submitted.');
     console.log(form);
   };
+  
+  console.log(form);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
