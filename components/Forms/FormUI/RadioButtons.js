@@ -1,8 +1,16 @@
 import classes from './RadioButton.module.css';
 
 const RadioButton = (props) => {
-  const { id, label, type, name, value, errorMessage, isValid, handleChange } =
-    props;
+  const {
+    id,
+    label,
+    name,
+    value,
+    errorMessage,
+    isValid,
+    handleChange,
+    checked,
+  } = props;
 
   return (
     <>
@@ -14,6 +22,7 @@ const RadioButton = (props) => {
             id={id}
             value={value}
             onChange={handleChange}
+            checked={checked}
             name={name}
           ></input>
           {label}

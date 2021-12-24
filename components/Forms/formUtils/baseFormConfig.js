@@ -4,7 +4,7 @@ import Select from '../FormUI/Select';
 import RadioButton from '../FormUI/RadioButtons';
 
 /**
- * creates and returns object representation of form fields
+ * creates and returns OBJECT REPRESENTATION of form fields
  *
  * @param {string} label - label to show with the form input
  * @param {string} name - input name
@@ -19,12 +19,11 @@ export function createFormFieldConfig(
   type,
   defaultValue = '',
   placeholder,
-  // dropdownOptions,
-  // radioOptions,
-  checked = false
+  selectedOption ,
+  dropdownOptions,
 ) {
   return {
-    renderInput: (handleChange, value, isValid, error, key) => {
+    renderInput: (handleChange, value, isValid, error, key, selectedOption) => {
       if (
         type !== 'break' &&
         type !== 'button' &&
@@ -33,10 +32,10 @@ export function createFormFieldConfig(
       )
         return (
           <BasicInput
+            id={name}
             key={key}
             label={label}
             name={name}
-            id={name}
             type={type}
             handleChange={handleChange}
             value={value}
@@ -48,11 +47,12 @@ export function createFormFieldConfig(
       if (type === 'radio')
         return (
           <RadioButton
+            id={label}
             key={key}
             label={label}
             name={name}
             handleChange={handleChange}
-            checked={checked}
+            checked={selectedOption === label} 
             value={value}
             isValid={isValid}
             errorMessage={error}
@@ -68,19 +68,20 @@ export function createFormFieldConfig(
             value={value}
             isValid={isValid}
             errorMessage={error}
-            // dropdownOptions={dropdownOptions}
-            checked={checked}
+            dropdownOptions={dropdownOptions}
           />
         );
       if (type === 'break') return <br key={key} />;
-      if (type === 'button') return <TinyButton key={key} text={label} />;
+      if (type === 'button')
+        return <TinyButton key={key} text={label} isValid={true} />;
     },
     label,
+    name,
+    type,
     value: defaultValue,
     valid: false,
-    errorMessage: '',
     touched: false,
-    checked,
-    name,
+    checked: selectedOption === label, // why doesn't this automatically update?
+    errorMessage: '',
   };
 }

@@ -3,6 +3,16 @@ import classes from './Select.module.css';
 const Select = (props) => {
   const { name, id, label, dropdownOptions, handleChange } = props;
 
+  const Option = (props) => {
+    const { value, key, children } = props;
+
+    return (
+      <option value={value} key={key}>
+        {children}
+      </option>
+    );
+  };
+
   return (
     <div className={classes.arrowStyle}>
       <label className={classes.label}>{label}</label>
@@ -14,9 +24,9 @@ const Select = (props) => {
       >
         {dropdownOptions.map((option) => {
           return (
-            <option key={option} value={option}>
-              {option}
-            </option>
+            <Option key={option.title} value={option.title}>
+              {option.title}
+            </Option>
           );
         })}
       </select>

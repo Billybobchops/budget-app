@@ -9,8 +9,8 @@ const Sidebar = (props) => {
   const sidebarContents = (
     <>
       {props.hasProfileBar && <ProfileBar />}
-      {props.hasBudgetMessage && <BudgetMessage />}
       {props.hasMonthlyBreakdown && <MonthlyBreakdown />}
+      {props.hasBudgetMessage && <BudgetMessage />}
       {props.hasUpcomingBills && <UpcomingBills />}
       {props.hasItemsDragList && <ItemsDragList />}
     </>

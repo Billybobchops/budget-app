@@ -6,38 +6,48 @@ import {
 } from './inputValidationRules';
 import dummyData from '../../../store/dummyData';
 
-// dynamically render dropdown options from data received from firestore DB
-const plannedPaychecks = () => {
-  const titles = [];
-  dummyData.dummyPaychecks.forEach((paycheck) => {
-    titles.push(paycheck.title);
-  });
+// dynamically create/add dropdown options from data received from firestore DB
+// to the config obj (move this fn to a helpers.js file?)
+// const dropdowns = (inputLabel, dropdownOptions) => {
+//   dropdownOptions.forEach((option) => {
+//     itemConfig[`$${inputLabel}`] = {
+//       ...createFormFieldConfig(
+//         radioLabel, // label
+//         groupName, // name
+//         'radio', // type
+//         radioLabel // defaultValue
+//       ),
+//       validationRules: [requiredRule(`${groupName}`)],
+//     };
+//   });
+// };
 
-  return titles;
-};
-const titles = plannedPaychecks();
+// dropdowns('plannedPaycheck', dummyData.dummyPaychecks);
+
+const titles = dummyData.dummyPaychecks;
 
 // formObj we pass into useForm() hook
 export const itemConfig = {};
 
-// dynamically create add radio buttons from data received from firestore DB
-// to config obj (move this fn to a helpers.js file?)
-const radios = (radioLabels, groupName) => {
+// dynamically create/add radio buttons from data (array) received from firestore DB
+// to the config obj (move this fn to a helpers.js file?)
+const radios = (groupName, radioLabels) => {
   radioLabels.forEach((radioLabel) => {
     itemConfig[`${radioLabel}`] = {
       ...createFormFieldConfig(
         radioLabel, // label
         groupName, // name
-        'radio' // type
+        'radio', // type
+        radioLabel // defaultValue
       ),
       validationRules: [requiredRule(`${groupName}`)],
     };
   });
 };
 
-radios(dummyData.categories, 'category select');
+radios('category select', dummyData.categories);
 
-// add input objs individually to control their order in form obj
+// add input objs individually to control their order in form obj (i.e. after radio btns)
 itemConfig['categoryBtn'] = {
   ...createFormFieldConfig(
     'Add New Budget Category', // label
@@ -88,14 +98,26 @@ itemConfig['billDate'] = {
   ],
 };
 
+itemConfig['plannedPaycheck'] = {
+  ...createFormFieldConfig(
+    'Which planned paycheck handles this expense?', // label
+    'plannedPaycheck', // name
+    'dropdown', // type
+    '', // default value
+    'Select from dropdown', // placeholder
+    '',
+    [{ title: 'I will set this up in the Planner later.' }, ...titles]
+  ),
+};
+
 // DROPDOWN INPUT
-  // plannedPaycheck: {
-  //   ...createFormFieldConfig(
-  //     'Which planned paycheck handles this expense?', // label
-  //     'plannedPaycheck', // name
-  //     'dropdown', // type
-  //     '', // default value
-  //     'Select from dropdown', // placeholder
-  //     ['I will set this up in the Planner later.', ...titles]
-  //   ),
-  // },
+// plannedPaycheck: {
+//   ...createFormFieldConfig(
+//     'Which planned paycheck handles this expense?', // label
+//     'plannedPaycheck', // name
+//     'dropdown', // type
+//     '', // default value
+//     'Select from dropdown', // placeholder
+//     ['I will set this up in the Planner later.', ...titles]
+//   ),
+// },

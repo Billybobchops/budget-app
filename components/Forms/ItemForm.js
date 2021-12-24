@@ -6,15 +6,19 @@ import { itemConfig } from './formUtils/itemConfig';
 import { useRef, useEffect } from 'react';
 
 const ItemForm = (props) => {
-  const { renderFormInputs, isFormValid, form } = useForm(itemConfig);
+  const { renderFormInputs, isFormValid, form, selectedOption } =
+    useForm(itemConfig);
   const formRef = useRef();
 
   const testFunction = (e) => {
     e.preventDefault();
     console.log('Form submitted.');
-    console.log(form);
+    console.log(selectedOption);
+    console.log(form.title.value);
+    console.log(form.budgetAmount.value);
+    console.log(form.billDate.value);
   };
-  
+
   console.log(form);
 
   useEffect(() => {
@@ -35,7 +39,9 @@ const ItemForm = (props) => {
     <form onSubmit={testFunction} ref={formRef}>
       <FormBackground>
         <h1 className={classes.header}>Add a New Budget Item</h1>
-        <label className={classes.label}>What Category should this belong to?</label>
+        <label className={classes.label}>
+          What Category should this belong to?
+        </label>
         {renderFormInputs()}
         <SubmitButton value='Submit' disabled={!isFormValid()} />
       </FormBackground>

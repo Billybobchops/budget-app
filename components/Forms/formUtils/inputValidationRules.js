@@ -17,15 +17,25 @@ function createValidationRule(ruleName, errorMessage, validateFunc) {
 
 export function requiredRule(inputName) {
   return createValidationRule(
-    "required",
+    'required',
     `${inputName} required`,
     (inputValue, formObj) => inputValue.length !== 0
   );
 }
 
+export function requiredRadio(inputName) {
+  return createValidationRule(
+    'required',
+    `${inputName} required`,
+    (inputValue, formObj) => {
+      if (input.type === 'radio' && input.checked === true) return true; // ONLY CHANGES 1 RADIO....
+    }
+  );
+}
+
 export function minLengthRule(inputName, minCharacters) {
   return createValidationRule(
-    "minLength",
+    'minLength',
     `${inputName} should contain at least ${minCharacters} characters`,
     (inputValue, formObj) => inputValue.length >= minCharacters
   );
@@ -33,7 +43,7 @@ export function minLengthRule(inputName, minCharacters) {
 
 export function maxLengthRule(inputName, maxCharacters) {
   return createValidationRule(
-    "minLength",
+    'minLength',
     `${inputName} cannot contain more than ${maxCharacters} characters`,
     (inputValue, formObj) => inputValue.length <= maxCharacters
   );
