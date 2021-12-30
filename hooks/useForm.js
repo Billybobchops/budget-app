@@ -7,7 +7,7 @@ function useForm(formObj) {
 
   function renderFormInputs() {
     return Object.values(form).map((inputObj) => {
-      const { value, valid, errorMessage, label, renderInput, type } = inputObj;
+      const { value, valid, errorMessage, label, renderInput } = inputObj;
 
       return renderInput(
         onInputChange,
@@ -46,6 +46,7 @@ function useForm(formObj) {
       const inputObj = { ...form[id] };
       // update obj value to entered value (controlled component)
       inputObj.value = enteredValue;
+      console.log(inputObj);
 
       // update radio button object's checked state (controlled component)
       if (inputObj.type === 'radio') {
@@ -60,7 +61,7 @@ function useForm(formObj) {
         return inputObj; // this needs to happen in top level scope of onInputChange right?
       }
 
-      /////////////////////////////////////////////// DEBOUNCE
+      /////////////////////////////////////////////// DEBOUNCE validity
 
       // check input field's validity (returns boolean)
       const isValidInput = isInputFieldValid(inputObj);

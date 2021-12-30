@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useRequireAuth } from '../hooks/useRequireAuth';
+import { useState, useContext } from 'react';
+import FormContext from '../store/form-context';
+import { DragDropContext } from 'react-beautiful-dnd';
 import PageBackground from '../components/Layout/PageBackground';
 import MainGrid from '../components/Layout/MainGrid';
 import Header from '../components/Layout/Header';
@@ -6,18 +9,23 @@ import ButtonBar from '../components/Layout/Bars/ButtonBar';
 import PlannerContainer from '../components/Layout/Containers/PlannerContainer';
 import Button from '../components/UI/Buttons/Button';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';
-import { DragDropContext } from 'react-beautiful-dnd';
 import dummyData from '../store/dummyData';
-import { useRequireAuth } from '../hooks/useRequireAuth';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
 import ItemForm from '../components/Forms/ItemForm';
 import PlannerForm from '../components/Forms/PlannerForm';
+import CategoryForm from '../components/Forms/CategoryForm';
 
 const PlannerPage = () => {
-  const [modal, setModal] = useState(false);
-  const [itemForm, setItemForm] = useState(false);
-  const [plannerForm, setPlannerForm] = useState(false);
+  const {
+    modal,
+    itemForm,
+    plannerForm,
+    categoryForm,
+    onkeydown,
+    onItemClick,
+    onPlannerClick,
+  } = useContext(FormContext);
 
   const [budgetItems, setBudgetItems] = useState(dummyData.budgetItems); // get rid of dummy!
   const auth = useRequireAuth();
@@ -44,29 +52,14 @@ const PlannerPage = () => {
     // PERSIST THIS CHANGE ^ BY CALL THE DB ENDPOINT AFTER THIS UPDATE!!!!
   };
 
-  const keyDownHandler = () => {
-    setModal(false);
-    setItemForm(false);
-    setPlannerForm(false);
-  };
-
-  const itemClickHandler = () => {
-    setModal(true);
-    setItemForm(true);
-  };
-
-  const plannerClickHandler = () => {
-    setModal(true);
-    setPlannerForm(true);
-  };
-
   return (
     <>
       <Portal selector='#portal'>
         {modal && (
-          <DarkOverlay onKeyDown={keyDownHandler}>
-            {itemForm && <ItemForm onOverlayClick={keyDownHandler} />}
-            {plannerForm && <PlannerForm onOverlayClick={keyDownHandler} />}
+          <DarkOverlay onKeyDown={onkeydown}>
+            {itemForm && <ItemForm onOverlayClick={onkeydown} />}
+            {plannerForm && <PlannerForm onOverlayClick={onkeydown} />}
+            {categoryForm && <CategoryForm onOverlayClick={onkeydown} />}
           </DarkOverlay>
         )}
       </Portal>
@@ -75,12 +68,12 @@ const PlannerPage = () => {
           <MainGrid>
             <Header title='Planner' hasDatePicker={false} />
             <ButtonBar>
-              <Button text='Budget Item' clickHandler={itemClickHandler} />
+              <Button text='Budget Item' clickHandler={onItemClick} />
             </ButtonBar>
             <PlannerContainer
               items={budgetItems}
               checks={dummyData.dummyPaychecks}
-              plannerHandler={plannerClickHandler}
+              plannerHandler={onPlannerClick}
             />
           </MainGrid>
           <Sidebar hasProfileBar={true} hasItemsDragList={true} />

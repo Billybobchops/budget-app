@@ -12,7 +12,6 @@ const ItemForm = (props) => {
 
   const testFunction = (e) => {
     e.preventDefault();
-    console.log('Form submitted.');
     console.log(selectedOption);
     console.log(form.title.value);
     console.log(form.budgetAmount.value);
@@ -38,9 +37,6 @@ const ItemForm = (props) => {
     <form onSubmit={testFunction} ref={formRef}>
       <FormBackground>
         <h1 className={classes.header}>Add a New Budget Item</h1>
-        <label className={classes.label}>
-          What Category should this belong to?
-        </label>
         {renderFormInputs()}
         <SubmitButton value='Submit' disabled={!isFormValid()} />
       </FormBackground>

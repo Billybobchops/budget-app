@@ -33,11 +33,12 @@ export const fundConfig = {
   },
   timeType: {
     ...createFormFieldConfig(
-      'Period', // label
-      'timeType', // name
+      'timeType', // label
+      'Period', // name
       'dropdown', // type
-      '', // default value
-      'Select from dropdown', // placeholder
+      'Months', // default value
+      'Months', // placeholder
+      '',
       ['Months', 'Years']
     ),
   },

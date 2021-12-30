@@ -1,0 +1,13 @@
+.label {
+  display: block;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 600;
+  color: #04311c;
+  border-bottom: 1px solid #04311c;
+}
+
+.miniLabel {
+  font-size: 14px;
+  display: block;
+  border: none;
+}

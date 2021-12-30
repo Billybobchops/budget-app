@@ -7,30 +7,13 @@ import {
 
 // This is the formObj we pass into useForm() hook
 export const incomeConfig = {
-  yes: {
-    ...createFormFieldConfig(
-      'Yes', // label - currently hard coded
-      'Is this a planned paycheck?', // name
-      'radio', // type
-      '' // default value - currently hard coded
-    ),
-  },
-  no: {
-    ...createFormFieldConfig(
-      'No', // label - currently hard coded
-      'Is this a planned paycheck?', // name
-      'radio', // type
-      '' // default value - currently hard coded
-    ),
-  },
-
-  break: {
-    ...createFormFieldConfig(
-      null, // label
-      null, // name
-      'break' // type
-    ),
-  },
+  // break: {
+  //   ...createFormFieldConfig(
+  //     null, // label
+  //     null, // name
+  //     'break' // type
+  //   ),
+  // },
   title: {
     ...createFormFieldConfig(
       'Title', // label
@@ -65,7 +48,7 @@ export const incomeConfig = {
     ),
     validationRules: [
       requiredRule('Amount'),
-      minLengthRule('Amount', 10),
+      minLengthRule('Amount', 1),
       maxLengthRule('Amount', 25),
     ],
   },
@@ -82,5 +65,37 @@ export const incomeConfig = {
       minLengthRule('Bill Date', 10),
       maxLengthRule('Bill Date', 25),
     ],
+  },
+  plannedLabel: {
+    ...createFormFieldConfig(
+      'plannedLabel',
+      'Is this a planned paycheck?',
+      'label'
+    ),
+  },
+  plannedMiniLabel: {
+    ...createFormFieldConfig(
+      'plannedMiniLabel',
+      'Planned income is set up in the planner view!',
+      'miniLabel'
+    ),
+  },
+  yes: {
+    ...createFormFieldConfig(
+      'yes', // label - currently hard coded
+      'Is this a planned paycheck?', // name
+      'radio', // type
+      'yes' // default value - currently hard coded
+    ),
+    validationRules: [requiredRule('Question')],
+  },
+  no: {
+    ...createFormFieldConfig(
+      'no', // label - currently hard coded
+      'Is this a planned paycheck?', // name
+      'radio', // type
+      'no' // default value - currently hard coded
+    ),
+    validationRules: [requiredRule('Question')],
   },
 };

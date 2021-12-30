@@ -22,8 +22,8 @@ const Select = (props) => {
       >
         {dropdownOptions.map((option) => {
           return (
-            <Option key={option.title} value={option.title}>
-              {option.title}
+            <Option key={option.title || option} value={option.title || option}>
+              {option.title || option}
             </Option>
           );
         })}

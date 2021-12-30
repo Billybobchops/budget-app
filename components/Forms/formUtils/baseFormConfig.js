@@ -2,6 +2,7 @@ import BasicInput from '../FormUI/BasicInput';
 import TinyButton from '../FormUI/CategoryToggleButton';
 import Select from '../FormUI/Select';
 import RadioButton from '../FormUI/RadioButtons';
+import Label from '../FormUI/Label';
 
 /**
  * creates and returns OBJECT REPRESENTATION of form fields
@@ -24,26 +25,6 @@ export function createFormFieldConfig(
 ) {
   return {
     renderInput: (handleChange, value, isValid, error, key, selectedOption) => {
-      if (
-        type !== 'break' &&
-        type !== 'button' &&
-        type !== 'dropdown' &&
-        type !== 'radio'
-      )
-        return (
-          <BasicInput
-            id={name}
-            key={key}
-            label={label}
-            name={name}
-            type={type}
-            handleChange={handleChange}
-            value={value}
-            isValid={isValid}
-            errorMessage={error}
-            placeholder={placeholder}
-          />
-        );
       if (type === 'radio')
         return (
           <RadioButton
@@ -73,9 +54,41 @@ export function createFormFieldConfig(
             dropdownOptions={dropdownOptions}
           />
         );
-      if (type === 'break') return <br key={key} />;
       if (type === 'button')
         return <TinyButton key={key} text={label} isValid={true} />;
+      if (type === 'break') return <br key={key} />;
+      if (type === 'label')
+        return (
+          <Label key={key} isValid={true}>
+            {name}
+          </Label>
+        );
+      if (type === 'miniLabel')
+        return (
+          <Label key={key} isValid={true} label={label}> 
+            {name}
+          </Label>
+        );
+      if (
+        type !== 'break' &&
+        type !== 'button' &&
+        type !== 'dropdown' &&
+        type !== 'radio'
+      )
+        return (
+          <BasicInput
+            id={name}
+            key={key}
+            label={label}
+            name={name}
+            type={type}
+            handleChange={handleChange}
+            value={value}
+            isValid={isValid}
+            errorMessage={error}
+            placeholder={placeholder}
+          />
+        );
     },
     label,
     name,
@@ -83,7 +96,7 @@ export function createFormFieldConfig(
     value: defaultValue,
     valid: type === 'dropdown' || type === 'button' ? true : false,
     touched: false,
-    checked: selectedOption === label, 
+    checked: selectedOption === label,
     errorMessage: '',
   };
 }

@@ -9,6 +9,14 @@ import dummyData from '../../../store/dummyData';
 // formObj we pass into useForm() hook
 export const itemConfig = {};
 
+itemConfig['categoryLabel'] = {
+  ...createFormFieldConfig(
+    'categoryLabel',
+    'What category should this belong to?',
+    'label'
+  ),
+};
+
 // dynamically create/add radio buttons from data (array) received from firestore DB
 // to the config obj (move this fn to a helpers.js file?)
 const radios = (groupName, radioLabels) => {
