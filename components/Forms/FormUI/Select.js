@@ -1,26 +1,24 @@
 import classes from './Select.module.css';
 
 const Select = (props) => {
-  const { name, id, label, dropdownOptions, handleChange } = props;
+  const { id, label, type, name, value, dropdownOptions, handleChange } = props;
 
   const Option = (props) => {
-    const { value, key, children } = props;
+    const { value, children } = props;
 
-    return (
-      <option value={value} key={key}>
-        {children}
-      </option>
-    );
+    return <option value={value}>{children}</option>;
   };
 
   return (
     <div className={classes.arrowStyle}>
       <label className={classes.label}>{label}</label>
       <select
-        name={name}
+        type={type}
         id={id}
+        name={name}
         className={classes.selectInput}
         onChange={handleChange}
+        value={value}
       >
         {dropdownOptions.map((option) => {
           return (

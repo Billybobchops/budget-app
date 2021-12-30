@@ -17,9 +17,8 @@ const ItemForm = (props) => {
     console.log(form.title.value);
     console.log(form.budgetAmount.value);
     console.log(form.billDate.value);
+    console.log(form.plannedPaycheck.value);
   };
-
-  console.log(form);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {

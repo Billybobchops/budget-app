@@ -6,26 +6,6 @@ import {
 } from './inputValidationRules';
 import dummyData from '../../../store/dummyData';
 
-// dynamically create/add dropdown options from data received from firestore DB
-// to the config obj (move this fn to a helpers.js file?)
-// const dropdowns = (inputLabel, dropdownOptions) => {
-//   dropdownOptions.forEach((option) => {
-//     itemConfig[`$${inputLabel}`] = {
-//       ...createFormFieldConfig(
-//         radioLabel, // label
-//         groupName, // name
-//         'radio', // type
-//         radioLabel // defaultValue
-//       ),
-//       validationRules: [requiredRule(`${groupName}`)],
-//     };
-//   });
-// };
-
-// dropdowns('plannedPaycheck', dummyData.dummyPaychecks);
-
-const titles = dummyData.dummyPaychecks;
-
 // formObj we pass into useForm() hook
 export const itemConfig = {};
 
@@ -47,7 +27,7 @@ const radios = (groupName, radioLabels) => {
 
 radios('category select', dummyData.categories);
 
-// add input objs individually to control their order in form obj (i.e. after radio btns)
+// add input objs individually to control their order in form obj
 itemConfig['categoryBtn'] = {
   ...createFormFieldConfig(
     'Add New Budget Category', // label
@@ -98,26 +78,16 @@ itemConfig['billDate'] = {
   ],
 };
 
+const titles = dummyData.dummyPaychecks;
+
 itemConfig['plannedPaycheck'] = {
   ...createFormFieldConfig(
-    'Which planned paycheck handles this expense?', // label
-    'plannedPaycheck', // name
+    'plannedPaycheck', // label / id
+    'Which planned paycheck handles this expense?', // name
     'dropdown', // type
-    '', // default value
-    'Select from dropdown', // placeholder
+    'I will set this up in the Planner later.', // default value
+    null, // placeholder
     '',
     [{ title: 'I will set this up in the Planner later.' }, ...titles]
   ),
 };
-
-// DROPDOWN INPUT
-// plannedPaycheck: {
-//   ...createFormFieldConfig(
-//     'Which planned paycheck handles this expense?', // label
-//     'plannedPaycheck', // name
-//     'dropdown', // type
-//     '', // default value
-//     'Select from dropdown', // placeholder
-//     ['I will set this up in the Planner later.', ...titles]
-//   ),
-// },

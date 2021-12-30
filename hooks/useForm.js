@@ -8,15 +8,13 @@ function useForm(formObj) {
   function renderFormInputs() {
     return Object.values(form).map((inputObj) => {
       const { value, valid, errorMessage, label, renderInput } = inputObj;
-      // const isSelected = selectedOption === value;
-      // console.log(isSelected); // boolean value logging just fine to the console here!
       return renderInput(
         onInputChange,
         value,
         valid,
         errorMessage,
         label,
-        selectedOption // null at first, but changes with onInputChange()
+        selectedOption
       );
     });
   }
@@ -50,38 +48,41 @@ function useForm(formObj) {
 
       // update radio button object's checked state (controlled component)
       if (inputObj.type === 'radio') {
-        const option = inputObj.label; // intermediate variable
-        setSelectedOption(option); // scheduled async useState update
+        const radioOption = inputObj.label; // intermediate variable for immediate use
+        setSelectedOption(radioOption); // scheduled async useState update
         // update the object's checked value to true
         // inputObj.checked = option === id; // ...but doesn't change it to false when another is selected?
       }
+      console.log(inputObj);
+      if (inputObj.type === 'dropdown') {
+        setForm({ ...form, [id]: inputObj });
+        return inputObj; // this needs to happen in top level scope of onInputChange right?
+      }
 
       /////////////////////////////////////////////// DEBOUNCE
-      // check input field's validity
-      const isValidInput = isInputFieldValid(inputObj); // boolean
 
-      // if at least one radio is selected, then set the radio group to valid
+      // check input field's validity (returns boolean)
+      const isValidInput = isInputFieldValid(inputObj);
+
+      // if at least one radio is selected, then set the entire radio group to valid
       if (inputObj.type === 'radio' && isValidInput) {
         Object.values(form).map((input) => {
           const inputCopy = input;
-          if (input.type === 'radio' && input !== inputObj) {
+          if (input.type === 'radio' && input !== inputObj)
             inputCopy.valid = true;
-          }
-          if (input.type === 'button') inputCopy.valid = true; // set any btns to valid
-          setForm({ ...form, inputCopy });
         });
       }
 
       // update input field's validity state...THIS IS WHAT NEEDS TO BE DEBOUNCED
-      // if input is valid (T) and it was previously set to invalid (F) set its valid status to true (T)
-      // if input is not valid (F) and it was previously valid (T) set its valid status to false (F)
+      // if input is now valid (T) and it was previously set to invalid (F) set its valid status to true (T)
+      // if input is not valid now (F) and it was previously valid (T) set its valid status to false (F)
       if (isValidInput && !inputObj.valid) {
         inputObj.valid = true;
       } else if (!isValidInput && inputObj.valid) {
         inputObj.valid = false;
       }
 
-      // refactor attempt ^
+      // refactor attempt ^ but else if???
       // if (isValidInput && !inputObj.valid) inputObj.valid = true;
       // if (!isValidInput && inputObj.valid) inputObj.valid = false;
 

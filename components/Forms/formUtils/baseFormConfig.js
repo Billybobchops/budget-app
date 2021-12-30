@@ -19,8 +19,8 @@ export function createFormFieldConfig(
   type,
   defaultValue = '',
   placeholder,
-  selectedOption ,
-  dropdownOptions,
+  selectedOption,
+  dropdownOptions
 ) {
   return {
     renderInput: (handleChange, value, isValid, error, key, selectedOption) => {
@@ -52,7 +52,7 @@ export function createFormFieldConfig(
             label={label}
             name={name}
             handleChange={handleChange}
-            checked={selectedOption === label} 
+            checked={selectedOption === label}
             value={value}
             isValid={isValid}
             errorMessage={error}
@@ -61,12 +61,14 @@ export function createFormFieldConfig(
       if (type === 'dropdown')
         return (
           <Select
+            id={label}
             key={key}
-            label={label}
+            label={name}
             name={name}
+            type={type}
             handleChange={handleChange}
             value={value}
-            isValid={isValid}
+            isValid={true}
             errorMessage={error}
             dropdownOptions={dropdownOptions}
           />
@@ -79,9 +81,9 @@ export function createFormFieldConfig(
     name,
     type,
     value: defaultValue,
-    valid: false,
+    valid: type === 'dropdown' || type === 'button' ? true : false,
     touched: false,
-    checked: selectedOption === label, // why doesn't this automatically update?
+    checked: selectedOption === label, 
     errorMessage: '',
   };
 }
