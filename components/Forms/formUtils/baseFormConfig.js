@@ -1,5 +1,5 @@
 import BasicInput from '../FormUI/BasicInput';
-import TinyButton from '../FormUI/TinyButton';
+import TinyButton from '../FormUI/CategoryToggleButton';
 import Select from '../FormUI/Select';
 import RadioButton from '../FormUI/RadioButtons';
 

@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
+import { useRequireAuth } from '../hooks/useRequireAuth';
+import FormContext from '../store/form-context';
 import PageBackground from '../components/Layout/PageBackground';
 import MainGrid from '../components/Layout/MainGrid';
 import Header from '../components/Layout/Header';
@@ -10,14 +13,17 @@ import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
 import CategoryForm from '../components/Forms/CategoryForm';
-import { DragDropContext } from 'react-beautiful-dnd';
-import { useRequireAuth } from '../hooks/useRequireAuth';
 import ItemForm from '../components/Forms/ItemForm';
 
 const Overview = () => {
-  const [modal, setModal] = useState(false);
-  const [categoryForm, setCategoryForm] = useState(false);
-  const [itemForm, setItemForm] = useState(false);
+  const {
+    modal,
+    itemForm,
+    categoryForm,
+    onkeydown,
+    onCategoryClick,
+    onItemClick,
+  } = useContext(FormContext);
 
   const auth = useRequireAuth();
   // console.log(auth.user);
@@ -28,29 +34,13 @@ const Overview = () => {
 
   const onDragEnd = (result) => {};
 
-  const keyDownHandler = () => {
-    setModal(false);
-    setCategoryForm(false);
-    setItemForm(false);
-  };
-
-  const categoryClickHandler = () => {
-    setModal(true);
-    setCategoryForm(true);
-  };
-
-  const itemClickHandler = () => {
-    setModal(true);
-    setItemForm(true);
-  };
-
   return (
     <>
       <Portal selector='#portal'>
         {modal && (
-          <DarkOverlay onKeyDown={keyDownHandler}>
-            {categoryForm && <CategoryForm onOverlayClick={keyDownHandler} />}
-            {itemForm && <ItemForm onOverlayClick={keyDownHandler} />}
+          <DarkOverlay onKeyDown={onkeydown}>
+            {categoryForm && <CategoryForm onOverlayClick={onkeydown} />}
+            {itemForm && <ItemForm onOverlayClick={onkeydown} />}
           </DarkOverlay>
         )}
       </Portal>
@@ -58,11 +48,8 @@ const Overview = () => {
         <MainGrid>
           <Header title='Overview' hasDatePicker={true} />
           <ButtonBar>
-            <Button
-              text='Budget Category'
-              clickHandler={categoryClickHandler}
-            />
-            <Button text='Budget Item' clickHandler={itemClickHandler} />
+            <Button text='Budget Category' clickHandler={onCategoryClick} />
+            <Button text='Budget Item' clickHandler={onItemClick} />
           </ButtonBar>
           <TotalsBar />
           <DragDropContext onDragEnd={onDragEnd}>

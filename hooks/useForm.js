@@ -7,7 +7,8 @@ function useForm(formObj) {
 
   function renderFormInputs() {
     return Object.values(form).map((inputObj) => {
-      const { value, valid, errorMessage, label, renderInput } = inputObj;
+      const { value, valid, errorMessage, label, renderInput, type } = inputObj;
+
       return renderInput(
         onInputChange,
         value,
