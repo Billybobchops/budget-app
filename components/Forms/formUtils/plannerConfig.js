@@ -8,35 +8,33 @@ import {
 // This is the formObj we pass into useForm() hook
 export const plannerConfig = {
   title: {
-    ...createFormFieldConfig(
-      'Title', // label
-      'title', // name
-      'text', // type
-      '', // default value
-      'Example: Paycheck 1' // placeholder
-    ),
-    validationRules: [
-      requiredRule('Title'),
-    ],
+    ...createFormFieldConfig({
+      label: 'Title',
+      name: 'title',
+      type: 'text',
+      defaultValue: '',
+      placeholder: 'Example: Paycheck 1',
+    }),
+    validationRules: [requiredRule('Title')],
   },
   nickname: {
-    ...createFormFieldConfig(
-      'Nickname', // label
-      'nickname', // name
-      'text', // type
-      '', // default value
-      "Bob's first paycheck" // placeholder
-    ),
+    ...createFormFieldConfig({
+      label: 'Nickname',
+      name: 'nickname',
+      type: 'text',
+      defaultValue: '',
+      placeholder: "Bob's first paycheck",
+    }),
     validationRules: [requiredRule('Nickname'), maxLengthRule('Nickname', 25)],
   },
   expectedPay: {
-    ...createFormFieldConfig(
-      'Expected Pay', // label
-      'expectedPay ', // name
-      'number', // type
-      '', // default value
-      '$0.00' // placeholder
-    ),
+    ...createFormFieldConfig({
+      label: 'Expected Pay',
+      name: 'expectedPay ',
+      type: 'number',
+      defaultValue: '',
+      placeholder: '$0.00',
+    }),
     validationRules: [
       requiredRule('Amount'),
       minLengthRule('Amount', 10),

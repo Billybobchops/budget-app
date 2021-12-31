@@ -1,8 +1,9 @@
 import BasicInput from '../FormUI/BasicInput';
 import TinyButton from '../FormUI/CategoryToggleButton';
-import Select from '../FormUI/Select';
 import RadioButton from '../FormUI/RadioButtons';
 import Label from '../FormUI/Label';
+import Dropdown from '../FormUI/Dropdown';
+import Select from 'react-select';
 
 /**
  * creates and returns OBJECT REPRESENTATION of form fields
@@ -14,15 +15,18 @@ import Label from '../FormUI/Label';
  * @param {string} placeholder - placeholder text
  */
 
-export function createFormFieldConfig(
-  label,
-  name,
-  type,
-  defaultValue = '',
-  placeholder,
-  selectedOption,
-  dropdownOptions
-) {
+
+export function createFormFieldConfig(fieldObj) {
+  const {
+    label,
+    name,
+    type,
+    defaultValue = '',
+    placeholder,
+    selectedOption,
+    dropdownOptions,
+  } = fieldObj;
+
   return {
     renderInput: (handleChange, value, isValid, error, key, selectedOption) => {
       if (type === 'radio')
@@ -41,7 +45,7 @@ export function createFormFieldConfig(
         );
       if (type === 'dropdown')
         return (
-          <Select
+          <Dropdown
             id={label}
             key={key}
             label={name}
@@ -54,9 +58,10 @@ export function createFormFieldConfig(
             dropdownOptions={dropdownOptions}
           />
         );
+      if (type === 'react-select') return <Select key={key} />;
+      if (type === 'break') return <br key={key} />;
       if (type === 'button')
         return <TinyButton key={key} text={label} isValid={true} />;
-      if (type === 'break') return <br key={key} />;
       if (type === 'label')
         return (
           <Label key={key} isValid={true}>
@@ -65,7 +70,7 @@ export function createFormFieldConfig(
         );
       if (type === 'miniLabel')
         return (
-          <Label key={key} isValid={true} label={label}> 
+          <Label key={key} isValid={true} label={label}>
             {name}
           </Label>
         );

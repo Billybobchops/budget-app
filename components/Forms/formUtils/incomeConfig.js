@@ -7,21 +7,14 @@ import {
 
 // This is the formObj we pass into useForm() hook
 export const incomeConfig = {
-  // break: {
-  //   ...createFormFieldConfig(
-  //     null, // label
-  //     null, // name
-  //     'break' // type
-  //   ),
-  // },
   title: {
-    ...createFormFieldConfig(
-      'Title', // label
-      'title', // name
-      'text', // type
-      '', // default value
-      'Paycheck 1' // placeholder
-    ),
+    ...createFormFieldConfig({
+      label: 'Title',
+      name: 'title',
+      type: 'text',
+      defaultValue: '',
+      placeholder: 'Paycheck 1',
+    }),
     validationRules: [
       requiredRule('Title'),
       minLengthRule('Title', 10),
@@ -29,23 +22,23 @@ export const incomeConfig = {
     ],
   },
   nickname: {
-    ...createFormFieldConfig(
-      'Nickname', // label
-      'nickname', // name
-      'text', // type
-      '', // default value
-      "Bob's first paycheck" // placeholder
-    ),
+    ...createFormFieldConfig({
+      label: 'Nickname',
+      name: 'nickname',
+      type: 'text',
+      defaultValue: '',
+      placeholder: "Bob's first paycheck",
+    }),
     validationRules: [requiredRule('Nickname'), maxLengthRule('Nickname', 25)],
   },
   amount: {
-    ...createFormFieldConfig(
-      'Amount', // label
-      'amount', // name
-      'number', // type
-      '', // default value
-      '$0.00' // placeholder
-    ),
+    ...createFormFieldConfig({
+      label: 'Amount',
+      name: 'amount',
+      type: 'number',
+      defaultValue: '',
+      placeholder: '$0.00',
+    }),
     validationRules: [
       requiredRule('Amount'),
       minLengthRule('Amount', 1),
@@ -53,13 +46,13 @@ export const incomeConfig = {
     ],
   },
   billDate: {
-    ...createFormFieldConfig(
-      'When did this get billed?', // label
-      'bill date', // name
-      'date', // type
-      '', // default value
-      '' // placeholder
-    ),
+    ...createFormFieldConfig({
+      label: 'When did this get billed?',
+      name: 'bill date',
+      type: 'date',
+      defaultValue: '',
+      placeholder: '',
+    }),
     validationRules: [
       requiredRule('Bill Date'),
       minLengthRule('Bill Date', 10),
@@ -67,35 +60,35 @@ export const incomeConfig = {
     ],
   },
   plannedLabel: {
-    ...createFormFieldConfig(
-      'plannedLabel',
-      'Is this a planned paycheck?',
-      'label'
-    ),
+    ...createFormFieldConfig({
+      label: 'plannedLabel',
+      name: 'Is this a planned paycheck?',
+      type: 'label',
+    }),
   },
   plannedMiniLabel: {
-    ...createFormFieldConfig(
-      'plannedMiniLabel',
-      'Planned income is set up in the planner view!',
-      'miniLabel'
-    ),
+    ...createFormFieldConfig({
+      label: 'plannedMiniLabel',
+      name: 'Planned income is set up in the planner view!',
+      type: 'miniLabel',
+    }),
   },
   yes: {
-    ...createFormFieldConfig(
-      'yes', // label - currently hard coded
-      'Is this a planned paycheck?', // name
-      'radio', // type
-      'yes' // default value - currently hard coded
-    ),
+    ...createFormFieldConfig({
+      label: 'yes',
+      name: 'Is this a planned paycheck?',
+      type: 'radio',
+      defaultValue: 'yes',
+    }),
     validationRules: [requiredRule('Question')],
   },
   no: {
-    ...createFormFieldConfig(
-      'no', // label - currently hard coded
-      'Is this a planned paycheck?', // name
-      'radio', // type
-      'no' // default value - currently hard coded
-    ),
+    ...createFormFieldConfig({
+      label: 'no',
+      name: 'Is this a planned paycheck?',
+      type: 'radio',
+      defaultValue: 'no',
+    }),
     validationRules: [requiredRule('Question')],
   },
 };

@@ -66,7 +66,7 @@ const PlannerPage = () => {
       <PageBackground>
         <DragDropContext onDragEnd={onDragEnd}>
           <MainGrid>
-            <Header title='Planner' hasDatePicker={false} />
+            <Header title='Monthly Planner' hasDatePicker={false} />
             <ButtonBar>
               <Button text='Budget Item' clickHandler={onItemClick} />
             </ButtonBar>

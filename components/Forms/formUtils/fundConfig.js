@@ -8,50 +8,44 @@ import {
 // This is the formObj we pass into useForm() hook
 export const fundConfig = {
   title: {
-    ...createFormFieldConfig(
-      'I want to save up for...', // label
-      'title', // name
-      'text', // type
-      '', // default value
-      'A new car!' // placeholder
-    ),
-    validationRules: [
-      requiredRule('Title'),
-    ],
+    ...createFormFieldConfig({
+      label: 'I want to save up for...',
+      name: 'title',
+      type: 'text',
+      defaultValue: '',
+      placeholder: 'A new car!',
+    }),
+    validationRules: [requiredRule('Title')],
   },
   timePeriod: {
-    ...createFormFieldConfig(
-      'Over a period of', // label
-      'timePeriod ', // name
-      'number', // type
-      '', // default value
-      '12' // placeholder
-    ),
-    validationRules: [
-      requiredRule('Time Period'),
-    ],
+    ...createFormFieldConfig({
+      label: 'Over a period of',
+      name: 'timePeriod ',
+      type: 'number',
+      defaultValue: '',
+      placeholder: '12',
+    }),
+    validationRules: [requiredRule('Time Period')],
   },
   timeType: {
-    ...createFormFieldConfig(
-      'timeType', // label
-      'Period', // name
-      'dropdown', // type
-      'Months', // default value
-      'Months', // placeholder
-      '',
-      ['Months', 'Years']
-    ),
+    ...createFormFieldConfig({
+      label: 'timeType',
+      name: 'Period',
+      type: 'dropdown',
+      defaultValue: 'Months',
+      placeholder: 'Months',
+      selectedOption: '',
+      dropdownOptions: ['Months', 'Years'],
+    }),
   },
   totalAmount: {
-    ...createFormFieldConfig(
-      'The total amount is', // label
-      'totalAmount ', // name
-      'number', // type
-      '', // default value
-      '$0.00' // placeholder
-    ),
-    validationRules: [
-      requiredRule('Total Amount'),
-    ],
+    ...createFormFieldConfig({
+      label: 'The total amount is',
+      name: 'totalAmount ',
+      type: 'number',
+      defaultValue: '',
+      placeholder: '$0.00',
+    }),
+    validationRules: [requiredRule('Total Amount')],
   },
 };

@@ -36,7 +36,7 @@ const Nav = () => {
           icon={faCreditCard}
           linkText="Income and Expenses"
         />
-        <NavLink href="/planner" icon={faList} linkText="Planner" />
+        <NavLink href="/monthly-planner" icon={faList} linkText="Monthly Planner" />
         <NavLink
           href="/sinking-funds-calculator"
           icon={faCalculator}

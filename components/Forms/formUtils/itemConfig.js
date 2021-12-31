@@ -22,12 +22,12 @@ itemConfig['categoryLabel'] = {
 const radios = (groupName, radioLabels) => {
   radioLabels.forEach((radioLabel) => {
     itemConfig[`${radioLabel}`] = {
-      ...createFormFieldConfig(
-        radioLabel, // label
-        groupName, // name
-        'radio', // type
-        radioLabel // defaultValue
-      ),
+      ...createFormFieldConfig({
+        label: radioLabel,
+        name: groupName,
+        type: 'radio',
+        defaultValue: radioLabel,
+      }),
       validationRules: [requiredRule(`${groupName}`)],
     };
   });
@@ -37,22 +37,22 @@ radios('category select', dummyData.categories);
 
 // add input objs individually to control their order in form obj
 itemConfig['categoryBtn'] = {
-  ...createFormFieldConfig(
-    'Add New Budget Category', // label
-    'categoryBtn', // name
-    'button', // type
-    ''
-  ),
+  ...createFormFieldConfig({
+    label: 'Add New Budget Category',
+    name: 'categoryBtn',
+    type: 'button',
+    defaultValue: '',
+  }),
 };
 
 itemConfig['title'] = {
-  ...createFormFieldConfig(
-    'Title', // label
-    'title', // name
-    'text', // type
-    '', // default value
-    'Example: Groceries' // placeholder
-  ),
+  ...createFormFieldConfig({
+    label: 'Title',
+    name: 'title',
+    type: 'text',
+    defaultValue: '',
+    placeholder: 'Example: Groceries',
+  }),
   validationRules: [
     requiredRule('Title'),
     minLengthRule('Title', 10),
@@ -61,24 +61,24 @@ itemConfig['title'] = {
 };
 
 itemConfig['budgetAmount'] = {
-  ...createFormFieldConfig(
-    'Budget Amount', // label
-    'budgetAmount', // name
-    'number', // type
-    '', // default value
-    '$0.00' // placeholder
-  ),
+  ...createFormFieldConfig({
+    label: 'Budget Amount',
+    name: 'budgetAmount',
+    type: 'number',
+    defaultValue: '',
+    placeholder: '$0.00',
+  }),
   validationRules: [requiredRule('Budget Amount')],
 };
 
 itemConfig['billDate'] = {
-  ...createFormFieldConfig(
-    'When does this typically get billed?', // label
-    'billDate', // name
-    'date', // type
-    '', // default value
-    '' // placeholder
-  ),
+  ...createFormFieldConfig({
+    label: 'When does this typically get billed?',
+    name: 'billDate',
+    type: 'date',
+    defaultValue: '',
+    placeholder: '',
+  }),
   validationRules: [
     requiredRule('Bill Date'),
     minLengthRule('Bill Date', 10),
@@ -89,13 +89,16 @@ itemConfig['billDate'] = {
 const titles = dummyData.dummyPaychecks;
 
 itemConfig['plannedPaycheck'] = {
-  ...createFormFieldConfig(
-    'plannedPaycheck', // label / id
-    'Which planned paycheck handles this expense?', // name
-    'dropdown', // type
-    'I will set this up in the Planner later.', // default value
-    null, // placeholder
-    '',
-    [{ title: 'I will set this up in the Planner later.' }, ...titles]
-  ),
+  ...createFormFieldConfig({
+    label: 'plannedPaycheck',
+    name: 'Which planned paycheck handles this expense?',
+    type: 'dropdown',
+    defaultValue: 'I will set this up in the Planner later.',
+    placeholder: null,
+    selectedOption: '',
+    dropdownOptions: [
+      { title: 'I will set this up in the Planner later.' },
+      ...titles,
+    ],
+  }),
 };

@@ -12,6 +12,7 @@ import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import Portal from '../components/UI/Portal';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import IncomeForm from '../components/Forms/IncomeForm';
+import ExpenseForm from '../components/Forms/ExpenseForm';
 
 const IncomeExpenses = () => {
   const {
@@ -35,7 +36,7 @@ const IncomeExpenses = () => {
         {modal && (
           <DarkOverlay onKeyDown={onkeydown}>
             {incomeForm && <IncomeForm onOverlayClick={onkeydown} />}
-            {/* {expenseForm && <ExpenseForm onOverlayClick={onkeydown} />} */}
+            {expenseForm && <ExpenseForm onOverlayClick={onkeydown} />}
           </DarkOverlay>
         )}
       </Portal>

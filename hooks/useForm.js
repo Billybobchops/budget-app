@@ -46,7 +46,6 @@ function useForm(formObj) {
       const inputObj = { ...form[id] };
       // update obj value to entered value (controlled component)
       inputObj.value = enteredValue;
-      console.log(inputObj);
 
       // update radio button object's checked state (controlled component)
       if (inputObj.type === 'radio') {

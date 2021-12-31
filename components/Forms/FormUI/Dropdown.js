@@ -1,6 +1,6 @@
-import classes from './Select.module.css';
+import classes from './Dropdown.module.css';
 
-const Select = (props) => {
+const Dropdown = (props) => {
   const { id, label, type, name, value, dropdownOptions, handleChange } = props;
 
   const Option = (props) => {
@@ -32,4 +32,4 @@ const Select = (props) => {
   );
 };
 
-export default Select;
+export default Dropdown;

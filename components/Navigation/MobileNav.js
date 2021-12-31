@@ -80,13 +80,13 @@ const MobileNav = () => {
               </Link>
             </li>
             <li className={classes.listItem}>
-              <Link href='/planner' passHref>
+              <Link href='/monthly-planner' passHref>
                 <a className={classes.mobileNavLink}>
                   <FontAwesomeIcon
                     icon={faList}
                     className={classes.mobileIcon}
                   />
-                  Planner
+                  Monthly Planner
                 </a>
               </Link>
             </li>

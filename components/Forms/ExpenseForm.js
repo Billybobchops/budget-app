@@ -1,25 +1,23 @@
 import { useRef, useEffect } from 'react';
-import { incomeConfig } from './formUtils/incomeConfig';
+import { expenseConfig } from './formUtils/expenseConfig';
 import useForm from '../../hooks/useForm';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
-import dummyData from '../../store/dummyData';
-import Dropdown from './FormUI/Dropdown';
+import SearchInput from './FormUI/SearchInput';
 
-const IncomeForm = (props) => {
+const ExpenseForm = (props) => {
   const { renderFormInputs, isFormValid, form, selectedOption } =
-    useForm(incomeConfig);
+    useForm(expenseConfig);
   const formRef = useRef();
-
-  const titles = dummyData.dummyPaychecks;
 
   const testFunction = () => {
     console.log('Form submitted.');
     console.log(form);
   };
-
-  const isPlannedPaycheck = selectedOption === 'yes';
+  
+  const isCurrentBudgetIem = selectedOption === 'yes';
+  
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -38,20 +36,14 @@ const IncomeForm = (props) => {
   return (
     <form onSubmit={testFunction} ref={formRef}>
       <FormBackground>
-        <h1 className={classes.header}>Add New Income</h1>
+        <h1 className={classes.header}>Add New Expense</h1>
         {renderFormInputs()}
-        {isPlannedPaycheck && (
-          <Dropdown
-            name='Which Paycheck is this?'
-            id='plannedPaycheck'
-            label='Which Paycheck is this?'
-            dropdownOptions={titles}
-          />
-        )}
+        {isCurrentBudgetIem && <SearchInput />}
+        {/* {!isCurrentBudgetIem && } */}
         <SubmitButton value='Submit' disabled={!isFormValid()} />
       </FormBackground>
     </form>
   );
 };
 
-export default IncomeForm;
+export default ExpenseForm;
