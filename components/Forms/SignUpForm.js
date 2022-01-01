@@ -1,51 +1,32 @@
-import classes from "../Forms/FormUI/FormStyles.module.css";
-import FormBackground from "./FormUI/FormBackground";
-import SubmitButton from "./FormUI/SubmitButton";
-import useForm from "../../hooks/useForm";
-import { useRouter } from "next/router";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { app } from "../../firebase/firebaseClient";
-import { authConfig } from "./formUtils/authConfig";
+import classes from '../Forms/FormUI/FormStyles.module.css';
+import FormBackground from './FormUI/FormBackground';
+import SubmitButton from './FormUI/SubmitButton';
+import useForm from '../../hooks/useForm';
+import { signupConfig } from './formUtils/signupConfig';
+import { useAuth } from '../../hooks/useAuth';
 
 const SignUpForm = (props) => {
-  const router = useRouter();
-  
-  const { renderFormInputs, isFormValid, form } = useForm(authConfig);
-  const auth = getAuth(app);
+  const { renderFormInputs, isFormValid, form } = useForm(signupConfig);
+  const { signup } = useAuth();
 
-  const { email, password } = form;
-  const emailValue = email.value;
-  const passwordValue = password.value;
+  const {
+    email: { value: e },
+    password: { value: p },
+  } = form;
 
-  const createAccountHandler = () => {
-    // Create a password-based account
-    createUserWithEmailAndPassword(auth, emailValue, passwordValue)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        router.push("/overview");
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        console.log(errorMessage);
-      });
+  const signupHandler = (event) => {
+    event.preventDefault();
+    signup(e, p);
   };
 
   return (
-    <form onSubmit={createAccountHandler}>
+    <form onSubmit={signupHandler}>
       <FormBackground>
         <h1 className={classes.header}>Create an Account!</h1>
         {renderFormInputs()}
-        <SubmitButton value="Create Account" disabled={!isFormValid()} />
+        <SubmitButton value='Create Account' disabled={!isFormValid()} />
         <p className={classes.paragraph}>
-          Already have an account?{" "}
+          Already have an account?{' '}
           <button onClick={props.onSignInClick} className={classes.buttonLink}>
             Sign in here.
           </button>

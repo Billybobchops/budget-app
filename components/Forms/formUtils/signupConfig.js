@@ -7,7 +7,29 @@ import {
 } from './inputValidationRules';
 
 // This is the formObj we pass into useForm() hook
-export const authConfig = {
+export const signupConfig = {
+  firstName: {
+    ...createFormFieldConfig({
+      label: 'First Name',
+      name: 'firstName',
+      type: 'text',
+      defaultValue: '',
+      placeholder: 'First',
+      layout: 'twoCol',
+    }),
+    validationRules: [requiredRule('Field'), minLengthRule('Name', 2)],
+  },
+  lastName: {
+    ...createFormFieldConfig({
+      label: 'Last name',
+      name: 'lastName',
+      type: 'text',
+      defaultValue: '',
+      placeholder: 'Last',
+      layout: 'twoCol',
+    }),
+    validationRules: [requiredRule('Field'), minLengthRule('Name', 2)],
+  },
   email: {
     ...createFormFieldConfig({
       label: 'Email',
@@ -19,7 +41,6 @@ export const authConfig = {
     validationRules: [
       requiredRule('Email'),
       minLengthRule('Email', 10),
-      maxLengthRule('Email', 25),
       // emailRule("email"),
     ],
   },

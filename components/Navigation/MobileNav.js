@@ -4,6 +4,7 @@ import Portal from '../UI/Portal';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBars,
@@ -28,15 +29,15 @@ const MobileNav = () => {
     setIsClicked(false);
   };
 
+  const clickHandler = () => {
+    setIsClicked(!isClicked);
+  };
+
   const icon = !isClicked ? (
     <FontAwesomeIcon icon={faBars} className={classes.icon} />
   ) : (
     <FontAwesomeIcon icon={faTimes} className={classes.icon} />
   );
-
-  const clickHandler = () => {
-    setIsClicked(!isClicked);
-  };
 
   const NavBar = () => {
     return (
@@ -51,56 +52,52 @@ const MobileNav = () => {
     );
   };
 
+  const NavLink = ({ href, icon, linkText }) => {
+    const router = useRouter();
+
+    const linkStateClass =
+      router.pathname === href
+        ? `${[classes.mobileNavLink, classes.active].join(' ')}`
+        : `${classes.mobileNavLink}`;
+
+    return (
+      <li className={classes.listItem}>
+        <Link href={href} passHref>
+          <a className={linkStateClass}>
+            <FontAwesomeIcon icon={icon} className={classes.mobileIcon} />
+            {linkText}
+          </a>
+        </Link>
+      </li>
+    );
+  };
+
   const NavLinks = () => {
     return isClicked ? (
       <LightOverlay onKeyDown={keyDownHandler}>
         <NavBar />
         <div className={classes.navigation}>
-          <ul classes={classes.list}>
-            <li className={classes.listItem}>
-              <Link href='/overview' passHref>
-                <a className={classes.mobileNavLink}>
-                  <FontAwesomeIcon
-                    icon={faChartPie}
-                    className={classes.mobileIcon}
-                  />
-                  Overview
-                </a>
-              </Link>
-            </li>
-            <li className={classes.listItem}>
-              <Link href='/income-and-expenses' passHref>
-                <a className={classes.mobileNavLink}>
-                  <FontAwesomeIcon
-                    icon={faCreditCard}
-                    className={classes.mobileIcon}
-                  />
-                  Income and Expenses
-                </a>
-              </Link>
-            </li>
-            <li className={classes.listItem}>
-              <Link href='/monthly-planner' passHref>
-                <a className={classes.mobileNavLink}>
-                  <FontAwesomeIcon
-                    icon={faList}
-                    className={classes.mobileIcon}
-                  />
-                  Monthly Planner
-                </a>
-              </Link>
-            </li>
-            <li className={classes.listItem}>
-              <Link href='/sinking-funds-calculator' passHref>
-                <a className={classes.mobileNavLink}>
-                  <FontAwesomeIcon
-                    icon={faCalculator}
-                    className={classes.mobileIcon}
-                  />
-                  Sinking Funds Calculator
-                </a>
-              </Link>
-            </li>
+          <ul className={classes.list}>
+            <NavLink
+              href={'/overview'}
+              icon={faChartPie}
+              linkText={'Overview'}
+            />
+            <NavLink
+              href={'/income-and-expenses'}
+              icon={faCreditCard}
+              linkText={'Income and Expenses'}
+            />
+            <NavLink
+              href={'/monthly-planner'}
+              icon={faList}
+              linkText={'Monthly Planner'}
+            />
+            <NavLink
+              href={'/sinking-funds-calculator'}
+              icon={faCalculator}
+              linkText={'Sinking Funds Calculator'}
+            />
             <li className={classes.listItem}>
               <Link href='/my-account' passHref>
                 <a className={classes.mobileNavLink}>My Account</a>

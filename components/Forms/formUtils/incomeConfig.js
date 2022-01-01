@@ -48,10 +48,8 @@ export const incomeConfig = {
   billDate: {
     ...createFormFieldConfig({
       label: 'When did this get billed?',
-      name: 'bill date',
+      name: 'billDate',
       type: 'date',
-      defaultValue: '',
-      placeholder: '',
     }),
     validationRules: [
       requiredRule('Bill Date'),

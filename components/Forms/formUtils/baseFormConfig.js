@@ -3,7 +3,6 @@ import TinyButton from '../FormUI/CategoryToggleButton';
 import RadioButton from '../FormUI/RadioButtons';
 import Label from '../FormUI/Label';
 import Dropdown from '../FormUI/Dropdown';
-import Select from 'react-select';
 
 /**
  * creates and returns OBJECT REPRESENTATION of form fields
@@ -24,6 +23,7 @@ export function createFormFieldConfig(fieldObj) {
     placeholder,
     selectedOption,
     dropdownOptions,
+    layout
   } = fieldObj;
 
   return {
@@ -72,12 +72,12 @@ export function createFormFieldConfig(fieldObj) {
           </Label>
         );
       if (type === 'break') return <br key={key} />;
-      if (
-        type !== 'break' && // are all of these checks necessary??
-        type !== 'button' &&
-        type !== 'dropdown' &&
-        type !== 'radio'
-      )
+      // if (
+      //   type !== 'break' && // are all of these checks necessary??
+      //   type !== 'button' &&
+      //   type !== 'dropdown' &&
+      //   type !== 'radio'
+      // )
         return (
           <BasicInput
             id={name}
@@ -90,6 +90,7 @@ export function createFormFieldConfig(fieldObj) {
             isValid={isValid}
             errorMessage={error}
             placeholder={placeholder}
+            layout={layout}
           />
         );
     },

@@ -30,3 +30,9 @@
   font-size: 14px;
   display: block;
 }
+
+@media (max-width: 550px) {
+  .header {
+    text-align: left;
+  }
+}

@@ -6,3 +6,8 @@
   display: block;
 }
 
+@media (max-width: 550px) {
+  .label {
+    font-size: 15px;
+  }
+}

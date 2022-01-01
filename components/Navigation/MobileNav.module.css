@@ -9,6 +9,11 @@
   height: 47px;
 }
 
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
 @media (max-width: 1485px) {
   .mobileNav {
     padding: 30px;
@@ -36,7 +41,7 @@
   }
 
   .mobileNavLink {
-    font-family: "Cairo", sans-serif;
+    font-family: 'Cairo', sans-serif;
     font-size: 25px;
     font-weight: 700;
     text-decoration: none;
@@ -45,8 +50,13 @@
   }
 
   .mobileNavLink:hover,
-  .mobileNavLink:active {
+  .active {
     color: #bd275c;
+  }
+
+  .list {
+    list-style-type: none;
+    padding: 0;
   }
 
   .listItem {
@@ -66,7 +76,7 @@
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 500px) {
   .navigation {
     margin-top: 20px;
   }

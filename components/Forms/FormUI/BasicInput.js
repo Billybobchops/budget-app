@@ -11,9 +11,11 @@ const BasicInput = (props) => {
     errorMessage,
     isValid,
     handleChange,
+    layout
   } = props;
 
   const inputError = `${errorMessage && !isValid && 'errorInput'}`;
+  const columns = `${layout}`;
 
   return (
     <>
@@ -22,7 +24,7 @@ const BasicInput = (props) => {
       </label>
 
       <input
-        className={`${[classes.input, classes[inputError]].join(' ')}`}
+        className={`${[classes.input, classes[inputError], classes[columns]].join(' ')}`}
         type={type}
         id={id}
         name={name}

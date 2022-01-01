@@ -23,16 +23,6 @@ export function requiredRule(inputName) {
   );
 }
 
-export function requiredRadio(inputName) {
-  return createValidationRule(
-    'required',
-    `${inputName} required`,
-    (inputValue, formObj) => {
-      if (input.type === 'radio' && input.checked === true) return true; // ONLY CHANGES 1 RADIO....
-    }
-  );
-}
-
 export function minLengthRule(inputName, minCharacters) {
   return createValidationRule(
     'minLength',

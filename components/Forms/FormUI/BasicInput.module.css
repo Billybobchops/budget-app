@@ -11,7 +11,7 @@
   display: block;
   border: 1px solid #2d8058;
   width: 100%;
-  padding: 0 0 0 14px;
+  padding: 0 14px;
   min-height: 50px;
   margin-bottom: 10px;
   font-size: 15px;
@@ -32,7 +32,6 @@
   font-family: 'Cairo', sans-serif;
   font-weight: 700;
   color: #2d8058;
-  /* color: #57b186; */
   font-size: 15px;
 }
 
@@ -47,4 +46,19 @@
   border: 1px solid #bf0d0d;
   color: #bf0d0d;
   background-color: #bf0d0d13;
+}
+
+.twoCol {
+  width: 45%;
+  /* display: inline-block; */
+  
+}
+
+@media (max-width: 550px) {
+  .input {
+    min-height: 44px;
+  } 
+  .label {
+    font-size: 15px;
+  }
 }

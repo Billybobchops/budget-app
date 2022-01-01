@@ -20,9 +20,9 @@ export const fundConfig = {
   timePeriod: {
     ...createFormFieldConfig({
       label: 'Over a period of',
-      name: 'timePeriod ',
+      name: 'timePeriod',
       type: 'number',
-      defaultValue: '',
+      // defaultValue: '',
       placeholder: '12',
     }),
     validationRules: [requiredRule('Time Period')],
