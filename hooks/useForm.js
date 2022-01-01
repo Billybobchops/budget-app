@@ -54,7 +54,7 @@ function useForm(formObj) {
         // update the object's checked value to true
         // inputObj.checked = option === id; // ...but doesn't change it to false when another is selected?
       }
-      console.log(inputObj);
+      
       if (inputObj.type === 'dropdown') {
         setForm({ ...form, [id]: inputObj });
         return inputObj; // this needs to happen in top level scope of onInputChange right?

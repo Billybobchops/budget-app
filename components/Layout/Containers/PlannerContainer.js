@@ -5,9 +5,18 @@ import Button from '../../UI/Buttons/Button';
 const PlannerWrapper = (props) => {
   return (
     <section>
+      <h3>Get Started</h3>
+      <p className={classes.intro}>
+        The planner view is helpful if you or your family get paid more than
+        once per month.
+      </p>
       <div className={classes.actionBar}>
         <div className={classes.actionButton}>
-          <Button text='Add Expected Income' evenMargin={true} clickHandler={props.clickHandler}/>
+          <Button
+            text='Add Expected Income'
+            evenMargin={true}
+            clickHandler={props.clickHandler}
+          />
         </div>
       </div>
       <div className={classes.container}>{props.children}</div>

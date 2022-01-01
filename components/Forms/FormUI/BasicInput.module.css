@@ -1,13 +1,14 @@
 .label {
-  font-family: "Cairo", sans-serif;
+  font-family: 'Cairo', sans-serif;
   font-weight: 600;
   color: #04311c;
-  padding-right:  14px;
+  padding-right: 14px;
+  display: block;
 }
 
 .input {
-  display: block;
   /* width: calc(100% - 14px);  */
+  display: block;
   border: 1px solid #2d8058;
   width: 100%;
   padding: 0 0 0 14px;
@@ -16,29 +17,34 @@
   font-size: 15px;
 }
 
+.input:hover {
+  border-left: 3px solid #2d8058;
+}
+
 .input:focus {
   outline: none;
   border: 1px solid #d4f3da;
   border-bottom: 4px solid #d4f3da;
 }
 
-.input::placeholder {
-  font-family: "Cairo", sans-serif;
+.input::placeholder,
+.input {
+  font-family: 'Cairo', sans-serif;
   font-weight: 700;
   color: #2d8058;
+  /* color: #57b186; */
   font-size: 15px;
 }
 
 .errorMessage {
-  color: #BF0D0D;
+  color: #bf0d0d;
   display: block;
   font-size: 14.5px;
 }
 
 .errorInput {
   margin-bottom: 2px;
-  border: 1px solid #BF0D0D;
-  color: #BF0D0D;
+  border: 1px solid #bf0d0d;
+  color: #bf0d0d;
   background-color: #bf0d0d13;
 }
-

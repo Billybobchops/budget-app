@@ -15,7 +15,6 @@ import Select from 'react-select';
  * @param {string} placeholder - placeholder text
  */
 
-
 export function createFormFieldConfig(fieldObj) {
   const {
     label,
@@ -58,8 +57,6 @@ export function createFormFieldConfig(fieldObj) {
             dropdownOptions={dropdownOptions}
           />
         );
-      if (type === 'react-select') return <Select key={key} />;
-      if (type === 'break') return <br key={key} />;
       if (type === 'button')
         return <TinyButton key={key} text={label} isValid={true} />;
       if (type === 'label')
@@ -74,8 +71,9 @@ export function createFormFieldConfig(fieldObj) {
             {name}
           </Label>
         );
+      if (type === 'break') return <br key={key} />;
       if (
-        type !== 'break' &&
+        type !== 'break' && // are all of these checks necessary??
         type !== 'button' &&
         type !== 'dropdown' &&
         type !== 'radio'

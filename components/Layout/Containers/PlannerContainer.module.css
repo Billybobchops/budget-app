@@ -10,6 +10,10 @@
   margin: 0;
 }
 
+.intro {
+  margin-bottom: 12px;
+}
+
 .container {
   background-color: #d4f3da;
   padding: 20px;

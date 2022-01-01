@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import classes from './SearchInput.module.css';
+import AsyncCreatable from 'react-select/creatable';
+import classes from './AsyncCreatableInput.module.css';
 import customStyles from '../formUtils/reactSelectStyles';
-import Select from 'react-select';
 
-const SearchInput = ({ label, placeholder, options }) => {
+const AsyncCreatableInput = ({ label, placeholder, options }) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const changeHandler = ({ value }) => {
@@ -14,9 +14,9 @@ const SearchInput = ({ label, placeholder, options }) => {
   return (
     <>
       <label className={classes.label}>{label}</label>
-      <Select
-        styles={customStyles}
+      <AsyncCreatable
         onChange={changeHandler}
+        styles={customStyles}
         options={options}
         placeholder={placeholder}
       />
@@ -24,4 +24,4 @@ const SearchInput = ({ label, placeholder, options }) => {
   );
 };
 
-export default SearchInput;
+export default AsyncCreatableInput;

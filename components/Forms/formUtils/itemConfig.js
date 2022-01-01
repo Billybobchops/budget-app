@@ -10,11 +10,11 @@ import dummyData from '../../../store/dummyData';
 export const itemConfig = {};
 
 itemConfig['categoryLabel'] = {
-  ...createFormFieldConfig(
-    'categoryLabel',
-    'What category should this belong to?',
-    'label'
-  ),
+  ...createFormFieldConfig({
+    label: 'categoryLabel',
+    name: 'What category should this belong to?',
+    type: 'label',
+  }),
 };
 
 // dynamically create/add radio buttons from data (array) received from firestore DB
@@ -55,7 +55,7 @@ itemConfig['title'] = {
   }),
   validationRules: [
     requiredRule('Title'),
-    minLengthRule('Title', 10),
+    minLengthRule('Title', 2),
     maxLengthRule('Title', 25),
   ],
 };

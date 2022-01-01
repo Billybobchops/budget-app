@@ -10,7 +10,7 @@
 
 .arrowStyle::after {
   /* content: '\f078'; */
-  content: '▼';
+  content: 'ˇ';
   color: #04311c;
   right: 0px;
   top: 30px;
@@ -18,11 +18,12 @@
   width: 40px;
   padding-top: 15px;
   border: 1px solid #04311c;
-  background-color: #62d5b4d8;
+  /* background-color: #62d5b4d8; */
   position: absolute;
   pointer-events: none;
-  font-size: 11px;
+  font-size: 33px;
   text-align: center;
+  line-height: 40px;
 }
 
 .selectInput {
