@@ -52,7 +52,7 @@ const ExpenseForm = (props) => {
         <AsyncCreatableInput
           options={searchCategories}
           label={'What category is this expense?'}
-          placeholder={'Select category or type new one...'}
+          placeholder={'Select category or create new...'}
         />
       </>
     ) : (

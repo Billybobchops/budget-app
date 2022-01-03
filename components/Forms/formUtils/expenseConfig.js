@@ -50,10 +50,4 @@ export const expenseConfig = {
   },
 };
 
-// break: {
-//   ...createFormFieldConfig(
-//     null, // label
-//     null, // name
-//     'break' // type
-//   ),
-// },
+

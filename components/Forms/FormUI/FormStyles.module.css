@@ -34,5 +34,7 @@
 @media (max-width: 550px) {
   .header {
     text-align: left;
+    line-height: 2.2rem;
+    margin-bottom: 10px;
   }
 }

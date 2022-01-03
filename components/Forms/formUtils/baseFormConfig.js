@@ -55,6 +55,7 @@ export function createFormFieldConfig(fieldObj) {
             isValid={true}
             errorMessage={error}
             dropdownOptions={dropdownOptions}
+            layout={layout}
           />
         );
       if (type === 'button')

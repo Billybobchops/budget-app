@@ -52,13 +52,15 @@
   }
 }
 
-@media (max-width: 535px) {
-  .gridContainer {
-    grid-template-rows: 540px 450px; /* Was set to 540px auto; */
+@media (max-width: 550px) {
+  .contentColumn {
+    background-color: #fff;
+    display: block;
   }
 
   .gradient {
     top: 540px;
+    display: none;
   }
 
   .logo {

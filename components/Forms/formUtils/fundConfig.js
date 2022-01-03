@@ -22,8 +22,8 @@ export const fundConfig = {
       label: 'Over a period of',
       name: 'timePeriod',
       type: 'number',
-      // defaultValue: '',
       placeholder: '12',
+      layout: 'twoCol'
     }),
     validationRules: [requiredRule('Time Period')],
   },
@@ -34,6 +34,7 @@ export const fundConfig = {
       type: 'dropdown',
       defaultValue: 'Months',
       placeholder: 'Months',
+      layout: 'twoColEnd',
       selectedOption: '',
       dropdownOptions: ['Months', 'Years'],
     }),

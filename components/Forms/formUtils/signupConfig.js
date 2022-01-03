@@ -26,7 +26,7 @@ export const signupConfig = {
       type: 'text',
       defaultValue: '',
       placeholder: 'Last',
-      layout: 'twoCol',
+      layout: 'twoColEnd',
     }),
     validationRules: [requiredRule('Field'), minLengthRule('Name', 2)],
   },

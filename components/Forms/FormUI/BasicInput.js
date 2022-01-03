@@ -11,20 +11,20 @@ const BasicInput = (props) => {
     errorMessage,
     isValid,
     handleChange,
-    layout
+    layout,
   } = props;
 
   const inputError = `${errorMessage && !isValid && 'errorInput'}`;
   const columns = `${layout}`;
 
   return (
-    <>
+    <div className={layout ? classes[columns] : ''}>
       <label className={classes.label} htmlFor={id}>
         {label}
       </label>
 
       <input
-        className={`${[classes.input, classes[inputError], classes[columns]].join(' ')}`}
+        className={`${[classes.input, classes[inputError]].join(' ')}`}
         type={type}
         id={id}
         name={name}
@@ -36,7 +36,7 @@ const BasicInput = (props) => {
       {errorMessage && !isValid && (
         <span className={classes.errorMessage}>{errorMessage}</span>
       )}
-    </>
+    </div>
   );
 };
 

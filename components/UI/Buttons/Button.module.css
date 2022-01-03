@@ -19,4 +19,8 @@
     font-size: 12px;
     margin: 0 9px 9px 0;
   }
+
+  .buttonEvenMargin {
+    margin: 12px;
+  }
 }

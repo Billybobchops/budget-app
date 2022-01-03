@@ -52,6 +52,7 @@ itemConfig['title'] = {
     type: 'text',
     defaultValue: '',
     placeholder: 'Example: Groceries',
+    layout: 'twoCol',
   }),
   validationRules: [
     requiredRule('Title'),
@@ -67,6 +68,7 @@ itemConfig['budgetAmount'] = {
     type: 'number',
     defaultValue: '',
     placeholder: '$0.00',
+    layout: 'twoColEnd',
   }),
   validationRules: [requiredRule('Budget Amount')],
 };
@@ -91,13 +93,13 @@ const titles = dummyData.dummyPaychecks;
 itemConfig['plannedPaycheck'] = {
   ...createFormFieldConfig({
     label: 'plannedPaycheck',
-    name: 'Which planned paycheck handles this expense?',
+    name: 'Which planned paycheck handles this?',
     type: 'dropdown',
-    defaultValue: 'I will set this up in the Planner later.',
+    defaultValue: "I'll do this in the Planner later.",
     placeholder: null,
     selectedOption: '',
     dropdownOptions: [
-      { title: 'I will set this up in the Planner later.' },
+      { title: "I'll do this in the Planner later." },
       ...titles,
     ],
   }),
