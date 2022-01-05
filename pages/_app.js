@@ -3,16 +3,19 @@ import '../styles/globals.css';
 // import store from "../store/index";
 import { ProvideAuth } from '../hooks/useAuth';
 import { FormContextProvider } from '../store/form-context';
+import ToastProvider from '../store/ToastProvider';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ProvideAuth>
-      <FormContextProvider>
-        {/* <Provider store={store}> */}
-        <Component {...pageProps} />
-        {/* </Provider> */}
-      </FormContextProvider>
-    </ProvideAuth>
+    <ToastProvider>
+      <ProvideAuth>
+        <FormContextProvider>
+          {/* <Provider store={store}> */}
+          <Component {...pageProps} />
+          {/* </Provider> */}
+        </FormContextProvider>
+      </ProvideAuth>
+    </ToastProvider>
   );
 }
 

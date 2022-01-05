@@ -33,9 +33,9 @@ const BasicInput = (props) => {
         onChange={handleChange}
       ></input>
 
-      {errorMessage && !isValid && (
+      {/* {errorMessage && !isValid && (
         <span className={classes.errorMessage}>{errorMessage}</span>
-      )}
+      )} */}
     </div>
   );
 };

@@ -12,11 +12,14 @@ const SignUpForm = (props) => {
   const {
     email: { value: e },
     password: { value: p },
+    firstName: { value: fname },
+    lastName: { value: lname },
   } = form;
 
   const signupHandler = (event) => {
     event.preventDefault();
-    signup(e, p);
+    const displayName = `${fname} ${lname}`;
+    signup(e, p, displayName);
   };
 
   return (

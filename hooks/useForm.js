@@ -1,9 +1,12 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 // import debounce from 'lodash.debounce';
+import { useToast } from '../store/ToastProvider';
 
 function useForm(formObj) {
   const [form, setForm] = useState(formObj);
   const [selectedOption, setSelectedOption] = useState(null);
+
+  const { addToast } = useToast();
 
   function renderFormInputs() {
     return Object.values(form).map((inputObj) => {
@@ -54,7 +57,7 @@ function useForm(formObj) {
         // update the object's checked value to true
         // inputObj.checked = option === id; // ...but doesn't change it to false when another is selected?
       }
-      
+
       if (inputObj.type === 'dropdown') {
         setForm({ ...form, [id]: inputObj });
         return inputObj; // this needs to happen in top level scope of onInputChange right?
@@ -83,9 +86,8 @@ function useForm(formObj) {
         inputObj.valid = false;
       }
 
-      // refactor attempt ^ but else if???
-      // if (isValidInput && !inputObj.valid) inputObj.valid = true;
-      // if (!isValidInput && inputObj.valid) inputObj.valid = false;
+      if (inputObj.errorMessage && !inputObj.valid)
+        addToast(inputObj.errorMessage);
 
       // mark input field as touched
       inputObj.touched = true;
@@ -94,7 +96,7 @@ function useForm(formObj) {
       return inputObj;
     },
 
-    [form, isInputFieldValid]
+    [form, isInputFieldValid, addToast]
   );
 
   // const debouncedValidityHandler = useMemo(

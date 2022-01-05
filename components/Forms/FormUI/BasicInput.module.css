@@ -7,7 +7,6 @@
 }
 
 .input {
-  /* width: calc(100% - 14px);  */
   display: block;
   border: 1px solid #2d8058;
   width: 100%;

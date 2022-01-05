@@ -1,0 +1,26 @@
+.wrapper {
+  margin-right: 16px;
+  margin-top: 16px;
+  width: 300px;
+  position: relative;
+  padding: 16px;
+  border: 1px solid #2d8058;
+  box-shadow: #00000030 0px 10px 20px, #0000003b 0px 6px 6px;
+  z-index: 25;
+  border: 1px solid #bf0d0d;
+  color: #b10101;
+  background-color: #fff;
+  /* animation: slide 1s forwards; */
+}
+
+/* @keyframes slide {
+  0% {
+    right: -100%;
+  }
+  50% {
+    right: 0;
+  }
+  100% {
+    right: -100%;
+  }
+} */
