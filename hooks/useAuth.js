@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   updateProfile,
+  sendPasswordResetEmail,
   setPersistence,
   browserSessionPersistence,
 } from '@firebase/auth';
@@ -51,18 +52,15 @@ function useProvideAuth() {
       if (errorMessage.includes('wrong-password'))
         addToast('Password is incorrect.');
       if (errorMessage.includes('user-not-found')) addToast('User not found.');
+      if (errorMessage.includes('invalid-email')) addToast('Email not valid.');
     }
   };
 
   const signup = async (email, password, displayName) => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res); // successfully logs the FB response which includes the user object
       setUser(res.user); // setting our state variable user to the FB user object
-
-      await updateProfile(res.user, { displayName: displayName }); // testing ...
-
-      console.log(res.user);
+      await updateProfile(res.user, { displayName: displayName });
 
       router.push('/overview');
       console.log(`Signed in after created account!`);
@@ -77,22 +75,23 @@ function useProvideAuth() {
   const logout = async () => {
     try {
       await signOut(auth);
-      // Sign-out successful.
       console.log(`Sign-out successful.`);
       setUser(false);
       router.push('/');
     } catch (error) {}
   };
 
-  const sendPasswordResetEmail = (email) => {
-    return firebase
-      .auth()
-      .sendPasswordResetEmail(email)
-      .then(() => {
-        return true;
-      });
+  const passwordResetEmail = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      addToast(`Password reset email has been sent.`);
+    } catch (error) {
+      console.log(error.message);
+      addToast(error.message);
+    }
   };
 
+  /////// What exactly is this??
   const confirmPasswordReset = (code, password) => {
     return firebase
       .auth()
@@ -125,7 +124,7 @@ function useProvideAuth() {
     signup,
     logout,
     updateProfile,
-    sendPasswordResetEmail,
+    passwordResetEmail,
     confirmPasswordReset,
   };
 }

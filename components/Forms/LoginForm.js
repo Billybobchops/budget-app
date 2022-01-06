@@ -5,7 +5,7 @@ import useForm from '../../hooks/useForm';
 import { useAuth } from '../../hooks/useAuth';
 import { loginConfig } from './formUtils/loginConfig';
 
-const LoginForm = (props) => {
+const LoginForm = ({ onResetClick, onSignUpClick }) => {
   const { renderFormInputs, isFormValid, form } = useForm(loginConfig);
   const { signin } = useAuth();
   const {
@@ -23,11 +23,24 @@ const LoginForm = (props) => {
       <FormBackground>
         <h1 className={classes.header}>Welcome Back!</h1>
         {renderFormInputs()}
-        <p className={classes.paragraph}>Forgot your password?</p>
+        <p className={classes.paragraph}>
+          <button
+            type='button'
+            onClick={onResetClick}
+            className={classes.buttonLink}
+          >
+            Forgot your password
+          </button>
+          ?
+        </p>
         <SubmitButton value='Login' disabled={!isFormValid()} />
         <p className={classes.paragraph}>
           New User?{' '}
-          <button onClick={props.onSignUpClick} className={classes.buttonLink}>
+          <button
+            type='button'
+            onClick={onSignUpClick}
+            className={classes.buttonLink}
+          >
             Sign up here.
           </button>
         </p>

@@ -1,23 +1,35 @@
-import { useState } from "react";
-import Image from "next/image";
-import Video from "../components/UI/Video";
-import logo from "../public/LogoPlaceholder.png";
-import LoginForm from "../components/Forms/LoginForm";
-import SignUpForm from "../components/Forms/SignUpForm";
-import classes from "../styles/HomeAuth.module.css";
+import { useState } from 'react';
+import classes from '../styles/HomeAuth.module.css';
+import logo from '../public/LogoPlaceholder.png';
+import Video from '../components/UI/Video';
+import Image from 'next/image';
+import LoginForm from '../components/Forms/LoginForm';
+import SignUpForm from '../components/Forms/SignUpForm';
+import PasswordResetForm from '../components/Forms/PasswordResetForm';
 
 export default function HomeAuth() {
-  let [isNewUser, setIsNewUser] = useState(true);
+  const [isNewUser, setIsNewUser] = useState(true);
+  const [forgotPass, setForgotPass] = useState(false);
 
   const toggleUserStatus = (e) => {
     e.preventDefault();
     setIsNewUser(!isNewUser);
   };
 
+  const toggleForgotForm = (e) => {
+    e.preventDefault();
+    setForgotPass(!forgotPass);
+  };
+
   const authForm = (
     <>
       {isNewUser && <SignUpForm onSignInClick={toggleUserStatus} />}
-      {!isNewUser && <LoginForm onSignUpClick={toggleUserStatus} />}
+      {!isNewUser && (
+        <LoginForm
+          onSignUpClick={toggleUserStatus}
+          onResetClick={toggleForgotForm}
+        />
+      )}
     </>
   );
 
@@ -27,9 +39,10 @@ export default function HomeAuth() {
       <Video />
       <main className={classes.contentColumn}>
         <div className={classes.logo}>
-          <Image src={logo} alt="Logo" />
+          <Image src={logo} alt='Logo' />
         </div>
-        {authForm}
+        {!forgotPass && authForm}
+        {forgotPass && <PasswordResetForm onCloseOut={toggleForgotForm}/>}
       </main>
     </div>
   );
