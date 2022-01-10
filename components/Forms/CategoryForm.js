@@ -1,17 +1,23 @@
+import { useRef, useEffect, useContext } from 'react';
+import { useAuth } from '../../hooks/useAuth';
+import { addCategory } from '../../firebase/categories';
+import { categoryConfig } from './formUtils/categoryConfig';
+import useForm from '../../hooks/useForm';
+import FormContext from '../../store/form-context';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
-import { categoryConfig } from './formUtils/categoryConfig';
-import useForm from '../../hooks/useForm';
-import { useRef, useEffect } from 'react';
 
 const CategoryForm = (props) => {
   const { renderFormInputs, isFormValid, form } = useForm(categoryConfig);
+  const { user } = useAuth();
   const formRef = useRef();
+  const { onkeydown } = useContext(FormContext);
 
   const testFunction = (e) => {
     e.preventDefault();
-    console.log(form.category.value);
+    addCategory(form.category.value, user.uid);
+    onkeydown();
   };
 
   useEffect(() => {

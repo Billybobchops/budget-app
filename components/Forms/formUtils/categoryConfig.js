@@ -17,7 +17,7 @@ export const categoryConfig = {
     }),
     validationRules: [
       requiredRule('Category'),
-      minLengthRule('Category', 10),
+      minLengthRule('Category', 2),
       maxLengthRule('Category', 25),
     ],
   },

@@ -1,14 +1,13 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
-// import debounce from 'lodash.debounce';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useToast } from '../store/ToastProvider';
+import debounce from 'lodash.debounce';
 
 function useForm(formObj) {
   const [form, setForm] = useState(formObj);
   const [selectedOption, setSelectedOption] = useState(null);
-
   const { addToast } = useToast();
 
-  function renderFormInputs() {
+  function renderFormInputs(debouncedValidity) {
     return Object.values(form).map((inputObj) => {
       const { value, valid, errorMessage, label, renderInput } = inputObj;
 
@@ -23,7 +22,11 @@ function useForm(formObj) {
     });
   }
 
-  // iterates over all validation rules for a given input and returns a boolean
+  /**
+   * iterates over all validation rules for a given input field and returns a boolean
+   * @param {object} inputField - object representation of an input field
+   */
+
   const isInputFieldValid = useCallback(
     (inputField) => {
       for (const rule of inputField.validationRules) {
@@ -37,20 +40,48 @@ function useForm(formObj) {
     [form]
   );
 
-  // my Fn: extracting logic from onInputChange...to debounce?
-  const updateInputValidity = useCallback(() => {}, []);
+  // const updateInputValidity = useCallback(
+  //   (event) => {
+  //     const { id } = event.target;
+  //     const inputObj = { ...form[id] }; // copy inputObj
+  //     const isValidInput = isInputFieldValid(inputObj);
 
-  // wrapped in the useCallback hook to avoid creating a new function each time
+  //     // if at least one radio is selected, then set entire radio group to valid
+  //     if (inputObj.type === 'radio' && isValidInput) {
+  //       Object.values(form).map((input) => {
+  //         const inputCopy = input;
+  //         if (input.type === 'radio' && input !== inputObj)
+  //           inputCopy.valid = true;
+  //       });
+  //     }
+
+  //     if (isValidInput && !inputObj.valid) {
+  //       // now valid was previously invalid set its valid status to true (T)
+  //       inputObj.valid = true;
+  //     } else if (!isValidInput && inputObj.valid) {
+  //       // was not valid and previously valid set its valid status to false (F)
+  //       inputObj.valid = false;
+  //     }
+
+  //     if (inputObj.errorMessage && !inputObj.valid)
+  //       addToast(inputObj.errorMessage);
+  //   },
+  //   [addToast, form, isInputFieldValid]
+  // );
+
+  // const debouncedValidityHandler = useMemo(() => {
+  //   debounce(updateInputValidity, 400);
+  // }, [updateInputValidity]);
+
+  // wrapped in useCallback hook to avoid creating a new function each time
   // the state is updated and code inside this hook executes again.
   const onInputChange = useCallback(
     (event) => {
       const { id, value: enteredValue } = event.target;
-      // copy input object whose value was changed to avoid mutating original state
-      const inputObj = { ...form[id] };
-      // update obj value to entered value (controlled component)
-      inputObj.value = enteredValue;
+      const inputObj = { ...form[id] }; // copy inputObj (whose value was changed) to avoid mutating original state
+      inputObj.value = enteredValue; // update state to entered value (controlled component)
 
-      // update radio button object's checked state (controlled component)
+      // update object's radio button checked state (controlled component)
       if (inputObj.type === 'radio') {
         const radioOption = inputObj.label; // intermediate variable for immediate use
         setSelectedOption(radioOption); // scheduled async useState update
@@ -60,15 +91,13 @@ function useForm(formObj) {
 
       if (inputObj.type === 'dropdown') {
         setForm({ ...form, [id]: inputObj });
-        return inputObj; // this needs to happen in top level scope of onInputChange right?
+        return inputObj;
       }
 
-      /////////////////////////////////////////////// DEBOUNCE validity
-
-      // check input field's validity (returns boolean)
+      ///////////////////////////////////////////// DEBOUNCE validity state update here
       const isValidInput = isInputFieldValid(inputObj);
 
-      // if at least one radio is selected, then set the entire radio group to valid
+      // if at least one radio is selected, then set entire radio group to valid
       if (inputObj.type === 'radio' && isValidInput) {
         Object.values(form).map((input) => {
           const inputCopy = input;
@@ -77,17 +106,26 @@ function useForm(formObj) {
         });
       }
 
-      // update input field's validity state...THIS IS WHAT NEEDS TO BE DEBOUNCED
-      // if input is now valid (T) and it was previously set to invalid (F) set its valid status to true (T)
-      // if input is not valid now (F) and it was previously valid (T) set its valid status to false (F)
       if (isValidInput && !inputObj.valid) {
+        // now valid was previously invalid set its valid status to true (T)
         inputObj.valid = true;
       } else if (!isValidInput && inputObj.valid) {
+        // was not valid and previously valid set its valid status to false (F)
         inputObj.valid = false;
       }
 
       if (inputObj.errorMessage && !inputObj.valid)
         addToast(inputObj.errorMessage);
+
+      // debouncedValidityHandler(event); // cannot access this fn because it is wrapped with useMemo();
+
+      // kind of works on the first keystroke only...
+      // setTimeout(() => {
+      //   console.log('setTimeout running...');
+      //   updateInputValidity(inputObj);
+      // }, 600);
+
+      /////////////////////////////////////////////
 
       // mark input field as touched
       inputObj.touched = true;
@@ -96,23 +134,16 @@ function useForm(formObj) {
       return inputObj;
     },
 
-    [form, isInputFieldValid, addToast]
+    [form, addToast, isInputFieldValid]
   );
 
-  // const debouncedValidityHandler = useMemo(
-  //   () => debounce(updateInputValidity, 300),
-  //   [updateInputValidity]
-  // );
-
-  // Stop the invocation of the debounced function
-  // after unmounting
+  // Stop the invocation of the debounced function AFTER unmounting
   // useEffect(() => {
   //   debouncedValidityHandler.cancel();
   // });
 
   /**
    * returns boolean value indicating whether overall form is valid
-   *
    * @param {object} formObj - object representation of a form
    */
 

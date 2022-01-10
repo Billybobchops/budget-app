@@ -42,7 +42,7 @@ export default function HomeAuth() {
           <Image src={logo} alt='Logo' />
         </div>
         {!forgotPass && authForm}
-        {forgotPass && <PasswordResetForm onCloseOut={toggleForgotForm}/>}
+        {forgotPass && <PasswordResetForm onCloseOut={toggleForgotForm} />}
       </main>
     </div>
   );
