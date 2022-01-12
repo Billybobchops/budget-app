@@ -1,22 +1,34 @@
+import { useRef, useEffect, useContext } from 'react';
+import { useAuth } from '../../hooks/useAuth';
+import { addItem } from '../../firebase/items';
+import useForm from '../../hooks/useForm';
+import FormContext from '../../store/form-context';
+import { itemConfig } from './formUtils/itemConfig';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
-import useForm from '../../hooks/useForm';
-import { itemConfig } from './formUtils/itemConfig';
-import { useRef, useEffect } from 'react';
 
 const ItemForm = (props) => {
   const { renderFormInputs, isFormValid, form, selectedOption } =
     useForm(itemConfig);
+  const {
+    user: { uid },
+  } = useAuth();
   const formRef = useRef();
+  const { onkeydown } = useContext(FormContext);
 
-  const testFunction = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    console.log(selectedOption);
-    console.log(form.title.value);
-    console.log(form.budgetAmount.value);
-    console.log(form.billDate.value);
-    console.log(form.plannedPaycheck.value);
+    const formData = {
+      selectedOption,
+      title: form.title.value,
+      budgetAmount: +form.budgetAmount.value,
+      billDate: form.billDate.value,
+      plannedPaycheck: form.plannedPaycheck.value,
+    };
+
+    addItem(uid, formData);
+    onkeydown();
   };
 
   useEffect(() => {
@@ -34,7 +46,7 @@ const ItemForm = (props) => {
   }, [props]);
 
   return (
-    <form onSubmit={testFunction} ref={formRef}>
+    <form onSubmit={submitHandler} ref={formRef}>
       <FormBackground>
         <h1 className={classes.header}>Add a New Budget Item</h1>
         {renderFormInputs()}

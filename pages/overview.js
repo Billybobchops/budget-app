@@ -26,7 +26,6 @@ const Overview = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
-  // console.log(auth.user);
 
   if (!auth.user) {
     return <p>Loading!</p>;
@@ -68,3 +67,22 @@ const Overview = () => {
 };
 
 export default Overview;
+
+// export async function getStaticProps() {
+//   const auth = getAuth();
+
+//   let uid;
+
+//   onAuthStateChanged(auth, (user) => {
+//     uid = user.uid;
+//     // return uid;
+//   });
+
+//   const titles = await getCategories(uid); // Insufficient Permisions FB...
+
+//   return {
+//     props: {
+//       titles: 'titles',
+//     },
+//   };
+// }

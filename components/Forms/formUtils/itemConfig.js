@@ -75,7 +75,7 @@ itemConfig['budgetAmount'] = {
 
 itemConfig['billDate'] = {
   ...createFormFieldConfig({
-    label: 'When does this typically get billed?',
+    label: 'What day of the month is this typically billed?',
     name: 'billDate',
     type: 'date',
     defaultValue: '',

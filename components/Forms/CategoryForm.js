@@ -10,13 +10,17 @@ import SubmitButton from './FormUI/SubmitButton';
 
 const CategoryForm = (props) => {
   const { renderFormInputs, isFormValid, form } = useForm(categoryConfig);
-  const { user } = useAuth();
+  const {
+    user: { uid },
+  } = useAuth();
   const formRef = useRef();
   const { onkeydown } = useContext(FormContext);
 
-  const testFunction = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    addCategory(form.category.value, user.uid);
+    const category = form.category.value;
+
+    addCategory(category, uid);
     onkeydown();
   };
 
@@ -35,7 +39,7 @@ const CategoryForm = (props) => {
   }, [props]);
 
   return (
-    <form onSubmit={testFunction} ref={formRef}>
+    <form onSubmit={submitHandler} ref={formRef}>
       <FormBackground>
         <h1 className={classes.header}>Add a New Budget Category</h1>
         {renderFormInputs()}
