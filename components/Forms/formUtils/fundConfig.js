@@ -36,7 +36,7 @@ export const fundConfig = {
       placeholder: 'Months',
       layout: 'twoColEnd',
       selectedOption: '',
-      dropdownOptions: ['Months', 'Years'],
+      options: ['Months', 'Years'],
     }),
   },
   totalAmount: {

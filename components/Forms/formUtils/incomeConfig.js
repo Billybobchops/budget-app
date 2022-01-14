@@ -100,7 +100,7 @@ export const incomeConfig = {
       label: 'plannedPaycheck',
       name: 'Which paycheck is this?',
       type: 'dropdown',
-      dropdownOptions: [...titles],
+      options: titles,
     }),
     conditions: [radioYes()],
   },

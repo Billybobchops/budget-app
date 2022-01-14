@@ -1,19 +1,17 @@
 import classes from './BasicInput.module.css';
 
-const BasicInput = (props) => {
-  const {
-    id,
-    label,
-    type,
-    name,
-    placeholder,
-    value,
-    errorMessage,
-    isValid,
-    handleChange,
-    layout,
-  } = props;
-
+const BasicInput = ({
+  id,
+  label,
+  type,
+  name,
+  placeholder,
+  value,
+  errorMessage,
+  isValid,
+  handleChange,
+  layout,
+}) => {
   const inputError = `${errorMessage && !isValid && 'errorInput'}`;
   const columns = `${layout}`;
 

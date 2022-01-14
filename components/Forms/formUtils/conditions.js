@@ -1,10 +1,10 @@
 /**
  * creates and returns a conditional object that is
  * used by useForm hook to conditional render inputs
- * 
- * @param {string} conditionName 
- * @param {function} conditionalFunc 
- * @returns 
+ *
+ * @param {string} conditionName
+ * @param {function} conditionalFunc
+ * @returns
  */
 
 function createConditions(conditionName, conditionalFunc) {
@@ -26,8 +26,8 @@ export function radioYes() {
 export function radioNo() {
   return createConditions(
     'selected radio button must be no',
-    (selectedOption) => {
-      selectedOption = 'no';
+    (inputObj, selectedOption) => {
+      return selectedOption === 'no';
     }
   );
 }

@@ -98,7 +98,7 @@ itemConfig['plannedPaycheck'] = {
     defaultValue: "I'll do this in the Planner later.",
     placeholder: null,
     selectedOption: '',
-    dropdownOptions: [
+    options: [
       { title: "I'll do this in the Planner later." },
       ...titles,
     ],

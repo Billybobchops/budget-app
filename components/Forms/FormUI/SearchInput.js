@@ -15,8 +15,8 @@ const SearchInput = ({ label, placeholder, options }) => {
     <>
       <label className={classes.label}>{label}</label>
       <Select
-        styles={customStyles}
         onChange={changeHandler}
+        styles={customStyles}
         options={options}
         placeholder={placeholder}
       />

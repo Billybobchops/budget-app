@@ -1,17 +1,15 @@
 import classes from './RadioButtons.module.css';
 
-const RadioButton = (props) => {
-  const {
-    id,
-    label,
-    name,
-    value,
-    errorMessage,
-    isValid,
-    handleChange,
-    checked,
-  } = props;
-
+const RadioButton = ({
+  id,
+  label,
+  name,
+  value,
+  errorMessage,
+  isValid,
+  handleChange,
+  checked,
+}) => {
   return (
     <>
       <div className={classes.inputRadio}>

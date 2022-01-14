@@ -3,6 +3,8 @@ import TinyButton from '../FormUI/CategoryToggleButton';
 import RadioButton from '../FormUI/RadioButtons';
 import Label from '../FormUI/Label';
 import Dropdown from '../FormUI/Dropdown';
+import SearchInput from '../FormUI/SearchInput';
+import AsyncCreatableInput from '../FormUI/AsyncCreatableInput';
 
 /**
  * creates and returns OBJECT REPRESENTATION of form fields
@@ -22,7 +24,8 @@ export function createFormFieldConfig(fieldObj) {
     defaultValue = '',
     placeholder,
     selectedOption,
-    dropdownOptions,
+    // dropdownOptions,
+    options,
     layout,
   } = fieldObj;
 
@@ -31,8 +34,8 @@ export function createFormFieldConfig(fieldObj) {
       if (type === 'radio')
         return (
           <RadioButton
-            id={label}
             key={key}
+            id={label}
             label={label}
             name={name}
             handleChange={handleChange}
@@ -42,11 +45,12 @@ export function createFormFieldConfig(fieldObj) {
             errorMessage={error}
           />
         );
+
       if (type === 'dropdown')
         return (
           <Dropdown
-            id={label}
             key={key}
+            id={label}
             label={name}
             name={name}
             type={type}
@@ -54,30 +58,58 @@ export function createFormFieldConfig(fieldObj) {
             value={value}
             isValid={true}
             errorMessage={error}
-            dropdownOptions={dropdownOptions}
+            options={options}
             layout={layout}
           />
         );
+
+      if (type === 'search')
+        // third party comp may not recieve certain props? handleChange etc?
+        return (
+          <SearchInput
+            key={key}
+            id={label}
+            label={label}
+            options={options}
+            placeholder={placeholder}
+          />
+        );
+
+      if (type === 'asyncCreatable')
+        // third party comp may not recieve certain props?
+        return (
+          <AsyncCreatableInput
+            key={key}
+            id={label}
+            label={label}
+            options={options}
+          />
+        );
+
       if (type === 'button')
         return <TinyButton key={key} text={label} isValid={true} />;
+
       if (type === 'label')
+        // CONSOLIDATE THIS SOMEHOW WITH MINILABEL BELOW?
         return (
           <Label key={key} isValid={true}>
             {name}
           </Label>
         );
+
       if (type === 'miniLabel')
         return (
           <Label key={key} isValid={true} label={label}>
             {name}
           </Label>
         );
-      if (type === 'break') return <br key={key} />;
+
+      if (type === 'break') return <br key={key} />; // can we delete this crap?
 
       return (
         <BasicInput
-          id={name}
           key={key}
+          id={name}
           label={label}
           name={name}
           type={type}
@@ -90,6 +122,7 @@ export function createFormFieldConfig(fieldObj) {
         />
       );
     },
+
     label,
     name,
     type,

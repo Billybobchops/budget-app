@@ -1,23 +1,19 @@
 import classes from './Dropdown.module.css';
 
-const Option = (props) => {
-  const { value, children } = props;
-
+const Option = ({ value, children }) => {
   return <option value={value}>{children}</option>;
 };
 
-const Dropdown = (props) => {
-  const {
-    id,
-    label,
-    type,
-    name,
-    value,
-    dropdownOptions,
-    handleChange,
-    layout,
-  } = props;
-
+const Dropdown = ({
+  id,
+  label,
+  type,
+  name,
+  value,
+  options,
+  handleChange,
+  layout,
+}) => {
   const columns = `${layout}`;
 
   return (
@@ -32,7 +28,7 @@ const Dropdown = (props) => {
           onChange={handleChange}
           value={value}
         >
-          {dropdownOptions.map((option) => {
+          {options.map((option) => {
             return (
               <Option
                 key={option.title || option}
