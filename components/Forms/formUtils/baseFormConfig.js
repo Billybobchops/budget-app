@@ -23,7 +23,7 @@ export function createFormFieldConfig(fieldObj) {
     placeholder,
     selectedOption,
     dropdownOptions,
-    layout
+    layout,
   } = fieldObj;
 
   return {
@@ -73,27 +73,22 @@ export function createFormFieldConfig(fieldObj) {
           </Label>
         );
       if (type === 'break') return <br key={key} />;
-      // if (
-      //   type !== 'break' && // are all of these checks necessary??
-      //   type !== 'button' &&
-      //   type !== 'dropdown' &&
-      //   type !== 'radio'
-      // )
-        return (
-          <BasicInput
-            id={name}
-            key={key}
-            label={label}
-            name={name}
-            type={type}
-            handleChange={handleChange}
-            value={value}
-            isValid={isValid}
-            errorMessage={error}
-            placeholder={placeholder}
-            layout={layout}
-          />
-        );
+
+      return (
+        <BasicInput
+          id={name}
+          key={key}
+          label={label}
+          name={name}
+          type={type}
+          handleChange={handleChange}
+          value={value}
+          isValid={isValid}
+          errorMessage={error}
+          placeholder={placeholder}
+          layout={layout}
+        />
+      );
     },
     label,
     name,

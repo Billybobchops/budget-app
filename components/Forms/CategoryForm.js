@@ -20,7 +20,7 @@ const CategoryForm = (props) => {
     e.preventDefault();
     const category = form.category.value;
 
-    addCategory(category, uid);
+    addCategory(uid, category);
     onkeydown();
   };
 
@@ -30,7 +30,6 @@ const CategoryForm = (props) => {
         props.onOverlayClick();
       }
     };
-
     document.addEventListener('mousedown', checkIfClickedOutside);
 
     return () => {

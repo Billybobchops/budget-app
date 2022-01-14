@@ -30,15 +30,13 @@ export const plannerConfig = {
   expectedPay: {
     ...createFormFieldConfig({
       label: 'Expected Pay',
-      name: 'expectedPay ',
+      name: 'expectedPay',
       type: 'number',
       defaultValue: '',
       placeholder: '$0.00',
     }),
     validationRules: [
       requiredRule('Amount'),
-      minLengthRule('Amount', 10),
-      maxLengthRule('Amount', 25),
     ],
   },
 };

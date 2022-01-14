@@ -4,6 +4,11 @@ import {
   minLengthRule,
   maxLengthRule,
 } from './inputValidationRules';
+import { radioYes } from './conditions';
+
+import dummyData from '../../../store/dummyData';
+
+const titles = dummyData.dummyPaychecks;
 
 // This is the formObj we pass into useForm() hook
 export const incomeConfig = {
@@ -47,7 +52,7 @@ export const incomeConfig = {
   },
   billDate: {
     ...createFormFieldConfig({
-      label: 'When did this get billed?',
+      label: 'When did you receive this?',
       name: 'billDate',
       type: 'date',
     }),
@@ -88,5 +93,15 @@ export const incomeConfig = {
       defaultValue: 'no',
     }),
     validationRules: [requiredRule('Question')],
+  },
+
+  plannedPaycheck: {
+    ...createFormFieldConfig({
+      label: 'plannedPaycheck',
+      name: 'Which paycheck is this?',
+      type: 'dropdown',
+      dropdownOptions: [...titles],
+    }),
+    conditions: [radioYes()],
   },
 };

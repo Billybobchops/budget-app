@@ -20,7 +20,7 @@ const ItemForm = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = {
-      selectedOption,
+      category: selectedOption,
       title: form.title.value,
       budgetAmount: +form.budgetAmount.value,
       billDate: form.billDate.value,

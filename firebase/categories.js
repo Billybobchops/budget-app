@@ -3,10 +3,10 @@ import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
 
 /**
  * adds a category-title field to the current user's doc in 'categories' collection
- * @param {string} category
- * @param {string} uid
+ * @param {string} uid - to give user's collection unique id
+ * @param {string} category title
  */
-export const addCategory = async (category, uid) => {
+export const addCategory = async (uid, category) => {
   const userCategoriesRef = doc(db, `categories/${uid}`); // creates doc with user's UID
   const docData = {
     [category]: { title: category, createdOn: Timestamp.fromDate(new Date()) },

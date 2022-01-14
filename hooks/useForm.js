@@ -1,26 +1,45 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useToast } from '../store/ToastProvider';
-import debounce from 'lodash.debounce';
+// import debounce from 'lodash.debounce';
 
 function useForm(formObj) {
   const [form, setForm] = useState(formObj);
   const [selectedOption, setSelectedOption] = useState(null);
   const { addToast } = useToast();
 
-  function renderFormInputs(debouncedValidity) {
+  function renderFormInputs() {
     return Object.values(form).map((inputObj) => {
       const { value, valid, errorMessage, label, renderInput } = inputObj;
 
-      return renderInput(
-        onInputChange,
-        value,
-        valid,
-        errorMessage,
-        label,
-        selectedOption
-      );
+      // only render inputs when conditions are met
+      if (checkConditions(inputObj, selectedOption)) {
+        return renderInput(
+          onInputChange,
+          value,
+          valid,
+          errorMessage,
+          label,
+          selectedOption
+        );
+      }
     });
   }
+
+  /**
+   * iterates over a given input's conditions and returns a boolean
+   * 
+   * @param {object} inputObj - object representation of an input field
+   * @param {string} selectedOption - radio input's value (stored in state var)
+   */
+  
+  const checkConditions = useCallback((inputObj, selectedOption) => {
+    // always render inputs that don't have any conditions set aka (null)
+    if (!inputObj.conditions) return true; 
+
+    for (const condition of inputObj.conditions) {
+      return condition.conditionCheck(inputObj, selectedOption);
+    }
+  }, []);
 
   /**
    * iterates over all validation rules for a given input field and returns a boolean

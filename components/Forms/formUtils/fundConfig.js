@@ -42,7 +42,7 @@ export const fundConfig = {
   totalAmount: {
     ...createFormFieldConfig({
       label: 'The total amount is',
-      name: 'totalAmount ',
+      name: 'totalAmount',
       type: 'number',
       defaultValue: '',
       placeholder: '$0.00',

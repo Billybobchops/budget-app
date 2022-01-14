@@ -14,7 +14,7 @@ const ExpenseForm = (props) => {
     useForm(expenseConfig);
   const formRef = useRef();
 
-  const testFunction = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     console.log('Form submitted.');
     console.log(form);
@@ -74,7 +74,7 @@ const ExpenseForm = (props) => {
   }, [props]);
 
   return (
-    <form onSubmit={testFunction} ref={formRef}>
+    <form onSubmit={submitHandler} ref={formRef}>
       <FormBackground>
         <h1 className={classes.header}>Add New Expense</h1>
         {renderFormInputs()}
