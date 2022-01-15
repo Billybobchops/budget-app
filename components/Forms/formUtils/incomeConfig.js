@@ -8,60 +8,12 @@ import { radioYes } from './conditions';
 
 import dummyData from '../../../store/dummyData';
 
-const titles = dummyData.dummyPaychecks;
+const paychecks = dummyData.dummyPaychecks.map((check) => {
+  return { value: check.title, label: check.title };
+});
 
 // This is the formObj we pass into useForm() hook
 export const incomeConfig = {
-  title: {
-    ...createFormFieldConfig({
-      label: 'Title',
-      name: 'title',
-      type: 'text',
-      defaultValue: '',
-      placeholder: 'Paycheck 1',
-    }),
-    validationRules: [
-      requiredRule('Title'),
-      minLengthRule('Title', 10),
-      maxLengthRule('Title', 25),
-    ],
-  },
-  nickname: {
-    ...createFormFieldConfig({
-      label: 'Nickname',
-      name: 'nickname',
-      type: 'text',
-      defaultValue: '',
-      placeholder: "Bob's first paycheck",
-    }),
-    validationRules: [requiredRule('Nickname'), maxLengthRule('Nickname', 25)],
-  },
-  amount: {
-    ...createFormFieldConfig({
-      label: 'Amount',
-      name: 'amount',
-      type: 'number',
-      defaultValue: '',
-      placeholder: '$0.00',
-    }),
-    validationRules: [
-      requiredRule('Amount'),
-      minLengthRule('Amount', 1),
-      maxLengthRule('Amount', 25),
-    ],
-  },
-  billDate: {
-    ...createFormFieldConfig({
-      label: 'When did you receive this?',
-      name: 'billDate',
-      type: 'date',
-    }),
-    validationRules: [
-      requiredRule('Bill Date'),
-      minLengthRule('Bill Date', 10),
-      maxLengthRule('Bill Date', 25),
-    ],
-  },
   plannedLabel: {
     ...createFormFieldConfig({
       label: 'plannedLabel',
@@ -94,14 +46,65 @@ export const incomeConfig = {
     }),
     validationRules: [requiredRule('Question')],
   },
-
   plannedPaycheck: {
     ...createFormFieldConfig({
-      label: 'plannedPaycheck',
-      name: 'Which paycheck is this?',
-      type: 'dropdown',
-      options: titles,
+      label: 'Which paycheck is this?',
+      name: 'plannedPaycheck',
+      type: 'search',
+      placeholder: 'Select a paycheck...',
+      options: paychecks,
     }),
     conditions: [radioYes()],
+  },
+  title: {
+    ...createFormFieldConfig({
+      label: 'Title',
+      name: 'title',
+      type: 'text',
+      defaultValue: '',
+      placeholder: 'Paycheck 1',
+    }),
+    validationRules: [
+      requiredRule('Title'),
+      minLengthRule('Title', 10),
+      maxLengthRule('Title', 25),
+    ],
+  },
+  nickname: {
+    ...createFormFieldConfig({
+      label: 'Nickname',
+      name: 'nickname',
+      type: 'text',
+      defaultValue: '',
+      placeholder: "Bob's first paycheck",
+    }),
+  },
+  amount: {
+    ...createFormFieldConfig({
+      label: 'Amount',
+      name: 'amount',
+      type: 'number',
+      defaultValue: '',
+      placeholder: '$0.00',
+      layout: 'twoCol',
+    }),
+    validationRules: [
+      requiredRule('Amount'),
+      minLengthRule('Amount', 1),
+      maxLengthRule('Amount', 25),
+    ],
+  },
+  billDate: {
+    ...createFormFieldConfig({
+      label: 'When did you receive this?',
+      name: 'billDate',
+      type: 'date',
+      layout: 'twoColEnd',
+    }),
+    validationRules: [
+      requiredRule('Bill Date'),
+      minLengthRule('Bill Date', 10),
+      maxLengthRule('Bill Date', 25),
+    ],
   },
 };

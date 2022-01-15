@@ -6,6 +6,17 @@
   display: block;
 }
 
+.twoCol {
+  display: inline-block;
+  width: 48%;
+}
+
+.twoColEnd {
+  display: inline-block;
+  width: 48%;
+  margin-left: 4%;
+}
+
 @media (max-width: 550px) {
   .label {
     font-size: 15px;

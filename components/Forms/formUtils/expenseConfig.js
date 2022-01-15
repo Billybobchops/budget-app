@@ -45,7 +45,6 @@ export const expenseConfig = {
     }),
     validationRules: [requiredRule('Question')],
   },
-
   currentItemSearch: {
     ...createFormFieldConfig({
       label: 'Search current budget items',

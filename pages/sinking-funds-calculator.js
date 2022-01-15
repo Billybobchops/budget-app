@@ -24,7 +24,7 @@ const SinkingFunds = () => {
       <Portal selector='#portal'>
         {modal && (
           <DarkOverlay onKeyDown={onkeydown}>
-            {fundForm && <FundForm onOverlayClick={onkeydown} />}
+            {fundForm && <FundForm />}
           </DarkOverlay>
         )}
       </Portal>

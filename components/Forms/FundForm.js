@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext } from 'react';
+import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { addFund } from '../../firebase/sinkingFunds';
 import FormContext from '../../store/form-context';
@@ -20,7 +20,7 @@ const FundForm = (props) => {
     e.preventDefault();
     const formData = {
       title: form.title.value,
-      timePeriod: form.timePeriod.value, // empty string '' UGH 
+      timePeriod: form.timePeriod.value, // empty string '' UGH
       timeType: form.timeType.value,
       totalAmount: +form.totalAmount.value,
     };
@@ -29,19 +29,22 @@ const FundForm = (props) => {
     onkeydown();
   };
 
-  useEffect(() => {
-    const checkIfClickedOutside = (e) => {
+  const checkIfClickedOutside = useCallback(
+    (e) => {
       if (!formRef.current.contains(e.target)) {
-        props.onOverlayClick();
+        onkeydown();
       }
-    };
+    },
+    [onkeydown]
+  );
 
+  useEffect(() => {
     document.addEventListener('mousedown', checkIfClickedOutside);
 
     return () => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
-  }, [props]);
+  }, [checkIfClickedOutside]);
 
   return (
     <form onSubmit={submitHandler} ref={formRef}>

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext } from 'react';
+import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { addCategory } from '../../firebase/categories';
 import { categoryConfig } from './formUtils/categoryConfig';
@@ -8,7 +8,7 @@ import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 
-const CategoryForm = (props) => {
+const CategoryForm = () => {
   const { renderFormInputs, isFormValid, form } = useForm(categoryConfig);
   const {
     user: { uid },
@@ -24,18 +24,22 @@ const CategoryForm = (props) => {
     onkeydown();
   };
 
-  useEffect(() => {
-    const checkIfClickedOutside = (e) => {
+  const checkIfClickedOutside = useCallback(
+    (e) => {
       if (!formRef.current.contains(e.target)) {
-        props.onOverlayClick();
+        onkeydown();
       }
-    };
+    },
+    [onkeydown]
+  );
+
+  useEffect(() => {
     document.addEventListener('mousedown', checkIfClickedOutside);
 
     return () => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
-  }, [props]);
+  }, [checkIfClickedOutside]);
 
   return (
     <form onSubmit={submitHandler} ref={formRef}>

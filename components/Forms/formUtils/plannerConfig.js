@@ -24,6 +24,7 @@ export const plannerConfig = {
       type: 'text',
       defaultValue: '',
       placeholder: "Bob's first paycheck",
+      layout: 'twoCol',
     }),
     validationRules: [requiredRule('Nickname'), maxLengthRule('Nickname', 25)],
   },
@@ -34,6 +35,7 @@ export const plannerConfig = {
       type: 'number',
       defaultValue: '',
       placeholder: '$0.00',
+      layout: 'twoColEnd',
     }),
     validationRules: [
       requiredRule('Amount'),

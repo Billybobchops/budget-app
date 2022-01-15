@@ -108,10 +108,11 @@ function useForm(formObj) {
         // inputObj.checked = option === id; // ...but doesn't change it to false when another is selected?
       }
 
-      if (inputObj.type === 'dropdown') {
-        setForm({ ...form, [id]: inputObj });
-        return inputObj;
-      }
+      // DELETE THIS OR REUSE FOR SEARCH AND ASYNCCREATABLE???
+      // if (inputObj.type === 'dropdown') {
+      //   setForm({ ...form, [id]: inputObj });
+      //   return inputObj;
+      // }
 
       ///////////////////////////////////////////// DEBOUNCE validity state update here
       const isValidInput = isInputFieldValid(inputObj);

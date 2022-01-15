@@ -1,10 +1,9 @@
-import BasicInput from '../FormUI/BasicInput';
-import TinyButton from '../FormUI/CategoryToggleButton';
 import RadioButton from '../FormUI/RadioButtons';
-import Label from '../FormUI/Label';
-import Dropdown from '../FormUI/Dropdown';
 import SearchInput from '../FormUI/SearchInput';
 import AsyncCreatableInput from '../FormUI/AsyncCreatableInput';
+import TinyButton from '../FormUI/CategoryToggleButton';
+import Label from '../FormUI/Label';
+import BasicInput from '../FormUI/BasicInput';
 
 /**
  * creates and returns OBJECT REPRESENTATION of form fields
@@ -24,7 +23,6 @@ export function createFormFieldConfig(fieldObj) {
     defaultValue = '',
     placeholder,
     selectedOption,
-    // dropdownOptions,
     options,
     layout,
   } = fieldObj;
@@ -46,25 +44,7 @@ export function createFormFieldConfig(fieldObj) {
           />
         );
 
-      if (type === 'dropdown')
-        return (
-          <Dropdown
-            key={key}
-            id={label}
-            label={name}
-            name={name}
-            type={type}
-            handleChange={handleChange}
-            value={value}
-            isValid={true}
-            errorMessage={error}
-            options={options}
-            layout={layout}
-          />
-        );
-
       if (type === 'search')
-        // third party comp may not recieve certain props? handleChange etc?
         return (
           <SearchInput
             key={key}
@@ -72,17 +52,18 @@ export function createFormFieldConfig(fieldObj) {
             label={label}
             options={options}
             placeholder={placeholder}
+            layout={layout}
           />
         );
 
       if (type === 'asyncCreatable')
-        // third party comp may not recieve certain props?
         return (
           <AsyncCreatableInput
             key={key}
             id={label}
             label={label}
             options={options}
+            layout={layout}
           />
         );
 
@@ -103,8 +84,6 @@ export function createFormFieldConfig(fieldObj) {
             {name}
           </Label>
         );
-
-      if (type === 'break') return <br key={key} />; // can we delete this crap?
 
       return (
         <BasicInput
@@ -127,9 +106,11 @@ export function createFormFieldConfig(fieldObj) {
     name,
     type,
     value: defaultValue,
-    valid: type === 'dropdown' || type === 'button' ? true : false,
+    valid: type === 'button' ? true : false,
     touched: false,
     checked: selectedOption === label,
     errorMessage: '',
   };
 }
+
+// if (type === 'break') return <br key={key} />;

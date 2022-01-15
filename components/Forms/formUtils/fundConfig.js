@@ -23,20 +23,26 @@ export const fundConfig = {
       name: 'timePeriod',
       type: 'number',
       placeholder: '12',
-      layout: 'twoCol'
+      layout: 'twoCol',
     }),
     validationRules: [requiredRule('Time Period')],
   },
   timeType: {
     ...createFormFieldConfig({
-      label: 'timeType',
-      name: 'Period',
-      type: 'dropdown',
-      defaultValue: 'Months',
-      placeholder: 'Months',
+      label: '',
+      name: 'timeType',
+      type: 'search',
       layout: 'twoColEnd',
-      selectedOption: '',
-      options: ['Months', 'Years'],
+      options: [
+        {
+          value: 'Months',
+          label: 'Months',
+        },
+        {
+          value: 'Years',
+          label: 'Years',
+        },
+      ],
     }),
   },
   totalAmount: {

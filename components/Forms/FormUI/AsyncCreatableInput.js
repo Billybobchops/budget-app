@@ -1,21 +1,26 @@
-import { useState } from 'react';
 import AsyncCreatable from 'react-select/creatable';
 import classes from './AsyncCreatableInput.module.css';
 import customStyles from '../formUtils/reactSelectStyles';
 
-const AsyncCreatableInput = ({ label, placeholder, options }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const changeHandler = ({ value }) => {
-    setSelectedOption(value);
-    console.log(value);
-  };
-
+const AsyncCreatableInput = ({
+  id,
+  label,
+  name,
+  placeholder,
+  value,
+  errorMessage,
+  isValid,
+  handleChange,
+  options,
+}) => {
   return (
     <>
       <label className={classes.label}>{label}</label>
       <AsyncCreatable
-        onChange={changeHandler}
+        id={id}
+        name={name}
+        value={value}
+        onChange={handleChange}
         styles={customStyles}
         options={options}
         placeholder={placeholder}

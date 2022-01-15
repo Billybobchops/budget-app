@@ -69,3 +69,13 @@ const DatePicker = () => {
 };
 
 export default DatePicker;
+
+// const checkIfClickedOutside = useCallback(
+//   (e) => {
+//     // If the menu is open and the clicked target is not within the menu, then close the menu
+//     if (isClicked && picker.current && !picker.current.contains(e.target)) {
+//       setIsClicked(false);
+//     }
+//   },
+//   [isClicked]
+// );

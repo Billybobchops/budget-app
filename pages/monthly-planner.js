@@ -57,9 +57,9 @@ const PlannerPage = () => {
       <Portal selector='#portal'>
         {modal && (
           <DarkOverlay onKeyDown={onkeydown}>
-            {itemForm && <ItemForm onOverlayClick={onkeydown} />}
-            {plannerForm && <PlannerForm onOverlayClick={onkeydown} />}
-            {categoryForm && <CategoryForm onOverlayClick={onkeydown} />}
+            {itemForm && <ItemForm />}
+            {plannerForm && <PlannerForm />}
+            {categoryForm && <CategoryForm />}
           </DarkOverlay>
         )}
       </Portal>

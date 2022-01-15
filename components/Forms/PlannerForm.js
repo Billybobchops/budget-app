@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext } from 'react';
+import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { addPlannedIncome } from '../../firebase/planner';
 import useForm from '../../hooks/useForm';
@@ -28,19 +28,22 @@ const PlannerForm = (props) => {
     onkeydown();
   };
 
-  useEffect(() => {
-    const checkIfClickedOutside = (e) => {
+  const checkIfClickedOutside = useCallback(
+    (e) => {
       if (!formRef.current.contains(e.target)) {
-        props.onOverlayClick();
+        onkeydown();
       }
-    };
+    },
+    [onkeydown]
+  );
 
+  useEffect(() => {
     document.addEventListener('mousedown', checkIfClickedOutside);
 
     return () => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
-  }, [props]);
+  }, [checkIfClickedOutside]);
 
   return (
     <form onSubmit={submitHandler} ref={formRef}>

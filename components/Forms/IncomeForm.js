@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext, useState } from 'react';
+import { useRef, useEffect, useContext, useState, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { addExpense } from '../../firebase/expenses';
 import useForm from '../../hooks/useForm';
@@ -7,8 +7,6 @@ import FormContext from '../../store/form-context';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
-
-import dummyData from '../../store/dummyData';
 
 const IncomeForm = (props) => {
   const [dropdown, setDropdown] = useState(
@@ -46,19 +44,22 @@ const IncomeForm = (props) => {
     onkeydown();
   };
 
-  useEffect(() => {
-    const checkIfClickedOutside = (e) => {
+  const checkIfClickedOutside = useCallback(
+    (e) => {
       if (!formRef.current.contains(e.target)) {
-        props.onOverlayClick();
+        onkeydown();
       }
-    };
+    },
+    [onkeydown]
+  );
 
+  useEffect(() => {
     document.addEventListener('mousedown', checkIfClickedOutside);
 
     return () => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
-  }, [props]);
+  }, [checkIfClickedOutside]);
 
   return (
     <form onSubmit={submitHandler} ref={formRef}>

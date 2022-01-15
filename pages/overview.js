@@ -38,8 +38,8 @@ const Overview = () => {
       <Portal selector='#portal'>
         {modal && (
           <DarkOverlay onKeyDown={onkeydown}>
-            {categoryForm && <CategoryForm onOverlayClick={onkeydown} />}
-            {itemForm && <ItemForm onOverlayClick={onkeydown} />}
+            {categoryForm && <CategoryForm />}
+            {itemForm && <ItemForm />}
           </DarkOverlay>
         )}
       </Portal>

@@ -35,8 +35,8 @@ const IncomeExpenses = () => {
       <Portal selector='#portal'>
         {modal && (
           <DarkOverlay onKeyDown={onkeydown}>
-            {incomeForm && <IncomeForm onOverlayClick={onkeydown} />}
-            {expenseForm && <ExpenseForm onOverlayClick={onkeydown} />}
+            {incomeForm && <IncomeForm />}
+            {expenseForm && <ExpenseForm />}
           </DarkOverlay>
         )}
       </Portal>

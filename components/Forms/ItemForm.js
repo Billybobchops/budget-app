@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext } from 'react';
+import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { addItem } from '../../firebase/items';
 import useForm from '../../hooks/useForm';
@@ -19,31 +19,36 @@ const ItemForm = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const formData = {
-      category: selectedOption,
-      title: form.title.value,
-      budgetAmount: +form.budgetAmount.value,
-      billDate: form.billDate.value,
-      plannedPaycheck: form.plannedPaycheck.value,
-    };
+    // const formData = {
+    //   category: selectedOption,
+    //   title: form.title.value,
+    //   budgetAmount: +form.budgetAmount.value,
+    //   billDate: form.billDate.value,
+    //   plannedPaycheck: form.plannedPaycheck.value,
+    // };
 
-    addItem(uid, formData);
+    console.log(form);
+
+    // addItem(uid, formData);
     onkeydown();
   };
 
-  useEffect(() => {
-    const checkIfClickedOutside = (e) => {
+  const checkIfClickedOutside = useCallback(
+    (e) => {
       if (!formRef.current.contains(e.target)) {
-        props.onOverlayClick();
+        onkeydown();
       }
-    };
+    },
+    [onkeydown]
+  );
 
+  useEffect(() => {
     document.addEventListener('mousedown', checkIfClickedOutside);
 
     return () => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
-  }, [props]);
+  }, [checkIfClickedOutside]);
 
   return (
     <form onSubmit={submitHandler} ref={formRef}>
