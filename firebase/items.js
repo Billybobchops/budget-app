@@ -1,5 +1,5 @@
 import { db } from './firebaseClient';
-import { doc, setDoc, Timestamp, getDoc } from 'firebase/firestore';
+import { doc, setDoc, Timestamp, getDocs } from 'firebase/firestore';
 
 /**
  * adds a budget item to the current user's doc in the 'items' subcollection
@@ -24,3 +24,18 @@ export const addItem = async (uid, formData) => {
     console.log(error);
   }
 };
+
+/**
+ * fetches a user's items
+ * @param {string} uid - to get user's collection
+ * @returns a user's items
+ */
+// export const getAllItems = async (uid) => {
+//   const userItemsRef = doc(db, `budgetItems/${uid}/items`); // creates ref to doc with user's UID
+//   const mySnapshot = await getDocs(userItemsRef);
+
+//   if (mySnapshot.exists()) {
+//     const docsData = mySnapshot.data();
+//     console.log(docsData);
+//   }
+// };

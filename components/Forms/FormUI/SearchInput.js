@@ -1,7 +1,7 @@
-// import { useState } from 'react';
 import classes from './SearchInput.module.css';
 import customStyles from '../formUtils/reactSelectStyles';
-import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
+// import Select from 'react-select';
 
 const SearchInput = ({
   id,
@@ -17,16 +17,20 @@ const SearchInput = ({
 }) => {
   const columns = `${layout}`;
 
+  // THIS MUST BE A FUNCTION NOT A RETURNED VALUE
+  console.log(`options props is ${options}`); // undefined <--- this is THE issue
+
   return (
     <div className={layout ? classes[columns] : ''}>
       <label className={classes.label}>{label}</label>
-      <Select
+      <AsyncSelect
+        defaultOptions={true}
+        loadOptions={options}
         id={id}
         name={name}
         value={value}
         onChange={handleChange}
         styles={customStyles}
-        options={options}
         placeholder={placeholder}
       />
     </div>

@@ -27,14 +27,12 @@ function useForm(formObj) {
 
   /**
    * iterates over a given input's conditions and returns a boolean
-   * 
    * @param {object} inputObj - object representation of an input field
    * @param {string} selectedOption - radio input's value (stored in state var)
    */
-  
   const checkConditions = useCallback((inputObj, selectedOption) => {
     // always render inputs that don't have any conditions set aka (null)
-    if (!inputObj.conditions) return true; 
+    if (!inputObj.conditions) return true;
 
     for (const condition of inputObj.conditions) {
       return condition.conditionCheck(inputObj, selectedOption);
@@ -45,7 +43,6 @@ function useForm(formObj) {
    * iterates over all validation rules for a given input field and returns a boolean
    * @param {object} inputField - object representation of an input field
    */
-
   const isInputFieldValid = useCallback(
     (inputField) => {
       for (const rule of inputField.validationRules) {
@@ -65,7 +62,6 @@ function useForm(formObj) {
   //     const inputObj = { ...form[id] }; // copy inputObj
   //     const isValidInput = isInputFieldValid(inputObj);
 
-  //     // if at least one radio is selected, then set entire radio group to valid
   //     if (inputObj.type === 'radio' && isValidInput) {
   //       Object.values(form).map((input) => {
   //         const inputCopy = input;
@@ -75,10 +71,8 @@ function useForm(formObj) {
   //     }
 
   //     if (isValidInput && !inputObj.valid) {
-  //       // now valid was previously invalid set its valid status to true (T)
   //       inputObj.valid = true;
   //     } else if (!isValidInput && inputObj.valid) {
-  //       // was not valid and previously valid set its valid status to false (F)
   //       inputObj.valid = false;
   //     }
 
@@ -92,27 +86,49 @@ function useForm(formObj) {
   //   debounce(updateInputValidity, 400);
   // }, [updateInputValidity]);
 
+  const getIdAndValue = (event) => {
+    if (event.target === undefined) {
+      let { id, value: enteredValue } = event;
+      return {
+        id,
+        enteredValue,
+      };
+    }
+
+    if (event.target !== undefined) {
+      let { id, value: enteredValue } = event.target;
+      return {
+        id,
+        enteredValue,
+      };
+    }
+  };
+
   // wrapped in useCallback hook to avoid creating a new function each time
   // the state is updated and code inside this hook executes again.
   const onInputChange = useCallback(
     (event) => {
-      const { id, value: enteredValue } = event.target;
-      const inputObj = { ...form[id] }; // copy inputObj (whose value was changed) to avoid mutating original state
-      inputObj.value = enteredValue; // update state to entered value (controlled component)
+      const { id, enteredValue } = getIdAndValue(event);
+      const inputObj = { ...form[id] }; // copy inputObj to avoid mutating original state
 
-      // update object's radio button checked state (controlled component)
+      // (controlled component) update value state to entered value
+      if (
+        inputObj.type === 'search' ||
+        inputObj.type === 'asyncCreatable' ||
+        inputObj.type === 'categorySelect'
+      ) {
+        inputObj.value = { id, value: enteredValue, label: enteredValue };
+      } else {
+        inputObj.value = enteredValue;
+      }
+
+      // (controlled component) update object's radio button checked state
       if (inputObj.type === 'radio') {
         const radioOption = inputObj.label; // intermediate variable for immediate use
         setSelectedOption(radioOption); // scheduled async useState update
         // update the object's checked value to true
         // inputObj.checked = option === id; // ...but doesn't change it to false when another is selected?
       }
-
-      // DELETE THIS OR REUSE FOR SEARCH AND ASYNCCREATABLE???
-      // if (inputObj.type === 'dropdown') {
-      //   setForm({ ...form, [id]: inputObj });
-      //   return inputObj;
-      // }
 
       ///////////////////////////////////////////// DEBOUNCE validity state update here
       const isValidInput = isInputFieldValid(inputObj);
@@ -127,10 +143,8 @@ function useForm(formObj) {
       }
 
       if (isValidInput && !inputObj.valid) {
-        // now valid was previously invalid set its valid status to true (T)
         inputObj.valid = true;
       } else if (!isValidInput && inputObj.valid) {
-        // was not valid and previously valid set its valid status to false (F)
         inputObj.valid = false;
       }
 
@@ -146,8 +160,6 @@ function useForm(formObj) {
       // }, 600);
 
       /////////////////////////////////////////////
-
-      // mark input field as touched
       inputObj.touched = true;
       setForm({ ...form, [id]: inputObj });
 
@@ -166,7 +178,6 @@ function useForm(formObj) {
    * returns boolean value indicating whether overall form is valid
    * @param {object} formObj - object representation of a form
    */
-
   const isFormValid = useCallback(() => {
     let isValid = true;
     const arr = Object.values(form);

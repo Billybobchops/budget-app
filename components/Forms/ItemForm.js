@@ -9,26 +9,23 @@ import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 
 const ItemForm = (props) => {
-  const { renderFormInputs, isFormValid, form, selectedOption } =
-    useForm(itemConfig);
-  const {
-    user: { uid },
-  } = useAuth();
+  const { renderFormInputs, isFormValid, form } = useForm(itemConfig);
+  // const {
+  //   user: { uid },
+  // } = useAuth();
   const formRef = useRef();
   const { onkeydown } = useContext(FormContext);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // const formData = {
-    //   category: selectedOption,
-    //   title: form.title.value,
-    //   budgetAmount: +form.budgetAmount.value,
-    //   billDate: form.billDate.value,
-    //   plannedPaycheck: form.plannedPaycheck.value,
-    // };
-
-    console.log(form);
-
+    const formData = {
+      category: form.categorySelect.value.value,
+      title: form.title.value,
+      budgetAmount: +form.budgetAmount.value,
+      billDate: form.billDate.value,
+      // plannedPaycheck: form.plannedPaycheck.value.value,
+    };
+    console.log(formData);
     // addItem(uid, formData);
     onkeydown();
   };

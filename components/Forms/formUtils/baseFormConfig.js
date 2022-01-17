@@ -1,6 +1,7 @@
-import RadioButton from '../FormUI/RadioButtons';
+import CategorySelect from '../FormUI/CategorySelect';
 import SearchInput from '../FormUI/SearchInput';
 import AsyncCreatableInput from '../FormUI/AsyncCreatableInput';
+import RadioButton from '../FormUI/RadioButtons';
 import TinyButton from '../FormUI/CategoryToggleButton';
 import Label from '../FormUI/Label';
 import BasicInput from '../FormUI/BasicInput';
@@ -29,6 +30,51 @@ export function createFormFieldConfig(fieldObj) {
 
   return {
     renderInput: (handleChange, value, isValid, error, key, selectedOption) => {
+      if (type === 'search')
+        return (
+          <SearchInput
+            loadOptions={options}
+            key={key}
+            id={name} // try id name instead of id label?
+            label={label}
+            name={name}
+            placeholder={placeholder}
+            layout={layout}
+            handleChange={handleChange}
+            value={value}
+            isValid={isValid}
+          />
+        );
+
+        if (type === 'categorySelect')
+        return (
+          <CategorySelect
+            key={key}
+            id={name} // try id name instead of id label?
+            label={label}
+            name={name}
+            placeholder={placeholder}
+            layout={layout}
+            handleChange={handleChange}
+            value={value}
+            isValid={isValid}
+          />
+        );
+
+      if (type === 'asyncCreatable')
+        return (
+          <AsyncCreatableInput
+            options={options}
+            key={key}
+            id={name} // try id name instead of id label?
+            label={label}
+            layout={layout}
+            handleChange={handleChange}
+            value={value}
+            isValid={isValid}
+          />
+        );
+
       if (type === 'radio')
         return (
           <RadioButton
@@ -41,29 +87,6 @@ export function createFormFieldConfig(fieldObj) {
             value={value}
             isValid={isValid}
             errorMessage={error}
-          />
-        );
-
-      if (type === 'search')
-        return (
-          <SearchInput
-            key={key}
-            id={label}
-            label={label}
-            options={options}
-            placeholder={placeholder}
-            layout={layout}
-          />
-        );
-
-      if (type === 'asyncCreatable')
-        return (
-          <AsyncCreatableInput
-            key={key}
-            id={label}
-            label={label}
-            options={options}
-            layout={layout}
           />
         );
 
@@ -106,10 +129,11 @@ export function createFormFieldConfig(fieldObj) {
     name,
     type,
     value: defaultValue,
-    valid: type === 'button' ? true : false,
+    valid: type === 'button' || type === 'label' ? true : false,
     touched: false,
     checked: selectedOption === label,
     errorMessage: '',
+    // options, 
   };
 }
 

@@ -1,6 +1,3 @@
-import { useEffect, useState } from 'react';
-import { getAuth } from 'firebase/auth';
-import { getCategories } from '../../../firebase/categories';
 import classes from './BudgetContainer.module.css';
 import BudgetCategory from '../../UI/BudgetCategory';
 import HighLowToggle from '../../UI/HighLowToggle';
@@ -22,22 +19,7 @@ const BudgetWrapper = ({ children }) => {
   );
 };
 
-const BudgetContainer = () => {
-  const [titles, setTitles] = useState(null);
-
-  useEffect(() => {
-    const auth = getAuth();
-    const uid = auth.currentUser.uid;
-
-    const getTitles = async () => {
-      const data = await getCategories(uid);
-      setTitles(data);
-    };
-    getTitles();
-  }, []);
-
-  console.log(titles);
-
+const BudgetContainer = ({ titles }) => {
   return (
     <BudgetWrapper>
       {titles &&

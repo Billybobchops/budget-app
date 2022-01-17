@@ -7,37 +7,35 @@ import {
 
 import dummyData from '../../../store/dummyData';
 
-const categories = dummyData.categories.map((category) => {
-  return {
-    value: category,
-    label: category,
-  };
-});
+// let paychecks = [
+//   {
+//     id: 'plannedPaycheck',
+//     value: "I'll do this in the Planner later.",
+//     label: "I'll do this in the Planner later.",
+//   },
+// ];
 
-let paychecks = [
-  {
-    value: "I'll do this in the Planner later.",
-    label: "I'll do this in the Planner later.",
-  },
-];
-
-const addPaychecks = () => {
-  dummyData.dummyPaychecks.map((check) => {
-    paychecks.push({ value: check.title, label: check.title });
-  });
-};
-addPaychecks();
+// const addPaychecks = () => {
+//   dummyData.dummyPaychecks.map((check) => {
+//     paychecks.push({
+//       id: 'plannedPaycheck',
+//       value: check.title,
+//       label: check.title,
+//     });
+//   });
+// };
+// addPaychecks();
 
 // formObj we pass into useForm() hook
 export const itemConfig = {
   categorySelect: {
     ...createFormFieldConfig({
       label: 'What category should this belong to?',
-      type: 'search',
+      type: 'categorySelect', // custom
       name: 'categorySelect',
       placeholder: 'Select a category...',
-      options: categories,
     }),
+    validationRules: [requiredRule('Category')],
   },
   categoryBtn: {
     ...createFormFieldConfig({
@@ -53,7 +51,7 @@ export const itemConfig = {
       name: 'title',
       type: 'text',
       defaultValue: '',
-      placeholder: 'Example: Groceries',
+      placeholder: 'Ex: Groceries',
       layout: 'twoCol',
     }),
     validationRules: [
@@ -87,18 +85,19 @@ export const itemConfig = {
       maxLengthRule('Bill Date', 25),
     ],
   },
-  plannedPaycheck: {
-    ...createFormFieldConfig({
-      label: 'Which planned paycheck handles this?',
-      type: 'search',
-      name: 'plannedPaycheck',
-      placeholder: "None - I'll do this in the Planner later.",
-      options: paychecks,
-    }),
-  },
+  // paycheckSelect: {
+  //   ...createFormFieldConfig({
+  //     label: 'Which planned paycheck handles this?',
+  //     type: 'paycheckSelect',
+  //     name: 'plannedPaycheck',
+  //     placeholder: "None - I'll do this in the Planner later.",
+  //     options: paychecks,
+  //   }),
+  //   validationRules: [requiredRule('Planned pay')],
+  // },
 };
 
-// dynamically create/add radio buttons from data (array) received from firestore DB
+// func that dynamically creates radio buttons from data (array) received from firestore DB
 // to the config obj (move this fn to a helpers.js file?)
 
 // const radios = (groupName, radioLabels) => {

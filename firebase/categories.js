@@ -1,5 +1,6 @@
 import { db } from './firebaseClient';
 import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 /**
  * adds a category-title field to the current user's doc in 'categories' collection
@@ -22,7 +23,7 @@ export const addCategory = async (uid, category) => {
 
 /**
  * fetches a user's categories
- * @param {string} uid 
+ * @param {string} id - to get user's collection
  * @returns a user's categories
  */
 export const getCategories = async (uid) => {
@@ -40,3 +41,32 @@ export const getCategories = async (uid) => {
     return categoriesArr;
   }
 };
+
+// export const getConfiguredCategories = async (inputId) => {
+//   const auth = getAuth();
+
+//   onAuthStateChanged(auth, async (user) => {
+//     if (user) {
+//       const uid = user.uid;
+
+//       const userCategoriesRef = doc(db, `categories/${uid}`); // creates ref to doc with user's UID
+//       const mySnapshot = await getDoc(userCategoriesRef); // returns a promise that resolves to a doc snapshot
+
+//       if (mySnapshot.exists()) {
+//         const docData = mySnapshot.data();
+//         const categoriesArr = [];
+
+//         Object.values(docData).forEach((category) => {
+//           categoriesArr.push({
+//             id: inputId,
+//             value: category.title,
+//             label: category.title,
+//           });
+//         });
+//         console.log('the categoriesArr is');
+//         console.log(categoriesArr);
+//         return categoriesArr; // success! BUT does it return for getConfiguredCategories???
+//       }
+//     }
+//   });
+// };
