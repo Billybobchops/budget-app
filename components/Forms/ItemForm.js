@@ -10,23 +10,27 @@ import SubmitButton from './FormUI/SubmitButton';
 
 const ItemForm = (props) => {
   const { renderFormInputs, isFormValid, form } = useForm(itemConfig);
-  // const {
-  //   user: { uid },
-  // } = useAuth();
+  const {
+    user: { uid },
+  } = useAuth();
   const formRef = useRef();
   const { onkeydown } = useContext(FormContext);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    const none = "None - I'll do this in the planner later.";
+
     const formData = {
       category: form.categorySelect.value.value,
       title: form.title.value,
       budgetAmount: +form.budgetAmount.value,
       billDate: form.billDate.value,
-      // plannedPaycheck: form.plannedPaycheck.value.value,
+      paycheckSelect:
+        form.paycheckSelect.value.value === none
+          ? null
+          : form.paycheckSelect.value.value,
     };
-    console.log(formData);
-    // addItem(uid, formData);
+    addItem(uid, formData);
     onkeydown();
   };
 

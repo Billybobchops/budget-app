@@ -1,4 +1,5 @@
 import CategorySelect from '../FormUI/CategorySelect';
+import PaycheckSelect from '../FormUI/PaycheckSelect';
 import SearchInput from '../FormUI/SearchInput';
 import AsyncCreatableInput from '../FormUI/AsyncCreatableInput';
 import RadioButton from '../FormUI/RadioButtons';
@@ -46,9 +47,24 @@ export function createFormFieldConfig(fieldObj) {
           />
         );
 
-        if (type === 'categorySelect')
+      if (type === 'categorySelect')
         return (
           <CategorySelect
+            key={key}
+            id={name} // try id name instead of id label?
+            label={label}
+            name={name}
+            placeholder={placeholder}
+            layout={layout}
+            handleChange={handleChange}
+            value={value}
+            isValid={isValid}
+          />
+        );
+
+      if (type === 'paycheckSelect')
+        return (
+          <PaycheckSelect
             key={key}
             id={name} // try id name instead of id label?
             label={label}
@@ -133,7 +149,7 @@ export function createFormFieldConfig(fieldObj) {
     touched: false,
     checked: selectedOption === label,
     errorMessage: '',
-    // options, 
+    // options,
   };
 }
 

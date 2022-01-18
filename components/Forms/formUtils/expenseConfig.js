@@ -64,17 +64,16 @@ export const expenseConfig = {
     }),
     conditions: [radioNo()],
   },
-  categorySearch: {
+  categorySelect: {
     ...createFormFieldConfig({
-      label: 'What category is this expense?',
-      name: 'categorySearch',
-      type: 'asyncCreatable',
-      placeholder: 'Select category or create new...',
-      options: categories,
+      label: 'What category should this belong to?',
+      type: 'categorySelect', // custom
+      name: 'categorySelect',
+      placeholder: 'Select a category...',
     }),
+    validationRules: [requiredRule('Category')],
     conditions: [radioNo()],
   },
-
   amount: {
     ...createFormFieldConfig({
       label: 'Amount Spent',

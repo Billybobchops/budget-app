@@ -5,27 +5,6 @@ import {
   maxLengthRule,
 } from './inputValidationRules';
 
-import dummyData from '../../../store/dummyData';
-
-// let paychecks = [
-//   {
-//     id: 'plannedPaycheck',
-//     value: "I'll do this in the Planner later.",
-//     label: "I'll do this in the Planner later.",
-//   },
-// ];
-
-// const addPaychecks = () => {
-//   dummyData.dummyPaychecks.map((check) => {
-//     paychecks.push({
-//       id: 'plannedPaycheck',
-//       value: check.title,
-//       label: check.title,
-//     });
-//   });
-// };
-// addPaychecks();
-
 // formObj we pass into useForm() hook
 export const itemConfig = {
   categorySelect: {
@@ -85,16 +64,16 @@ export const itemConfig = {
       maxLengthRule('Bill Date', 25),
     ],
   },
-  // paycheckSelect: {
-  //   ...createFormFieldConfig({
-  //     label: 'Which planned paycheck handles this?',
-  //     type: 'paycheckSelect',
-  //     name: 'plannedPaycheck',
-  //     placeholder: "None - I'll do this in the Planner later.",
-  //     options: paychecks,
-  //   }),
-  //   validationRules: [requiredRule('Planned pay')],
-  // },
+  paycheckSelect: {
+    ...createFormFieldConfig({
+      label: 'Which planned paycheck handles this?',
+      type: 'paycheckSelect',
+      name: 'paycheckSelect',
+      placeholder: "None - I'll do this in the Planner later.",
+      defaultValue: "None - I'll do this in the Planner later.",
+    }),
+    validationRules: [requiredRule('Planned pay')],
+  },
 };
 
 // func that dynamically creates radio buttons from data (array) received from firestore DB

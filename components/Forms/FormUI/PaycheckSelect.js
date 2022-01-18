@@ -1,4 +1,4 @@
-// custom category dropdown
+// custom paycheck dropdown
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db } from '../../../firebase/firebaseClient';
@@ -38,26 +38,29 @@ const PaycheckSelect = ({
     });
 
     const loadOptions = async () => {
-      const userCategoriesRef = doc(db, `categories/${user}`); // creates ref to doc with user's UID
-      const docSnapshot = await getDoc(userCategoriesRef); // returns a promise that resolves to a doc snapshot
+      const userPlannedIncomeRef = doc(db, `plannedPaychecks/${user}`); // creates ref to doc with user's UID
+      const docSnapshot = await getDoc(userPlannedIncomeRef);
 
       if (docSnapshot.exists()) {
         const docData = docSnapshot.data();
-        console.log('the docData retrieved is...');
-        console.log(docData);
-        const categoriesArr = [];
+        const paycheckArr = [
+          {
+            id: 'paycheckSelect',
+            value: "None - I'll do this in the planner later.",
+            label: "None - I'll do this in the planner later.",
+          },
+        ];
 
         // configure data to work with AsyncSelect format
-        Object.values(docData).forEach((category) => {
-          console.log('configuring data');
-          categoriesArr.push({
+        Object.values(docData).forEach((check) => {
+          paycheckArr.push({
             id: 'paycheckSelect',
-            value: category.title,
-            label: category.title,
+            value: check.title,
+            label: check.title,
           });
         });
 
-        setOptions(categoriesArr); // for Select implementation only
+        setOptions(paycheckArr);
       }
     };
     loadOptions();

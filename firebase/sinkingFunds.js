@@ -23,3 +23,7 @@ export const addFund = async (uid, formData) => {
     console.log(error);
   }
 };
+
+// export const getFunds = async (uid, formData) => {
+//   const userFundsRef = doc(db, `sinkingFunds/${uid}`)
+// };

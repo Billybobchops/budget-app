@@ -43,13 +43,10 @@ const CategorySelect = ({
 
       if (docSnapshot.exists()) {
         const docData = docSnapshot.data();
-        console.log('the docData retrieved is...');
-        console.log(docData);
         const categoriesArr = [];
 
         // configure data to work with AsyncSelect format
         Object.values(docData).forEach((category) => {
-          console.log('configuring data');
           categoriesArr.push({
             id: 'categorySelect',
             value: category.title,
@@ -57,7 +54,7 @@ const CategorySelect = ({
           });
         });
 
-        setOptions(categoriesArr); // for Select implementation only
+        setOptions(categoriesArr); 
       }
     };
     loadOptions();

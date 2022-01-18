@@ -46,14 +46,15 @@ export const incomeConfig = {
     }),
     validationRules: [requiredRule('Question')],
   },
-  plannedPaycheck: {
+  paycheckSelect: {
     ...createFormFieldConfig({
-      label: 'Which paycheck is this?',
-      name: 'plannedPaycheck',
-      type: 'search',
-      placeholder: 'Select a paycheck...',
-      options: paychecks,
+      label: 'Which planned paycheck handles this?',
+      type: 'paycheckSelect',
+      name: 'paycheckSelect',
+      placeholder: "None - I'll do this in the Planner later.",
+      defaultValue: "None - I'll do this in the Planner later.",
     }),
+    validationRules: [requiredRule('Planned pay')],
     conditions: [radioYes()],
   },
   title: {

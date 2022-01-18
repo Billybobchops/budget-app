@@ -115,7 +115,8 @@ function useForm(formObj) {
       if (
         inputObj.type === 'search' ||
         inputObj.type === 'asyncCreatable' ||
-        inputObj.type === 'categorySelect'
+        inputObj.type === 'categorySelect' ||
+        inputObj.type === 'paycheckSelect'
       ) {
         inputObj.value = { id, value: enteredValue, label: enteredValue };
       } else {
