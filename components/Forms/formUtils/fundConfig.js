@@ -32,13 +32,21 @@ export const fundConfig = {
       label: '',
       name: 'timeType',
       type: 'search',
+      placeholder: 'Months',
       layout: 'twoColEnd',
+      defaultValue: {
+        id: 'timeType',
+        value: 'Months',
+        label: 'Months',
+      },
       options: [
         {
+          id: 'timeType',
           value: 'Months',
           label: 'Months',
         },
         {
+          id: 'timeType',
           value: 'Years',
           label: 'Years',
         },

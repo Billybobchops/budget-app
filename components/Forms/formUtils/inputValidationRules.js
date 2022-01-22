@@ -33,7 +33,7 @@ export function minLengthRule(inputName, minCharacters) {
 
 export function maxLengthRule(inputName, maxCharacters) {
   return createValidationRule(
-    'minLength',
+    'maxLength',
     `${inputName} cannot contain more than ${maxCharacters} characters`,
     (inputValue, formObj) => inputValue.length <= maxCharacters
   );

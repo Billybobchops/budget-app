@@ -43,13 +43,7 @@ const PaycheckSelect = ({
 
       if (docSnapshot.exists()) {
         const docData = docSnapshot.data();
-        const paycheckArr = [
-          {
-            id: 'paycheckSelect',
-            value: "None - I'll do this in the planner later.",
-            label: "None - I'll do this in the planner later.",
-          },
-        ];
+        const paycheckArr = [];
 
         // configure data to work with AsyncSelect format
         Object.values(docData).forEach((check) => {

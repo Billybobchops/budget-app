@@ -9,7 +9,8 @@ import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 
 const ItemForm = (props) => {
-  const { renderFormInputs, isFormValid, form } = useForm(itemConfig);
+  const { renderFormInputs, isFormValid, form, selectedOption } =
+    useForm(itemConfig);
   const {
     user: { uid },
   } = useAuth();
@@ -18,18 +19,17 @@ const ItemForm = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const none = "None - I'll do this in the planner later.";
-
     const formData = {
       category: form.categorySelect.value.value,
       title: form.title.value,
       budgetAmount: +form.budgetAmount.value,
       billDate: form.billDate.value,
       paycheckSelect:
-        form.paycheckSelect.value.value === none
+        form.paycheckSelect.value === ''
           ? null
           : form.paycheckSelect.value.value,
     };
+
     addItem(uid, formData);
     onkeydown();
   };

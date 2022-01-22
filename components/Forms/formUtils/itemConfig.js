@@ -4,6 +4,7 @@ import {
   minLengthRule,
   maxLengthRule,
 } from './inputValidationRules';
+import { radioYes } from './conditions';
 
 // formObj we pass into useForm() hook
 export const itemConfig = {
@@ -58,21 +59,54 @@ export const itemConfig = {
       defaultValue: '',
       placeholder: '',
     }),
-    validationRules: [
-      requiredRule('Bill Date'),
-      minLengthRule('Bill Date', 10),
-      maxLengthRule('Bill Date', 25),
-    ],
+    validationRules: [requiredRule('Bill Date')],
+  },
+  plannedLabel: {
+    ...createFormFieldConfig({
+      label: 'Does a planned paycheck handle this item?',
+      name: 'plannedLabel',
+      type: 'label',
+    }),
+  },
+  plannedMiniLabel: {
+    ...createFormFieldConfig({
+      label: 'Planned income is set up in the planner view!',
+      name: 'plannedMiniLabel',
+      type: 'miniLabel',
+    }),
+  },
+  yes: {
+    ...createFormFieldConfig({
+      label: 'yes',
+      name: 'Is this a planned paycheck?',
+      type: 'radio',
+      defaultValue: 'yes',
+    }),
+    validationRules: [requiredRule('Question')],
+  },
+  no: {
+    ...createFormFieldConfig({
+      label: 'no',
+      name: 'Is this a planned paycheck?',
+      type: 'radio',
+      defaultValue: 'no',
+    }),
+    validationRules: [requiredRule('Question')],
   },
   paycheckSelect: {
     ...createFormFieldConfig({
-      label: 'Which planned paycheck handles this?',
+      label: 'Which planned paycheck handles this item?',
       type: 'paycheckSelect',
       name: 'paycheckSelect',
-      placeholder: "None - I'll do this in the Planner later.",
-      defaultValue: "None - I'll do this in the Planner later.",
+      placeholder: "Select a paycheck...",
+      // defaultValue: {
+      //   id: 'paycheckSelect',
+      //   value: "None - I'll do this in the planner later.",
+      //   label: "None - I'll do this in the planner later.",
+      // },
     }),
     validationRules: [requiredRule('Planned pay')],
+    conditions: [radioYes()],
   },
 };
 

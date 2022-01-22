@@ -40,7 +40,7 @@ const SinkingFundsWrapper = (props) => {
       <h3>Get Started</h3>
       <p>
         Calculate how much you need to set aside each month for larger expenses
-        and purchases.
+        and annual purchases.
       </p>
       <div className={classes.actionBar}>
         <div className={classes.actionButton}>

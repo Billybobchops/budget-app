@@ -19,6 +19,7 @@ export const addExpense = async (uid, formData) => {
 
   try {
     await setDoc(userExpenseRef, docData, { merge: true });
+    console.log(`Data successfully written to Firestore.`);
   } catch (error) {
     console.log(error);
   }

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useToast } from '../store/ToastProvider';
 // import debounce from 'lodash.debounce';
 
@@ -22,39 +22,11 @@ function useForm(formObj) {
           selectedOption
         );
       }
+
+      // if an input doesn't meet condition, its not visible, so set valid state to true so form can submit
+      if (!checkConditions(inputObj, selectedOption)) inputObj.valid = true;
     });
   }
-
-  /**
-   * iterates over a given input's conditions and returns a boolean
-   * @param {object} inputObj - object representation of an input field
-   * @param {string} selectedOption - radio input's value (stored in state var)
-   */
-  const checkConditions = useCallback((inputObj, selectedOption) => {
-    // always render inputs that don't have any conditions set aka (null)
-    if (!inputObj.conditions) return true;
-
-    for (const condition of inputObj.conditions) {
-      return condition.conditionCheck(inputObj, selectedOption);
-    }
-  }, []);
-
-  /**
-   * iterates over all validation rules for a given input field and returns a boolean
-   * @param {object} inputField - object representation of an input field
-   */
-  const isInputFieldValid = useCallback(
-    (inputField) => {
-      for (const rule of inputField.validationRules) {
-        if (!rule.validate(inputField.value, form)) {
-          inputField.errorMessage = rule.message;
-          return false;
-        }
-      }
-      return true;
-    },
-    [form]
-  );
 
   // const updateInputValidity = useCallback(
   //   (event) => {
@@ -86,6 +58,45 @@ function useForm(formObj) {
   //   debounce(updateInputValidity, 400);
   // }, [updateInputValidity]);
 
+  /**
+   * iterates over a given input's conditions and returns a boolean
+   * @param {object} inputObj - object representation of an input field
+   * @param {string} selectedOption - radio input's value (stored in state var)
+   */
+  const checkConditions = useCallback((inputObj, selectedOption) => {
+    // always render inputs that don't have conditions set
+    if (!inputObj.conditions) return true;
+
+    for (const condition of inputObj.conditions) {
+      return condition.conditionCheck(inputObj, selectedOption);
+    }
+  }, []);
+
+  /**
+   * iterates over all validation rules for a given input field and returns a boolean
+   * @param {object} inputField - object representation of an input field
+   */
+  const isInputFieldValid = useCallback(
+    (inputField) => {
+      if (!inputField.validationRules) return true;
+
+      for (const rule of inputField.validationRules) {
+        if (!rule.validate(inputField.value, form)) {
+          inputField.errorMessage = rule.message;
+          return false;
+        }
+      }
+      return true;
+    },
+    [form]
+  );
+
+  /**
+   * dynamically get id and value of input whether its a regular
+   * input or it's a react-select input
+   * @param {event} event
+   * @returns {object} object containing the input's id and value
+   */
   const getIdAndValue = (event) => {
     if (event.target === undefined) {
       let { id, value: enteredValue } = event;
@@ -105,25 +116,25 @@ function useForm(formObj) {
   };
 
   // wrapped in useCallback hook to avoid creating a new function each time
-  // the state is updated and code inside this hook executes again.
+  // the state is updated and code inside useForm() hook executes again.
   const onInputChange = useCallback(
     (event) => {
       const { id, enteredValue } = getIdAndValue(event);
       const inputObj = { ...form[id] }; // copy inputObj to avoid mutating original state
-
-      // (controlled component) update value state to entered value
-      if (
+      const reactSelectInput =
         inputObj.type === 'search' ||
         inputObj.type === 'asyncCreatable' ||
         inputObj.type === 'categorySelect' ||
-        inputObj.type === 'paycheckSelect'
-      ) {
+        inputObj.type === 'paycheckSelect';
+
+      // (controlled component) update value state to entered value
+      if (reactSelectInput) {
         inputObj.value = { id, value: enteredValue, label: enteredValue };
       } else {
         inputObj.value = enteredValue;
       }
 
-      // (controlled component) update object's radio button checked state
+      // (controlled component) update state & object's radio button checked state
       if (inputObj.type === 'radio') {
         const radioOption = inputObj.label; // intermediate variable for immediate use
         setSelectedOption(radioOption); // scheduled async useState update
@@ -135,14 +146,17 @@ function useForm(formObj) {
       const isValidInput = isInputFieldValid(inputObj);
 
       // if at least one radio is selected, then set entire radio group to valid
+      // and set inputs now rendered conditionally b/c of the radio to valid: false
       if (inputObj.type === 'radio' && isValidInput) {
         Object.values(form).map((input) => {
-          const inputCopy = input;
-          if (input.type === 'radio' && input !== inputObj)
-            inputCopy.valid = true;
+          // is this mutating original state?!? We update the form obj here 
+          // and then call setForm below...so I don't think so
+          if (input.type === 'radio' && input !== inputObj) input.valid = true;
+          if (!checkConditions(input, selectedOption)) input.valid = false;
         });
       }
 
+      // check if the input is now valid against its validation rules
       if (isValidInput && !inputObj.valid) {
         inputObj.valid = true;
       } else if (!isValidInput && inputObj.valid) {
@@ -167,7 +181,7 @@ function useForm(formObj) {
       return inputObj;
     },
 
-    [form, addToast, isInputFieldValid]
+    [form, addToast, isInputFieldValid, checkConditions, selectedOption]
   );
 
   // Stop the invocation of the debounced function AFTER unmounting

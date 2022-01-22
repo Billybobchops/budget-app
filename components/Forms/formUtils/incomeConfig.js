@@ -4,27 +4,21 @@ import {
   minLengthRule,
   maxLengthRule,
 } from './inputValidationRules';
-import { radioYes } from './conditions';
-
-import dummyData from '../../../store/dummyData';
-
-const paychecks = dummyData.dummyPaychecks.map((check) => {
-  return { value: check.title, label: check.title };
-});
+import { radioYes, radioNo } from './conditions';
 
 // This is the formObj we pass into useForm() hook
 export const incomeConfig = {
   plannedLabel: {
     ...createFormFieldConfig({
-      label: 'plannedLabel',
-      name: 'Is this a planned paycheck?',
+      label: 'Is this a planned paycheck?',
+      name: 'plannedLabel',
       type: 'label',
     }),
   },
   plannedMiniLabel: {
     ...createFormFieldConfig({
-      label: 'plannedMiniLabel',
-      name: 'Planned income is set up in the planner view!',
+      label: 'Planned income is set up in the planner view!',
+      name: 'plannedMiniLabel',
       type: 'miniLabel',
     }),
   },
@@ -48,11 +42,10 @@ export const incomeConfig = {
   },
   paycheckSelect: {
     ...createFormFieldConfig({
-      label: 'Which planned paycheck handles this?',
-      type: 'paycheckSelect',
+      label: 'Which planned paycheck is this?',
       name: 'paycheckSelect',
-      placeholder: "None - I'll do this in the Planner later.",
-      defaultValue: "None - I'll do this in the Planner later.",
+      type: 'paycheckSelect',
+      placeholder: 'Select a paycheck...',
     }),
     validationRules: [requiredRule('Planned pay')],
     conditions: [radioYes()],
@@ -70,6 +63,7 @@ export const incomeConfig = {
       minLengthRule('Title', 10),
       maxLengthRule('Title', 25),
     ],
+    conditions: [radioNo()],
   },
   nickname: {
     ...createFormFieldConfig({

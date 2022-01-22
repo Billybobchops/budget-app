@@ -29,21 +29,29 @@ export function createFormFieldConfig(fieldObj) {
     layout,
   } = fieldObj;
 
+  const defaultValidInputs =
+    type === 'button' ||
+    type === 'label' ||
+    type === 'miniLabel' ||
+    type === 'search' ||
+    // type === 'paycheckSelect' ||
+    name === 'nickname';
+
   return {
     renderInput: (handleChange, value, isValid, error, key, selectedOption) => {
       if (type === 'search')
         return (
           <SearchInput
-            loadOptions={options}
+            options={options}
             key={key}
-            id={name} // try id name instead of id label?
+            id={name}
             label={label}
             name={name}
             placeholder={placeholder}
             layout={layout}
             handleChange={handleChange}
             value={value}
-            isValid={isValid}
+            isValid={true}
           />
         );
 
@@ -51,7 +59,7 @@ export function createFormFieldConfig(fieldObj) {
         return (
           <CategorySelect
             key={key}
-            id={name} // try id name instead of id label?
+            id={name}
             label={label}
             name={name}
             placeholder={placeholder}
@@ -66,7 +74,7 @@ export function createFormFieldConfig(fieldObj) {
         return (
           <PaycheckSelect
             key={key}
-            id={name} // try id name instead of id label?
+            id={name}
             label={label}
             name={name}
             placeholder={placeholder}
@@ -82,7 +90,7 @@ export function createFormFieldConfig(fieldObj) {
           <AsyncCreatableInput
             options={options}
             key={key}
-            id={name} // try id name instead of id label?
+            id={name}
             label={label}
             layout={layout}
             handleChange={handleChange}
@@ -113,14 +121,14 @@ export function createFormFieldConfig(fieldObj) {
         // CONSOLIDATE THIS SOMEHOW WITH MINILABEL BELOW?
         return (
           <Label key={key} isValid={true}>
-            {name}
+            {label}
           </Label>
         );
 
       if (type === 'miniLabel')
         return (
           <Label key={key} isValid={true} label={label}>
-            {name}
+            {label}
           </Label>
         );
 
@@ -145,12 +153,10 @@ export function createFormFieldConfig(fieldObj) {
     name,
     type,
     value: defaultValue,
-    valid: type === 'button' || type === 'label' ? true : false,
+    valid: defaultValidInputs ? true : false,
     touched: false,
     checked: selectedOption === label,
     errorMessage: '',
     // options,
   };
 }
-
-// if (type === 'break') return <br key={key} />;

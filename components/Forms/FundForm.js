@@ -20,8 +20,8 @@ const FundForm = (props) => {
     e.preventDefault();
     const formData = {
       title: form.title.value,
-      timePeriod: form.timePeriod.value, // empty string '' UGH
-      timeType: form.timeType.value,
+      timePeriod: +form.timePeriod.value,
+      timeType: form.timeType.value.value,
       totalAmount: +form.totalAmount.value,
     };
 

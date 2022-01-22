@@ -1,6 +1,6 @@
 /**
  * creates and returns a conditional object that is
- * used by useForm hook to conditional render inputs
+ * used by useForm hook to conditionally render inputs
  *
  * @param {string} conditionName
  * @param {function} conditionalFunc

@@ -21,8 +21,8 @@ const categories = dummyData.categories.map((category) => {
 export const expenseConfig = {
   budgetItemQuestion: {
     ...createFormFieldConfig({
-      label: 'budgetItemQuestion',
-      name: 'Is this a budget item currently?',
+      label: 'Is this a budget item currently?',
+      name: 'budgetItemQuestion',
       type: 'label',
       defaultValue: '',
     }),
