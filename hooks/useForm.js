@@ -97,11 +97,12 @@ function useForm(formObj) {
    * @param {event} event
    * @returns {object} object containing the input's id and value
    */
-  const getIdAndValue = (event) => {
+  const getProperties = (event) => {
     if (event.target === undefined) {
-      let { id, value: enteredValue } = event;
+      let { id, category, value: enteredValue } = event;
       return {
         id,
+        category,
         enteredValue,
       };
     }
@@ -119,17 +120,23 @@ function useForm(formObj) {
   // the state is updated and code inside useForm() hook executes again.
   const onInputChange = useCallback(
     (event) => {
-      const { id, enteredValue } = getIdAndValue(event);
+      const { id, enteredValue, category } = getProperties(event);
       const inputObj = { ...form[id] }; // copy inputObj to avoid mutating original state
       const reactSelectInput =
         inputObj.type === 'search' ||
         inputObj.type === 'asyncCreatable' ||
         inputObj.type === 'categorySelect' ||
-        inputObj.type === 'paycheckSelect';
+        inputObj.type === 'paycheckSelect' ||
+        inputObj.type === 'itemSelect';
 
       // (controlled component) update value state to entered value
       if (reactSelectInput) {
-        inputObj.value = { id, value: enteredValue, label: enteredValue };
+        inputObj.value = {
+          id,
+          category,
+          value: enteredValue,
+          label: enteredValue,
+        };
       } else {
         inputObj.value = enteredValue;
       }
@@ -149,10 +156,12 @@ function useForm(formObj) {
       // and set inputs now rendered conditionally b/c of the radio to valid: false
       if (inputObj.type === 'radio' && isValidInput) {
         Object.values(form).map((input) => {
-          // is this mutating original state?!? We update the form obj here 
-          // and then call setForm below...so I don't think so
           if (input.type === 'radio' && input !== inputObj) input.valid = true;
-          if (!checkConditions(input, selectedOption)) input.valid = false;
+          if (
+            !checkConditions(input, selectedOption) &&
+            input.type !== 'warningLabel'
+          )
+            input.valid = false;
         });
       }
 

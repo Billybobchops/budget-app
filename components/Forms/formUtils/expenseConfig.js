@@ -2,22 +2,6 @@ import { createFormFieldConfig } from './baseFormConfig';
 import { requiredRule, minLengthRule } from './inputValidationRules';
 import { radioYes, radioNo } from './conditions';
 
-import dummyData from '../../../store/dummyData';
-
-const budgetItems = dummyData.budgetItems.map((item) => {
-  return {
-    value: item.title,
-    label: item.title,
-  };
-});
-
-const categories = dummyData.categories.map((category) => {
-  return {
-    value: category,
-    label: category,
-  };
-});
-
 export const expenseConfig = {
   budgetItemQuestion: {
     ...createFormFieldConfig({
@@ -45,12 +29,22 @@ export const expenseConfig = {
     }),
     validationRules: [requiredRule('Question')],
   },
-  currentItemSearch: {
+  warningLabel: {
+    ...createFormFieldConfig({
+      label:
+        "*If this isn't an existing budget item already, it's better to create a budget item first, unless this a non-recurring, one-off expense.",
+      name: 'warningLabel',
+      type: 'warningLabel',
+      defaultValue: '',
+    }),
+    conditions: [radioNo()],
+  },
+  itemSelect: {
     ...createFormFieldConfig({
       label: 'Search current budget items',
-      type: 'search',
-      placeholder: 'Select budget item...',
-      options: budgetItems,
+      name: 'itemSelect',
+      type: 'itemSelect',
+      placeholder: 'Select a budget item...',
     }),
     conditions: [radioYes()],
   },
@@ -64,16 +58,16 @@ export const expenseConfig = {
     }),
     conditions: [radioNo()],
   },
-  categorySelect: {
-    ...createFormFieldConfig({
-      label: 'What category should this belong to?',
-      type: 'categorySelect', // custom
-      name: 'categorySelect',
-      placeholder: 'Select a category...',
-    }),
-    validationRules: [requiredRule('Category')],
-    conditions: [radioNo()],
-  },
+  // categorySelect: {
+  //   ...createFormFieldConfig({
+  //     label: 'What category should this belong to?',
+  //     type: 'categorySelect', // custom
+  //     name: 'categorySelect',
+  //     placeholder: 'Select a category...',
+  //   }),
+  //   validationRules: [requiredRule('Category')],
+  //   conditions: [radioNo()],
+  // },
   amount: {
     ...createFormFieldConfig({
       label: 'Amount Spent',

@@ -1,19 +1,39 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
-import { expenseConfig } from './formUtils/expenseConfig';
+import { useAuth } from '../../hooks/useAuth';
+import { addExpense } from '../../firebase/expenses';
 import useForm from '../../hooks/useForm';
+import { expenseConfig } from './formUtils/expenseConfig';
 import FormContext from '../../store/form-context';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 
-const ExpenseForm = (props) => {
-  const { renderFormInputs, isFormValid, form } = useForm(expenseConfig);
+const ExpenseForm = () => {
+  const { renderFormInputs, isFormValid, form, selectedOption } =
+    useForm(expenseConfig);
+  const {
+    user: { uid },
+  } = useAuth();
   const formRef = useRef();
   const { onkeydown } = useContext(FormContext);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(form);
+    const isCurrentItem = selectedOption === 'yes';
+
+    const formData = {
+      title: isCurrentItem ? form.itemSelect.value.value : form.title.value,
+      itemSelect: isCurrentItem ? form.itemSelect.value.value : null, 
+      category: isCurrentItem
+        ? form.itemSelect.value.category
+        : null, // form.categorySelect.value.value
+      expense: true,
+      amount: +form.amount.value,
+      date: form.date.value,
+    };
+
+    addExpense(uid, formData);
+    onkeydown();
   };
 
   const checkIfClickedOutside = useCallback(

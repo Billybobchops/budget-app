@@ -1,6 +1,7 @@
+import SearchInput from '../FormUI/SearchInput';
 import CategorySelect from '../FormUI/CategorySelect';
 import PaycheckSelect from '../FormUI/PaycheckSelect';
-import SearchInput from '../FormUI/SearchInput';
+import ItemSelect from '../FormUI/ItemSelect';
 import AsyncCreatableInput from '../FormUI/AsyncCreatableInput';
 import RadioButton from '../FormUI/RadioButtons';
 import TinyButton from '../FormUI/CategoryToggleButton';
@@ -33,8 +34,8 @@ export function createFormFieldConfig(fieldObj) {
     type === 'button' ||
     type === 'label' ||
     type === 'miniLabel' ||
+    type === 'warningLabel' ||
     type === 'search' ||
-    // type === 'paycheckSelect' ||
     name === 'nickname';
 
   return {
@@ -85,6 +86,21 @@ export function createFormFieldConfig(fieldObj) {
           />
         );
 
+      if (type === 'itemSelect')
+        return (
+          <ItemSelect
+            key={key}
+            id={name}
+            label={label}
+            name={name}
+            placeholder={placeholder}
+            layout={layout}
+            handleChange={handleChange}
+            value={value}
+            isValid={isValid}
+          />
+        );
+
       if (type === 'asyncCreatable')
         return (
           <AsyncCreatableInput
@@ -117,17 +133,9 @@ export function createFormFieldConfig(fieldObj) {
       if (type === 'button')
         return <TinyButton key={key} text={label} isValid={true} />;
 
-      if (type === 'label')
-        // CONSOLIDATE THIS SOMEHOW WITH MINILABEL BELOW?
+      if (type === 'label' || type === 'miniLabel' || type === 'warningLabel')
         return (
-          <Label key={key} isValid={true}>
-            {label}
-          </Label>
-        );
-
-      if (type === 'miniLabel')
-        return (
-          <Label key={key} isValid={true} label={label}>
+          <Label key={key} isValid={true} label={type}>
             {label}
           </Label>
         );
@@ -157,6 +165,5 @@ export function createFormFieldConfig(fieldObj) {
     touched: false,
     checked: selectedOption === label,
     errorMessage: '',
-    // options,
   };
 }

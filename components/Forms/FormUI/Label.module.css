@@ -6,8 +6,13 @@
   border-bottom: 1px solid #04311c;
 }
 
-.miniLabel {
+.miniLabel,
+.warningLabel {
   font-size: 14px;
   display: block;
   border: none;
+}
+
+.warningLabel {
+  color: #bd0000;
 }
