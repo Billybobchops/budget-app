@@ -34,6 +34,7 @@ export const fundConfig = {
       type: 'search',
       placeholder: 'Months',
       layout: 'twoColEnd',
+      notRequired: true,
       defaultValue: {
         id: 'timeType',
         value: 'Months',
@@ -62,5 +63,16 @@ export const fundConfig = {
       placeholder: '$0.00',
     }),
     validationRules: [requiredRule('Total Amount')],
+  },
+  billDate: {
+    ...createFormFieldConfig({
+      label: 'When will this be billed?',
+      name: 'billDate',
+      type: 'date',
+      defaultValue: '',
+      placeholder: '',
+      notRequired: true,
+    }),
+    validationRules: [requiredRule('Bill Date')],
   },
 };

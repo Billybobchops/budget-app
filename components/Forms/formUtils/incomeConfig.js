@@ -13,6 +13,7 @@ export const incomeConfig = {
       label: 'Is this a planned paycheck?',
       name: 'plannedLabel',
       type: 'label',
+      notRequired: true,
     }),
   },
   plannedMiniLabel: {
@@ -20,6 +21,7 @@ export const incomeConfig = {
       label: 'Planned income is set up in the planner view!',
       name: 'plannedMiniLabel',
       type: 'miniLabel',
+      notRequired: true,
     }),
   },
   yes: {
@@ -72,6 +74,7 @@ export const incomeConfig = {
       type: 'text',
       defaultValue: '',
       placeholder: "Bob's first paycheck",
+      notRequired: true,
     }),
   },
   amount: {

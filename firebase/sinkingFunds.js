@@ -1,5 +1,11 @@
 import { db } from './firebaseClient';
-import { doc, setDoc, Timestamp, getDoc } from 'firebase/firestore';
+import {
+  doc,
+  setDoc,
+  Timestamp,
+  getDocs,
+  collection,
+} from 'firebase/firestore';
 
 /**
  * adds a sinking fund item to the current user's doc in the 'fundItems' subcollection
@@ -24,6 +30,31 @@ export const addFund = async (uid, formData) => {
   }
 };
 
-// export const getFunds = async (uid, formData) => {
-//   const userFundsRef = doc(db, `sinkingFunds/${uid}`)
-// };
+/**
+ * fetches a user's sinking fund items
+ * @param {string} id - to get user's collection
+ * @returns a users sinking funds
+ */
+export const getFunds = async (uid) => {
+  const fundsArr = [];
+  const querySnapshot = await getDocs(
+    collection(db, `sinkingFunds/${uid}/fundItems`)
+  );
+
+  querySnapshot.forEach((doc) => {
+    const docData = doc.data();
+    const {
+      [doc.id]: { title, timeType, timePeriod, totalAmount, billDate },
+    } = docData;
+
+    fundsArr.push({
+      title,
+      timeType,
+      timePeriod,
+      totalAmount,
+      billDate,
+    });
+  });
+  
+  return fundsArr;
+};

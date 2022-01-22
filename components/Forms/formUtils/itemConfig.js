@@ -23,6 +23,7 @@ export const itemConfig = {
       name: 'categoryBtn',
       type: 'button',
       defaultValue: '',
+      notRequired: true,
     }),
   },
   title: {
@@ -66,6 +67,7 @@ export const itemConfig = {
       label: 'Does a planned paycheck handle this item?',
       name: 'plannedLabel',
       type: 'label',
+      notRequired: true,
     }),
   },
   plannedMiniLabel: {
@@ -73,6 +75,7 @@ export const itemConfig = {
       label: 'Planned income is set up in the planner view!',
       name: 'plannedMiniLabel',
       type: 'miniLabel',
+      notRequired: true,
     }),
   },
   yes: {

@@ -1,12 +1,15 @@
-import classes from "./SubmitButton.module.css";
+import classes from './SubmitButton.module.css';
 
-const SubmitButton = (props) => {
+const SubmitButton = ({ value, disabled }) => {
+  const disabledBtn = disabled && 'disabled';
+  const text = disabled ? '👆 Complete me!' : `😜 ${value}`;
+
   return (
     <input
-      className={classes.submitBtn}
-      type="submit"
-      value={props.value}
-      disabled={props.disabled}
+      className={`${[classes.submitBtn, classes[disabledBtn]].join(' ')}`}
+      type='submit'
+      value={text}
+      disabled={disabled}
     />
   );
 };

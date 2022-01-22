@@ -7,14 +7,30 @@
   font-size: 15px;
 }
 
+.input::placeholder,
+.input {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+
 .input {
   display: block;
+  /* color: #2d8058; */
   border: 1px solid #2d8058;
   width: 100%;
   min-height: 50px;
   padding: 0 14px;
   margin-bottom: 10px;
   font-size: 15px;
+
+  font-weight: 600;
+  color: #757575;
+}
+
+.input::placeholder {
+  font-weight: 600;
+  color: #757575;
 }
 
 .input:hover {
@@ -23,16 +39,10 @@
 
 .input:focus {
   outline: none;
+  color: #2d8058;
+  font-weight: 700;
   border: 1px solid #d4f3da;
   border-bottom: 4px solid #d4f3da;
-}
-
-.input::placeholder,
-.input {
-  font-family: 'Cairo', sans-serif;
-  font-weight: 700;
-  color: #2d8058;
-  font-size: 15px;
 }
 
 .errorMessage {
@@ -43,9 +53,14 @@
 
 .errorInput {
   margin-bottom: 2px;
-  border: 1px solid #bf0d0d;
   color: #bf0d0d;
-  background-color: #bf0d0d13;
+  /* background-color: #bf0d0d13; */
+  background-color: #fff6f6;
+  border: 1px solid #bf0d0d;
+}
+
+.errorInput:focus {
+  border: 1px solid #bf0d0d;
 }
 
 .twoCol {
@@ -58,7 +73,6 @@
   width: 48%;
   margin-left: 4%;
 }
-
 
 @media (max-width: 550px) {
   .input {

@@ -9,6 +9,7 @@ export const expenseConfig = {
       name: 'budgetItemQuestion',
       type: 'label',
       defaultValue: '',
+      notRequired: true,
     }),
   },
   yes: {
@@ -36,6 +37,7 @@ export const expenseConfig = {
       name: 'warningLabel',
       type: 'warningLabel',
       defaultValue: '',
+      notRequired: true,
     }),
     conditions: [radioNo()],
   },

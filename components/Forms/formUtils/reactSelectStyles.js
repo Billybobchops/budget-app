@@ -32,9 +32,9 @@ const customStyles = {
   }),
   placeholder: (provided) => ({
     ...provided,
-    color: '#2d8058',
+    color: '#757575',
     fontFamily: '"Cairo", sans-serif',
-    fontWeight: 700,
+    fontWeight: 600,
   }),
   input: (provided) => ({
     ...provided,

@@ -21,8 +21,9 @@ const FundForm = (props) => {
     const formData = {
       title: form.title.value,
       timePeriod: +form.timePeriod.value,
-      timeType: form.timeType.value.value,
+      timeType: form.timeType.value.value === 'Months' ? 'Month' : 'Year',
       totalAmount: +form.totalAmount.value,
+      billDate: form.billDate.value === '' ? null : form.billDate.value,
     };
 
     addFund(uid, formData);

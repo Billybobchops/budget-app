@@ -28,15 +28,10 @@ export function createFormFieldConfig(fieldObj) {
     selectedOption,
     options,
     layout,
+    notRequired,
   } = fieldObj;
 
-  const defaultValidInputs =
-    type === 'button' ||
-    type === 'label' ||
-    type === 'miniLabel' ||
-    type === 'warningLabel' ||
-    type === 'search' ||
-    name === 'nickname';
+  // const defaultValidInputs = notRequired === true;
 
   return {
     renderInput: (handleChange, value, isValid, error, key, selectedOption) => {
@@ -161,7 +156,7 @@ export function createFormFieldConfig(fieldObj) {
     name,
     type,
     value: defaultValue,
-    valid: defaultValidInputs ? true : false,
+    valid: notRequired ? true : false,
     touched: false,
     checked: selectedOption === label,
     errorMessage: '',

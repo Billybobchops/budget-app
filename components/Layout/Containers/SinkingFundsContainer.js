@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import classes from './SinkingFundsContainer.module.css';
 import HighLowToggle from '../../UI/HighLowToggle';
 import SinkingFundsItem from '../../UI/SinkingFundItem';
 import Button from '../../UI/Buttons/Button';
+import { getFunds } from '../../../firebase/sinkingFunds';
 
 const dummySinkingFunds = [
   {
@@ -9,32 +12,32 @@ const dummySinkingFunds = [
     billDate: '09.12.21',
     timeType: 'month',
     timeLength: 12,
-    ammount: 52,
+    amount: 52,
   },
   {
     title: 'New Surfboard',
     billDate: '',
     timeType: 'year',
     timeLength: 2,
-    ammount: 1500,
+    amount: 1500,
   },
   {
     title: 'Dashlane Password Service',
     billDate: '09.12.21',
     timeType: 'month',
     timeLength: 12,
-    ammount: 89.88,
+    amount: 89.88,
   },
   {
     title: 'Car Repairs',
     billDate: '',
     timeType: 'month',
     timeLength: 12,
-    ammount: 400,
+    amount: 400,
   },
 ];
 
-const SinkingFundsWrapper = (props) => {
+const SinkingFundsWrapper = ({ children, clickHandler }) => {
   return (
     <section>
       <h3>Get Started</h3>
@@ -47,7 +50,7 @@ const SinkingFundsWrapper = (props) => {
           <Button
             text='Add a Sinking Fund'
             evenMargin={true}
-            clickHandler={props.clickHandler}
+            clickHandler={clickHandler}
           />
         </div>
       </div>
@@ -55,44 +58,59 @@ const SinkingFundsWrapper = (props) => {
         <div className={classes.toggleAlign}>
           <HighLowToggle />
         </div>
-        {props.children}
+        {children}
       </div>
       <div className={classes.total}>
         <p className={classes.totalTitle}>Total Monthly</p>
-        <p className={classes.totalAmmount}>$207.75</p>
+        <p className={classes.totalAmount}>$207.75</p>
       </div>
     </section>
   );
 };
 
-const SinkingFundsContainer = (props) => {
+const SinkingFundsContainer = ({ fundHandler }) => {
+  const [funds, setFunds] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        const data = await getFunds(uid);
+        setFunds(data);
+      }
+    });
+  }, []);
+
   return (
-    <SinkingFundsWrapper clickHandler={props.fundHandler}>
-      {dummySinkingFunds.map((fund) => {
-        return (
-          <SinkingFundsItem
-            key={fund.title}
-            title={fund.title}
-            date={fund.billDate}
-            ammount={fund.ammount}
-            payment={
-              fund.timeLength % 12 === 0 && fund.timeType === 'month'
-                ? fund.ammount / fund.timeLength
-                : fund.ammount / (fund.timeLength * 12)
-            }
-            timeLength={
-              fund.timeLength % 12 === 0 && fund.timeType === 'month'
-                ? fund.timeLength / 12
-                : fund.timeLength
-            }
-            timeType={
-              fund.timeLength % 12 === 0 && fund.timeType === 'month'
-                ? 'year'
-                : fund.timeType
-            }
-          />
-        );
-      })}
+    <SinkingFundsWrapper clickHandler={fundHandler}>
+      {funds &&
+        funds.map((fund) => {
+          return (
+            <SinkingFundsItem
+              key={fund.title}
+              title={fund.title}
+              billDate={fund.billDate}
+              totalAmount={fund.totalAmount}
+              payment={
+                fund.timePeriod % 12 === 0 && fund.timeType === 'month'
+                  ? fund.totalAmount / fund.timePeriod
+                  : fund.totalAmount / (fund.timePeriod * 12)
+              }
+              timePeriod={
+                fund.timePeriod % 12 === 0 && fund.timeType === 'month'
+                  ? fund.timePeriod / 12
+                  : fund.timePeriod
+              }
+              timeType={
+                fund.timePeriod % 12 === 0 && fund.timeType === 'month'
+                  ? 'year'
+                  : fund.timeType
+              }
+            />
+          );
+        })}
     </SinkingFundsWrapper>
   );
 };
