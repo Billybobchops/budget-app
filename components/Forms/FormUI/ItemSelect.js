@@ -47,7 +47,9 @@ const ItemSelect = ({
       // configure data to work with AsyncSelect format
       querySnapshot.forEach((doc) => {
         const docData = doc.data();
-        const { [doc.id]: { category: category } } = docData;
+        const {
+          [doc.id]: { category: category },
+        } = docData;
 
         itemsArr.push({
           id: 'itemSelect',

@@ -1,6 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getCategories } from '../firebase/categories';
+import { useContext } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import FormContext from '../store/form-context';
@@ -18,8 +16,6 @@ import CategoryForm from '../components/Forms/CategoryForm';
 import ItemForm from '../components/Forms/ItemForm';
 
 const Overview = () => {
-  const [titles, setTitles] = useState(null);
-
   const {
     modal,
     itemForm,
@@ -28,18 +24,6 @@ const Overview = () => {
     onCategoryClick,
     onItemClick,
   } = useContext(FormContext);
-
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uid = user.uid;
-        const categoryTitles = await getCategories(uid);
-        setTitles(categoryTitles);
-      }
-    });
-  }, []);
 
   const auth = useRequireAuth();
 
@@ -68,7 +52,7 @@ const Overview = () => {
           </ButtonBar>
           <TotalsBar />
           <DragDropContext onDragEnd={onDragEnd}>
-            <BudgetContainer titles={titles} />
+            <BudgetContainer />
           </DragDropContext>
         </MainGrid>
         <Sidebar

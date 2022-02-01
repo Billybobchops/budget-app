@@ -1,6 +1,7 @@
 import classes from './SinkingFundItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { formatDate } from '../../utils/helpers';
 
 const SinkingFundsItem = ({
   billDate,
@@ -10,6 +11,8 @@ const SinkingFundsItem = ({
   timePeriod,
   timeType,
 }) => {
+  const date = formatDate(billDate);
+
   return (
     <div className={classes.container}>
       <table className={classes.table}>
@@ -20,16 +23,18 @@ const SinkingFundsItem = ({
               <div className={classes.title}>{title}</div>
             </td>
             <td className={classes.col2}>
-              <div>{`${billDate ? `Bills on ${billDate}` : '--'}`}</div>
+              <div>{`${billDate ? `Bills on ${date}` : '--'}`}</div>
             </td>
             <td className={classes.col3}>
-              <div className={classes.cost}>{`$${payment.toFixed(
-                2
-              )}/month for ${timePeriod} ${timeType}${
+              <div className={classes.cost}>{`$${payment
+                .toFixed(2)
+                .toLocaleString()}/month for ${timePeriod} ${timeType}${
                 timePeriod > 1 ? 's' : ''
               }`}</div>
             </td>
-            <td className={classes.col4}>{`Total $${totalAmount}`}</td>
+            <td
+              className={classes.col4}
+            >{`Total $${totalAmount.toLocaleString()}`}</td>
             <td className={classes.col5}>
               <FontAwesomeIcon icon={faEllipsisH} />
             </td>
@@ -40,12 +45,14 @@ const SinkingFundsItem = ({
       <div className={classes.secondaryRow}>
         <div className={classes.title}>{title}</div>
         <div className={classes.date}>{`${
-          billDate ? `Bills on ${billDate}` : '--'
+          billDate ? `Bills on ${date}` : '--'
         }`}</div>
-        <div className={classes.total}>{`Total $${totalAmount}`}</div>
-        <div className={classes.payment}>{`$${payment.toFixed(
-          2
-        )}/month for ${timePeriod} ${timeType}${
+        <div
+          className={classes.total}
+        >{`Total $${totalAmount.toLocaleString()}`}</div>
+        <div className={classes.payment}>{`$${payment
+          .toFixed(2)
+          .toLocaleString()}/month for ${timePeriod} ${timeType}${
           timePeriod > 1 ? 's' : ''
         }`}</div>
         <div className={classes.options}>

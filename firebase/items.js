@@ -1,5 +1,12 @@
 import { db } from './firebaseClient';
-import { doc, setDoc, Timestamp, getDocs } from 'firebase/firestore';
+import {
+  doc,
+  setDoc,
+  Timestamp,
+  getDocs,
+  collection,
+} from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 /**
  * adds a budget item to the current user's doc in the 'items' subcollection
@@ -30,12 +37,46 @@ export const addItem = async (uid, formData) => {
  * @param {string} uid - to get user's collection
  * @returns a user's items
  */
-// export const getAllItems = async (uid) => {
-//   const userItemsRef = doc(db, `budgetItems/${uid}/items`); // creates ref to doc with user's UID
-//   const mySnapshot = await getDocs(userItemsRef);
+export const getAllItems = async () => {
+  try {
+    const auth = getAuth();
+    const items = {};
 
-//   if (mySnapshot.exists()) {
-//     const docsData = mySnapshot.data();
-//     console.log(docsData);
-//   }
-// };
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+
+        const querySnapshot = await getDocs(
+          collection(db, `budgetItems/${uid}/items`)
+        );
+
+        querySnapshot.forEach((doc) => {
+          const docData = doc.data();
+          const {
+            [doc.id]: {
+              title,
+              billDate,
+              budgetAmount,
+              category,
+              // createdOn,
+              paycheckSelect,
+            },
+          } = docData;
+
+          items[doc.id] = {
+            id: doc.id,
+            title,
+            billDate,
+            budgetAmount,
+            category,
+            // createdOn,
+            paycheckSelect,
+          };
+        });
+      }
+    });
+    return items;
+  } catch (error) {
+    console.log(error);
+  }
+};

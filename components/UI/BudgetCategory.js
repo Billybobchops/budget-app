@@ -1,50 +1,28 @@
-import classes from "./BudgetCategory.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classes from './BudgetCategory.module.css';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
   faChevronUp,
   faEllipsisH,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import BudgetItem from "../UI/BudgetItem";
-import { Droppable } from "react-beautiful-dnd";
+} from '@fortawesome/free-solid-svg-icons';
+import BudgetItem from '../UI/BudgetItem';
+import { Droppable } from 'react-beautiful-dnd';
 
-const dummyBudgetItems = [
-  {
-    category: "Wants",
-    title: "Date Night",
-    billDate: "09.29.21",
-    budgetAmount: 50,
-    plannedPaycheck: "Paycheck 1",
-  },
-  {
-    category: "Wants",
-    title: "Spotify",
-    billDate: "09.29.21",
-    budgetAmount: 13,
-    plannedPaycheck: "Paycheck 1",
-  },
-  {
-    category: "Needs",
-    title: "Groceries",
-    billDate: "09.29.21",
-    budgetAmount: 200,
-    plannedPaycheck: "Paycheck 1",
-  },
-];
-
-const Table = (props) => {
+const Table = ({ children }) => {
   return (
     <div className={classes.container}>
       <table className={classes.table}>
-        <tbody>{props.children}</tbody>
+        <tbody>{children}</tbody>
       </table>
     </div>
   );
 };
 
-const BudgetCategory = (props) => {
+const BudgetCategory = ({ categoryTitle }) => {
   const [isActive, setIsActive] = useState(false);
+  const items = useSelector((state) => state.items.entities);
 
   const activeHandler = () => {
     setIsActive(!isActive);
@@ -58,7 +36,7 @@ const BudgetCategory = (props) => {
 
   return (
     <>
-      <Droppable droppableId={props.categoryTitle}>
+      <Droppable droppableId={categoryTitle}>
         {(provided) => (
           <>
             <div
@@ -71,7 +49,7 @@ const BudgetCategory = (props) => {
                   <td className={classes.head1}>{chevron}</td>
                   <td className={classes.head2}>
                     <div className={classes.title}>
-                      {props.categoryTitle} -
+                      {categoryTitle} -
                       <span className={classes.percentage}> xx% of Income</span>
                     </div>
                   </td>
@@ -93,20 +71,21 @@ const BudgetCategory = (props) => {
                 </tr>
               </Table>
             </div>
-
             <ul className={classes.list}>
               {isActive &&
-                dummyBudgetItems.map((item, index) => {
-                  return (
-                    <BudgetItem
-                      key={item.title}
-                      title={item.title}
-                      date={item.billDate}
-                      spentAmount="$5"
-                      budgetedAmount={`$${item.budgetAmount}`}
-                      index={index}
-                    />
-                  );
+                Object.values(items).length !== 0 &&
+                Object.values(items).map((item, index) => {
+                  if (categoryTitle === item.category)
+                    return (
+                      <BudgetItem
+                        key={item.title}
+                        title={item.title}
+                        date={item.billDate}
+                        spentAmount='$5'
+                        budgetedAmount={`$${item.budgetAmount}`}
+                        index={index}
+                      />
+                    );
                 })}
               {provided.placeholder}
             </ul>

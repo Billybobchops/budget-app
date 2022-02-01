@@ -42,8 +42,6 @@ function useProvideAuth() {
       // Signed in
       setUser(userCredential.user);
       router.push('/overview');
-      console.log(userCredential.user.uid);
-      console.log(`Signed in!`);
       return userCredential.user;
     } catch (error) {
       const errorCode = error.code;

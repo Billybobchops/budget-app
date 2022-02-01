@@ -24,7 +24,7 @@
 }
 
 .totalTitle,
-.totalAmmount {
+.totalAmount {
   font-family: "Cairo", sans-serif;
   color: white;
 }
@@ -33,7 +33,7 @@
   font-size: 18px;
 }
 
-.totalAmmount {
+.totalAmount {
   font-size: 21px;
   font-weight: 200;
 }

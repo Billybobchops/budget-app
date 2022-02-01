@@ -6,37 +6,6 @@ import SinkingFundsItem from '../../UI/SinkingFundItem';
 import Button from '../../UI/Buttons/Button';
 import { getFunds } from '../../../firebase/sinkingFunds';
 
-const dummySinkingFunds = [
-  {
-    title: 'Ring Insurance',
-    billDate: '09.12.21',
-    timeType: 'month',
-    timeLength: 12,
-    amount: 52,
-  },
-  {
-    title: 'New Surfboard',
-    billDate: '',
-    timeType: 'year',
-    timeLength: 2,
-    amount: 1500,
-  },
-  {
-    title: 'Dashlane Password Service',
-    billDate: '09.12.21',
-    timeType: 'month',
-    timeLength: 12,
-    amount: 89.88,
-  },
-  {
-    title: 'Car Repairs',
-    billDate: '',
-    timeType: 'month',
-    timeLength: 12,
-    amount: 400,
-  },
-];
-
 const SinkingFundsWrapper = ({ children, clickHandler }) => {
   return (
     <section>
@@ -94,18 +63,18 @@ const SinkingFundsContainer = ({ fundHandler }) => {
               billDate={fund.billDate}
               totalAmount={fund.totalAmount}
               payment={
-                fund.timePeriod % 12 === 0 && fund.timeType === 'month'
+                fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
                   ? fund.totalAmount / fund.timePeriod
                   : fund.totalAmount / (fund.timePeriod * 12)
               }
               timePeriod={
-                fund.timePeriod % 12 === 0 && fund.timeType === 'month'
+                fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
                   ? fund.timePeriod / 12
                   : fund.timePeriod
               }
               timeType={
-                fund.timePeriod % 12 === 0 && fund.timeType === 'month'
-                  ? 'year'
+                fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
+                  ? 'Year'
                   : fund.timeType
               }
             />
