@@ -11,10 +11,9 @@ const initialState = itemsAdapter.getInitialState({
   status: 'idle',
 });
 
-export const fetchItems = createAsyncThunk('items/fetchItems', async () => {
+export const fetchItems = createAsyncThunk('items/fetchItems', async (uid) => {
   try {
-    const response = await getAllItems();
-    // console.log('fetching items');
+    const response = await getAllItems(uid);
     return response;
   } catch (error) {
     console.log(error);
@@ -29,11 +28,8 @@ const itemSlice = createSlice({
     builder
       .addCase(fetchItems.pending, (state) => {
         state.status = 'loading';
-        console.log('pending running');
       })
       .addCase(fetchItems.fulfilled, (state, action) => {
-        console.log('action.payload is...');
-        console.log(action.payload); // data is here and in the correct shape...
         itemsAdapter.setAll(state, action.payload);
         state.status = 'idle';
       });

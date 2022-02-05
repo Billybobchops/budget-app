@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import FormContext from '../store/form-context';
@@ -14,6 +14,8 @@ import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
 import CategoryForm from '../components/Forms/CategoryForm';
 import ItemForm from '../components/Forms/ItemForm';
+import store from '../store';
+import { fetchItems } from '../store/item-slice';
 
 const Overview = () => {
   const {
@@ -26,6 +28,13 @@ const Overview = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
+
+  useEffect(() => {
+    if (auth.user) {
+      const uid = auth.user.uid;
+      store.dispatch(fetchItems(uid));
+    }
+  }, [auth.user]);
 
   if (!auth.user) {
     return <p>Loading!</p>;

@@ -54,7 +54,7 @@ const CategorySelect = ({
           });
         });
 
-        setOptions(categoriesArr); 
+        setOptions(categoriesArr);
       }
     };
     loadOptions();

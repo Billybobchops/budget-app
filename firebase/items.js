@@ -6,7 +6,6 @@ import {
   getDocs,
   collection,
 } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 /**
  * adds a budget item to the current user's doc in the 'items' subcollection
@@ -34,46 +33,42 @@ export const addItem = async (uid, formData) => {
 
 /**
  * fetches a user's items
- * @param {string} uid - to get user's collection
+ * @param {string} uid - to give user's collection unique id
  * @returns a user's items
  */
-export const getAllItems = async () => {
+export const getAllItems = async (uid) => {
   try {
-    const auth = getAuth();
-    const items = {};
+    let items = {};
+    const querySnapshot = await getDocs(
+      collection(db, `budgetItems/${uid}/items`)
+    );
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uid = user.uid;
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data();
 
-        const querySnapshot = await getDocs(
-          collection(db, `budgetItems/${uid}/items`)
-        );
+      const {
+        [doc.id]: {
+          title,
+          billDate,
+          budgetAmount,
+          category,
+          createdOn: { seconds },
+          paycheckSelect,
+        },
+      } = docData;
 
-        querySnapshot.forEach((doc) => {
-          const docData = doc.data();
-          const {
-            [doc.id]: {
-              title,
-              billDate,
-              budgetAmount,
-              category,
-              // createdOn,
-              paycheckSelect,
-            },
-          } = docData;
+      let time = new Date(seconds);
 
-          items[doc.id] = {
-            id: doc.id,
-            title,
-            billDate,
-            budgetAmount,
-            category,
-            // createdOn,
-            paycheckSelect,
-          };
-        });
-      }
+      items[doc.id] = {
+        id: doc.id,
+        title,
+        billDate,
+        budgetAmount,
+        category,
+        // createdOn: time,
+        // createdOn: createdOn.toDate().toDateString(),
+        paycheckSelect,
+      };
     });
     return items;
   } catch (error) {
