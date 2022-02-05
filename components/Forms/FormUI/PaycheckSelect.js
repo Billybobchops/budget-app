@@ -1,8 +1,5 @@
 // custom paycheck dropdown
-import { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { db } from '../../../firebase/firebaseClient';
-import { doc, getDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 import classes from './SearchInput.module.css';
 import customStyles from '../formUtils/reactSelectStyles';
 import Select from 'react-select';
@@ -20,45 +17,16 @@ const PaycheckSelect = ({
 }) => {
   const columns = `${layout}`;
 
-  const [user, setUser] = useState(null);
-  const [options, setOptions] = useState({
-    id: 'paycheckSelect',
-    value: 'loading...',
-    label: 'loading...',
-  });
+  const paychecks = useSelector((state) => state.planner.entities);
+  const options = [];
 
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uid = user.uid;
-        setUser(uid);
-      }
+  Object.values(paychecks).forEach((check) => {
+    options.push({
+      id: 'paycheckSelect',
+      value: check.id,
+      label: check.id,
     });
-
-    const loadOptions = async () => {
-      const userPlannedIncomeRef = doc(db, `plannedPaychecks/${user}`); // creates ref to doc with user's UID
-      const docSnapshot = await getDoc(userPlannedIncomeRef);
-
-      if (docSnapshot.exists()) {
-        const docData = docSnapshot.data();
-        const paycheckArr = [];
-
-        // configure data to work with AsyncSelect format
-        Object.values(docData).forEach((check) => {
-          paycheckArr.push({
-            id: 'paycheckSelect',
-            value: check.title,
-            label: check.title,
-          });
-        });
-
-        setOptions(paycheckArr);
-      }
-    };
-    loadOptions();
-  }, [user]);
+  });
 
   return (
     <div className={layout ? classes[columns] : ''}>

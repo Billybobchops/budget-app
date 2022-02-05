@@ -37,11 +37,8 @@ const plannerSlice = createSlice({
   initialState,
   reducers: {
     calcTotalPay: (state) => {
-      console.log(state);
       let arr = [];
-      Object.values(state.entities).map((check) =>
-        arr.push(check.expectedPay)
-      );
+      Object.values(state.entities).map((check) => arr.push(check.expectedPay));
       state.totalExpectedPay = arr.reduce((acc, current) => {
         return acc + current;
       }, 0);

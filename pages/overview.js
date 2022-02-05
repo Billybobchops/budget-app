@@ -18,6 +18,7 @@ import store from '../store';
 import { fetchItems } from '../store/item-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchPaychecks } from '../store/planner-slice';
+import { fetchFunds } from '../store/fund-slice';
 
 const Overview = () => {
   const {
@@ -34,9 +35,10 @@ const Overview = () => {
   useEffect(() => {
     if (auth.user) {
       const uid = auth.user.uid;
-      store.dispatch(fetchCategories(uid))
+      store.dispatch(fetchCategories(uid));
       store.dispatch(fetchItems(uid));
-      store.dispatch(fetchPaychecks(uid))
+      store.dispatch(fetchPaychecks(uid));
+      store.dispatch(fetchFunds(uid));
     }
   }, [auth.user]);
 

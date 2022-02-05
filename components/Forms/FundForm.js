@@ -1,12 +1,13 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { addFund } from '../../firebase/sinkingFunds';
 import FormContext from '../../store/form-context';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 import { fundConfig } from './formUtils/fundConfig';
 import useForm from '../../hooks/useForm';
+import store from '../../store';
+import { addNewFund } from '../../store/fund-slice';
 
 const FundForm = (props) => {
   const { renderFormInputs, isFormValid, form } = useForm(fundConfig);
@@ -19,14 +20,14 @@ const FundForm = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = {
-      title: form.title.value,
+      id: form.title.value,
       timePeriod: +form.timePeriod.value,
       timeType: form.timeType.value.value === 'Months' ? 'Month' : 'Year',
       totalAmount: +form.totalAmount.value,
       billDate: form.billDate.value === '' ? null : form.billDate.value,
+      createdOn: new Date().toLocaleDateString(),
     };
-
-    addFund(uid, formData);
+    store.dispatch(addNewFund({ uid, formData }));
     onkeydown();
   };
 

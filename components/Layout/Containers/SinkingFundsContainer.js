@@ -1,12 +1,16 @@
-import { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import classes from './SinkingFundsContainer.module.css';
 import HighLowToggle from '../../UI/HighLowToggle';
 import SinkingFundsItem from '../../UI/SinkingFundItem';
 import Button from '../../UI/Buttons/Button';
-import { getFunds } from '../../../firebase/sinkingFunds';
+import { useSelector } from 'react-redux';
+import store from '../../../store';
+import { calcTotalFund } from '../../../store/fund-slice';
 
-const SinkingFundsWrapper = ({ children, clickHandler }) => {
+const SinkingFundsContainer = ({ fundHandler }) => {
+  store.dispatch(calcTotalFund());
+  const funds = useSelector((state) => state.funds.entities);
+  const totalFundAmount = useSelector((state) => state.funds.totalFundAmount);
+
   return (
     <section>
       <h3>Get Started</h3>
@@ -19,7 +23,7 @@ const SinkingFundsWrapper = ({ children, clickHandler }) => {
           <Button
             text='Add a Sinking Fund'
             evenMargin={true}
-            clickHandler={clickHandler}
+            clickHandler={fundHandler}
           />
         </div>
       </div>
@@ -27,60 +31,38 @@ const SinkingFundsWrapper = ({ children, clickHandler }) => {
         <div className={classes.toggleAlign}>
           <HighLowToggle />
         </div>
-        {children}
+        {Object.values(funds) !== 0 &&
+          Object.values(funds).map((fund) => {
+            return (
+              <SinkingFundsItem
+                key={fund.id}
+                title={fund.id}
+                billDate={fund.billDate}
+                totalAmount={fund.totalAmount}
+                payment={
+                  fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
+                    ? fund.totalAmount / fund.timePeriod
+                    : fund.totalAmount / (fund.timePeriod * 12)
+                }
+                timePeriod={
+                  fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
+                    ? fund.timePeriod / 12
+                    : fund.timePeriod
+                }
+                timeType={
+                  fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
+                    ? 'Year'
+                    : fund.timeType
+                }
+              />
+            );
+          })}
       </div>
       <div className={classes.total}>
         <p className={classes.totalTitle}>Total Monthly</p>
-        <p className={classes.totalAmount}>$207.75</p>
+        <p className={classes.totalAmount}>${totalFundAmount.toLocaleString()}</p>
       </div>
     </section>
-  );
-};
-
-const SinkingFundsContainer = ({ fundHandler }) => {
-  const [funds, setFunds] = useState(null);
-
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uid = user.uid;
-        const data = await getFunds(uid);
-        setFunds(data);
-      }
-    });
-  }, []);
-
-  return (
-    <SinkingFundsWrapper clickHandler={fundHandler}>
-      {funds &&
-        funds.map((fund) => {
-          return (
-            <SinkingFundsItem
-              key={fund.title}
-              title={fund.title}
-              billDate={fund.billDate}
-              totalAmount={fund.totalAmount}
-              payment={
-                fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
-                  ? fund.totalAmount / fund.timePeriod
-                  : fund.totalAmount / (fund.timePeriod * 12)
-              }
-              timePeriod={
-                fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
-                  ? fund.timePeriod / 12
-                  : fund.timePeriod
-              }
-              timeType={
-                fund.timePeriod % 12 === 0 && fund.timeType === 'Month'
-                  ? 'Year'
-                  : fund.timeType
-              }
-            />
-          );
-        })}
-    </SinkingFundsWrapper>
   );
 };
 
