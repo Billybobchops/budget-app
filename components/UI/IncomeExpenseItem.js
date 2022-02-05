@@ -1,18 +1,20 @@
-import classes from "./IncomeExpenseItem.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
+import classes from './IncomeExpenseItem.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { formatDate } from '../../utils/helpers';
 
-const IncomeExpenseItem = (props) => {
-  let backgroundColor = `${props.expense && "expense"}`;
+const IncomeExpenseItem = ({ title, nickname, date, amount, expense }) => {
+  let backgroundColor = `${expense && 'expense'}`;
+  const dateFormat = formatDate(date);
 
   return (
     <div
-      className={`${[classes.container, classes[backgroundColor]].join(" ")}`}
+      className={`${[classes.container, classes[backgroundColor]].join(' ')}`}
     >
-      <div className={classes.title}>{props.title}</div>
-      <div className={classes.nickname}>{props.nickname}</div>
-      <div className={classes.date}>{props.date}</div>
-      <div className={classes.ammount}>{props.ammount}</div>
+      <div className={classes.title}>{title}</div>
+      <div className={classes.nickname}>{nickname}</div>
+      <div className={classes.date}>{dateFormat}</div>
+      <div className={classes.amount}>${amount}</div>
       <div className={classes.options}>
         <FontAwesomeIcon icon={faEllipsisH} />
       </div>

@@ -22,7 +22,7 @@ export const fetchFunds = createAsyncThunk('funds/fetchfunds', async (uid) => {
 });
 
 export const addNewFund = createAsyncThunk(
-  'fundss/addNewFund',
+  'funds/addNewFund',
   async ({ uid, formData }) => {
     try {
       const response = await addFund(uid, formData);

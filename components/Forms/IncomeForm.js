@@ -1,12 +1,13 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { addExpense } from '../../firebase/expenses';
 import useForm from '../../hooks/useForm';
 import { incomeConfig } from './formUtils/incomeConfig';
 import FormContext from '../../store/form-context';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
+import store from '../../store';
+import { addNewExpense } from '../../store/expenses-slice';
 
 const IncomeForm = (props) => {
   const { renderFormInputs, isFormValid, form, selectedOption } =
@@ -22,7 +23,7 @@ const IncomeForm = (props) => {
     const isPlannedPaycheck = selectedOption === 'yes';
 
     const formData = {
-      title: isPlannedPaycheck
+      id: isPlannedPaycheck
         ? form.paycheckSelect.value.value
         : form.title.value,
       expense: false,
@@ -32,9 +33,10 @@ const IncomeForm = (props) => {
       plannedPaycheck: !isPlannedPaycheck
         ? null
         : form.paycheckSelect.value.value,
+      createdOn: new Date().toLocaleDateString(),
     };
 
-    addExpense(uid, formData);
+    store.dispatch(addNewExpense({ uid, formData }));
     onkeydown();
   };
 

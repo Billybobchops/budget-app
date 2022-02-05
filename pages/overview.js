@@ -19,6 +19,7 @@ import { fetchItems } from '../store/item-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchPaychecks } from '../store/planner-slice';
 import { fetchFunds } from '../store/fund-slice';
+import { fetchExpenses } from '../store/expenses-slice';
 
 const Overview = () => {
   const {
@@ -39,6 +40,7 @@ const Overview = () => {
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchPaychecks(uid));
       store.dispatch(fetchFunds(uid));
+      store.dispatch(fetchExpenses(uid));
     }
   }, [auth.user]);
 

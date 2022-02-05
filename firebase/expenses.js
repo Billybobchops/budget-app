@@ -1,5 +1,5 @@
 import { db } from './firebaseClient';
-import { doc, setDoc, Timestamp, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
 
 /**
  * adds an expense itme to current user's doc in the 'items' subcollection
@@ -8,19 +8,55 @@ import { doc, setDoc, Timestamp, getDoc } from 'firebase/firestore';
  * @param {object} formData - data describing the expense/income item
  */
 export const addExpense = async (uid, formData) => {
-  const title = formData.title;
-  const userExpenseRef = doc(db, `expenseItems/${uid}/items/${title}`);
+  const key = formData.id;
+  const userExpenseRef = doc(db, `expenseItems/${uid}/items/${key}`);
   const docData = {
-    [title]: {
-      ...formData,
-      createdOn: Timestamp.fromDate(new Date()),
-    },
+    [key]: { ...formData },
   };
 
   try {
     await setDoc(userExpenseRef, docData, { merge: true });
-    console.log(`Data successfully written to Firestore.`);
+    return { ...formData };
   } catch (error) {
     console.log(error);
   }
+};
+
+/**
+ * fetches a user's expense items
+ * @param {string} id - to get user's collection
+ * @returns a users expense items
+ */
+export const getExpenses = async (uid) => {
+  const expenses = {};
+  const querySnapshot = await getDocs(
+    collection(db, `expenseItems/${uid}/items`)
+  );
+
+  querySnapshot.forEach((doc) => {
+    const docData = doc.data();
+    const {
+      [doc.id]: {
+        id,
+        amount,
+        billDate,
+        createdOn,
+        expense,
+        nickname,
+        plannedPaycheck,
+      },
+    } = docData;
+
+    expenses[doc.id] = {
+      id,
+      amount,
+      billDate,
+      createdOn,
+      expense,
+      nickname,
+      plannedPaycheck,
+    };
+  });
+
+  return expenses;
 };

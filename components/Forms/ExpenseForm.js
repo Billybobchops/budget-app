@@ -1,12 +1,13 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { addExpense } from '../../firebase/expenses';
 import useForm from '../../hooks/useForm';
 import { expenseConfig } from './formUtils/expenseConfig';
 import FormContext from '../../store/form-context';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
+import store from '../../store';
+import { addNewExpense } from '../../store/expenses-slice';
 
 const ExpenseForm = () => {
   const { renderFormInputs, isFormValid, form, selectedOption } =
@@ -22,17 +23,16 @@ const ExpenseForm = () => {
     const isCurrentItem = selectedOption === 'yes';
 
     const formData = {
-      title: isCurrentItem ? form.itemSelect.value.value : form.title.value,
-      itemSelect: isCurrentItem ? form.itemSelect.value.value : null, 
-      category: isCurrentItem
-        ? form.itemSelect.value.category
-        : null, // form.categorySelect.value.value
+      id: isCurrentItem ? form.itemSelect.value.value : form.title.value,
+      itemSelect: isCurrentItem ? form.itemSelect.value.value : null,
+      category: isCurrentItem ? form.itemSelect.value.category : null, // form.categorySelect.value.value
       expense: true,
       amount: +form.amount.value,
-      date: form.date.value,
+      billDate: form.date.value,
+      createdOn: new Date().toLocaleDateString(),
     };
 
-    addExpense(uid, formData);
+    store.dispatch(addNewExpense({ uid, formData }));
     onkeydown();
   };
 

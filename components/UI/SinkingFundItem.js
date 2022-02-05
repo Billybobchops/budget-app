@@ -1,7 +1,7 @@
 import classes from './SinkingFundItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import { formatSFDate } from '../../utils/helpers';
+import { formatDate } from '../../utils/helpers';
 
 const SinkingFundsItem = ({
   billDate,
@@ -11,7 +11,7 @@ const SinkingFundsItem = ({
   timePeriod,
   timeType,
 }) => {
-  const date = formatSFDate(billDate);
+  const date = formatDate(billDate);
 
   return (
     <div className={classes.container}>
