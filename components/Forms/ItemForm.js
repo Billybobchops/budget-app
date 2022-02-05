@@ -1,15 +1,17 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { addItem } from '../../firebase/items';
+import store from '../../store';
+import { addNewItem } from '../../store/item-slice';
 import useForm from '../../hooks/useForm';
 import FormContext from '../../store/form-context';
 import { itemConfig } from './formUtils/itemConfig';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
+import { formatItemDate } from '../../utils/helpers';
 
 const ItemForm = (props) => {
-  const { renderFormInputs, isFormValid, form, selectedOption } =
+  const { renderFormInputs, isFormValid, form } =
     useForm(itemConfig);
   const {
     user: { uid },
@@ -21,16 +23,17 @@ const ItemForm = (props) => {
     e.preventDefault();
     const formData = {
       category: form.categorySelect.value.value,
-      title: form.title.value,
+      id: form.title.value,
       budgetAmount: +form.budgetAmount.value,
-      billDate: form.billDate.value,
+      billDate: formatItemDate(form.billDate.value),
+      createdOn: new Date().toLocaleDateString(),
       paycheckSelect:
         form.paycheckSelect.value === ''
           ? null
           : form.paycheckSelect.value.value,
     };
-
-    addItem(uid, formData);
+    console.log(`The ID collected as itemForm's title is ${formData.id}`);
+    store.dispatch(addNewItem({ uid, formData }));
     onkeydown();
   };
 

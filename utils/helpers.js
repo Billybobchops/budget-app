@@ -1,6 +1,12 @@
-export const formatDate = (dateString) => {
+export const formatItemDate = (dateString) => {
   if (!dateString) return;
-  
+  const itemDate = `${dateString.slice(-5).replace('-', '/')}`;
+  return itemDate;
+};
+
+export const formatSFDate = (dateString) => {
+  if (!dateString) return;
+
   const year = dateString.slice(0, 4);
   const dayAndMonth = dateString.slice(-5);
   // const dayAndMonth = dateString.slice(-5).replace('-', '.');
@@ -8,7 +14,3 @@ export const formatDate = (dateString) => {
 
   return completeDate;
 };
-
-// export const formatNum = (num) => {
-
-// };

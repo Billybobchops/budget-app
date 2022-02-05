@@ -3,7 +3,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import { getAllItems } from '../firebase/items';
+import { addItem, getAllItems } from '../firebase/items';
 
 const itemsAdapter = createEntityAdapter();
 
@@ -20,6 +20,18 @@ export const fetchItems = createAsyncThunk('items/fetchItems', async (uid) => {
   }
 });
 
+export const addNewItem = createAsyncThunk(
+  'items/addNewItem',
+  async ({ uid, formData }) => {
+    try {
+      const response = await addItem(uid, formData);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const itemSlice = createSlice({
   name: 'items',
   initialState,
@@ -32,10 +44,11 @@ const itemSlice = createSlice({
       .addCase(fetchItems.fulfilled, (state, action) => {
         itemsAdapter.setAll(state, action.payload);
         state.status = 'idle';
-      });
+      })
+      .addCase(addNewItem.fulfilled, itemsAdapter.addOne);
   },
 });
 
-// export const { increment, decrement } = itemSlice.actions;
+// export const { removeItem } = itemSlice.actions;
 
 export default itemSlice.reducer;

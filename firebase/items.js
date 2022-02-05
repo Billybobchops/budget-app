@@ -14,18 +14,20 @@ import {
  * @param {object} formData - data describing the budget item
  */
 export const addItem = async (uid, formData) => {
-  const title = formData.title;
-  const userItemsRef = doc(db, `budgetItems/${uid}/items/${title}`);
+  const key = formData.id;
+  console.log(`The key is ${key}`);
+  const userItemsRef = doc(db, `budgetItems/${uid}/items/${key}`);
   const docData = {
-    [title]: {
+    [key]: {
       ...formData,
-      createdOn: Timestamp.fromDate(new Date()),
     },
   };
 
   try {
     await setDoc(userItemsRef, docData, { merge: true });
     console.log('Budget item has been written to the firestore DB.');
+
+    return { ...formData }; // previously docData
   } catch (error) {
     console.log(error);
   }
@@ -48,25 +50,24 @@ export const getAllItems = async (uid) => {
 
       const {
         [doc.id]: {
+          id,
           title,
           billDate,
           budgetAmount,
           category,
-          createdOn: { seconds },
+          createdOn,
           paycheckSelect,
         },
       } = docData;
 
-      let time = new Date(seconds);
-
       items[doc.id] = {
-        id: doc.id,
+        // id: doc.id, // add id at creation instead ^
+        id,
         title,
         billDate,
         budgetAmount,
         category,
-        // createdOn: time,
-        // createdOn: createdOn.toDate().toDateString(),
+        createdOn,
         paycheckSelect,
       };
     });

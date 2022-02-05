@@ -78,8 +78,8 @@ const BudgetCategory = ({ categoryTitle }) => {
                   if (categoryTitle === item.category)
                     return (
                       <BudgetItem
-                        key={item.title}
-                        title={item.title}
+                        key={item.id}
+                        title={item.id}
                         date={item.billDate}
                         spentAmount='$5'
                         budgetedAmount={`$${item.budgetAmount}`}
