@@ -1,6 +1,7 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { addPlannedIncome } from '../../firebase/planner';
+import store from '../../store';
+import { addNewIncome } from '../../store/planner-slice';
 import useForm from '../../hooks/useForm';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
@@ -19,12 +20,13 @@ const PlannerForm = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = {
-      title: form.title.value,
+      id: form.title.value,
       nickname: form.nickname.value,
       expectedPay: +form.expectedPay.value,
+      createdOn: new Date().toLocaleDateString(),
     };
-
-    addPlannedIncome(uid, formData);
+    store.dispatch(addNewIncome({ uid, formData }));
+    // addPlannedIncome(uid, formData);
     onkeydown();
   };
 

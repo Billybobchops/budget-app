@@ -7,18 +7,16 @@ import { doc, setDoc, Timestamp, getDoc } from 'firebase/firestore';
  * @param {object} formData - data describing the planned income
  */
 export const addPlannedIncome = async (uid, formData) => {
-  const title = formData.title;
+  const key = formData.id;
   const userPlannedIncomeRef = doc(db, `plannedPaychecks/${uid}`); // creates doc with user's UID
   const docData = {
-    [title]: {
-      ...formData,
-      createdOn: Timestamp.fromDate(new Date()),
-    },
+    [key]: { ...formData },
   };
 
   try {
     await setDoc(userPlannedIncomeRef, docData, { merge: true });
     console.log('Planned Income data has been written to the firestore DB.');
+    return { ...formData };
   } catch (error) {
     console.log(error);
   }
@@ -32,15 +30,16 @@ export const addPlannedIncome = async (uid, formData) => {
 export const getPlannedIncome = async (uid) => {
   const userPlannedIncomeRef = doc(db, `plannedPaychecks/${uid}`); // creates ref to doc with user's UID
   const docSnapshot = await getDoc(userPlannedIncomeRef);
+  const paychecks = {};
 
   if (docSnapshot.exists()) {
     const docData = docSnapshot.data();
-    const paycheckArr = [];
 
     Object.values(docData).forEach((check) => {
-      paycheckArr.push(check);
+      const { id, createdOn, expectedPay, nickname } = check;
+      paychecks[id] = { id, createdOn, expectedPay, nickname };
     });
 
-    return paycheckArr;
+    return paychecks;
   }
 };

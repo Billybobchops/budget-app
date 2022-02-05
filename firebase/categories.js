@@ -1,6 +1,5 @@
 import { db } from './firebaseClient';
-import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
-// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 /**
  * adds a category-title field to the current user's doc in 'categories' collection

@@ -1,11 +1,5 @@
 import { db } from './firebaseClient';
-import {
-  doc,
-  setDoc,
-  Timestamp,
-  getDocs,
-  collection,
-} from 'firebase/firestore';
+import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
 
 /**
  * adds a budget item to the current user's doc in the 'items' subcollection

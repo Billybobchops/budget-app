@@ -17,6 +17,7 @@ import ItemForm from '../components/Forms/ItemForm';
 import store from '../store';
 import { fetchItems } from '../store/item-slice';
 import { fetchCategories } from '../store/category-slice';
+import { fetchPaychecks } from '../store/planner-slice';
 
 const Overview = () => {
   const {
@@ -35,6 +36,7 @@ const Overview = () => {
       const uid = auth.user.uid;
       store.dispatch(fetchCategories(uid))
       store.dispatch(fetchItems(uid));
+      store.dispatch(fetchPaychecks(uid))
     }
   }, [auth.user]);
 

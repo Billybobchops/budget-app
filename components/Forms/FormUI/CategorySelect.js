@@ -1,8 +1,5 @@
 // custom category dropdown
-import { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { db } from '../../../firebase/firebaseClient';
-import { doc, getDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 import classes from './SearchInput.module.css';
 import customStyles from '../formUtils/reactSelectStyles';
 import Select from 'react-select';
@@ -20,45 +17,16 @@ const CategorySelect = ({
 }) => {
   const columns = `${layout}`;
 
-  const [user, setUser] = useState(null);
-  const [options, setOptions] = useState({
-    id: 'categorySelect',
-    value: 'loading...',
-    label: 'loading...',
-  });
+  const categories = useSelector((state) => state.categories.entities);
+  const options = [];
 
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uid = user.uid;
-        setUser(uid);
-      }
+  Object.values(categories).forEach((category) => {
+    options.push({
+      id: 'categorySelect',
+      value: category.id,
+      label: category.id,
     });
-
-    const loadOptions = async () => {
-      const userCategoriesRef = doc(db, `categories/${user}`); // creates ref to doc with user's UID
-      const docSnapshot = await getDoc(userCategoriesRef); // returns a promise that resolves to a doc snapshot
-
-      if (docSnapshot.exists()) {
-        const docData = docSnapshot.data();
-        const categoriesArr = [];
-
-        // configure data to work with AsyncSelect format
-        Object.values(docData).forEach((category) => {
-          categoriesArr.push({
-            id: 'categorySelect',
-            value: category.title,
-            label: category.title,
-          });
-        });
-
-        setOptions(categoriesArr);
-      }
-    };
-    loadOptions();
-  }, [user]);
+  });
 
   return (
     <div className={layout ? classes[columns] : ''}>

@@ -1,6 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getPlannedIncome } from '../firebase/planner';
+import { useState, useContext } from 'react';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { DragDropContext } from 'react-beautiful-dnd';
 import FormContext from '../store/form-context';
@@ -31,20 +29,7 @@ const PlannerPage = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
-  const [paychecks, setPaychecks] = useState(null);
   const [budgetItems, setBudgetItems] = useState(dummyData.budgetItems); // get rid of dummy!
-
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uid = user.uid;
-        const paychecks = await getPlannedIncome(uid);
-        setPaychecks(paychecks);
-      }
-    });
-  }, []);
 
   if (!auth.user) return <p>Loading!</p>;
 
@@ -87,7 +72,6 @@ const PlannerPage = () => {
               <Button text='Budget Item' clickHandler={onItemClick} />
             </ButtonBar>
             <PlannerContainer
-              checks={paychecks}
               items={budgetItems}
               plannerHandler={onPlannerClick}
             />

@@ -30,7 +30,7 @@ export const plannerConfig = {
   },
   expectedPay: {
     ...createFormFieldConfig({
-      label: 'Expected Pay',
+      label: 'Expected Gross Pay',
       name: 'expectedPay',
       type: 'number',
       defaultValue: '',
