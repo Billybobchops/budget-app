@@ -15,7 +15,6 @@ import {
  */
 export const addItem = async (uid, formData) => {
   const key = formData.id;
-  console.log(`The key is ${key}`);
   const userItemsRef = doc(db, `budgetItems/${uid}/items/${key}`);
   const docData = {
     [key]: {
@@ -26,7 +25,6 @@ export const addItem = async (uid, formData) => {
   try {
     await setDoc(userItemsRef, docData, { merge: true });
     console.log('Budget item has been written to the firestore DB.');
-
     return { ...formData }; // previously docData
   } catch (error) {
     console.log(error);
@@ -61,7 +59,6 @@ export const getAllItems = async (uid) => {
       } = docData;
 
       items[doc.id] = {
-        // id: doc.id, // add id at creation instead ^
         id,
         title,
         billDate,

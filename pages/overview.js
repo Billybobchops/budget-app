@@ -16,6 +16,7 @@ import CategoryForm from '../components/Forms/CategoryForm';
 import ItemForm from '../components/Forms/ItemForm';
 import store from '../store';
 import { fetchItems } from '../store/item-slice';
+import { fetchCategories } from '../store/category-slice';
 
 const Overview = () => {
   const {
@@ -32,6 +33,7 @@ const Overview = () => {
   useEffect(() => {
     if (auth.user) {
       const uid = auth.user.uid;
+      store.dispatch(fetchCategories(uid))
       store.dispatch(fetchItems(uid));
     }
   }, [auth.user]);

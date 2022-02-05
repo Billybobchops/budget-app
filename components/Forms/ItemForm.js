@@ -32,7 +32,6 @@ const ItemForm = (props) => {
           ? null
           : form.paycheckSelect.value.value,
     };
-    console.log(`The ID collected as itemForm's title is ${formData.id}`);
     store.dispatch(addNewItem({ uid, formData }));
     onkeydown();
   };

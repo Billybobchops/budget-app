@@ -1,7 +1,5 @@
 import classes from './BudgetContainer.module.css';
-import { useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getCategories } from '../../../firebase/categories';
+import { useSelector } from 'react-redux';
 import BudgetCategory from '../../UI/BudgetCategory';
 import HighLowToggle from '../../UI/HighLowToggle';
 import Tabs from '../../UI/Tabs';
@@ -23,25 +21,15 @@ const BudgetWrapper = ({ children }) => {
 };
 
 const BudgetContainer = () => {
-  const [titles, setTitles] = useState(null);
-
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uid = user.uid;
-        const categoryTitles = await getCategories(uid);
-        setTitles(categoryTitles);
-      }
-    });
-  }, []);
+  const titles = useSelector((state) => state.categories.entities);
 
   return (
     <BudgetWrapper>
-      {titles &&
-        titles.map((category) => {
-          return <BudgetCategory key={category} categoryTitle={category} />;
+      {Object.values(titles).length !== 0 &&
+        Object.values(titles).map((category) => {
+          return (
+            <BudgetCategory key={category.id} categoryTitle={category.id} />
+          );
         })}
     </BudgetWrapper>
   );

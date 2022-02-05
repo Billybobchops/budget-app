@@ -7,6 +7,8 @@ import FormContext from '../../store/form-context';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
+import store from '../../store';
+import { addNewCategory } from '../../store/category-slice';
 
 const CategoryForm = () => {
   const { renderFormInputs, isFormValid, form } = useForm(categoryConfig);
@@ -18,9 +20,11 @@ const CategoryForm = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const category = form.category.value;
-
-    addCategory(uid, category);
+    const formData = {
+      id: form.category.value,
+      createdOn: new Date().toLocaleDateString(),
+    };
+    store.dispatch(addNewCategory({ uid, formData }));
     onkeydown();
   };
 
