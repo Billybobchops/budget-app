@@ -1,12 +1,12 @@
 .ddWrapper {
   position: relative;
-  font-family: "Cairo", sans-serif;
+  font-family: 'Cairo', sans-serif;
 }
 
 .ddButton {
   background: none;
   border: none;
-  font-family: "Cairo", sans-serif;
+  font-family: 'Cairo', sans-serif;
   font-size: 16px;
   font-weight: 500;
   color: #0f4e31;
@@ -30,7 +30,7 @@
   display: grid;
   grid-template-rows: 55px 1fr;
   background-color: #d4f3da;
-  width: 250px;
+  width: 255px;
   right: 0;
   box-shadow: #0000003d 0px 3px 8px;
 }
@@ -40,8 +40,9 @@
 }
 
 .ddCalendarHeader {
-  text-align: center;
   font-size: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .ddCalendarMonths {
@@ -50,16 +51,39 @@
   grid-template-rows: repeat(4, 1fr);
   background-color: #fff;
   place-items: center center;
-  height: 240px;
 }
 
 .month {
   color: #2d8058;
   font-weight: 600;
-  padding: 15px 20px;
+  height: 55px;
+  width: 100%;
+  background: none;
+  border: none;
+  border: 1px solid #d4f3da;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
 }
 
+.activeMonth,
 .month:hover {
-  background-color: #2D8058;
-  color: #FFF;
+  background-color: #2d8058;
+  color: #fff;
+}
+
+.year {
+  margin: 0 20px;
+}
+
+.yearBtn {
+  color: #0f4e31;
+  font-size: 16px;
+  background: none;
+  border: none;
+}
+
+.todayBtnContainer {
+  display: flex;
+  justify-content: center;
 }

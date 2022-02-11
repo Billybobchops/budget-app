@@ -1,23 +1,19 @@
-import classes from "./BudgetItem.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import { Draggable } from "react-beautiful-dnd";
+import classes from './BudgetItem.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { Draggable } from 'react-beautiful-dnd';
 
-const BudgetItem = (props) => {
+const BudgetItem = ({ title, index, budgetedAmount, spentAmount, date }) => {
   // className={`${[classes.container, classes[`${snapshot.isDragging && "backgroundDrag"}`],].join(" ")}`}
 
   return (
     <>
-      <Draggable
-        key={props.title}
-        draggableId={props.title}
-        index={props.index}
-      >
+      <Draggable key={title} draggableId={title} index={index}>
         {(provided, snapshot) => {
           const style = `${[
             classes.container,
-            classes[`${snapshot.isDragging && "backgroundDrag"}`],
-          ].join(" ")}`;
+            classes[`${snapshot.isDragging && 'backgroundDrag'}`],
+          ].join(' ')}`;
 
           return (
             <li
@@ -31,19 +27,19 @@ const BudgetItem = (props) => {
                   <tr className={classes.initialRow}>
                     <td className={classes.emptyCell}></td>
                     <td className={classes.col1}>
-                      <div className={classes.bold}>{props.title}</div>
+                      <div className={classes.bold}>{title}</div>
                     </td>
                     <td className={classes.col2}>
-                      <div>{`Bills on ${props.date}`}</div>
+                      <div>{`Bills on ${date}`}</div>
                     </td>
                     <td className={classes.col3}>
                       <div className={classes.flex}>
                         <div>
-                          <span className={classes.bold}>Spent</span>{" "}
-                          {props.spentAmount}
+                          <span className={classes.bold}>Spent</span>{' '}
+                          {spentAmount}
                         </div>
                         <div className={classes.slash}>/</div>
-                        <div>{props.budgetedAmount}</div>
+                        <div>{budgetedAmount}</div>
                       </div>
                     </td>
                     <td className={classes.col4}>
@@ -58,12 +54,12 @@ const BudgetItem = (props) => {
               </table>
 
               <div className={classes.secondaryRow}>
-                <div className={classes.bold}>{props.title}</div>
-                <div className={classes.date}>{`Bills on ${props.date}`}</div>
+                <div className={classes.bold}>{title}</div>
+                <div className={classes.date}>{`Bills on ${date}`}</div>
                 <div className={classes.flex}>
-                  <div className={classes.spent}>{props.spentAmount}</div>
+                  <div className={classes.spent}>{spentAmount}</div>
                   <div className={classes.slash}>/</div>
-                  <div className={classes.budgeted}>{props.budgetedAmount}</div>
+                  <div className={classes.budgeted}>{budgetedAmount}</div>
                 </div>
                 <div className={classes.under}>Balanced!</div>
                 <div className={classes.options}>

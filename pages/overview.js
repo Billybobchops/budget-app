@@ -1,6 +1,13 @@
 import { useContext, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
+import { useSelector } from 'react-redux';
+import store from '../store';
+import { fetchItems } from '../store/item-slice';
+import { fetchCategories } from '../store/category-slice';
+import { fetchExpenses } from '../store/expenses-slice';
+import { fetchPaychecks } from '../store/planner-slice';
+import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import PageBackground from '../components/Layout/PageBackground';
 import MainGrid from '../components/Layout/MainGrid';
@@ -14,12 +21,6 @@ import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
 import CategoryForm from '../components/Forms/CategoryForm';
 import ItemForm from '../components/Forms/ItemForm';
-import store from '../store';
-import { fetchItems } from '../store/item-slice';
-import { fetchCategories } from '../store/category-slice';
-import { fetchPaychecks } from '../store/planner-slice';
-import { fetchFunds } from '../store/fund-slice';
-import { fetchExpenses } from '../store/expenses-slice';
 
 const Overview = () => {
   const {
@@ -32,17 +33,27 @@ const Overview = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
+  const categories = useSelector((state) => state.categories.entities);
+  const expenses = useSelector((state) => state.expenses.entities);
+  const paychecks = useSelector((state) => state.planner.entities);
+  const funds = useSelector((state) => state.funds.entities);
 
   useEffect(() => {
-    if (auth.user) {
+    if (
+      auth.user &&
+      Object.keys(categories).length === 0 &&
+      Object.keys(expenses).length === 0 &&
+      Object.keys(paychecks).length === 0 &&
+      Object.keys(funds).length === 0
+    ) {
       const uid = auth.user.uid;
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchItems(uid));
+      store.dispatch(fetchExpenses(uid));
       store.dispatch(fetchPaychecks(uid));
       store.dispatch(fetchFunds(uid));
-      store.dispatch(fetchExpenses(uid));
     }
-  }, [auth.user]);
+  }, [auth.user, categories, expenses, paychecks, funds]);
 
   if (!auth.user) {
     return <p>Loading!</p>;

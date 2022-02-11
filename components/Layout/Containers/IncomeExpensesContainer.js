@@ -13,7 +13,6 @@ const IncomeExpensesContainer = () => {
       <div className={classes.container}>
         {Object.values(expenses) !== 0 &&
           Object.values(expenses).map((item) => {
-            console.log(item);
             return (
               <IncomeExpenseItem
                 key={item.id}

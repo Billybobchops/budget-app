@@ -36,7 +36,7 @@ const PlannerContainer = ({ plannerHandler, items }) => {
                 title={check.id}
                 nickname={check.nickname}
                 expectedPay={check.expectedPay}
-                items={items}
+                // items={items}
                 // checks={checks}
               />
             );
