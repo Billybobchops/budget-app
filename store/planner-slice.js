@@ -3,6 +3,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
+import store from './index';
 import { addPlannedIncome, getPlannedIncome } from '../firebase/planner';
 
 const paycheckAdapter = createEntityAdapter();
@@ -17,6 +18,7 @@ export const fetchPaychecks = createAsyncThunk(
   async (uid) => {
     try {
       const response = await getPlannedIncome(uid);
+      // dispatch(calcTotalPay);
       return response;
     } catch (error) {
       console.log(error);
@@ -35,15 +37,7 @@ export const addNewIncome = createAsyncThunk(
 const plannerSlice = createSlice({
   name: 'planner',
   initialState,
-  reducers: {
-    calcTotalPay: (state) => {
-      let arr = [];
-      Object.values(state.entities).map((check) => arr.push(check.expectedPay));
-      state.totalExpectedPay = arr.reduce((acc, current) => {
-        return acc + current;
-      }, 0);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPaychecks.pending, (state) => {
@@ -51,6 +45,15 @@ const plannerSlice = createSlice({
       })
       .addCase(fetchPaychecks.fulfilled, (state, action) => {
         paycheckAdapter.setAll(state, action.payload);
+
+        let arr = [];
+        Object.values(action.payload).map((check) =>
+          arr.push(check.expectedPay)
+        );
+        state.totalExpectedPay = arr.reduce((acc, current) => {
+          return acc + current;
+        }, 0);
+
         state.status = 'idle';
       })
       .addCase(addNewIncome.fulfilled, paycheckAdapter.addOne);

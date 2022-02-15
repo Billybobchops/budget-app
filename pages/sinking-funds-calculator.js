@@ -58,7 +58,7 @@ const SinkingFunds = () => {
       </Portal>
       <PageBackground>
         <MainGrid>
-          <Header title='Sinking Funds Calculator' hasDatePicker={false} />
+          <Header title='Sinking Funds Calculator' />
           <SinkingFundsContainer fundHandler={onFundClick} />
         </MainGrid>
         <Sidebar hasProfileBar={true} hasBudgetMessage={true} />

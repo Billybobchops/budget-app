@@ -1,5 +1,6 @@
 import classes from './DatePicker.module.css';
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useRequireAuth } from '../../hooks/useRequireAuth';
 import store from '../../store/index';
 import {
   setHeaderMonth,
@@ -7,6 +8,7 @@ import {
   decrementYear,
   setDateToToday,
 } from '../../store/date-slice';
+import { fetchItems } from '../../store/item-slice';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -14,8 +16,13 @@ import Button from './Buttons/Button';
 
 const DatePicker = () => {
   const picker = useRef();
+  const auth = useRequireAuth();
   const headerDate = useSelector((state) => state.date.headerDate);
   const isCurrentDate = useSelector((state) => state.date.isCurrentDate);
+  const year = useSelector((state) => state.date.year);
+  const month = useSelector((state) => state.date.monthNum);
+  // const [selectedMonthNum, setSelectedMonthNum] = useState(+initialMonth);
+  // const [selectedYear, setSelectedYear] = useState(initialYear);
   const [isClicked, setIsClicked] = useState(false);
 
   const months = {
@@ -33,22 +40,40 @@ const DatePicker = () => {
     dec: { num: 12, short: 'Dec', long: 'December' },
   };
 
-  const setDate = (e) => {
+  const fetchAllData = (selectedDate) => {
+    const uid = auth.user.uid;
+    // put all dispatches here and reuse this in all 4 funcs below...
+    store.dispatch(fetchItems({ uid, selectedDate }));
+  };
+
+  const setMonth = (e) => {
     e.preventDefault();
-    const monthLong = e.target.value;
     const monthNum = e.target.id;
+    const monthLong = e.target.value;
+    // setSelectedMonthNum(monthNum);
+
+    const selectedDate = `${monthNum}/${year}`;
     store.dispatch(setHeaderMonth({ monthLong, monthNum }));
+    fetchAllData(selectedDate);
     setIsClicked(false);
   };
 
   const increment = (e) => {
     e.preventDefault();
-    store.dispatch(incrementYear());
-  };
+    // setSelectedYear(selectedYear++);
 
+    const selectedDate = `${monthNum}/${year++}`;
+    store.dispatch(incrementYear());
+    fetchAllData(selectedDate);
+  };
+  
   const decrement = (e) => {
     e.preventDefault();
+    // setSelectedYear(selectedYear--);
+
+    const selectedDate = `${monthNum}/${year--}`;
     store.dispatch(decrementYear());
+    fetchAllData(selectedDate);
   };
 
   const setDateToCurrent = (e) => {
@@ -117,7 +142,7 @@ const DatePicker = () => {
                   key={month.short}
                   value={month.long}
                   className={monthClass}
-                  onClick={setDate}
+                  onClick={setMonth}
                   id={month.num}
                 >
                   {month.short}

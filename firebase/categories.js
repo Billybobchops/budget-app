@@ -16,7 +16,6 @@ export const addCategory = async (uid, formData) => {
 
   try {
     await setDoc(userCategoriesRef, docData, { merge: true });
-    console.log('Category data has been written to the firestore DB.');
     return { ...formData };
   } catch (error) {
     console.log(error);
@@ -37,8 +36,8 @@ export const getAllCategories = async (uid) => {
     const docData = docSnapshot.data();
 
     Object.values(docData).forEach((category) => {
-      const { id, createdOn } = category;
-      categories[id] = { id, createdOn };
+      const { id, createdOn, createdOnMonthYear } = category;
+      categories[id] = { id, createdOn, createdOnMonthYear };
     });
   }
 

@@ -11,14 +11,17 @@ const initialState = itemsAdapter.getInitialState({
   status: 'idle',
 });
 
-export const fetchItems = createAsyncThunk('items/fetchItems', async (uid) => {
-  try {
-    const response = await getAllItems(uid);
-    return response;
-  } catch (error) {
-    console.log(error);
+export const fetchItems = createAsyncThunk(
+  'items/fetchItems',
+  async (uid) => {
+    try {
+      const response = await getAllItems(uid);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   }
-});
+);
 
 export const addNewItem = createAsyncThunk(
   'items/addNewItem',

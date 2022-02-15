@@ -8,6 +8,7 @@ import { fundConfig } from './formUtils/fundConfig';
 import useForm from '../../hooks/useForm';
 import store from '../../store';
 import { addNewFund } from '../../store/fund-slice';
+import { generateMonthYear } from '../../utils/helpers';
 
 const FundForm = (props) => {
   const { renderFormInputs, isFormValid, form } = useForm(fundConfig);
@@ -20,12 +21,13 @@ const FundForm = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = {
-      id: form.title.value,
+      id: form.title.value.trim(),
       timePeriod: +form.timePeriod.value,
       timeType: form.timeType.value.value === 'Months' ? 'Month' : 'Year',
       totalAmount: +form.totalAmount.value,
       billDate: form.billDate.value === '' ? null : form.billDate.value,
       createdOn: new Date().toLocaleDateString(),
+      createdOnMonthYear: generateMonthYear(),
     };
     store.dispatch(addNewFund({ uid, formData }));
     onkeydown();

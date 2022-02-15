@@ -8,6 +8,7 @@ import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 import store from '../../store';
 import { addNewExpense } from '../../store/expenses-slice';
+import { generateMonthYear } from '../../utils/helpers';
 
 const ExpenseForm = () => {
   const { renderFormInputs, isFormValid, form, selectedOption } =
@@ -23,13 +24,14 @@ const ExpenseForm = () => {
     const isCurrentItem = selectedOption === 'yes';
 
     const formData = {
-      id: isCurrentItem ? form.itemSelect.value.value : form.title.value,
-      itemSelect: isCurrentItem ? form.itemSelect.value.value : null,
+      id: isCurrentItem ? form.itemSelect.value.value : form.title.value.trim(),
+      // itemSelect: isCurrentItem ? form.itemSelect.value.value : null,
       category: isCurrentItem ? form.itemSelect.value.category : null, // form.categorySelect.value.value
       expense: true,
       amount: +form.amount.value,
       billDate: form.date.value,
       createdOn: new Date().toLocaleDateString(),
+      createdOnMonthYear: generateMonthYear(),
     };
 
     store.dispatch(addNewExpense({ uid, formData }));

@@ -8,6 +8,8 @@ import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchPaychecks } from '../store/planner-slice';
 import { fetchFunds } from '../store/fund-slice';
+import { calcTotalPay } from '../store/planner-slice';
+import { calcTotalFund } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import PageBackground from '../components/Layout/PageBackground';
 import MainGrid from '../components/Layout/MainGrid';
@@ -52,6 +54,7 @@ const Overview = () => {
       store.dispatch(fetchExpenses(uid));
       store.dispatch(fetchPaychecks(uid));
       store.dispatch(fetchFunds(uid));
+      // store.dispatch(calcTotalPay());
     }
   }, [auth.user, categories, expenses, paychecks, funds]);
 
@@ -73,7 +76,7 @@ const Overview = () => {
       </Portal>
       <PageBackground>
         <MainGrid>
-          <Header title='Overview' hasDatePicker={true} />
+          <Header title='Overview' />
           <ButtonBar>
             <Button text='Budget Category' clickHandler={onCategoryClick} />
             <Button text='Budget Item' clickHandler={onItemClick} />

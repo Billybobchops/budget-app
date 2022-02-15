@@ -1,6 +1,5 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { addCategory } from '../../firebase/categories';
 import { categoryConfig } from './formUtils/categoryConfig';
 import useForm from '../../hooks/useForm';
 import FormContext from '../../store/form-context';
@@ -9,6 +8,7 @@ import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 import store from '../../store';
 import { addNewCategory } from '../../store/category-slice';
+import { generateMonthYear } from '../../utils/helpers';
 
 const CategoryForm = () => {
   const { renderFormInputs, isFormValid, form } = useForm(categoryConfig);
@@ -21,8 +21,9 @@ const CategoryForm = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = {
-      id: form.category.value,
+      id: form.category.value.trim(),
       createdOn: new Date().toLocaleDateString(),
+      createdOnMonthYear: generateMonthYear(),
     };
     store.dispatch(addNewCategory({ uid, formData }));
     onkeydown();

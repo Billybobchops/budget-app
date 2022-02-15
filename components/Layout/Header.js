@@ -13,12 +13,19 @@ const Header = ({ title, hasDatePicker }) => {
         <p>{`Welcome ${user.displayName}!`}</p>
       </div>
       <h1 className={classes.title}>{title}</h1>
-      {/* date must match with selected date from DatePicker component */}
-      <p className={classes.date}>{headerDate}</p>
       {hasDatePicker && (
-        <div className={classes.timeSelector}>
-          <DatePicker />
-        </div>
+        <>
+          <p className={classes.date}>{headerDate}</p>
+          <div className={classes.timeSelector}>
+            <DatePicker />
+          </div>
+        </>
+      )}
+      {!hasDatePicker && (
+        <>
+          <div></div>
+          <p className={classes.dateEnd}>{headerDate}</p>
+        </>
       )}
     </div>
   );

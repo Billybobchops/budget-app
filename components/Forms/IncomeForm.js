@@ -8,6 +8,7 @@ import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 import store from '../../store';
 import { addNewExpense } from '../../store/expenses-slice';
+import { generateMonthYear } from '../../utils/helpers';
 
 const IncomeForm = (props) => {
   const { renderFormInputs, isFormValid, form, selectedOption } =
@@ -25,15 +26,16 @@ const IncomeForm = (props) => {
     const formData = {
       id: isPlannedPaycheck
         ? form.paycheckSelect.value.value
-        : form.title.value,
+        : form.title.value.trim(),
       expense: false,
-      nickname: form.nickname.value === '' ? null : form.nickname.value,
+      nickname: form.nickname.value === '' ? null : form.nickname.value.trim(),
       amount: +form.amount.value,
       billDate: form.billDate.value,
       plannedPaycheck: !isPlannedPaycheck
         ? null
         : form.paycheckSelect.value.value,
       createdOn: new Date().toLocaleDateString(),
+      createdOnMonthYear: generateMonthYear(),
     };
 
     store.dispatch(addNewExpense({ uid, formData }));

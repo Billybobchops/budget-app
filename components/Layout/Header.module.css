@@ -19,6 +19,13 @@
   color: #0f4e31;
 }
 
+.dateEnd {
+  justify-self: end;
+  font-size: 20px;
+  font-weight: 300;
+  color: #0f4e31;
+}
+
 .welcome {
   grid-area: welcome;
 }

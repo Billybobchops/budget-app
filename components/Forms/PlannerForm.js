@@ -8,6 +8,7 @@ import FormBackground from './FormUI/FormBackground';
 import FormContext from '../../store/form-context';
 import SubmitButton from './FormUI/SubmitButton';
 import { plannerConfig } from './formUtils/plannerConfig';
+import { generateMonthYear } from '../../utils/helpers';
 
 const PlannerForm = (props) => {
   const { renderFormInputs, isFormValid, form } = useForm(plannerConfig);
@@ -20,13 +21,13 @@ const PlannerForm = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = {
-      id: form.title.value,
-      nickname: form.nickname.value,
+      id: form.title.value.trim(),
+      nickname: form.nickname.value.trim(),
       expectedPay: +form.expectedPay.value,
       createdOn: new Date().toLocaleDateString(),
+      createdOnMonthYear: generateMonthYear(),
     };
     store.dispatch(addNewIncome({ uid, formData }));
-    // addPlannedIncome(uid, formData);
     onkeydown();
   };
 

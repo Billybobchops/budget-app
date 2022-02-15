@@ -1,5 +1,5 @@
 import { db } from './firebaseClient';
-import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
+import { addDoc, getDocs, collection } from 'firebase/firestore';
 
 /**
  * adds a sinking fund item to the current user's doc in the 'fundItems' subcollection
@@ -8,14 +8,11 @@ import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
  * @param {object} formData - data describing the sinking fund item
  */
 export const addFund = async (uid, formData) => {
-  const key = formData.id;
-  const userFundsRef = doc(db, `sinkingFunds/${uid}/fundItems/${key}`);
-  const docData = {
-    [key]: { ...formData },
-  };
+  const id = formData.id;
+  const userFundsRef = collection(db, `sinkingFunds/${uid}/fundItems`);
 
   try {
-    await setDoc(userFundsRef, docData, { merge: true });
+    await addDoc(userFundsRef, { id, data: { ...formData } }, { merge: true });
     return { ...formData };
   } catch (error) {
     console.log(error);
@@ -36,12 +33,21 @@ export const getFunds = async (uid) => {
   querySnapshot.forEach((doc) => {
     const docData = doc.data();
     const {
-      [doc.id]: { id, createdOn, timeType, timePeriod, totalAmount, billDate },
+      data: {
+        id,
+        createdOn,
+        createdOnMonthYear,
+        timeType,
+        timePeriod,
+        totalAmount,
+        billDate,
+      },
     } = docData;
 
-    funds[doc.id] = {
+    funds[id] = {
       id,
       createdOn,
+      createdOnMonthYear,
       timeType,
       timePeriod,
       totalAmount,

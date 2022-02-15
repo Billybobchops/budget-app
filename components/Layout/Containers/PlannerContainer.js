@@ -3,11 +3,7 @@ import classes from './PlannerContainer.module.css';
 import Button from '../../UI/Buttons/Button';
 import { useSelector } from 'react-redux';
 
-import store from '../../../store';
-import { calcTotalPay } from '../../../store/planner-slice';
-
 const PlannerContainer = ({ plannerHandler, items }) => {
-  store.dispatch(calcTotalPay());
   const checks = useSelector((state) => state.planner.entities);
   const totalPay = useSelector((state) => state.planner.totalExpectedPay);
 

@@ -23,6 +23,21 @@ const Table = ({ children }) => {
 const BudgetCategory = ({ categoryTitle }) => {
   const [isActive, setIsActive] = useState(false);
   const items = useSelector((state) => state.items.entities);
+  const totalExpectedPay = useSelector(
+    (state) => state.planner.totalExpectedPay
+  );
+  let budgeted = 0;
+
+  if (Object.values(items).length !== 0) {
+    Object.values(items).map((item) => {
+      if (categoryTitle === item.category) budgeted += item.budgetAmount;
+      // push budgeted variable to the category slice as a key/val of an obj
+    });
+  }
+
+  const percent = ((budgeted / totalExpectedPay) * 100).toFixed(2);
+  console.log(`percentOfGrossIncome is ...`);
+  console.log(percent);
 
   const activeHandler = () => {
     setIsActive(!isActive);
@@ -50,16 +65,19 @@ const BudgetCategory = ({ categoryTitle }) => {
                   <td className={classes.head2}>
                     <div className={classes.title}>
                       {categoryTitle} -
-                      <span className={classes.percentage}> xx% of Income</span>
+                      <span className={classes.percentage}>
+                        {' '}
+                        {percent}% of Income
+                      </span>
                     </div>
                   </td>
                   <td className={classes.head3}>
                     <div className={classes.flex}>
                       <div className={classes.spent}>
-                        <span className={classes.bold}>Spent</span> $123.43
+                        <span className={classes.bold}>Spent</span> $0
                       </div>
                       <div className={classes.slash}>/</div>
-                      <div className={classes.budgeted}>$1,000.43</div>
+                      <div className={classes.budgeted}>${budgeted}</div>
                     </div>
                   </td>
                   <td className={classes.head4}>

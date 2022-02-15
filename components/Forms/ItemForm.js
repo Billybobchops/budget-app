@@ -8,11 +8,10 @@ import { itemConfig } from './formUtils/itemConfig';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
-import { formatItemDate } from '../../utils/helpers';
+import { formatItemDate, generateMonthYear } from '../../utils/helpers';
 
 const ItemForm = (props) => {
-  const { renderFormInputs, isFormValid, form } =
-    useForm(itemConfig);
+  const { renderFormInputs, isFormValid, form } = useForm(itemConfig);
   const {
     user: { uid },
   } = useAuth();
@@ -23,10 +22,11 @@ const ItemForm = (props) => {
     e.preventDefault();
     const formData = {
       category: form.categorySelect.value.value,
-      id: form.title.value,
+      id: form.title.value.trim(),
       budgetAmount: +form.budgetAmount.value,
       billDate: formatItemDate(form.billDate.value),
       createdOn: new Date().toLocaleDateString(),
+      createdOnMonthYear: generateMonthYear(),
       paycheckSelect:
         form.paycheckSelect.value === ''
           ? null

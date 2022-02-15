@@ -70,7 +70,7 @@ const IncomeExpenses = () => {
       </Portal>
       <PageBackground>
         <MainGrid>
-          <Header title='Income and Expenses' hasDatePicker={true} />
+          <Header title='Income and Expenses' />
           <ButtonBar>
             <Button text='Income' clickHandler={onIncomeClick} />
             <Button text='Expense' clickHandler={onExpenseClick} />
