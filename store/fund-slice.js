@@ -36,15 +36,7 @@ export const addNewFund = createAsyncThunk(
 const fundSlice = createSlice({
   name: 'funds',
   initialState,
-  reducers: {
-    calcTotalFund: (state) => {
-      let arr = [];
-      Object.values(state.entities).map((fund) => arr.push(fund.totalAmount));
-      state.totalFundAmount = arr.reduce((acc, current) => {
-        return acc + current;
-      }, 0);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchFunds.pending, (state) => {
@@ -52,6 +44,13 @@ const fundSlice = createSlice({
       })
       .addCase(fetchFunds.fulfilled, (state, action) => {
         fundsAdapter.setAll(state, action.payload);
+
+        let arr = [];
+        Object.values(action.payload).map((fund) => arr.push(fund.totalAmount));
+        state.totalFundAmount = arr.reduce((acc, current) => {
+          return acc + current;
+        }, 0);
+
         state.status = 'idle';
       })
       .addCase(addNewFund.fulfilled, fundsAdapter.addOne);

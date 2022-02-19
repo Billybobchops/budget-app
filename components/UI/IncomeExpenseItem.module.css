@@ -7,8 +7,8 @@
   color: #04311c;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 60px;
-  grid-template-areas: "title nickname date amount options";
+  grid-template-columns: 1fr 1fr 1fr 60px;
+  grid-template-areas: "title date amount options";
 }
 
 .expense {
@@ -19,10 +19,6 @@
   font-weight: 700;
   padding-left: 16px;
   grid-area: title;
-}
-
-.nickname {
-  grid-area: nickname;
 }
 
 .date {
@@ -40,22 +36,21 @@
 
 @media (max-width: 800px) {
   .container {
-    grid-template-areas: "title title title date options" "nickname nickname nickname amount options";
+    grid-template-columns: 1fr 1fr 60px;
+    grid-template-areas: "title title options" "amount date options";
   }
 
-  .title,
-  .date,
-  .option {
+  .title {
     border-bottom: 1px solid #62d5b5;
   }
 
-  .nickname {
-    padding-left: 16px;
-  }
-
-  .date,
-  .amount {
+  .date {
     text-align: right;
     padding-right: 16px;
+  }
+
+  .amount {
+    text-align: left;
+    padding-left: 16px;
   }
 }

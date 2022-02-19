@@ -16,7 +16,7 @@ const IncomeExpensesContainer = () => {
             return (
               <IncomeExpenseItem
                 key={item.id}
-                title={item.id}
+                title={item.title}
                 nickname={item.nickname}
                 date={item.billDate}
                 amount={item.amount}

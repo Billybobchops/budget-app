@@ -3,11 +3,8 @@ import HighLowToggle from '../../UI/HighLowToggle';
 import SinkingFundsItem from '../../UI/SinkingFundItem';
 import Button from '../../UI/Buttons/Button';
 import { useSelector } from 'react-redux';
-import store from '../../../store';
-import { calcTotalFund } from '../../../store/fund-slice';
 
 const SinkingFundsContainer = ({ fundHandler }) => {
-  store.dispatch(calcTotalFund());
   const funds = useSelector((state) => state.funds.entities);
   const totalFundAmount = useSelector((state) => state.funds.totalFundAmount);
 
@@ -60,7 +57,9 @@ const SinkingFundsContainer = ({ fundHandler }) => {
       </div>
       <div className={classes.total}>
         <p className={classes.totalTitle}>Total Monthly</p>
-        <p className={classes.totalAmount}>${totalFundAmount.toLocaleString()}</p>
+        <p className={classes.totalAmount}>
+          ${totalFundAmount.toLocaleString()}
+        </p>
       </div>
     </section>
   );

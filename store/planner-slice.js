@@ -18,7 +18,6 @@ export const fetchPaychecks = createAsyncThunk(
   async (uid) => {
     try {
       const response = await getPlannedIncome(uid);
-      // dispatch(calcTotalPay);
       return response;
     } catch (error) {
       console.log(error);

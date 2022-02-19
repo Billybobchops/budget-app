@@ -14,7 +14,8 @@ export const addExpense = async (uid, formData) => {
   try {
     await addDoc(
       userExpenseRef,
-      { id, data: { ...formData } },
+      // { id, data: { ...formData } },
+      { data: { ...formData } },
       { merge: true }
     );
     return { ...formData };
@@ -36,9 +37,10 @@ export const getExpenses = async (uid) => {
 
   querySnapshot.forEach((doc) => {
     const docData = doc.data();
+
     const {
       data: {
-        id,
+        title,
         amount,
         billDate,
         createdOn,
@@ -49,8 +51,11 @@ export const getExpenses = async (uid) => {
       },
     } = docData;
 
-    expenses[id] = {
-      id,
+    // normalize it after reading it in from DB
+    // id overwrites id: serverTimestamp 
+    expenses[doc.id] = {
+      id: doc.id,
+      title,
       amount,
       billDate,
       createdOn,
@@ -60,6 +65,6 @@ export const getExpenses = async (uid) => {
       plannedPaycheck,
     };
   });
-
+  
   return expenses;
 };

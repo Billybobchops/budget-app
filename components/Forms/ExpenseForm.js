@@ -9,6 +9,7 @@ import SubmitButton from './FormUI/SubmitButton';
 import store from '../../store';
 import { addNewExpense } from '../../store/expenses-slice';
 import { generateMonthYear } from '../../utils/helpers';
+import { serverTimestamp } from 'firebase/firestore';
 
 const ExpenseForm = () => {
   const { renderFormInputs, isFormValid, form, selectedOption } =
@@ -24,8 +25,10 @@ const ExpenseForm = () => {
     const isCurrentItem = selectedOption === 'yes';
 
     const formData = {
-      id: isCurrentItem ? form.itemSelect.value.value : form.title.value.trim(),
-      // itemSelect: isCurrentItem ? form.itemSelect.value.value : null,
+      id: serverTimestamp().toMillis(),
+      title: isCurrentItem
+        ? form.itemSelect.value.value
+        : form.title.value.trim(),
       category: isCurrentItem ? form.itemSelect.value.category : null, // form.categorySelect.value.value
       expense: true,
       amount: +form.amount.value,

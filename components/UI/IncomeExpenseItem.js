@@ -12,7 +12,6 @@ const IncomeExpenseItem = ({ title, nickname, date, amount, expense }) => {
       className={`${[classes.container, classes[backgroundColor]].join(' ')}`}
     >
       <div className={classes.title}>{title}</div>
-      <div className={classes.nickname}>{nickname}</div>
       <div className={classes.date}>{dateFormat}</div>
       <div className={classes.amount}>${amount}</div>
       <div className={classes.options}>
