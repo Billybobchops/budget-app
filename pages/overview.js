@@ -33,6 +33,7 @@ const Overview = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
+  const currentDate = useSelector((state) => state.date.formattedMonthYear);
   const categories = useSelector((state) => state.categories.entities);
   const expenses = useSelector((state) => state.expenses.entities);
   const paychecks = useSelector((state) => state.planner.entities);
@@ -49,11 +50,11 @@ const Overview = () => {
       const uid = auth.user.uid;
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchItems(uid));
-      store.dispatch(fetchExpenses(uid));
+      store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
       store.dispatch(fetchFunds(uid));
     }
-  }, [auth.user, categories, expenses, paychecks, funds]);
+  }, [auth.user, currentDate, categories, expenses, paychecks, funds]);
 
   if (!auth.user) {
     return <p>Loading!</p>;

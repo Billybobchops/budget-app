@@ -9,7 +9,6 @@ import SubmitButton from './FormUI/SubmitButton';
 import store from '../../store';
 import { addNewExpense } from '../../store/expenses-slice';
 import { generateMonthYear } from '../../utils/helpers';
-import { serverTimestamp } from 'firebase/firestore';
 
 const ExpenseForm = () => {
   const { renderFormInputs, isFormValid, form, selectedOption } =
@@ -25,7 +24,7 @@ const ExpenseForm = () => {
     const isCurrentItem = selectedOption === 'yes';
 
     const formData = {
-      id: serverTimestamp().toMillis(),
+      id: Date.now(), // temp id (overwritten with firestore doc.id when read back in)
       title: isCurrentItem
         ? form.itemSelect.value.value
         : form.title.value.trim(),

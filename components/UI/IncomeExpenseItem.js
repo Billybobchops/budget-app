@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from '../../utils/helpers';
 
-const IncomeExpenseItem = ({ title, nickname, date, amount, expense }) => {
+const IncomeExpenseItem = ({ title, date, amount, expense }) => {
   let backgroundColor = `${expense && 'expense'}`;
   const dateFormat = formatDate(date);
 

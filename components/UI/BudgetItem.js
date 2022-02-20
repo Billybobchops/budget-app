@@ -1,10 +1,40 @@
 import classes from './BudgetItem.module.css';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
 
-const BudgetItem = ({ title, index, budgetedAmount, spentAmount, date }) => {
+const BudgetItem = ({ title, index, budgetedAmount, date }) => {
   // className={`${[classes.container, classes[`${snapshot.isDragging && "backgroundDrag"}`],].join(" ")}`}
+  const expenses = useSelector((state) => state.expenses.entities);
+  let spent = 0;
+  let balanceClass = null;
+  let balanceString = null;
+
+  // calculate spent amount client side
+  // would it be better to do via item-slice?
+  if (Object.values(expenses).length !== 0) {
+    Object.values(expenses).map((expense) => {
+      if (title === expense.title) spent += expense.amount;
+
+      // push spent var to a redux slice as a key/val of an obj
+      // similar to BudgetCateogory.js line 34
+      // store.dispatch(calcSpentAmount());
+    });
+  }
+
+  if (spent === budgetedAmount) {
+    balanceClass = 'balanced';
+    balanceString = '✅ Balanced';
+  }
+  if (spent > budgetedAmount) {
+    balanceClass = 'over';
+    balanceString = '🔺 Over';
+  }
+  if (spent < budgetedAmount) {
+    balanceClass = 'under';
+    balanceString = '🎉 Under';
+  }
 
   return (
     <>
@@ -35,15 +65,16 @@ const BudgetItem = ({ title, index, budgetedAmount, spentAmount, date }) => {
                     <td className={classes.col3}>
                       <div className={classes.flex}>
                         <div>
-                          <span className={classes.bold}>Spent</span>{' '}
-                          {spentAmount}
+                          <span className={classes.bold}>Spent</span> ${spent}
                         </div>
                         <div className={classes.slash}>/</div>
-                        <div>{budgetedAmount}</div>
+                        <div>${budgetedAmount}</div>
                       </div>
                     </td>
                     <td className={classes.col4}>
-                      <div className={classes.under}>Balanced!</div>
+                      <div className={classes[balanceClass]}>
+                        {balanceString}!
+                      </div>
                     </td>
                     <td className={classes.col5}>
                       {/* this ellipsis needs to be wrapped by <button> to be interactive */}
@@ -57,11 +88,11 @@ const BudgetItem = ({ title, index, budgetedAmount, spentAmount, date }) => {
                 <div className={classes.bold}>{title}</div>
                 <div className={classes.date}>{`Bills on ${date}`}</div>
                 <div className={classes.flex}>
-                  <div className={classes.spent}>{spentAmount}</div>
+                  <div className={classes.spent}>${spent}</div>
                   <div className={classes.slash}>/</div>
-                  <div className={classes.budgeted}>{budgetedAmount}</div>
+                  <div className={classes.budgeted}>${budgetedAmount}</div>
                 </div>
-                <div className={classes.under}>Balanced!</div>
+                <div className={classes[balanceClass]}>{balanceString}!</div>
                 <div className={classes.options}>
                   <FontAwesomeIcon icon={faEllipsisH} />
                 </div>

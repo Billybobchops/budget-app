@@ -3,14 +3,14 @@
   box-shadow: #0000004f 0px 3px 5px;
   padding: 12px 0;
   margin: 14px 12px;
-  font-family: "Cairo", sans-serif;
+  font-family: 'Cairo', sans-serif;
   color: #04311c;
   list-style-type: none;
 }
 
 .backgroundDrag {
-  background-color: #D0FFE9;
-  border-left: 7px solid #04311C;
+  background-color: #d0ffe9;
+  border-left: 7px solid #04311c;
 }
 
 .table {
@@ -35,8 +35,23 @@
   font-weight: 700;
 }
 
+.balanced,
+.over,
 .under {
   max-width: max-content;
+}
+
+/* .under,
+.over {
+  font-weight: 700;
+} */
+
+.under {
+  color: #2d8058;
+}
+
+.over {
+  color: red;
 }
 
 .emptyCell {
@@ -80,7 +95,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 40px;
     grid-template-rows: repeat(2, 1fr);
-    grid-template-areas: "title date options" "budget balance options";
+    grid-template-areas: 'title date options' 'budget balance options';
   }
 
   .bold {
@@ -126,7 +141,7 @@
 @media (max-width: 400px) {
   .secondaryRow {
     grid-template-columns: 1fr 1fr 60px;
-    grid-template-areas: "title title options" "budget budget options";
+    grid-template-areas: 'title title options' 'budget budget options';
   }
 
   .date,

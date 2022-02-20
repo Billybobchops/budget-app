@@ -62,7 +62,7 @@ export const getAllItems = async (uid) => {
   }
 };
 
-// removed
+// removed since we're not fetching items by date
 //  export const getAllItems = async (uid, selectedDate) => {
 //   try {
 //     let items = {};

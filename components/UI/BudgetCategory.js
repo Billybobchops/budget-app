@@ -92,14 +92,12 @@ const BudgetCategory = ({ categoryTitle }) => {
                 Object.values(items).length !== 0 &&
                 Object.values(items).map((item, index) => {
                   if (categoryTitle === item.category)
-                  console.log(`the item.id is ${item.id}`);
                     return (
                       <BudgetItem
                         key={item.id}
                         title={item.id}
                         date={item.billDate}
-                        spentAmount='$0'
-                        budgetedAmount={`$${item.budgetAmount}`}
+                        budgetedAmount={item.budgetAmount}
                         index={index}
                       />
                     );

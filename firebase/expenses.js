@@ -1,5 +1,5 @@
 import { db } from './firebaseClient';
-import { addDoc, getDocs, collection } from 'firebase/firestore';
+import { addDoc, getDocs, collection, query, where } from 'firebase/firestore';
 
 /**
  * adds an expense itme to current user's doc in the 'items' subcollection
@@ -24,47 +24,96 @@ export const addExpense = async (uid, formData) => {
   }
 };
 
+// /**
+//  * fetches a user's expense items
+//  * @param {string} id - to get user's collection
+//  * @returns a users expense items
+//  */
+// export const getExpenses = async (uid) => {
+//   const expenses = {};
+//   const querySnapshot = await getDocs(
+//     collection(db, `expenseItems/${uid}/items`)
+//   );
+
+//   querySnapshot.forEach((doc) => {
+//     const docData = doc.data();
+
+//     const {
+//       data: {
+//         title,
+//         amount,
+//         billDate,
+//         createdOn,
+//         createdOnMonthYear,
+//         expense,
+//         nickname,
+//         plannedPaycheck,
+//       },
+//     } = docData;
+
+//     // normalize it when reading it in from DB
+//     // id overwrites id: Date.now() in ExpenseForm.js
+//     expenses[doc.id] = {
+//       id: doc.id,
+//       title,
+//       amount,
+//       billDate,
+//       createdOn,
+//       createdOnMonthYear,
+//       expense,
+//       nickname,
+//       plannedPaycheck,
+//     };
+//   });
+
+//   return expenses;
+// };
+
 /**
  * fetches a user's expense items
  * @param {string} id - to get user's collection
- * @returns a users expense items
+ * @param {string} currentDate - retrieve only this month's expenses
+ * @returns a users expense items for the current month
  */
-export const getExpenses = async (uid) => {
-  const expenses = {};
-  const querySnapshot = await getDocs(
-    collection(db, `expenseItems/${uid}/items`)
-  );
+export const getExpenses = async (uid, currentDate) => {
+  try {
+    let expenses = {};
+    // console.log(`currentDate is ${currentDate}`);
+    const q = query(
+      collection(db, `expenseItems/${uid}/items`),
+      where('data.createdOnMonthYear', '==', currentDate)
+    );
 
-  querySnapshot.forEach((doc) => {
-    const docData = doc.data();
+    const querySnapshot = await getDocs(q);
 
-    const {
-      data: {
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data();
+      const {
+        data: {
+          title,
+          amount,
+          billDate,
+          createdOn,
+          createdOnMonthYear,
+          expense,
+        },
+      } = docData;
+
+      // normalize it when reading it in from DB
+      // id overwrites id: Date.now() in ExpenseForm.js
+      expenses[doc.id] = {
+        id: doc.id,
         title,
         amount,
         billDate,
         createdOn,
         createdOnMonthYear,
         expense,
-        nickname,
-        plannedPaycheck,
-      },
-    } = docData;
+      };
+    });
 
-    // normalize it after reading it in from DB
-    // id overwrites id: serverTimestamp 
-    expenses[doc.id] = {
-      id: doc.id,
-      title,
-      amount,
-      billDate,
-      createdOn,
-      createdOnMonthYear,
-      expense,
-      nickname,
-      plannedPaycheck,
-    };
-  });
-  
-  return expenses;
+    return expenses;
+  } catch (error) {
+    console.log(error);
+  }
 };

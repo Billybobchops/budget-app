@@ -9,13 +9,14 @@ const expensesAdapter = createEntityAdapter();
 
 const initialState = expensesAdapter.getInitialState({
   status: 'idle',
+  spentAmounts: {},
 });
 
 export const fetchExpenses = createAsyncThunk(
   'expenses/fetchExpenses',
-  async (uid) => {
+  async ({ uid, currentDate }) => {
     try {
-      const response = await getExpenses(uid);
+      const response = await getExpenses(uid, currentDate);
       return response;
     } catch (error) {
       console.log(error);
@@ -47,6 +48,20 @@ const expenseSlice = createSlice({
       .addCase(fetchExpenses.fulfilled, (state, action) => {
         expensesAdapter.setAll(state, action.payload);
         state.status = 'idle';
+
+        Object.values(action.payload).map((expense) => {
+          // initialize if it doesn't already exist
+          if (state.spentAmounts[expense.title] === undefined) {
+            state.spentAmounts[expense.title] = {
+              id: expense.title,
+              spent: expense.amount,
+            };
+            return;
+          }
+          // if it exists already, add additional spent amount to current spent amount
+          if (state.spentAmounts[expense.title])
+            state.spentAmounts[expense.title].spent += expense.amount;
+        });
       })
       .addCase(addNewExpense.fulfilled, expensesAdapter.addOne);
   },
