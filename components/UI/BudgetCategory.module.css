@@ -4,7 +4,7 @@
   box-shadow: #0000004f 0px 3px 5px;
   padding: 16px 0;
   margin-bottom: 18px;
-  font-family: "Cairo", sans-serif;
+  font-family: 'Cairo', sans-serif;
   color: #04311c;
 }
 
@@ -62,15 +62,14 @@
 
 .under,
 .over {
-  color: #fff;
   font-size: 14px;
-  padding: 5px 10px;
+  padding: 5px 15px;
   text-align: center;
   max-width: max-content;
 }
 
 .under {
-  background-color: #2d8058;
+  background-color: #49be9d;
 }
 
 .over {

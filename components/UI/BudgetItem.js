@@ -14,19 +14,16 @@ const BudgetItem = ({ title, index, budgetedAmount, date }) => {
   } ${dateString}`;
 
   const expenses = useSelector((state) => state.expenses.entities);
-  let spent = 0;
   let balanceClass = null;
   let balanceString = null;
+  let spent = 0;
 
-  // calculate spent amount client side
-  // would it be better to do via item-slice?
+  // would it be better to do this via item-slice once on fetch?
+  // instead of every time the accordion opens/closes...
   if (Object.values(expenses).length !== 0) {
     Object.values(expenses).map((expense) => {
       if (title === expense.title) spent += expense.amount;
-
-      // push spent var to a redux slice as a key/val of an obj
-      // similar to BudgetCateogory.js line 34
-      // store.dispatch(calcSpentAmount());
+      console.log('func running'); // 20 freaking times for 5 items!
     });
   }
 

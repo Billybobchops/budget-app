@@ -23,19 +23,42 @@ const Table = ({ children }) => {
 const BudgetCategory = ({ categoryTitle }) => {
   const [isActive, setIsActive] = useState(false);
   const items = useSelector((state) => state.items.entities);
+  const spentCategories = useSelector(
+    (state) => state.expenses.spentCategories
+  );
   const totalExpectedPay = useSelector(
     (state) => state.planner.totalExpectedPay
   );
-  let budgeted = 0;
+  const totalBudgeted = useSelector((state) => state.items.totalBudgeted);
+  const spent =
+    spentCategories[categoryTitle] !== undefined
+      ? spentCategories[categoryTitle].spent
+      : 0;
+  let budgeted =
+    totalBudgeted[categoryTitle] !== undefined
+      ? totalBudgeted[categoryTitle].budgeted
+      : 0;
+  const percent = ((budgeted / totalExpectedPay) * 100).toFixed(2);
+  let balanceClass = null;
+  let balanceString = null;
 
-  if (Object.values(items).length !== 0) {
-    Object.values(items).map((item) => {
-      if (categoryTitle === item.category) budgeted += item.budgetAmount;
-      // push budgeted variable to the category slice as a key/val of an obj
-    });
+  if (spent === budgeted) {
+    balanceClass = 'balanced';
+    balanceString = `Balanced!`;
+  }
+  if (spent > budgeted) {
+    balanceClass = 'over';
+    balanceString = `$${spent - budgeted} Over`;
+  }
+  if (spent < budgeted) {
+    balanceClass = 'under';
+    balanceString = `$${budgeted - spent} Under`;
   }
 
-  const percent = ((budgeted / totalExpectedPay) * 100).toFixed(2);
+  if (spent === 0 && budgeted === 0) {
+    balanceClass = '';
+    balanceString = '';
+  }
 
   const activeHandler = () => {
     setIsActive(!isActive);
@@ -72,14 +95,14 @@ const BudgetCategory = ({ categoryTitle }) => {
                   <td className={classes.head3}>
                     <div className={classes.flex}>
                       <div className={classes.spent}>
-                        <span className={classes.bold}>Spent</span> $0
+                        <span className={classes.bold}>Spent</span> ${spent}
                       </div>
                       <div className={classes.slash}>/</div>
                       <div className={classes.budgeted}>${budgeted}</div>
                     </div>
                   </td>
                   <td className={classes.head4}>
-                    <div className={classes.under}>Under $567</div>
+                    <div className={classes[balanceClass]}>{balanceString}</div>
                   </td>
                   <td className={classes.head5}>
                     <FontAwesomeIcon icon={faEllipsisH} />
@@ -89,7 +112,6 @@ const BudgetCategory = ({ categoryTitle }) => {
             </div>
             <ul className={classes.list}>
               {isActive &&
-                
                 Object.values(items).map((item, index) => {
                   if (categoryTitle === item.category)
                     return (

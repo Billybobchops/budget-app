@@ -9,6 +9,7 @@ const itemsAdapter = createEntityAdapter();
 
 const initialState = itemsAdapter.getInitialState({
   status: 'idle',
+  totalBudgeted: {},
 });
 
 export const fetchItems = createAsyncThunk('items/fetchItems', async (uid) => {
@@ -35,14 +36,7 @@ export const addNewItem = createAsyncThunk(
 const itemSlice = createSlice({
   name: 'items',
   initialState,
-  reducers: {
-    // calcSpent: (state, action) => {
-    //   state.spentAmounts[action.payload.title] = {
-    //     id: action.payload.title,
-    //     spent: action.payload.spentAmount,
-    //   };
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchItems.pending, (state) => {
@@ -50,15 +44,28 @@ const itemSlice = createSlice({
       })
       .addCase(fetchItems.fulfilled, (state, action) => {
         itemsAdapter.setAll(state, action.payload);
-        // have to combine item-slice with expenses-slice to get access to both states...
-        // would we then to likely have to combine it with categories as well to calculate
-        // for sure can't only do this client-side
-
-        // map over state.items.entities (titles) and state.expenses.entities (title)?
-        // & add to spentAmount obj like so...
-        // spentAmount[title]: { id: title, spent: 55 }
-
         state.status = 'idle';
+
+        Object.values(action.payload).map((item) => {
+          if (state.totalBudgeted[item.category] === undefined) {
+            let currentCategory = item.category;
+            let arr = [];
+
+            Object.values(action.payload).map((item) => {
+              if (item.category === currentCategory) {
+                arr.push(item.budgetAmount);
+              }
+            });
+
+            state.totalBudgeted[currentCategory] = {
+              id: item.category,
+              budgeted: arr.reduce((acc, current) => {
+                return acc + current;
+              }),
+            };
+            return;
+          }
+        });
       })
       .addCase(addNewItem.fulfilled, itemsAdapter.addOne);
   },
