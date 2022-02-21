@@ -78,7 +78,7 @@ export const addExpense = async (uid, formData) => {
 export const getExpenses = async (uid, currentDate) => {
   try {
     let expenses = {};
-    // console.log(`currentDate is ${currentDate}`);
+    
     const q = query(
       collection(db, `expenseItems/${uid}/items`),
       where('data.createdOnMonthYear', '==', currentDate)
@@ -111,7 +111,7 @@ export const getExpenses = async (uid, currentDate) => {
         expense,
       };
     });
-
+    
     return expenses;
   } catch (error) {
     console.log(error);

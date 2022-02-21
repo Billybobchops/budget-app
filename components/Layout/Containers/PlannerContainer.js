@@ -3,9 +3,10 @@ import classes from './PlannerContainer.module.css';
 import Button from '../../UI/Buttons/Button';
 import { useSelector } from 'react-redux';
 
-const PlannerContainer = ({ plannerHandler, items }) => {
+const PlannerContainer = ({ plannerHandler }) => {
   const checks = useSelector((state) => state.planner.entities);
   const totalPay = useSelector((state) => state.planner.totalExpectedPay);
+  const items = useSelector((state) => state.items.entities);
 
   return (
     <section>
@@ -32,15 +33,14 @@ const PlannerContainer = ({ plannerHandler, items }) => {
                 title={check.id}
                 nickname={check.nickname}
                 expectedPay={check.expectedPay}
-                // items={items}
-                // checks={checks}
+                items={items}
               />
             );
           })}
       </div>
       <div className={classes.total}>
         <p className={classes.totalTitle}>Total Expected Pay</p>
-        <p className={classes.totalAmmount}>${totalPay}</p>
+        <p className={classes.totalAmmount}>${totalPay.toLocaleString()}</p>
       </div>
     </section>
   );

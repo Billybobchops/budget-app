@@ -89,7 +89,7 @@ const BudgetCategory = ({ categoryTitle }) => {
             </div>
             <ul className={classes.list}>
               {isActive &&
-                Object.values(items).length !== 0 &&
+                
                 Object.values(items).map((item, index) => {
                   if (categoryTitle === item.category)
                     return (

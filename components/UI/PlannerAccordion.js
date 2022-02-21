@@ -77,15 +77,15 @@ const PlannerAccordion = ({ title, nickname, expectedPay, items }) => {
                   </Table>
                 </div>
 
-                {isActive && (
+                {isActive && Object.values(items).length !== 0 && (
                   <ul className={classes.list}>
-                    {items.map((item, index) => {
-                      if (title === item.plannedPaycheck)
+                    {Object.values(items).map((item, index) => {
+                      if (title === item.paycheckSelect)
                         return (
                           <BudgetItem
-                            key={item.title}
+                            key={item.id}
                             index={index}
-                            title={item.title}
+                            title={item.id}
                             date={item.billDate}
                             spentAmount='$5'
                             budgetedAmount={item.budgetAmount}

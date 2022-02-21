@@ -1,18 +1,24 @@
-import BudgetMessage from "./BudgetMessage";
-import MonthlyBreakdown from "./MonthlyBreakdown";
-import ProfileBar from "./ProfileBar";
-import classes from "./SideBar.module.css";
-import UpcomingBills from "./UpcomingBills";
-import ItemsDragList from "./ItemsDragList";
+import BudgetMessage from './BudgetMessage';
+import MonthlyBreakdown from './MonthlyBreakdown';
+import ProfileBar from './ProfileBar';
+import classes from './SideBar.module.css';
+import UpcomingBills from './UpcomingBills';
+import ItemsDragList from './ItemsDragList';
 
-const Sidebar = (props) => {
+const Sidebar = ({
+  hasProfileBar,
+  hasMonthlyBreakdown,
+  hasBudgetMessage,
+  hasUpcomingBills,
+  hasItemsDragList,
+}) => {
   const sidebarContents = (
     <>
-      {props.hasProfileBar && <ProfileBar />}
-      {props.hasMonthlyBreakdown && <MonthlyBreakdown />}
-      {props.hasBudgetMessage && <BudgetMessage />}
-      {props.hasUpcomingBills && <UpcomingBills />}
-      {props.hasItemsDragList && <ItemsDragList />}
+      {hasProfileBar && <ProfileBar />}
+      {hasMonthlyBreakdown && <MonthlyBreakdown />}
+      {hasBudgetMessage && <BudgetMessage />}
+      {hasUpcomingBills && <UpcomingBills />}
+      {hasItemsDragList && <ItemsDragList />}
     </>
   );
 

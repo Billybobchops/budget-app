@@ -6,6 +6,13 @@ import { Draggable } from 'react-beautiful-dnd';
 
 const BudgetItem = ({ title, index, budgetedAmount, date }) => {
   // className={`${[classes.container, classes[`${snapshot.isDragging && "backgroundDrag"}`],].join(" ")}`}
+  const daySlice = date.slice(-2);
+  const today = new Date().getDate();
+  const dateString = +daySlice === today ? 'Today' : date;
+  const displayDate = `${
+    dateString === 'Today' ? `Bills` : 'Bills on'
+  } ${dateString}`;
+
   const expenses = useSelector((state) => state.expenses.entities);
   let spent = 0;
   let balanceClass = null;
@@ -60,7 +67,7 @@ const BudgetItem = ({ title, index, budgetedAmount, date }) => {
                       <div className={classes.bold}>{title}</div>
                     </td>
                     <td className={classes.col2}>
-                      <div>{`Bills on ${date}`}</div>
+                      <div>{displayDate}</div>
                     </td>
                     <td className={classes.col3}>
                       <div className={classes.flex}>
@@ -86,7 +93,7 @@ const BudgetItem = ({ title, index, budgetedAmount, date }) => {
 
               <div className={classes.secondaryRow}>
                 <div className={classes.bold}>{title}</div>
-                <div className={classes.date}>{`Bills on ${date}`}</div>
+                <div className={classes.date}>{displayDate}</div>
                 <div className={classes.flex}>
                   <div className={classes.spent}>${spent}</div>
                   <div className={classes.slash}>/</div>

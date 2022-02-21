@@ -1,50 +1,50 @@
-import classes from "./ItemsDragList.module.css";
-import UpcomingBill from "../../UI/UpcomingBill";
-
-const dummyBudgetItems = [
-  {
-    category: "Wants",
-    title: "Date Night",
-    billDate: "2021-09-29",
-    budgetAmount: 50,
-    plannedPaycheck: "Paycheck 1",
-  },
-  {
-    category: "Wants",
-    title: "Spotify",
-    billDate: "2021-09-29",
-    budgetAmount: 13,
-    plannedPaycheck: "Paycheck 1",
-  },
-  {
-    category: "Needs",
-    title: "Groceries",
-    billDate: "2021-09-29",
-    budgetAmount: 200,
-    plannedPaycheck: "Paycheck 1",
-  },
-];
+import classes from './ItemsDragList.module.css';
+import { useSelector } from 'react-redux';
+import DragItem from '../../UI/DragItem';
+import { Droppable } from 'react-beautiful-dnd';
 
 const ItemsDragList = () => {
+  const items = useSelector((state) => state.items.entities);
+
   return (
-    <div className={classes.container}>
-      <div>
-        <h2 className={classes.title}>Drag Budget Items to a Paycheck</h2>
-      </div>
-      <div className={classes.background}>
-        {dummyBudgetItems.map((item) => {
-          return (
-            <UpcomingBill
-              key={item.title}
-              title={item.title}
-              date={item.billDate}
-              spentAmount="$5"
-              budgetedAmount={item.budgetAmount}
-            />
-          );
-        })}
-      </div>
-    </div>
+    <Droppable droppableId='ItemsDragList' key='ItemsDragList'>
+      {(provided, snapshot) => {
+        return (
+          <div
+            className={`${snapshot.isDraggingOver && classes.backgroundDrag}`}
+          >
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <div className={classes.container}>
+                <div>
+                  <h2 className={classes.title}>
+                    Drag Budget Items to a Paycheck
+                  </h2>
+                </div>
+                <div className={classes.background}>
+                  {Object.values(items).length !== 0 && (
+                    <ul className={classes.list}>
+                      {Object.values(items).map((item, index) => {
+                        if (item.paycheckSelect === null)
+                          return (
+                            <DragItem
+                              key={item.id}
+                              title={item.id}
+                              date={item.billDate}
+                              budgetedAmount={item.budgetAmount}
+                              index={index}
+                            />
+                          );
+                      })}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }}
+    </Droppable>
   );
 };
 

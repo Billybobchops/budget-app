@@ -44,3 +44,18 @@
 .budgeted {
   border-bottom: 1px solid #62d5b5;
 }
+
+/* .listContainer {
+  background-color: #fff;
+  box-shadow: #0000004f 0px 3px 5px;
+  padding: 12px 0;
+  margin: 14px 12px;
+  font-family: 'Cairo', sans-serif;
+  color: #04311c;
+  list-style-type: none;
+} */
+
+.backgroundDrag {
+  background-color: #d0ffe9;
+  border-left: 7px solid #04311c;
+}

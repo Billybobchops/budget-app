@@ -7,6 +7,13 @@ const UpcomingBills = () => {
   const currentMonthYear = useSelector(
     (state) => state.date.formattedMonthYear
   );
+  const today = new Date().getDate();
+
+  const isWithinRange = (billDate, range) => {
+    const billDay = billDate.slice(-2);
+    if (+billDay >= today && +billDay <= today + 7) return true;
+    return false;
+  };
 
   return (
     <div className={classes.container}>
@@ -14,15 +21,19 @@ const UpcomingBills = () => {
         <h2 className={classes.title}>Upcoming Bills</h2>
       </div>
       <div className={classes.background}>
-        {/* NEED NON DRAGGABLE BUDGET ITEMS HERE & DRAGGABLE ITEMS IN ITEMSDRAGLIST */}
         {Object.values(items).length !== 0 &&
           Object.values(items).map((item) => {
-            if (item.createdOnMonthYear === currentMonthYear)
+            const billDay = item.billDate.slice(-2);
+            const displayDate = +billDay === today ? 'Today' : item.billDate;
+            if (
+              item.createdOnMonthYear === currentMonthYear &&
+              isWithinRange(item.billDate, 7)
+            )
               return (
                 <UpcomingBill
                   key={item.id}
                   title={item.id}
-                  date={item.billDate}
+                  date={displayDate}
                   budgetedAmount={item.budgetAmount}
                 />
               );
