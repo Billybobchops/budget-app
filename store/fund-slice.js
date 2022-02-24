@@ -46,7 +46,12 @@ const fundSlice = createSlice({
         fundsAdapter.setAll(state, action.payload);
 
         let arr = [];
-        Object.values(action.payload).map((fund) => arr.push(fund.totalAmount));
+        Object.values(action.payload).map((fund) => {
+          let months;
+          if (fund.timeType === 'Year') months = fund.timePeriod * 12;
+          if (fund.timeType === 'Month') months = fund.timePeriod;
+          arr.push(+(fund.totalAmount / months).toFixed(2))
+        });
         state.totalFundAmount = arr.reduce((acc, current) => {
           return acc + current;
         }, 0);

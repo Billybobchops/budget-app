@@ -22,6 +22,7 @@ export const fundConfig = {
       label: 'Over a period of',
       name: 'timePeriod',
       type: 'number',
+      steppable: true,
       placeholder: '12',
       layout: 'twoCol',
     }),

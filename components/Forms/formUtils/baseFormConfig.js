@@ -29,6 +29,7 @@ export function createFormFieldConfig(fieldObj) {
     options,
     layout,
     notRequired,
+    steppable,
   } = fieldObj;
 
   // const defaultValidInputs = notRequired === true;
@@ -148,6 +149,7 @@ export function createFormFieldConfig(fieldObj) {
           errorMessage={error}
           placeholder={placeholder}
           layout={layout}
+          steppable={steppable}
         />
       );
     },

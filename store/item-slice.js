@@ -10,6 +10,7 @@ const itemsAdapter = createEntityAdapter();
 const initialState = itemsAdapter.getInitialState({
   status: 'idle',
   totalBudgeted: {},
+  totalBudgetedPlanner: {},
 });
 
 export const fetchItems = createAsyncThunk('items/fetchItems', async (uid) => {
@@ -65,6 +66,23 @@ const itemSlice = createSlice({
             };
             return;
           }
+        });
+
+        Object.values(action.payload).map((item) => {
+          if (
+            state.totalBudgetedPlanner[item.paycheckSelect] === undefined &&
+            item.paycheckSelect !== null
+          ) {
+            state.totalBudgetedPlanner[item.paycheckSelect] = {
+              id: item.paycheckSelect,
+              budgeted: item.budgetAmount,
+            };
+            return;
+          }
+
+          if (state.totalBudgetedPlanner[item.paycheckSelect])
+            state.totalBudgetedPlanner[item.paycheckSelect].budgeted +=
+              item.budgetAmount;
         });
       })
       .addCase(addNewItem.fulfilled, itemsAdapter.addOne);

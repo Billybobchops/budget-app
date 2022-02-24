@@ -1,4 +1,5 @@
 import classes from './PlannerAccordion.module.css';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
@@ -21,6 +22,30 @@ const Table = (props) => {
 
 const PlannerAccordion = ({ title, nickname, expectedPay, items }) => {
   const [isActive, setIsActive] = useState(false);
+  const totalPlannedBudget = useSelector(
+    (state) => state.items.totalBudgetedPlanner
+  );
+  let budgeted =
+    totalPlannedBudget[title] !== undefined
+      ? totalPlannedBudget[title].budgeted
+      : 0;
+  let balanceClass = null;
+  let balanceString = null;
+
+  if (expectedPay === budgeted) {
+    balanceClass = 'balanced';
+    balanceString = `Balanced!`;
+  }
+
+  if (expectedPay >= budgeted) {
+    balanceClass = 'under';
+    balanceString = `$${expectedPay - budgeted} Under`;
+  }
+
+  if (expectedPay <= budgeted) {
+    balanceClass = 'over';
+    balanceString = `$${budgeted - expectedPay} Over`;
+  }
 
   const activeHandler = () => {
     setIsActive(!isActive);
@@ -62,13 +87,15 @@ const PlannerAccordion = ({ title, nickname, expectedPay, items }) => {
                           </div>
                           <div className={classes.slash}>/</div>
                           <div className={classes.budgeted}>
-                            <span className={classes.bold}>Budgeted</span>{' '}
-                            $43.25
+                            <span className={classes.bold}>Budgeted</span> $
+                            {budgeted}
                           </div>
                         </div>
                       </td>
                       <td className={classes.head4}>
-                        <div className={classes.under}>Under $567</div>
+                        <div className={classes[balanceClass]}>
+                          {balanceString}
+                        </div>
                       </td>
                       <td className={classes.head5}>
                         <FontAwesomeIcon icon={faEllipsisH} />
