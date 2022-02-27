@@ -4,7 +4,10 @@ import DragItem from '../../UI/DragItem';
 import { Droppable } from 'react-beautiful-dnd';
 
 const ItemsDragList = () => {
-  const items = useSelector((state) => state.items.entities);
+  const itemIds = useSelector(
+    (state) => state.items.totalBudgetedPlanner['ItemsDragList']?.itemIds
+  );
+  const itemEntities = useSelector((state) => state.items.entities);
 
   return (
     <Droppable droppableId='ItemsDragList' key='ItemsDragList'>
@@ -21,19 +24,18 @@ const ItemsDragList = () => {
                   </h2>
                 </div>
                 <div className={classes.background}>
-                  {Object.values(items).length !== 0 && (
+                  {itemIds !== undefined && (
                     <ul className={classes.list}>
-                      {Object.values(items).map((item, index) => {
-                        if (item.paycheckSelect === null)
-                          return (
-                            <DragItem
-                              key={item.id}
-                              title={item.id}
-                              date={item.billDate}
-                              budgetedAmount={item.budgetAmount}
-                              index={index}
-                            />
-                          );
+                      {itemIds.map((item, index) => {
+                        return (
+                          <DragItem
+                            key={itemEntities[item].id}
+                            index={index}
+                            title={itemEntities[item].id}
+                            date={itemEntities[item].billDate}
+                            budgetedAmount={itemEntities[item].budgetAmount}
+                          />
+                        );
                       })}
                       {provided.placeholder}
                     </ul>

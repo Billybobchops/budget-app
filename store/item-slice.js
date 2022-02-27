@@ -37,7 +37,27 @@ export const addNewItem = createAsyncThunk(
 const itemSlice = createSlice({
   name: 'items',
   initialState,
-  reducers: {},
+  reducers: {
+    reorderIds: (state, action) => {
+      const { startId, newItemIds } = action.payload;
+      state.totalBudgetedPlanner[startId].itemIds = newItemIds;
+    },
+    updateStart: (state, action) => {
+      const { startId, startItemsIds, draggableId } = action.payload;
+      state.totalBudgetedPlanner[startId].itemIds = startItemsIds;
+      // logic for case to subtract planner accordion total budgeted amount
+      // when moving from one paycheck to another (or DragList to a paycheck!)
+      state.totalBudgetedPlanner[startId].budgeted -=
+        state.entities[draggableId].budgetAmount;
+    },
+    updateEnd: (state, action) => {
+      const { endId, endItemsIds, draggableId } = action.payload;
+      state.totalBudgetedPlanner[endId].itemIds = endItemsIds;
+      state.entities[draggableId].paycheckSelect = endId;
+      state.totalBudgetedPlanner[endId].budgeted +=
+        state.entities[draggableId].budgetAmount;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchItems.pending, (state) => {
@@ -70,25 +90,53 @@ const itemSlice = createSlice({
 
         Object.values(action.payload).map((item) => {
           if (
+            state.totalBudgetedPlanner['ItemsDragList'] === undefined &&
+            item.paycheckSelect === null
+          ) {
+            state.totalBudgetedPlanner['ItemsDragList'] = {
+              id: 'ItemsDragList',
+              budgeted: item.budgetAmount,
+              itemIds: [`${item.id}`],
+            };
+            return;
+          }
+
+          if (
+            state.totalBudgetedPlanner['ItemsDragList'] &&
+            item.paycheckSelect === null
+          ) {
+            state.totalBudgetedPlanner['ItemsDragList'].budgeted +=
+              item.budgetAmount;
+            state.totalBudgetedPlanner['ItemsDragList'].itemIds.push(item.id);
+            return;
+          }
+
+          if (
             state.totalBudgetedPlanner[item.paycheckSelect] === undefined &&
             item.paycheckSelect !== null
           ) {
             state.totalBudgetedPlanner[item.paycheckSelect] = {
               id: item.paycheckSelect,
               budgeted: item.budgetAmount,
+              itemIds: [`${item.id}`],
             };
             return;
           }
 
-          if (state.totalBudgetedPlanner[item.paycheckSelect])
+          if (state.totalBudgetedPlanner[item.paycheckSelect]) {
             state.totalBudgetedPlanner[item.paycheckSelect].budgeted +=
               item.budgetAmount;
+            state.totalBudgetedPlanner[item.paycheckSelect].itemIds.push(
+              item.id
+            );
+            return;
+          }
         });
       })
       .addCase(addNewItem.fulfilled, itemsAdapter.addOne);
   },
 });
 
-export const { calcSpent } = itemSlice.actions;
+export const { reorderIds, updateStart, updateEnd } = itemSlice.actions;
 
 export default itemSlice.reducer;

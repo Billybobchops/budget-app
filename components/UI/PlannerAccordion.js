@@ -20,8 +20,12 @@ const Table = (props) => {
   );
 };
 
-const PlannerAccordion = ({ title, nickname, expectedPay, items }) => {
+const PlannerAccordion = ({ title, nickname, expectedPay }) => {
   const [isActive, setIsActive] = useState(false);
+  const itemIds = useSelector(
+    (state) => state.items.totalBudgetedPlanner[title]?.itemIds
+  );
+  const itemEntities = useSelector((state) => state.items.entities);
   const totalPlannedBudget = useSelector(
     (state) => state.items.totalBudgetedPlanner
   );
@@ -104,20 +108,19 @@ const PlannerAccordion = ({ title, nickname, expectedPay, items }) => {
                   </Table>
                 </div>
 
-                {isActive && Object.values(items).length !== 0 && (
+                {isActive && itemIds !== undefined && (
                   <ul className={classes.list}>
-                    {Object.values(items).map((item, index) => {
-                      if (title === item.paycheckSelect)
-                        return (
-                          <BudgetItem
-                            key={item.id}
-                            index={index}
-                            title={item.id}
-                            date={item.billDate}
-                            spentAmount='$5'
-                            budgetedAmount={item.budgetAmount}
-                          />
-                        );
+                    {itemIds.map((item, index) => {
+                      return (
+                        <BudgetItem
+                          key={itemEntities[item].id}
+                          index={index}
+                          title={itemEntities[item].id}
+                          date={itemEntities[item].billDate}
+                          budgetedAmount={itemEntities[item].budgetAmount}
+                          // spentAmount='$5'
+                        />
+                      );
                     })}
                     {provided.placeholder}
                   </ul>

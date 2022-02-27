@@ -3,7 +3,12 @@ import { useRequireAuth } from '../hooks/useRequireAuth';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 import store from '../store';
-import { fetchItems } from '../store/item-slice';
+import {
+  fetchItems,
+  reorderIds,
+  updateEnd,
+  updateStart,
+} from '../store/item-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchPaychecks } from '../store/planner-slice';
@@ -39,6 +44,9 @@ const PlannerPage = () => {
   const expenses = useSelector((state) => state.expenses.entities);
   const paychecks = useSelector((state) => state.planner.entities);
   const funds = useSelector((state) => state.funds.entities);
+  const dropContainers = useSelector(
+    (state) => state.items.totalBudgetedPlanner
+  );
 
   useEffect(() => {
     if (
@@ -60,9 +68,10 @@ const PlannerPage = () => {
   if (!auth.user) return <p>Loading!</p>;
 
   const onDragEnd = (result) => {
-    const { destination, source } = result;
+    // onDragEnd must result in the synchronous reordering of a list of Draggables
+    const { draggableId, destination, source } = result;
 
-    // Guard clause: if user drops draggable outside of droppable
+    // Guard clause: if user drops draggable outside of any droppable
     if (!destination) return;
     // The user dropped the item back in the same position
     if (
@@ -71,12 +80,33 @@ const PlannerPage = () => {
     )
       return;
 
-    const newItems = Array.from(budgetItems);
-    const [removed] = newItems.splice(source.index, 1);
-    newItems.splice(destination.index, 0, removed);
+    const start = dropContainers[source.droppableId];
+    const startId = start.id;
+    const end = dropContainers[destination.droppableId];
+    const endId = end.id;
 
-    setBudgetItems(newItems);
+    if (start === end) {
+      // Re-Order operation to happen here: (column is the same)
+      const newItemIds = Array.from(start.itemIds);
+      newItemIds.splice(source.index, 1);
+      newItemIds.splice(destination.index, 0, draggableId);
+      store.dispatch(reorderIds({ startId, newItemIds }));
+      return;
+    }
+
+    // Moving from one droppable list to another
+    const startItemsIds = Array.from(start.itemIds);
+    startItemsIds.splice(source.index, 1); // remove the dragged itemId from the new array
+    // store.dispatch here to update itemIds of starting column
+    store.dispatch(updateStart({ startId, startItemsIds, draggableId }));
+
+    const endItemsIds = Array.from(end.itemIds);
+    endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
+    // store.dispatch here to update itemIds of ending column
+    store.dispatch(updateEnd({ endId, endItemsIds, draggableId }));
     // PERSIST THIS CHANGE ^ BY CALL THE DB ENDPOINT AFTER THIS UPDATE!!!!
+    // to let firestore know a re-order has a occurred.
+    // async thunk HERE
   };
 
   return (

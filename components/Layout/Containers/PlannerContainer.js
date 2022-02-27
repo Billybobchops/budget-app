@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 const PlannerContainer = ({ plannerHandler }) => {
   const checks = useSelector((state) => state.planner.entities);
   const totalPay = useSelector((state) => state.planner.totalExpectedPay);
-  const items = useSelector((state) => state.items.entities);
 
   return (
     <section>
@@ -33,7 +32,6 @@ const PlannerContainer = ({ plannerHandler }) => {
                 title={check.id}
                 nickname={check.nickname}
                 expectedPay={check.expectedPay}
-                items={items}
               />
             );
           })}

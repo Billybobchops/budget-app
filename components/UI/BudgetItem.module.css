@@ -11,6 +11,8 @@
 .backgroundDrag {
   background-color: #d0ffe9;
   border-left: 7px solid #04311c;
+  /* add a max-width property here? */
+  /* max-width: min-content; */
 }
 
 .table {
