@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import store from '../store';
 import {
   fetchItems,
+  fetchPaychecks,
   reorderIds,
   updateEnd,
   updateStart,
-} from '../store/item-slice';
+} from '../store/itemsAndPlanner-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
-import { fetchPaychecks } from '../store/planner-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import PageBackground from '../components/Layout/PageBackground';
@@ -42,10 +42,12 @@ const PlannerPage = () => {
   const currentDate = useSelector((state) => state.date.formattedMonthYear);
   const categories = useSelector((state) => state.categories.entities);
   const expenses = useSelector((state) => state.expenses.entities);
-  const paychecks = useSelector((state) => state.planner.entities);
+  const paychecks = useSelector(
+    (state) => state.itemsAndPlanner.planner.entities
+  );
   const funds = useSelector((state) => state.funds.entities);
   const dropContainers = useSelector(
-    (state) => state.items.totalBudgetedPlanner
+    (state) => state.itemsAndPlanner.totalBudgetedPlanner
   );
 
   useEffect(() => {
@@ -58,9 +60,9 @@ const PlannerPage = () => {
     ) {
       const uid = auth.user.uid;
       store.dispatch(fetchCategories(uid));
-      store.dispatch(fetchItems(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
+      store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
   }, [auth.user, currentDate, categories, expenses, paychecks, funds]);
@@ -68,21 +70,26 @@ const PlannerPage = () => {
   if (!auth.user) return <p>Loading!</p>;
 
   const onDragEnd = (result) => {
-    // onDragEnd must result in the synchronous reordering of a list of Draggables
     const { draggableId, destination, source } = result;
 
-    // Guard clause: if user drops draggable outside of any droppable
+    // if user drops draggable outside of any droppable - return
     if (!destination) return;
-    // The user dropped the item back in the same position
+    // The user dropped the item back in the same position - return
     if (
       destination.droppableId == source.droppableId &&
       destination.index === source.index
     )
       return;
 
+    // create data under totalBudgetedPlanner if it doesn't exist
+    if (!dropContainers[destination.droppableId]) {
+      const id = destination.droppableId;
+      store.dispatch(createDroppableData({ id }));
+    }
+
     const start = dropContainers[source.droppableId];
     const startId = start.id;
-    const end = dropContainers[destination.droppableId];
+    const end = dropContainers[destination.droppableId]; // undefined, bc apart of old closure
     const endId = end.id;
 
     if (start === end) {
@@ -97,16 +104,13 @@ const PlannerPage = () => {
     // Moving from one droppable list to another
     const startItemsIds = Array.from(start.itemIds);
     startItemsIds.splice(source.index, 1); // remove the dragged itemId from the new array
-    // store.dispatch here to update itemIds of starting column
     store.dispatch(updateStart({ startId, startItemsIds, draggableId }));
 
     const endItemsIds = Array.from(end.itemIds);
     endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
-    // store.dispatch here to update itemIds of ending column
     store.dispatch(updateEnd({ endId, endItemsIds, draggableId }));
-    // PERSIST THIS CHANGE ^ BY CALL THE DB ENDPOINT AFTER THIS UPDATE!!!!
-    // to let firestore know a re-order has a occurred.
-    // async thunk HERE
+    // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
+    // async thunk HERE to update the paycheckSelect field
   };
 
   return (

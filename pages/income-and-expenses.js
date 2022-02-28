@@ -2,10 +2,9 @@ import { useContext, useEffect } from 'react';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { useSelector } from 'react-redux';
 import store from '../store';
-import { fetchItems } from '../store/item-slice';
+import { fetchItems, fetchPaychecks } from '../store/itemsAndPlanner-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
-import { fetchPaychecks } from '../store/planner-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import PageBackground from '../components/Layout/PageBackground';
@@ -35,7 +34,9 @@ const IncomeExpenses = () => {
   const currentDate = useSelector((state) => state.date.formattedMonthYear);
   const categories = useSelector((state) => state.categories.entities);
   const expenses = useSelector((state) => state.expenses.entities);
-  const paychecks = useSelector((state) => state.planner.entities);
+  const paychecks = useSelector(
+    (state) => state.itemsAndPlanner.planner.entities
+  );
   const funds = useSelector((state) => state.funds.entities);
 
   useEffect(() => {
@@ -48,9 +49,9 @@ const IncomeExpenses = () => {
     ) {
       const uid = auth.user.uid;
       store.dispatch(fetchCategories(uid));
-      store.dispatch(fetchItems(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
+      store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
   }, [auth.user, currentDate, categories, expenses, paychecks, funds]);

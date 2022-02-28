@@ -23,11 +23,13 @@ const Table = (props) => {
 const PlannerAccordion = ({ title, nickname, expectedPay }) => {
   const [isActive, setIsActive] = useState(false);
   const itemIds = useSelector(
-    (state) => state.items.totalBudgetedPlanner[title]?.itemIds
+    (state) => state.itemsAndPlanner.totalBudgetedPlanner[title]?.itemIds
   );
-  const itemEntities = useSelector((state) => state.items.entities);
+  const itemEntities = useSelector(
+    (state) => state.itemsAndPlanner.items.entities
+  );
   const totalPlannedBudget = useSelector(
-    (state) => state.items.totalBudgetedPlanner
+    (state) => state.itemsAndPlanner.totalBudgetedPlanner
   );
   let budgeted =
     totalPlannedBudget[title] !== undefined
@@ -43,12 +45,20 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
 
   if (expectedPay >= budgeted) {
     balanceClass = 'under';
-    balanceString = `$${expectedPay - budgeted} Under`;
+    let num =
+      (expectedPay - budgeted) % 1 === 0
+        ? expectedPay - budgeted
+        : (expectedPay - budgeted).toFixed(2);
+    balanceString = `$${num} Under`;
   }
 
   if (expectedPay <= budgeted) {
     balanceClass = 'over';
-    balanceString = `$${budgeted - expectedPay} Over`;
+    let num =
+      (budgeted - expectedPay) % 1 === 0
+        ? budgeted - expectedPay
+        : (budgeted - expectedPay).toFixed(2);
+    balanceString = `$${num} Over`;
   }
 
   const activeHandler = () => {
@@ -108,9 +118,10 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
                   </Table>
                 </div>
 
-                {isActive && itemIds !== undefined && (
-                  <ul className={classes.list}>
-                    {itemIds.map((item, index) => {
+                <ul className={classes.list}>
+                  {isActive &&
+                    itemIds !== undefined &&
+                    itemIds.map((item, index) => {
                       return (
                         <BudgetItem
                           key={itemEntities[item].id}
@@ -122,9 +133,8 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
                         />
                       );
                     })}
-                    {provided.placeholder}
-                  </ul>
-                )}
+                  {provided.placeholder}
+                </ul>
               </div>
             </div>
           );

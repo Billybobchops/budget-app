@@ -62,7 +62,10 @@ export const getAllItems = async (uid) => {
   }
 };
 
-// removed since we're not fetching items by date
+// Add updating function here
+
+
+// removed since we're not fetching items BY DATE
 //  export const getAllItems = async (uid, selectedDate) => {
 //   try {
 //     let items = {};

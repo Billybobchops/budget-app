@@ -27,9 +27,11 @@ const BudgetCategory = ({ categoryTitle }) => {
     (state) => state.expenses.spentCategories
   );
   const totalExpectedPay = useSelector(
-    (state) => state.planner.totalExpectedPay
+    (state) => state.items.totalExpectedPay
   );
-  const totalBudgeted = useSelector((state) => state.items.totalBudgeted);
+  const totalBudgeted = useSelector(
+    (state) => state.items.totalBudgetedCategory
+  );
   const spent =
     spentCategories[categoryTitle] !== undefined
       ? spentCategories[categoryTitle].spent
@@ -48,11 +50,20 @@ const BudgetCategory = ({ categoryTitle }) => {
   }
   if (spent > budgeted) {
     balanceClass = 'over';
-    balanceString = `$${spent - budgeted} Over`;
+    let num =
+      (spent - budgeted) % 1 === 0
+        ? spent - budgeted
+        : (spent - budgeted).toFixed(2);
+    balanceString = `$${num} Over`;
   }
+
   if (spent < budgeted) {
     balanceClass = 'under';
-    balanceString = `$${budgeted - spent} Under`;
+    let num =
+      (budgeted - spent) % 1 === 0
+        ? budgeted - spent
+        : (budgeted - spent).toFixed(2);
+    balanceString = `$${num} Under`;
   }
 
   if (spent === 0 && budgeted === 0) {

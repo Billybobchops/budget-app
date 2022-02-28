@@ -5,9 +5,9 @@ import { Droppable } from 'react-beautiful-dnd';
 
 const ItemsDragList = () => {
   const itemIds = useSelector(
-    (state) => state.items.totalBudgetedPlanner['ItemsDragList']?.itemIds
+    (state) => state.itemsAndPlanner.totalBudgetedPlanner['ItemsDragList']?.itemIds
   );
-  const itemEntities = useSelector((state) => state.items.entities);
+  const itemEntities = useSelector((state) => state.itemsAndPlanner.items.entities);
 
   return (
     <Droppable droppableId='ItemsDragList' key='ItemsDragList'>
@@ -24,9 +24,9 @@ const ItemsDragList = () => {
                   </h2>
                 </div>
                 <div className={classes.background}>
-                  {itemIds !== undefined && (
-                    <ul className={classes.list}>
-                      {itemIds.map((item, index) => {
+                  <ul className={classes.list}>
+                    {itemIds !== undefined &&
+                      itemIds.map((item, index) => {
                         return (
                           <DragItem
                             key={itemEntities[item].id}
@@ -37,9 +37,8 @@ const ItemsDragList = () => {
                           />
                         );
                       })}
-                      {provided.placeholder}
-                    </ul>
-                  )}
+                    {provided.placeholder}
+                  </ul>
                 </div>
               </div>
             </div>

@@ -8,7 +8,7 @@ import {
   decrementYear,
   setDateToToday,
 } from '../../store/date-slice';
-import { fetchItems } from '../../store/item-slice';
+import { fetchItems } from '../../store/itemsAndPlanner-slice';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';

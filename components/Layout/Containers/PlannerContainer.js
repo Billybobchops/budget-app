@@ -4,8 +4,8 @@ import Button from '../../UI/Buttons/Button';
 import { useSelector } from 'react-redux';
 
 const PlannerContainer = ({ plannerHandler }) => {
-  const checks = useSelector((state) => state.planner.entities);
-  const totalPay = useSelector((state) => state.planner.totalExpectedPay);
+  const checks = useSelector((state) => state.itemsAndPlanner.planner.entities);
+  const totalPay = useSelector((state) => state.itemsAndPlanner.totalExpectedPay);
 
   return (
     <section>

@@ -1,7 +1,7 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import store from '../../store';
-import { addNewItem } from '../../store/item-slice';
+import { addNewItem } from '../../store/itemsAndPlanner-slice';
 import useForm from '../../hooks/useForm';
 import FormContext from '../../store/form-context';
 import { itemConfig } from './formUtils/itemConfig';
