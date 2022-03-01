@@ -6,6 +6,7 @@ import store from '../store';
 import {
   fetchItems,
   fetchPaychecks,
+  updateItemDoc,
   reorderIds,
   updateEnd,
   updateStart,
@@ -110,7 +111,10 @@ const PlannerPage = () => {
     endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
     store.dispatch(updateEnd({ endId, endItemsIds, draggableId }));
     // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
-    // async thunk HERE to update the paycheckSelect field
+    const uid = auth.user.uid;
+    const document = draggableId;
+    const newLocation = destination.droppableId;
+    store.dispatch(updateItemDoc({ uid, document, newLocation }));
   };
 
   return (

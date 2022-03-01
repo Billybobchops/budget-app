@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import UpcomingBill from '../../UI/UpcomingBill';
 
 const UpcomingBills = () => {
-  const items = useSelector((state) => state.items.entities);
+  const items = useSelector((state) => state.itemsAndPlanner.items.entities);
   const currentMonthYear = useSelector(
     (state) => state.date.formattedMonthYear
   );

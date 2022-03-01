@@ -22,15 +22,15 @@ const Table = ({ children }) => {
 
 const BudgetCategory = ({ categoryTitle }) => {
   const [isActive, setIsActive] = useState(false);
-  const items = useSelector((state) => state.items.entities);
+  const items = useSelector((state) => state.itemsAndPlanner.items.entities);
   const spentCategories = useSelector(
     (state) => state.expenses.spentCategories
   );
   const totalExpectedPay = useSelector(
-    (state) => state.items.totalExpectedPay
+    (state) => state.itemsAndPlanner.totalExpectedPay
   );
   const totalBudgeted = useSelector(
-    (state) => state.items.totalBudgetedCategory
+    (state) => state.itemsAndPlanner.totalBudgetedCategory
   );
   const spent =
     spentCategories[categoryTitle] !== undefined

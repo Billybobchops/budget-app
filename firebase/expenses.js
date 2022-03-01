@@ -25,7 +25,7 @@ export const addExpense = async (uid, formData) => {
 };
 
 /**
- * fetches a user's expense items
+ * fetches a user's expense items based on current month
  * @param {string} id - to get user's collection
  * @param {string} currentDate - retrieve only this month's expenses
  * @returns a users expense items for the current month

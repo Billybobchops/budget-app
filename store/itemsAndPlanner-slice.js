@@ -3,7 +3,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import { addItem, getAllItems } from '../firebase/items';
+import { addItem, getAllItems, updateItem } from '../firebase/items';
 import { addPlannedIncome, getPlannedIncome } from '../firebase/planner';
 
 export const fetchItems = createAsyncThunk(
@@ -19,7 +19,7 @@ export const fetchItems = createAsyncThunk(
 );
 
 export const fetchPaychecks = createAsyncThunk(
-  'planner/fetchPaychecks',
+  'itemsAndPlanner/fetchPaychecks',
   async (uid) => {
     try {
       const response = await getPlannedIncome(uid);
@@ -43,9 +43,17 @@ export const addNewItem = createAsyncThunk(
 );
 
 export const addNewIncome = createAsyncThunk(
-  'planner/addNewIncome',
+  'itemsAndPlanner/addNewIncome',
   async ({ uid, formData }) => {
     const response = await addPlannedIncome(uid, formData);
+    return response;
+  }
+);
+
+export const updateItemDoc = createAsyncThunk(
+  'itemsAndPlanner/updateItemDoc',
+  async ({ uid, document, newLocation }) => {
+    const response = await updateItem(uid, document, newLocation);
     return response;
   }
 );
@@ -172,7 +180,13 @@ const itemPlannerSlice = createSlice({
           }
         });
       })
-      .addCase(addNewItem.fulfilled, itemsAdapter.addOne);
+      .addCase(addNewItem.fulfilled, itemsAdapter.addOne)
+      .addCase(updateItemDoc.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateItemDoc.fulfilled, (state) => {
+        state.status = 'idle';
+      });
   },
 });
 

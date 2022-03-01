@@ -1,5 +1,13 @@
 import { db } from './firebaseClient';
-import { addDoc, getDocs, collection } from 'firebase/firestore';
+import {
+  addDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+  updateDoc,
+  doc,
+} from 'firebase/firestore';
 
 /**
  * adds a budget item to the current user's doc in the 'items' subcollection
@@ -62,8 +70,26 @@ export const getAllItems = async (uid) => {
   }
 };
 
-// Add updating function here
+// Add updating function here...
+export const updateItem = async (uid, document, newLocation) => {
+  try {
+    const q = query(
+      collection(db, `budgetItems/${uid}/items`),
+      where('id', '==', document)
+    );
+    const querySnapshot = await getDocs(q);
 
+    let docId;
+    querySnapshot.forEach((doc) => {
+      docId = doc.id;
+    });
+
+    const docRef = doc(db, `budgetItems/${uid}/items`, docId);
+    await updateDoc(docRef, { 'data.paycheckSelect': newLocation });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // removed since we're not fetching items BY DATE
 //  export const getAllItems = async (uid, selectedDate) => {
