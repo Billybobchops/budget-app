@@ -1,7 +1,8 @@
 import classes from './ItemsDragList.module.css';
 import { useSelector } from 'react-redux';
-import DragItem from '../../UI/DragItem';
 import { Droppable } from 'react-beautiful-dnd';
+import DragItem from '../../UI/DragItem';
+import BudgetItem from '../../UI/BudgetItem';
 
 const ItemsDragList = () => {
   const itemIds = useSelector(

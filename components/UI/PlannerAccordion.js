@@ -7,8 +7,8 @@ import {
   faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import BudgetItem from '../UI/BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
+import BudgetItem from '../UI/BudgetItem';
 
 const Table = (props) => {
   return (

@@ -13,7 +13,6 @@
   border-left: 7px solid #04311c;
   /* add a max-width property here? */
   /* max-width: min-content; */
-  max-width: 600px;
 }
 
 .table {
@@ -124,6 +123,7 @@
     grid-area: balance;
   }
 
+  .balanced,
   .date,
   .under {
     justify-self: end;
@@ -147,6 +147,7 @@
     grid-template-areas: 'title title options' 'budget budget options';
   }
 
+  .balanced,
   .date,
   .under {
     display: none;

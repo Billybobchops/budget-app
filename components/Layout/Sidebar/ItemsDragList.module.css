@@ -2,10 +2,11 @@
   display: grid;
   grid-template-rows: auto 1fr;
   margin-bottom: 20px;
+  width: 100%;
+  /* width: 490px; */
 }
 
 .background {
-  /* width: 490px; */
   padding: 30px;
   background-color: #D4F3DA;
 }

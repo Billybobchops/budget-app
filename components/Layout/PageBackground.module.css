@@ -2,11 +2,14 @@
   display: grid;
   grid-template-columns: 20% 80%;
   grid-template-areas: "nav content";
+  /* This parent container needs to have the height */
+  height: 100vh;
 }
 
 .pageGrid {
   display: grid;
   grid-template-columns: 70% 1fr;
+  /* grid-template-columns: 1fr 70%; */
   grid-template-areas: "main sidebar";
   padding: 35px;
   gap: 35px;
@@ -15,8 +18,6 @@
 .navDrawer {
   grid-area: nav;
   background-color: #d4f3da;
-  height: 100vh; 
-  /* height: 100%; */
   display: grid;
   justify-items: center;
 }
