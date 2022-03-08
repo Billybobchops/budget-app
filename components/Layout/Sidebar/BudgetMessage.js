@@ -8,7 +8,7 @@ const BudgetMessage = (props) => {
       </div>
       <div className={classes.background}>
         <p className={classes.message}>
-          You are currently $800.10 under budget!
+          You are currently $xx.xx under budget!
         </p>
       </div>
     </div>

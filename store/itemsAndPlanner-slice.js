@@ -23,6 +23,7 @@ export const fetchPaychecks = createAsyncThunk(
   async (uid) => {
     try {
       const response = await getPlannedIncome(uid);
+      if (!response) return;
       return response;
     } catch (error) {
       console.log(error);
@@ -103,31 +104,40 @@ const itemPlannerSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchPaychecks.fulfilled, (state, action) => {
-        paycheckAdapter.setAll(state.planner, action.payload);
-        state.status = 'idle';
+        if (!paycheckAdapter || !action.payload) {
+          console.log('fudge');
+          state.status ='noPaychecksAdded'
+          // state.planner.entities['noPaychecksAdded'] = { empty: true };
+          return;
+        }
 
-        // Initialize all paychecks
-        let arr = [];
-        Object.values(action.payload).map((check) => {
-          arr.push(check.expectedPay);
-          state.totalBudgetedPlanner[check.id] = {
-            id: check.id,
+        if (paycheckAdapter && action.payload) {
+          paycheckAdapter.setAll(state.planner, action.payload);
+          state.status = 'idle';
+
+          // Initialize all paychecks
+          let arr = [];
+          Object.values(action.payload).map((check) => {
+            arr.push(check.expectedPay);
+            state.totalBudgetedPlanner[check.id] = {
+              id: check.id,
+              budgeted: 0,
+              itemIds: [],
+            };
+          });
+
+          // Initialize the ItemsDragList
+          state.totalBudgetedPlanner['ItemsDragList'] = {
+            id: 'ItemsDragList',
             budgeted: 0,
             itemIds: [],
           };
-        });
 
-        // Initialize the ItemsDragList
-        state.totalBudgetedPlanner['ItemsDragList'] = {
-          id: 'ItemsDragList',
-          budgeted: 0,
-          itemIds: [],
-        };
-
-        // Calc totalExpectedPay
-        state.totalExpectedPay = arr.reduce((acc, current) => {
-          return acc + current;
-        }, 0);
+          // Calc totalExpectedPay
+          state.totalExpectedPay = arr.reduce((acc, current) => {
+            return acc + current;
+          }, 0);
+        }
       })
       .addCase(addNewIncome.fulfilled, paycheckAdapter.addOne)
       .addCase(fetchItems.pending, (state) => {

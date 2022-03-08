@@ -40,7 +40,15 @@ const BudgetCategory = ({ categoryTitle }) => {
     totalBudgeted[categoryTitle] !== undefined
       ? totalBudgeted[categoryTitle].budgeted
       : 0;
-  const percent = ((budgeted / totalExpectedPay) * 100).toFixed(2);
+  const percent = totalExpectedPay ? (
+    <span className={classes.percentage}>
+      {' '}
+      {((budgeted / totalExpectedPay) * 100).toFixed(2)}% of Income
+    </span>
+  ) : (
+    ''
+  );
+
   let balanceClass = null;
   let balanceString = null;
 
@@ -96,11 +104,8 @@ const BudgetCategory = ({ categoryTitle }) => {
                   <td className={classes.head1}>{chevron}</td>
                   <td className={classes.head2}>
                     <div className={classes.title}>
-                      {categoryTitle} -
-                      <span className={classes.percentage}>
-                        {' '}
-                        {percent}% of Income
-                      </span>
+                      {categoryTitle}
+                      {percent}
                     </div>
                   </td>
                   <td className={classes.head3}>

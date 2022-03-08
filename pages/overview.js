@@ -34,16 +34,24 @@ const Overview = () => {
   const auth = useRequireAuth();
   const currentDate = useSelector((state) => state.date.formattedMonthYear);
   const categories = useSelector((state) => state.categories.entities);
+  const items = useSelector((state) => state.itemsAndPlanner.items.entities);
   const expenses = useSelector((state) => state.expenses.entities);
-  const paychecks = useSelector((state) => state.itemsAndPlanner.planner.entities);
+  const paychecks = useSelector(
+    (state) => state.itemsAndPlanner.planner.entities
+  );
+  const paycheckStatus = useSelector(
+    (state) => state.itemsAndPlanner.planner.status
+  );
   const funds = useSelector((state) => state.funds.entities);
 
   useEffect(() => {
     if (
       auth.user &&
       Object.keys(categories).length === 0 &&
+      Object.keys(items).length === 0 &&
       Object.keys(expenses).length === 0 &&
       Object.keys(paychecks).length === 0 &&
+      paycheckStatus !== 'noPaychecksAdded' &&
       Object.keys(funds).length === 0
     ) {
       const uid = auth.user.uid;
@@ -53,7 +61,16 @@ const Overview = () => {
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
-  }, [auth.user, currentDate, categories, expenses, paychecks, funds]);
+  }, [
+    auth.user,
+    currentDate,
+    categories,
+    items,
+    expenses,
+    paychecks,
+    funds,
+    paycheckStatus,
+  ]);
 
   if (!auth.user) {
     return <p>Loading!</p>;

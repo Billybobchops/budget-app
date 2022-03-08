@@ -26,7 +26,7 @@ export const plannerConfig = {
       placeholder: "Bob's first paycheck",
       layout: 'twoCol',
     }),
-    validationRules: [requiredRule('Nickname'), maxLengthRule('Nickname', 25)],
+    validationRules: [maxLengthRule('Nickname', 25)],
   },
   expectedPay: {
     ...createFormFieldConfig({
@@ -37,8 +37,6 @@ export const plannerConfig = {
       placeholder: '$0.00',
       layout: 'twoColEnd',
     }),
-    validationRules: [
-      requiredRule('Amount'),
-    ],
+    validationRules: [requiredRule('Amount')],
   },
 };

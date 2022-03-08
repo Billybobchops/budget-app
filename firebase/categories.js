@@ -7,7 +7,6 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
  * @param {string} category title
  */
 export const addCategory = async (uid, formData) => {
-  console.log(formData);
   const key = formData.id;
   const userCategoriesRef = doc(db, `categories/${uid}`); // creates doc with user's UID
   const docData = {
