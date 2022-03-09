@@ -36,6 +36,8 @@ export const addNewItem = createAsyncThunk(
   async ({ uid, formData }) => {
     try {
       const response = await addItem(uid, formData);
+      console.log('response');
+      console.log(response);
       return response;
     } catch (error) {
       console.log(error);
@@ -59,13 +61,9 @@ export const updateItemDoc = createAsyncThunk(
   }
 );
 
-const itemsAdapter = createEntityAdapter({
-  selectId: (item) => item.id,
-});
+const itemsAdapter = createEntityAdapter();
 
-const paycheckAdapter = createEntityAdapter({
-  selectId: (paycheck) => paycheck.id,
-});
+const paycheckAdapter = createEntityAdapter();
 
 const itemPlannerSlice = createSlice({
   name: 'itemsAndPlanner',
@@ -106,7 +104,7 @@ const itemPlannerSlice = createSlice({
       .addCase(fetchPaychecks.fulfilled, (state, action) => {
         if (!paycheckAdapter || !action.payload) {
           console.log('fudge');
-          state.status ='noPaychecksAdded'
+          state.status = 'noPaychecksAdded';
           // state.planner.entities['noPaychecksAdded'] = { empty: true };
           return;
         }
@@ -139,7 +137,9 @@ const itemPlannerSlice = createSlice({
           }, 0);
         }
       })
-      .addCase(addNewIncome.fulfilled, paycheckAdapter.addOne)
+      .addCase(addNewIncome.fulfilled, (state, action) => {
+        paycheckAdapter.addOne(state.items, action.payload);
+      })
       .addCase(fetchItems.pending, (state) => {
         state.status = 'loading';
       })
@@ -190,7 +190,9 @@ const itemPlannerSlice = createSlice({
           }
         });
       })
-      .addCase(addNewItem.fulfilled, itemsAdapter.addOne)
+      .addCase(addNewItem.fulfilled, (state, action) => {
+        itemsAdapter.addOne(state.items, action.payload);
+      })
       .addCase(updateItemDoc.pending, (state) => {
         state.status = 'loading';
       })

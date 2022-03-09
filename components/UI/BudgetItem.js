@@ -23,7 +23,7 @@ const BudgetItem = ({ title, index, budgetedAmount, date }) => {
   if (Object.values(expenses).length !== 0) {
     Object.values(expenses).map((expense) => {
       if (title === expense.title) spent += expense.amount;
-      console.log('func running'); // 20 freaking times for 5 items!
+      // console.log('func running'); // 20 freaking times for 5 items! Must fix.
       // runs for each item for EVERY SINGLE EXPENSE that's in state....
     });
   }

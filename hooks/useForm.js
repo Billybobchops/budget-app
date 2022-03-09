@@ -172,8 +172,8 @@ function useForm(formObj) {
         inputObj.valid = false;
       }
 
-      if (inputObj.errorMessage && !inputObj.valid)
-        addToast(inputObj.errorMessage);
+      // if (inputObj.errorMessage && !inputObj.valid)
+      //   addToast(inputObj.errorMessage);
 
       // debouncedValidityHandler(event); // cannot access this fn because it is wrapped with useMemo();
 
@@ -190,7 +190,7 @@ function useForm(formObj) {
       return inputObj;
     },
 
-    [form, addToast, isInputFieldValid, checkConditions, selectedOption]
+    [form, isInputFieldValid, checkConditions, selectedOption]
   );
 
   // Stop the invocation of the debounced function AFTER unmounting
