@@ -1,7 +1,7 @@
 import BudgetMessage from './BudgetMessage';
 import MonthlyBreakdown from './MonthlyBreakdown';
 import ProfileBar from './ProfileBar';
-import classes from './SideBar.module.css';
+import classes from './Sidebar.module.css';
 import UpcomingBills from './UpcomingBills';
 import ItemsDragList from './ItemsDragList';
 
