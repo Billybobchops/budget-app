@@ -1,17 +1,20 @@
 .mainGrid {
   display: grid;
   grid-template-columns: 20% 80%;
-  grid-template-areas: "nav content";
+  grid-template-areas: 'nav content';
   /* This parent container needs to have the height */
   height: 100vh;
+	overflow-x: hidden;
 }
 
 .pageGrid {
   display: grid;
   grid-template-columns: 70% 1fr;
-  grid-template-areas: "main sidebar";
+  /* grid-template-columns: 70% 400px; */
+  grid-template-areas: 'main sidebar';
   padding: 35px;
   gap: 35px;
+	/* overflow-x: hidden; */
 }
 
 .navDrawer {
@@ -23,12 +26,16 @@
 
 @media (max-width: 1485px) {
   .mainGrid {
-    grid-template-columns: 0 100%;
-  }
-  
-  .pageGrid {
+    /* grid-template-columns: 0 100%; */
     grid-template-columns: 1fr;
-    grid-template-areas: "main" "sidebar";
+		grid-template-areas: 'content';
+  }
+
+  .pageGrid {
+    /* grid-template-columns: repeat(2, 360px); */
+    grid-template-columns: 65% 1fr;
+		/* overflow-x: scroll; */
+    /* grid-template-areas: "main" "sidebar"; */
   }
 }
 

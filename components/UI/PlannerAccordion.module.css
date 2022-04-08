@@ -2,21 +2,30 @@
   background-color: #62d5b5;
   border-top: 4px solid #2d8058;
   box-shadow: #0000004f 0px 3px 5px;
-  padding: 16px 0;
+  padding: 12px 0;
   margin-bottom: 18px;
   font-family: 'Cairo', sans-serif;
   color: #04311c;
 }
 
+.container:hover {
+  background-color: #5acdac;
+  box-shadow: none;
+}
+
+.container,
+.container:hover {
+  transition: 400ms ease;
+}
+
 .list {
-  /* padding: 0 0 10px 0; */
   padding: 0;
   list-style-type: none;
 }
 
 .backgroundDrag {
   background-color: #cce8ff;
-  transition: background-color 0.5s ease;  
+  transition: background-color 0.5s ease;
 }
 
 .table {
@@ -38,6 +47,10 @@
 
 .slash {
   margin: 0 5px;
+}
+
+.toggle {
+	font-size: 14px;
 }
 
 .head1 {

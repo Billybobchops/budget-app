@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
+	faPlus,
+	faMinus,
   faChevronUp,
   faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
@@ -65,10 +67,10 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
     setIsActive(!isActive);
   };
 
-  const chevron = isActive ? (
-    <FontAwesomeIcon icon={faChevronDown} className={classes.chevron} />
+  const toggle = isActive ? (
+    <FontAwesomeIcon icon={faMinus} className={classes.toggle} />
   ) : (
-    <FontAwesomeIcon icon={faChevronUp} className={classes.chevron} />
+    <FontAwesomeIcon icon={faPlus	} className={classes.toggle} />
   );
 
   return (
@@ -83,7 +85,7 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
                 <div onClick={activeHandler}>
                   <Table>
                     <tr>
-                      <td className={classes.head1}>{chevron}</td>
+                      <td className={classes.head1}>{toggle}</td>
                       <td className={classes.head2}>
                         <div className={classes.title}>
                           {title} -

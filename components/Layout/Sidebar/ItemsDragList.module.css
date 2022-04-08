@@ -3,12 +3,28 @@
   grid-template-rows: auto 1fr;
   margin-bottom: 20px;
   width: 100%;
-  /* width: 490px; */
 }
 
 .background {
+  background-color: #d4f3da;
+  /* padding: 30px; */
+  /* max-width: 400px; */
+}
+
+.backgroundDrag {
+  background-color: #cce8ff;
+  transition: background-color 0.5s ease;
+}
+
+.background,
+.backgroundDrag {
   padding: 30px;
-  background-color: #D4F3DA;
+}
+
+.container,
+.background,
+.backgroundDrag {
+  overflow-x: hidden;
 }
 
 .title {
@@ -20,11 +36,11 @@
   padding: 0;
 }
 
-@media (max-width: 1485px) {
+/* @media (max-width: 1485px) {
   .background {
     padding: 30px 20%;
   }
-}
+} */
 
 @media (max-width: 730px) {
   .background {
