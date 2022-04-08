@@ -98,7 +98,7 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
                       <td className={classes.head3}>
                         <div className={classes.flex}>
                           <div className={classes.spent}>
-                            <span className={classes.bold}>Expected Pay</span> $
+                            <span className={classes.bold}>Expected</span> $
                             {expectedPay}
                           </div>
                           <div className={classes.slash}>/</div>

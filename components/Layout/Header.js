@@ -8,25 +8,27 @@ const Header = ({ title, hasDatePicker }) => {
   const headerDate = useSelector((state) => state.date.headerDate);
 
   return (
-    <div className={classes.headerGrid}>
-      <div className={classes.welcome}>
-        <p>{`Welcome ${user.displayName}!`}</p>
+    <div className={classes.gridArea}>
+      <div className={classes.headerGrid}>
+        <div className={classes.welcome}>
+          <p>{`Welcome ${user.displayName}!`}</p>
+        </div>
+        <h1 className={classes.title}>{title}</h1>
+        {hasDatePicker && (
+          <>
+            <p className={classes.date}>{headerDate}</p>
+            <div className={classes.timeSelector}>
+              <DatePicker />
+            </div>
+          </>
+        )}
+        {!hasDatePicker && (
+          <>
+            <div></div>
+            <p className={classes.dateEnd}>{headerDate}</p>
+          </>
+        )}
       </div>
-      <h1 className={classes.title}>{title}</h1>
-      {hasDatePicker && (
-        <>
-          <p className={classes.date}>{headerDate}</p>
-          <div className={classes.timeSelector}>
-            <DatePicker />
-          </div>
-        </>
-      )}
-      {!hasDatePicker && (
-        <>
-          <div></div>
-          <p className={classes.dateEnd}>{headerDate}</p>
-        </>
-      )}
     </div>
   );
 };

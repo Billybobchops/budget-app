@@ -15,9 +15,7 @@ import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
-// import PageBackground from '../components/Layout/PageBackground';
 import PlannerBackground from '../components/Layout/PlannerBackground';
-import MainGrid from '../components/Layout/MainGrid';
 import Header from '../components/Layout/Header';
 import ButtonBar from '../components/Layout/Bars/ButtonBar';
 import PlannerContainer from '../components/Layout/Containers/PlannerContainer';
@@ -28,6 +26,7 @@ import Portal from '../components/UI/Portal';
 import ItemForm from '../components/Forms/ItemForm';
 import PlannerForm from '../components/Forms/PlannerForm';
 import CategoryForm from '../components/Forms/CategoryForm';
+import ProfileBar from '../components/Layout/Sidebar/ProfileBar';
 
 const PlannerPage = () => {
   const {
@@ -51,6 +50,7 @@ const PlannerPage = () => {
   const dropContainers = useSelector(
     (state) => state.itemsAndPlanner.totalBudgetedPlanner
   );
+  const buttonsArr = [{ text: 'Budget Item', clickHandler: onItemClick }];
 
   useEffect(() => {
     if (
@@ -129,18 +129,18 @@ const PlannerPage = () => {
           </DarkOverlay>
         )}
       </Portal>
-      <PlannerBackground>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <MainGrid>
-            <Header title='Monthly Planner' />
-            <ButtonBar>
-              <Button text='Budget Item' clickHandler={onItemClick} />
-            </ButtonBar>
-            <PlannerContainer plannerHandler={onPlannerClick} />
-          </MainGrid>
-          <Sidebar hasProfileBar={true} hasItemsDragList={true} />
-        </DragDropContext>
-      </PlannerBackground>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <PlannerBackground>
+          <Header title='Monthly Planner' />
+          <PlannerContainer plannerHandler={onPlannerClick} />
+          <ProfileBar />
+          <Sidebar
+            hasItemsDragList={true}
+            hasButtonBar={true}
+            buttons={buttonsArr}
+          />
+        </PlannerBackground>
+      </DragDropContext>
     </>
   );
 };

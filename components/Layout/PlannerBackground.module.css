@@ -4,17 +4,19 @@
   grid-template-areas: 'nav content';
   /* This parent container needs to have the height */
   height: 100vh;
-	overflow-x: hidden;
+  overflow-x: hidden;
 }
 
+/* this is the 80% */
 .pageGrid {
   display: grid;
   grid-template-columns: 70% 1fr;
-  /* grid-template-columns: 70% 400px; */
-  grid-template-areas: 'main sidebar';
+  grid-template-rows: repeat(2, auto);
+  column-gap: 35px;
+  grid-template-areas:
+    'header profile'
+    'mainContent sidebar';
   padding: 35px;
-  gap: 35px;
-	/* overflow-x: hidden; */
 }
 
 .navDrawer {
@@ -26,16 +28,24 @@
 
 @media (max-width: 1485px) {
   .mainGrid {
-    /* grid-template-columns: 0 100%; */
     grid-template-columns: 1fr;
-		grid-template-areas: 'content';
+    grid-template-areas: 'content';
   }
 
   .pageGrid {
-    /* grid-template-columns: repeat(2, 360px); */
-    grid-template-columns: 65% 1fr;
-		/* overflow-x: scroll; */
-    /* grid-template-areas: "main" "sidebar"; */
+    grid-template-areas:
+      'header header'
+      'mainContent sidebar';
+  }
+}
+
+@media (max-width: 1325px) {
+  .pageGrid {
+    grid-template-columns: 70% 320px;
+    overflow-x: scroll;
+		grid-template-areas:
+      'header sidebar'
+      'mainContent sidebar';
   }
 }
 

@@ -1,10 +1,19 @@
+.gridArea {
+  grid-area: buttons;
+}
+
 .buttonBar {
   display: grid;
-  grid-template-rows: auto 1fr;
-  grid-template-areas: "header" "buttons";
+  /* grid-template-rows: auto 1fr; */
+  grid-template-rows: auto;
+  grid-template-columns: 95px auto;
+  /* grid-template-areas: 'header' 'buttons'; */
   align-items: center;
   border-bottom: 1px solid #2d8058;
   margin-bottom: 30px;
+
+  grid-template-rows: auto;
+  grid-template-areas: 'header children';
 }
 
 .buttonBarTitle {
@@ -16,5 +25,13 @@
 }
 
 .buttonContainer {
-  grid-area: buttons;
+  grid-area: children;
+}
+
+@media (max-width: 800px) {
+  .buttonBar {
+    grid-template-rows: auto 1fr;
+		grid-template-columns: 1fr;
+    grid-template-areas: 'header' 'children';
+  }
 }

@@ -1,8 +1,13 @@
+.gridArea {
+  grid-area: header;
+}
+
 .headerGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  grid-template-areas: "welcome welcome welcome" "title date timeSelector";
+  /* grid-template-rows: auto 1fr; */
+  grid-template-areas: 'welcome welcome welcome' 'title date timeSelector';
   align-items: baseline;
   margin-bottom: 20px;
   border-bottom: 1px solid #2d8058;
@@ -44,7 +49,7 @@
   .headerGrid {
     grid-template-columns: auto;
     grid-template-rows: auto auto auto auto;
-    grid-template-areas: "welcome" "title" "date" "timeSelector";
+    grid-template-areas: 'welcome' 'title' 'date' 'timeSelector';
   }
 
   .date {
@@ -58,7 +63,7 @@
     font-size: 17px;
     margin-bottom: 16px;
   }
-  
+
   .date {
     font-size: 17px;
   }

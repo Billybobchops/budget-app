@@ -5,14 +5,19 @@ import { useSelector } from 'react-redux';
 
 const PlannerContainer = ({ plannerHandler }) => {
   const checks = useSelector((state) => state.itemsAndPlanner.planner.entities);
-  const totalPay = useSelector((state) => state.itemsAndPlanner.totalExpectedPay);
+  const totalPay = useSelector(
+    (state) => state.itemsAndPlanner.totalExpectedPay
+  );
 
   return (
-    <section>
+    <section className={classes.gridArea}>
       <h3>Get Started</h3>
-      <p className={classes.intro}>
+      <p>
         The planner view is helpful if you or your family get paid more than
-        once per month. Sort which check should handle each expense!
+        once per month.
+      </p>
+      <p className={classes.intro}>
+        Sort out which check should handle each expense!
       </p>
       <div className={classes.actionBar}>
         <div className={classes.actionButton}>

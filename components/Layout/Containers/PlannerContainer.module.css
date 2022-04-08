@@ -1,3 +1,7 @@
+.gridArea {
+	grid-area: mainContent;
+}
+
 .actionBar {
   background-color: #62d5b5;
   height: 65px;

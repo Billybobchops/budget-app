@@ -1,16 +1,17 @@
 .container {
+	grid-area: profile;
   display: flex;
-  align-items: baseline;
   justify-content: flex-end;
   margin-bottom: 20px;
+  /* margin: 24px 0 20px 0; */
+	align-items: center;
 }
 
 .profilePicture {
   height: 40px;
   width: 40px;
   border-radius: 50px;
-  align-self: center;
-  margin: 0 30px 12px 0;
+  margin-right: 30px;
 }
 
 .link {

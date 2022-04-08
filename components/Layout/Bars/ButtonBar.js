@@ -1,12 +1,14 @@
-import classes from "./ButtonBar.module.css";
+import classes from './ButtonBar.module.css';
 
 const ButtonBar = (props) => {
   return (
-    <div className={classes.buttonBar}>
-      <div>
-        <h2 className={classes.buttonBarTitle}>Add New</h2>
+    <div className={classes.gridArea}>
+      <div className={classes.buttonBar}>
+        <div>
+          <h2 className={classes.buttonBarTitle}>Add New</h2>
+        </div>
+        <div>{props.children}</div>
       </div>
-      <div>{props.children}</div>
     </div>
   );
 };
