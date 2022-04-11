@@ -9,9 +9,11 @@ const BudgetItem = ({ title, index, budgetedAmount, date }) => {
   const daySlice = date.slice(-2);
   const today = new Date().getDate();
   const dateString = +daySlice === today ? 'Today' : date;
-  const displayDate = `${
-    dateString === 'Today' ? `Bills` : 'Bills on'
-  } ${dateString}`;
+  // const displayDate = `${
+  //   dateString === 'Today' ? `Bills` : 'Bills on'
+  // } ${dateString}`;
+
+  const displayDate = `${dateString === 'Today' ? `Today` : date}`;
 
   const expenses = useSelector((state) => state.expenses.entities);
   let balanceClass = null;
@@ -61,9 +63,7 @@ const BudgetItem = ({ title, index, budgetedAmount, date }) => {
                 <tbody>
                   <tr className={classes.initialRow}>
                     <td className={classes.emptyCell}></td>
-                    <td className={classes.col1}>
-                      <div className={classes.bold}>{title}</div>
-                    </td>
+                    <td className={classes.col1}>{title}</td>
                     <td className={classes.col2}>
                       <div>{displayDate}</div>
                     </td>

@@ -11,8 +11,6 @@
 .backgroundDrag {
   background-color: #d0ffe9;
   border-left: 7px solid #04311c;
-  /* add a max-width property here? */
-  /* max-width: min-content; */
 }
 
 .table {
@@ -43,11 +41,6 @@
   max-width: max-content;
 }
 
-/* .under,
-.over {
-  font-weight: 700;
-} */
-
 .under {
   color: #2d8058;
 }
@@ -57,16 +50,16 @@
 }
 
 .emptyCell {
-  width: 4%;
+  width: 2%;
 }
 
 .col1 {
-  width: 18%;
+  width: 24%;
 }
 
 .col2 {
-  width: 16%;
-  width: 22%;
+  width: 10%;
+  width: 14%;
 }
 
 .col3 {
@@ -83,7 +76,7 @@
   text-align: center;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1150px) {
   .container {
     padding: 6px 0;
   }
@@ -96,7 +89,7 @@
   .secondaryRow {
     display: grid;
     grid-template-columns: 1fr 1fr 40px;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
     grid-template-areas: 'title date options' 'budget balance options';
   }
 
@@ -141,7 +134,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 575px) {
   .secondaryRow {
     grid-template-columns: 1fr 1fr 60px;
     grid-template-areas: 'title title options' 'budget budget options';
@@ -156,5 +149,16 @@
   .bold,
   .flex {
     padding-left: 20px;
+  }
+}
+
+@media (max-width: 470px) {
+	.secondaryRow {
+		font-size: 15px;
+	}
+
+	.bold,
+  .flex {
+    padding-left: 14px;
   }
 }

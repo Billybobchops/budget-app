@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
-	faPlus,
-	faMinus,
+  faPlus,
+  faMinus,
   faChevronUp,
   faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
@@ -70,7 +70,7 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
   const toggle = isActive ? (
     <FontAwesomeIcon icon={faMinus} className={classes.toggle} />
   ) : (
-    <FontAwesomeIcon icon={faPlus	} className={classes.toggle} />
+    <FontAwesomeIcon icon={faPlus} className={classes.toggle} />
   );
 
   return (
@@ -121,6 +121,29 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
                 </div>
 
                 <ul className={classes.list}>
+                  {isActive && (
+                    <div className={classes.activeBar}>
+                      <div className={classes.activeFraction}>
+                        <div className={classes.flex}>
+                          <div className={classes.spent}>
+                            <span className={classes.bold}>Expected</span> $
+                            {expectedPay}
+                          </div>
+                          <div className={classes.slash}>/</div>
+                          <div className={classes.budgeted}>
+                            <span className={classes.bold}>Budgeted</span> $
+                            {budgeted}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={classes.activeBalanceChip}>
+                        <div className={classes[balanceClass]}>
+                          {balanceString}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   {isActive &&
                     itemIds !== undefined &&
                     itemIds.map((item, index) => {

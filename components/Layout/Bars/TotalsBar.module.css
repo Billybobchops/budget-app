@@ -15,7 +15,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
-  padding: 16px 32px;
+  /* padding: 16px 32px; */
+  padding: 6px 20px;
   margin-bottom: 10px;
   font-family: "Cairo", sans-serif;
   color: #04311c;
@@ -30,11 +31,12 @@
 }
 
 .barTitle {
-  font-size: 18px;
+  /* font-size: 18px; */
+  font-size: 16px;
   font-weight: 600;
 }
 
 .barAmount {
-  font-size: 21px;
+  font-size: 19px;
   justify-self: end;
 }

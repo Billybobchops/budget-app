@@ -3,7 +3,7 @@
   border-top: 4px solid #2d8058;
   box-shadow: #0000004f 0px 3px 5px;
   padding: 12px 0;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   font-family: 'Cairo', sans-serif;
   color: #04311c;
 }
@@ -21,6 +21,12 @@
 .list {
   padding: 0;
   list-style-type: none;
+}
+
+.activeBalanceChip div,
+.activeFraction,
+.activeBar {
+  display: none;
 }
 
 .backgroundDrag {
@@ -50,7 +56,7 @@
 }
 
 .toggle {
-	font-size: 14px;
+  font-size: 14px;
 }
 
 .head1 {
@@ -104,25 +110,61 @@
   font-weight: 700;
 }
 
+@media (max-width: 1265px) {
+  .head1 {
+    width: 7%;
+  }
+
+  .head2 {
+    width: 32%;
+  }
+
+  .head4 {
+    display: none;
+  }
+
+  .activeBar {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    padding-left: 12px;
+    align-items: center;
+  }
+
+  .activeBalanceChip div {
+    display: block;
+    border-radius: 20px;
+    margin-left: 12px;
+    padding: 6px 18px;
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 960px) {
   .container {
-    padding: 6px 0;
+    padding: 8px 0;
   }
 
-  .head1,
-  .head5 {
-    width: 8%;
+  .head1 {
+    width: 10%;
   }
 
-  .head2,
-  .head3 {
+  .head2 {
+    width: 35%;
     display: flex;
     width: auto;
     padding-left: 25px;
   }
 
-  .head4 {
-    width: 25%;
+  .head3 {
+    display: none;
+  }
+
+  .head5 {
+    width: 10%;
+  }
+
+  .activeFraction {
+    display: block;
   }
 }
 
@@ -132,16 +174,18 @@
     font-size: 14px;
     padding-left: 10px;
   }
-
-  .head4 {
-    width: 18%;
-    line-height: 20px;
-  }
 }
 
-@media (max-width: 580px) {
-  .head4 {
-    display: none;
+@media (max-width: 625px) {
+  .activeBar {
+    grid-template-columns: auto;
+    grid-template-rows: repeat(2, auto);
+    gap: 5px;
+    margin-top: -8px;
+  }
+
+  .activeBalanceChip div {
+    margin: 0;
   }
 }
 
@@ -150,20 +194,28 @@
   .head5 {
     width: 14%;
   }
+
+	.head2 {
+		width: 1fr;
+	}
+
+  .title {
+    font-size: 15px;
+  }
+
+	.flex {
+		font-size: 14px;
+	}
 }
 
 @media (max-width: 400px) {
-  .container {
-    padding: 16px 0;
-  }
-
   .head3 {
     display: none;
   }
 }
 
-@media (max-width: 285px) {
-  .title {
-    font-size: 15px;
-  }
-}
+/* @media (max-width: 360px) {
+  .flex {
+		font-size: 14px;
+	}
+} */

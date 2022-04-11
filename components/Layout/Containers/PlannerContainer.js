@@ -22,7 +22,7 @@ const PlannerContainer = ({ plannerHandler }) => {
       <div className={classes.actionBar}>
         <div className={classes.actionButton}>
           <Button
-            text='Add Expected Income'
+            text='Add Planned Income'
             evenMargin={true}
             clickHandler={plannerHandler}
           />

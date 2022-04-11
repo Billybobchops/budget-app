@@ -43,20 +43,35 @@
   .pageGrid {
     grid-template-columns: 70% 320px;
     overflow-x: scroll;
-		grid-template-areas:
+    grid-template-areas:
       'header sidebar'
       'mainContent sidebar';
   }
 }
 
+@media (max-width: 690px) {
+  .pageGrid {
+    grid-template-columns: 85% 320px;
+  }
+}
+
 @media (max-width: 645px) {
   .pageGrid {
-    padding: 15px;
+    padding: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .pageGrid {
-    padding: 10px;
+    /* grid-template-columns: repeat(2, 270px); */
+    grid-template-columns: 70% 270px;
+    grid-template-columns: 70% 220px;
+    gap: 25px;
+  }
+}
+
+@media (max-width: 360px) {
+  .pageGrid {
+    grid-template-columns: 65% 270px;
   }
 }
