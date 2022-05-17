@@ -17,6 +17,8 @@
     'header profile'
     'mainContent sidebar';
   padding: 35px;
+
+	/* width: 100vw; */
 }
 
 .navDrawer {
@@ -36,6 +38,8 @@
     grid-template-areas:
       'header header'
       'mainContent sidebar';
+
+			width: 100vw;
   }
 }
 
@@ -46,6 +50,7 @@
     grid-template-areas:
       'header sidebar'
       'mainContent sidebar';
+    /* template areas prevent losing the date to the right side of the screen */
   }
 }
 
@@ -58,20 +63,14 @@
 @media (max-width: 645px) {
   .pageGrid {
     padding: 20px;
+    /* width 100vw fixed it! ...above */
+    /* width: 100vw; */
   }
 }
 
 @media (max-width: 480px) {
   .pageGrid {
-    /* grid-template-columns: repeat(2, 270px); */
-    grid-template-columns: 70% 270px;
-    grid-template-columns: 70% 220px;
-    gap: 25px;
-  }
-}
-
-@media (max-width: 360px) {
-  .pageGrid {
-    grid-template-columns: 65% 270px;
+    column-gap: 20px;
+    grid-template-columns: 85% 220px;
   }
 }

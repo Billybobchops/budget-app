@@ -40,4 +40,10 @@
   .background {
 		padding: 0 16px;
   }
+
+	.title {
+		padding-bottom: 10px;
+		font-size: 17px;
+		line-height: 1.5;
+	}
 }

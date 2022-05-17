@@ -153,12 +153,24 @@
 }
 
 @media (max-width: 470px) {
-	.secondaryRow {
-		font-size: 15px;
-	}
+  .secondaryRow {
+    font-size: 15px;
+  }
+
+  .bold,
+  .flex {
+    padding-left: 14px;
+  }
+}
+
+@media (max-width: 390px) {
+  .secondaryRow {
+    font-size: 13px;
+		grid-template-columns: 1fr 1fr 35px;
+  }
 
 	.bold,
   .flex {
-    padding-left: 14px;
+    padding-left: 12px;
   }
 }

@@ -13,11 +13,13 @@
   font-weight: 700;
   text-decoration: none;
   color: #2d8058;
+	transition: 200ms ease;
 }
 
 .navLink:hover,
 .active {
   color: #bd275c;
+	transition: 400ms ease;
 }
 
 .list {

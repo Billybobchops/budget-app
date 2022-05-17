@@ -69,10 +69,21 @@
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 955px) {
   .mobileNav {
-    padding: 20px;
+    padding: 8px 35px;
   }
+}
+
+@media (max-width: 645px) {
+  .mobileNav {
+    padding: 8px 20px;
+  }
+
+	.logo {
+		max-width: 6rem;
+		height: 39px;
+	}
 }
 
 @media (max-width: 500px) {

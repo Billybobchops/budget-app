@@ -14,7 +14,7 @@
   margin: 12px;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 390px) {
   .button {
     font-size: 12px;
     margin: 0 9px 9px 0;

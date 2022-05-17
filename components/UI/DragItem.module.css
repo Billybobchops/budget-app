@@ -59,3 +59,11 @@
   background-color: #d0ffe9;
   border-left: 7px solid #04311c;
 }
+
+@media (max-width: 390px) {
+	.title,
+	.budgeted,
+	.date {
+		font-size: 13px;
+	}
+}

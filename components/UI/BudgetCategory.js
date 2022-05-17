@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChevronDown,
-  faChevronUp,
+  faPlus,
+  faMinus,
   faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
 import BudgetItem from '../UI/BudgetItem';
@@ -83,10 +83,10 @@ const BudgetCategory = ({ categoryTitle }) => {
     setIsActive(!isActive);
   };
 
-  const chevron = isActive ? (
-    <FontAwesomeIcon icon={faChevronDown} className={classes.chevron} />
+  const toggle = isActive ? (
+    <FontAwesomeIcon icon={faMinus} className={classes.toggle} />
   ) : (
-    <FontAwesomeIcon icon={faChevronUp} className={classes.chevron} />
+    <FontAwesomeIcon icon={faPlus} className={classes.toggle} />
   );
 
   return (
@@ -101,7 +101,7 @@ const BudgetCategory = ({ categoryTitle }) => {
             >
               <Table>
                 <tr>
-                  <td className={classes.head1}>{chevron}</td>
+                  <td className={classes.head1}>{toggle}</td>
                   <td className={classes.head2}>
                     <div className={classes.title}>
                       {categoryTitle}
@@ -126,7 +126,29 @@ const BudgetCategory = ({ categoryTitle }) => {
                 </tr>
               </Table>
             </div>
+
             <ul className={classes.list}>
+              {isActive && (
+                <div className={classes.activeBar}>
+                  <div className={classes.activeFraction}>
+                    <div className={classes.flex}>
+                      <div className={classes.spent}>
+                        <span className={classes.bold}>Spent</span> $
+                        {spent}
+                      </div>
+                      <div className={classes.slash}>/</div>
+                      <div className={classes.budgeted}>
+                        <span className={classes.bold}>Budgeted</span> $
+                        {budgeted}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={classes.activeBalanceChip}>
+                    <div className={classes[balanceClass]}>{balanceString}</div>
+                  </div>
+                </div>
+              )}
               {isActive &&
                 Object.values(items).map((item, index) => {
                   if (categoryTitle === item.category)

@@ -2,10 +2,8 @@ import classes from './PlannerAccordion.module.css';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChevronDown,
   faPlus,
   faMinus,
-  faChevronUp,
   faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
