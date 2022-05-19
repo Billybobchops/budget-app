@@ -7,7 +7,7 @@ import {
   fetchItems,
   fetchPaychecks,
   updateItemDoc,
-  reorderIds,
+  reorderPlannerIds,
   updateEnd,
   updateStart,
 } from '../store/itemsAndPlanner-slice';
@@ -17,9 +17,7 @@ import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import PlannerBackground from '../components/Layout/PlannerBackground';
 import Header from '../components/Layout/Header';
-import ButtonBar from '../components/Layout/Bars/ButtonBar';
 import PlannerContainer from '../components/Layout/Containers/PlannerContainer';
-import Button from '../components/UI/Buttons/Button';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
@@ -95,11 +93,11 @@ const PlannerPage = () => {
     const endId = end.id;
 
     if (start === end) {
-      // Re-Order operation to happen here: (column is the same)
+      // Re-Order operation to happen here: (droppable is the same)
       const newItemIds = Array.from(start.itemIds);
       newItemIds.splice(source.index, 1);
       newItemIds.splice(destination.index, 0, draggableId);
-      store.dispatch(reorderIds({ startId, newItemIds }));
+      store.dispatch(reorderPlannerIds({ startId, newItemIds }));
       return;
     }
 
@@ -115,7 +113,7 @@ const PlannerPage = () => {
     const uid = auth.user.uid;
     const document = draggableId;
     const newLocation = destination.droppableId;
-    store.dispatch(updateItemDoc({ uid, document, newLocation }));
+    store.dispatch(updateItemDoc({ uid, document, newLocation })); // persisting
   };
 
   return (

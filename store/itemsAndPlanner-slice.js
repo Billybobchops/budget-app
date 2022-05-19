@@ -76,9 +76,13 @@ const itemPlannerSlice = createSlice({
     totalExpectedPay: 0,
   },
   reducers: {
-    reorderIds: (state, action) => {
+    reorderPlannerIds: (state, action) => {
       const { startId, newItemIds } = action.payload;
       state.totalBudgetedPlanner[startId].itemIds = newItemIds;
+    },
+    reorderCategoryIds: (state, action) => {
+      const { startId, newItemIds } = action.payload;
+      state.totalBudgetedCategory[startId].itemIds = newItemIds;
     },
     updateStart: (state, action) => {
       const { startId, startItemsIds, draggableId } = action.payload;
@@ -164,12 +168,14 @@ const itemPlannerSlice = createSlice({
               budgeted: arr.reduce((acc, current) => {
                 return acc + current;
               }),
+              itemIds: [],
             };
           }
         });
 
         Object.values(action.payload).map((item) => {
           // may need to init the list here again too in case this promise resolves first?
+          let currentCategory = item.category;
 
           // Update ItemsDragList's budgetedAmount and itemIds
           if (item.paycheckSelect === null) {
@@ -186,7 +192,11 @@ const itemPlannerSlice = createSlice({
             state.totalBudgetedPlanner[item.paycheckSelect].itemIds.push(
               item.id
             );
-            // return;
+          }
+
+          // Update each Category's itemIds array
+          if (item.category === currentCategory) {
+            state.totalBudgetedCategory[item.category].itemIds.push(item.id);
           }
         });
       })
@@ -202,7 +212,12 @@ const itemPlannerSlice = createSlice({
   },
 });
 
-export const { reorderIds, updateStart, updateEnd, createDroppableData } =
-  itemPlannerSlice.actions;
+export const {
+  reorderPlannerIds,
+  reorderCategoryIds,
+  updateStart,
+  updateEnd,
+  createDroppableData,
+} = itemPlannerSlice.actions;
 
 export default itemPlannerSlice.reducer;

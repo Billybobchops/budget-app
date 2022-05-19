@@ -3,7 +3,11 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { useSelector } from 'react-redux';
 import store from '../store';
-import { fetchItems, fetchPaychecks } from '../store/itemsAndPlanner-slice';
+import {
+  fetchItems,
+  fetchPaychecks,
+  reorderCategoryIds,
+} from '../store/itemsAndPlanner-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
@@ -43,6 +47,9 @@ const Overview = () => {
     (state) => state.itemsAndPlanner.planner.status
   );
   const funds = useSelector((state) => state.funds.entities);
+  const dropContainers = useSelector(
+    (state) => state.itemsAndPlanner.totalBudgetedCategory
+  );
 
   useEffect(() => {
     if (
@@ -76,7 +83,33 @@ const Overview = () => {
     return <p>Loading!</p>;
   }
 
-  const onDragEnd = (result) => {};
+  const onDragEnd = (result) => {
+    const { draggableId, destination, source } = result;
+
+    // if user drops draggable outside of any droppable - return
+    if (!destination) return;
+    // The user dropped the item back in the same position - return
+    if (
+      destination.droppableId == source.droppableId &&
+      destination.index === source.index
+    )
+      return;
+
+    const start = dropContainers[source.droppableId];
+    const startId = start.id;
+    const end = dropContainers[destination.droppableId]; // undefined, bc apart of old closure
+    const endId = end.id;
+
+    if (start === end) {
+      // Re-Order operation to happen here: (droppable is the same)
+      const newItemIds = Array.from(start.itemIds);
+      newItemIds.splice(source.index, 1);
+      newItemIds.splice(destination.index, 0, draggableId);
+			console.log(newItemIds);
+      store.dispatch(reorderCategoryIds({ startId, newItemIds }));
+      return;
+    }
+  };
 
   return (
     <>

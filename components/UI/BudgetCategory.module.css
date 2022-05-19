@@ -25,6 +25,11 @@
   display: none;
 }
 
+.backgroundDrag {
+  background-color: #cce8ff;
+  transition: background-color 0.5s ease;
+}
+
 .flex {
   display: flex;
   align-items: center;

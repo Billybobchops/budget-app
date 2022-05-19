@@ -152,7 +152,6 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
                           title={itemEntities[item].id}
                           date={itemEntities[item].billDate}
                           budgetedAmount={itemEntities[item].budgetAmount}
-                          // spentAmount='$5'
                         />
                       );
                     })}
