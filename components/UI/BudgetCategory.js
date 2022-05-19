@@ -44,11 +44,10 @@ const BudgetCategory = ({ categoryTitle }) => {
       : 0;
   let budgeted =
     totalBudgeted[categoryTitle] !== undefined
-      ? totalBudgeted[categoryTitle].budgeted
+      ? totalBudgeted[categoryTitle].budgeted.toFixed(2)
       : 0;
   const percent = totalExpectedPay ? (
     <span className={classes.percentage}>
-      {' '}
       {((budgeted / totalExpectedPay) * 100).toFixed(2)}% of Income
     </span>
   ) : (

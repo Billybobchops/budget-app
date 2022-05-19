@@ -33,7 +33,7 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
   );
   let budgeted =
     totalPlannedBudget[title] !== undefined
-      ? totalPlannedBudget[title].budgeted
+      ? totalPlannedBudget[title].budgeted.toFixed(2)
       : 0;
   let balanceClass = null;
   let balanceString = null;
