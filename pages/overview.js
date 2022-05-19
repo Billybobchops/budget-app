@@ -6,6 +6,7 @@ import store from '../store';
 import {
   fetchItems,
   fetchPaychecks,
+	updateCategoryItemDoc,
   reorderCategoryIds,
 	updateCategoryStart,
 	updateCategoryEnd,
@@ -107,7 +108,6 @@ const Overview = () => {
       const newItemIds = Array.from(start.itemIds);
       newItemIds.splice(source.index, 1);
       newItemIds.splice(destination.index, 0, draggableId);
-      console.log(newItemIds);
       store.dispatch(reorderCategoryIds({ startId, newItemIds }));
       return;
     }
@@ -123,8 +123,8 @@ const Overview = () => {
     // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
     const uid = auth.user.uid;
     const document = draggableId;
-    const newLocation = destination.droppableId;
-    // store.dispatch(updateItemDoc({ uid, document, newLocation })); // persisting
+    const newCategory = destination.droppableId;
+    store.dispatch(updateCategoryItemDoc({ uid, document, newCategory })); // persisting
   };
 
   return (

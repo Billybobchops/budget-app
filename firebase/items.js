@@ -70,7 +70,12 @@ export const getAllItems = async (uid) => {
   }
 };
 
-// Add updating function here...
+/**
+ * Updates a planner accordion's item's assigned paycheck value
+ * @param {string} uid - to update the correct user's data
+ * @param {string} document - document id
+ * @param {string} newLocation - the newly updated paycheck for the item
+ */
 export const updatePlannerItem = async (uid, document, newLocation) => {
   try {
     const q = query(
@@ -86,6 +91,32 @@ export const updatePlannerItem = async (uid, document, newLocation) => {
 
     const docRef = doc(db, `budgetItems/${uid}/items`, docId);
     await updateDoc(docRef, { 'data.paycheckSelect': newLocation });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/**
+ * Updates a category accordion's item's assigned category
+ * @param {string} uid - to update the correct user's data
+ * @param {string} document - document id
+ * @param {string} newCategory - the newly updated category for the item
+ */
+ export const updateCategoryItem = async (uid, document, newCategory) => {
+  try {
+    const q = query(
+      collection(db, `budgetItems/${uid}/items`),
+      where('id', '==', document)
+    );
+    const querySnapshot = await getDocs(q);
+
+    let docId;
+    querySnapshot.forEach((doc) => {
+      docId = doc.id;
+    });
+
+    const docRef = doc(db, `budgetItems/${uid}/items`, docId);
+    await updateDoc(docRef, { 'data.category': newCategory });
   } catch (error) {
     console.log(error);
   }

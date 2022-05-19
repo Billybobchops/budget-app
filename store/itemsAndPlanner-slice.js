@@ -3,7 +3,12 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import { addItem, getAllItems, updateItem } from '../firebase/items';
+import {
+  addItem,
+  getAllItems,
+  updatePlannerItem,
+  updateCategoryItem,
+} from '../firebase/items';
 import { addPlannedIncome, getPlannedIncome } from '../firebase/planner';
 
 export const fetchItems = createAsyncThunk(
@@ -54,9 +59,17 @@ export const addNewIncome = createAsyncThunk(
 );
 
 export const updatePlannerItemDoc = createAsyncThunk(
-  'itemsAndPlanner/updateItemDoc',
+  'itemsAndPlanner/updatePlannerItemDoc',
   async ({ uid, document, newLocation }) => {
     const response = await updatePlannerItem(uid, document, newLocation);
+    return response;
+  }
+);
+
+export const updateCategoryItemDoc = createAsyncThunk(
+  'itemsAndPlanner/updateCategoryItemDoc',
+  async ({ uid, document, newCategory }) => {
+    const response = await updateCategoryItem(uid, document, newCategory);
     return response;
   }
 );
@@ -218,7 +231,13 @@ const itemPlannerSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(updatePlannerItemDoc.fulfilled, (state) => {
-			state.status = 'idle';
+        state.status = 'idle';
+      })
+			.addCase(updateCategoryItemDoc.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateCategoryItemDoc.fulfilled, (state) => {
+        state.status = 'idle';
       });
   },
 });
@@ -227,7 +246,9 @@ export const {
   reorderPlannerIds,
   reorderCategoryIds,
   updatePlannerStart,
+  updateCategoryStart,
   updatePlannerEnd,
+  updateCategoryEnd,
   createDroppableData,
 } = itemPlannerSlice.actions;
 
