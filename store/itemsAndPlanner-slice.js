@@ -53,10 +53,10 @@ export const addNewIncome = createAsyncThunk(
   }
 );
 
-export const updateItemDoc = createAsyncThunk(
+export const updatePlannerItemDoc = createAsyncThunk(
   'itemsAndPlanner/updateItemDoc',
   async ({ uid, document, newLocation }) => {
-    const response = await updateItem(uid, document, newLocation);
+    const response = await updatePlannerItem(uid, document, newLocation);
     return response;
   }
 );
@@ -84,19 +84,30 @@ const itemPlannerSlice = createSlice({
       const { startId, newItemIds } = action.payload;
       state.totalBudgetedCategory[startId].itemIds = newItemIds;
     },
-    updateStart: (state, action) => {
+    updatePlannerStart: (state, action) => {
       const { startId, startItemsIds, draggableId } = action.payload;
       state.totalBudgetedPlanner[startId].itemIds = startItemsIds;
-      // logic for subtracting planner accordion total budgeted amount
-      // when moving from one paycheck to another (or DragList to a paycheck!)
       state.totalBudgetedPlanner[startId].budgeted -=
         state.items.entities[draggableId].budgetAmount;
     },
-    updateEnd: (state, action) => {
+    updateCategoryStart: (state, action) => {
+      const { startId, startItemsIds, draggableId } = action.payload;
+      state.totalBudgetedCategory[startId].itemIds = startItemsIds;
+      state.totalBudgetedCategory[startId].budgeted -=
+        state.items.entities[draggableId].budgetAmount;
+    },
+    updatePlannerEnd: (state, action) => {
       const { endId, endItemsIds, draggableId } = action.payload;
       state.totalBudgetedPlanner[endId].itemIds = endItemsIds;
       state.items.entities[draggableId].paycheckSelect = endId;
       state.totalBudgetedPlanner[endId].budgeted +=
+        state.items.entities[draggableId].budgetAmount;
+    },
+    updateCategoryEnd: (state, action) => {
+      const { endId, endItemsIds, draggableId } = action.payload;
+      state.totalBudgetedCategory[endId].itemIds = endItemsIds;
+      state.items.entities[draggableId].category = endId;
+      state.totalBudgetedCategory[endId].budgeted +=
         state.items.entities[draggableId].budgetAmount;
     },
   },
@@ -203,11 +214,11 @@ const itemPlannerSlice = createSlice({
       .addCase(addNewItem.fulfilled, (state, action) => {
         itemsAdapter.addOne(state.items, action.payload);
       })
-      .addCase(updateItemDoc.pending, (state) => {
+      .addCase(updatePlannerItemDoc.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(updateItemDoc.fulfilled, (state) => {
-        state.status = 'idle';
+      .addCase(updatePlannerItemDoc.fulfilled, (state) => {
+			state.status = 'idle';
       });
   },
 });
@@ -215,8 +226,8 @@ const itemPlannerSlice = createSlice({
 export const {
   reorderPlannerIds,
   reorderCategoryIds,
-  updateStart,
-  updateEnd,
+  updatePlannerStart,
+  updatePlannerEnd,
   createDroppableData,
 } = itemPlannerSlice.actions;
 

@@ -7,6 +7,8 @@ import {
   fetchItems,
   fetchPaychecks,
   reorderCategoryIds,
+	updateCategoryStart,
+	updateCategoryEnd,
 } from '../store/itemsAndPlanner-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
@@ -105,10 +107,24 @@ const Overview = () => {
       const newItemIds = Array.from(start.itemIds);
       newItemIds.splice(source.index, 1);
       newItemIds.splice(destination.index, 0, draggableId);
-			console.log(newItemIds);
+      console.log(newItemIds);
       store.dispatch(reorderCategoryIds({ startId, newItemIds }));
       return;
     }
+
+    // Moving from one droppable list to another
+    const startItemsIds = Array.from(start.itemIds);
+    startItemsIds.splice(source.index, 1); // remove the dragged itemId from the new array
+    store.dispatch(updateCategoryStart({ startId, startItemsIds, draggableId }));
+
+    const endItemsIds = Array.from(end.itemIds);
+    endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
+    store.dispatch(updateCategoryEnd({ endId, endItemsIds, draggableId }));
+    // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
+    const uid = auth.user.uid;
+    const document = draggableId;
+    const newLocation = destination.droppableId;
+    // store.dispatch(updateItemDoc({ uid, document, newLocation })); // persisting
   };
 
   return (

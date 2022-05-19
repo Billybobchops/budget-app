@@ -71,7 +71,7 @@ export const getAllItems = async (uid) => {
 };
 
 // Add updating function here...
-export const updateItem = async (uid, document, newLocation) => {
+export const updatePlannerItem = async (uid, document, newLocation) => {
   try {
     const q = query(
       collection(db, `budgetItems/${uid}/items`),
