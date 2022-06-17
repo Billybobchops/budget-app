@@ -8,6 +8,16 @@
   color: #04311c;
 }
 
+.container:hover {
+  background-color: #5acdac;
+  box-shadow: none;
+}
+
+.container,
+.container:hover {
+  transition: 400ms ease;
+}
+
 .table {
   width: 100%;
   text-align: left;
@@ -69,7 +79,7 @@
 
 .percentage {
   font-weight: 500;
-	margin-left: 8px;
+  margin-left: 8px;
 }
 
 .under,

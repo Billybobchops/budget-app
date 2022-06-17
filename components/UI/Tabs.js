@@ -1,5 +1,5 @@
-import classes from "./Tabs.module.css";
-import { useState } from "react";
+import classes from './Tabs.module.css';
+import { useState } from 'react';
 
 const Tab = (props) => {
   let tabClass = `${classes.tabBtn} ${props.activeTab && classes.tabBtnActive}`;
@@ -25,6 +25,7 @@ const Tabs = (props) => {
             activeTab={activeTab === tab}
             onClick={() => {
               setActiveTab(tab);
+							props.activeTabFn(tab);
             }}
           />
         );
@@ -34,4 +35,3 @@ const Tabs = (props) => {
 };
 
 export default Tabs;
-

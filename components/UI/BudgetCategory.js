@@ -20,12 +20,13 @@ const Table = ({ children }) => {
   );
 };
 
-const BudgetCategory = ({ categoryTitle }) => {
+const BudgetCategory = ({ categoryTitle, tabID }) => {
   const [isActive, setIsActive] = useState(false);
+
   const spentCategories = useSelector(
     (state) => state.expenses.spentCategories
   );
-  const totalExpectedPay = useSelector(
+  let totalExpectedPay = useSelector(
     (state) => state.itemsAndPlanner.totalExpectedPay
   );
   const totalBudgeted = useSelector(
@@ -38,14 +39,21 @@ const BudgetCategory = ({ categoryTitle }) => {
   const itemEntities = useSelector(
     (state) => state.itemsAndPlanner.items.entities
   );
+
   const spent =
     spentCategories[categoryTitle] !== undefined
       ? spentCategories[categoryTitle].spent
       : 0;
+
   let budgeted =
     totalBudgeted[categoryTitle] !== undefined
-      ? totalBudgeted[categoryTitle].budgeted.toFixed(2)
+      ? +totalBudgeted[categoryTitle].budgeted.toFixed(2)
       : 0;
+  if (tabID === 'Annual') {
+    budgeted = +(budgeted * 12).toFixed(2);
+    totalExpectedPay = totalExpectedPay * 12;
+  }
+
   const percent = totalExpectedPay ? (
     <span className={classes.percentage}>
       {((budgeted / totalExpectedPay) * 100).toFixed(2)}% of Income
@@ -67,7 +75,7 @@ const BudgetCategory = ({ categoryTitle }) => {
       (spent - budgeted) % 1 === 0
         ? spent - budgeted
         : (spent - budgeted).toFixed(2);
-    balanceString = `$${num} Over`;
+    balanceString = `$${num.toLocaleString()} Over`;
   }
 
   if (spent < budgeted) {
@@ -75,8 +83,8 @@ const BudgetCategory = ({ categoryTitle }) => {
     let num =
       (budgeted - spent) % 1 === 0
         ? budgeted - spent
-        : (budgeted - spent).toFixed(2);
-    balanceString = `$${num} Under`;
+        : +(budgeted - spent).toFixed(2);
+    balanceString = `$${num.toLocaleString()} Under`;
   }
 
   if (spent === 0 && budgeted === 0) {
@@ -118,7 +126,9 @@ const BudgetCategory = ({ categoryTitle }) => {
                           <span className={classes.bold}>Spent</span> ${spent}
                         </div>
                         <div className={classes.slash}>/</div>
-                        <div className={classes.budgeted}>${budgeted}</div>
+                        <div className={classes.budgeted}>
+                          ${budgeted.toLocaleString()}
+                        </div>
                       </div>
                     </td>
                     <td className={classes.head4}>
@@ -167,6 +177,7 @@ const BudgetCategory = ({ categoryTitle }) => {
                           title={itemEntities[item].id}
                           date={itemEntities[item].billDate}
                           budgetedAmount={itemEntities[item].budgetAmount}
+													tabID={tabID}
                         />
                       );
                   })}

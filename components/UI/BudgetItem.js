@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
 
-const BudgetItem = ({ title, index, budgetedAmount, date }) => {
+const BudgetItem = ({ title, index, budgetedAmount, date, tabID }) => {
   // className={`${[classes.container, classes[`${snapshot.isDragging && "backgroundDrag"}`],].join(" ")}`}
   const daySlice = date.slice(-2);
   const today = new Date().getDate();
@@ -42,6 +42,7 @@ const BudgetItem = ({ title, index, budgetedAmount, date }) => {
     balanceClass = 'under';
     balanceString = '🎉 Under';
   }
+	if (tabID === 'Annual') budgetedAmount = budgetedAmount * 12;
 
   return (
     <>
