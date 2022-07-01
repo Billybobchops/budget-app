@@ -1,12 +1,16 @@
 .container {
-  display: grid;
-  grid-template-rows: auto 1fr;
+  /* display: grid;
+  grid-template-rows: auto 1fr; */
   margin-bottom: 20px;
 }
 
 .background {
-  padding: 30px;
+	/* padding: 30px; */
   background-color: #d4f3da;
+	
+	height: 400px;
+	/* width: 100%; */
+	/* height: 300px; */
 }
 
 .title {
