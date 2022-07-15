@@ -1,5 +1,5 @@
 import BudgetMessage from './BudgetMessage';
-import MonthlyBreakdown from './MonthlyBreakdown';
+import CategoryPie from './CategoryPie';
 import ProfileBar from './ProfileBar';
 import classes from './Sidebar.module.css';
 import UpcomingBills from './UpcomingBills';
@@ -9,7 +9,7 @@ import Button from '../../UI/Buttons/Button';
 
 const Sidebar = ({
   hasProfileBar,
-  hasMonthlyBreakdown,
+  hasCategoryPie,
   hasBudgetMessage,
   hasUpcomingBills,
   hasItemsDragList,
@@ -19,7 +19,7 @@ const Sidebar = ({
   const sidebarContents = (
     <>
       {hasProfileBar && <ProfileBar />}
-      {hasMonthlyBreakdown && <MonthlyBreakdown />}
+      {hasCategoryPie && <CategoryPie />}
       {hasBudgetMessage && <BudgetMessage />}
       {hasUpcomingBills && <UpcomingBills />}
       {hasButtonBar && (

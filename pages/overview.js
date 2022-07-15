@@ -152,7 +152,7 @@ const Overview = () => {
         <Sidebar
           hasProfileBar={true}
           hasBudgetMessage={true}
-          hasMonthlyBreakdown={true}
+          hasCategoryPie={true}
           hasUpcomingBills={true}
         />
       </PageBackground>
