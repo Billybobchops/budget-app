@@ -35,7 +35,6 @@ const CategoryPie = () => {
     let categorized = 0;
 
     dataArr.map((category) => {
-      console.log(category.value);
       categorized = categorized + category.value;
     });
 
@@ -61,58 +60,50 @@ const CategoryPie = () => {
               padAngle={2}
               cornerRadius={3}
               activeOuterRadiusOffset={8}
-              colors={{ scheme: 'nivo' }}
+              // colors={{ scheme: 'nivo' }}
+              colors={['lightblue', '#75EEB5', '#2DEB92', '#23B872']}
+              // colors={['#75EEB5', '#2DEB92', '#23B872', '#0f4e31']}
               // borderWidth={0}
               // borderColor={{
               //   from: 'color',
               //   modifiers: [['darker', 0.2]],
               // }}
               enableArcLinkLabels={false}
-              // valueFormat={'%'}
               valueFormat=' >-~%'
-              // arcLinkLabelsSkipAngle={10}
-              // arcLinkLabelsTextColor='#000000'
-              // arcLinkLabelsThickness={2}
-              // arcLinkLabelsColor={{ from: 'color' }}
-              // arcLabelsSkipAngle={10}
-              // arcLabelsTextColor={{
-              //   from: 'color',
-              //   modifiers: [['darker', 2]],
-              // }}
-              // defs={[
-              //   {
-              //     id: 'dots',
-              //     type: 'patternDots',
-              //     background: 'inherit',
-              //     color: 'rgba(255, 255, 255, 0.3)',
-              //     size: 4,
-              //     padding: 1,
-              //     stagger: true,
-              //   },
-              //   {
-              //     id: 'lines',
-              //     type: 'patternLines',
-              //     background: 'inherit',
-              //     color: 'rgba(255, 255, 255, 0.3)',
-              //     rotation: -45,
-              //     lineWidth: 6,
-              //     spacing: 10,
-              //   },
-              // ]}
-              // fill={[
-              //   {
-              //     match: {
-              //       id: dataArr[0].id,
-              //     },
-              //     id: 'dots',
-              //   },
-              //   // {
-              //   //   match: {
-              //   //     id: dataArr[5].id,
-              //   //   },
-              //   //   id: 'lines',
-              //   // },
-              // ]}
+              defs={[
+                {
+                  id: 'dots',
+                  type: 'patternDots',
+                  background: 'inherit',
+                  color: 'rgba(255, 255, 255, 0.17)',
+                  size: 4,
+                  padding: 1,
+                  stagger: true,
+                },
+                {
+                  id: 'lines',
+                  type: 'patternLines',
+                  background: 'inherit',
+                  color: 'rgba(255, 255, 255, 0.18)',
+                  rotation: -45,
+                  lineWidth: 6,
+                  spacing: 10,
+                },
+              ]}
+              fill={[
+                {
+                  match: {
+                    id: dataArr.length >=2 ? dataArr[2].id : '',
+                  },
+                  id: 'dots',
+                },
+                {
+                  match: {
+                    id: dataArr.length >=5 ? dataArr[5].id : '',
+                  },
+                  id: 'lines',
+                },
+              ]}
               legends={[
                 {
                   anchor: 'bottom',

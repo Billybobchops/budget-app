@@ -226,6 +226,28 @@ const itemPlannerSlice = createSlice({
       })
       .addCase(addNewItem.fulfilled, (state, action) => {
         itemsAdapter.addOne(state.items, action.payload);
+
+        // Update total budgeted category
+        const itemCat = action.payload.category;
+        const itemAmount = action.payload.budgetAmount;
+        const itemId = action.payload.id;
+				const paycheck = action.payload.paycheckSelect;
+
+        state.totalBudgetedCategory[itemCat].budgeted =
+          state.totalBudgetedCategory[itemCat].budgeted + itemAmount;
+        state.totalBudgetedCategory[itemCat].itemIds.push(itemId);
+
+        // Update paycheck select
+        if (action.payload.paycheckSelect === null) {
+          state.totalBudgetedPlanner.ItemsDragList.budgeted + itemAmount;
+          state.totalBudgetedPlanner.ItemsDragList.itemIds.push(itemId);
+        }
+
+        // Update all other paychecks
+        if (state.totalBudgetedPlanner[paycheck] !== null) {
+					state.totalBudgetedPlanner[paycheck].budgeted + itemAmount;
+					state.totalBudgetedPlanner[paycheck].itemIds.push(itemId);
+				}
       })
       .addCase(updatePlannerItemDoc.pending, (state) => {
         state.status = 'loading';
@@ -233,7 +255,7 @@ const itemPlannerSlice = createSlice({
       .addCase(updatePlannerItemDoc.fulfilled, (state) => {
         state.status = 'idle';
       })
-			.addCase(updateCategoryItemDoc.pending, (state) => {
+      .addCase(updateCategoryItemDoc.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(updateCategoryItemDoc.fulfilled, (state) => {

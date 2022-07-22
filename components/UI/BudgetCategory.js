@@ -177,7 +177,7 @@ const BudgetCategory = ({ categoryTitle, tabID }) => {
                           title={itemEntities[item].id}
                           date={itemEntities[item].billDate}
                           budgetedAmount={itemEntities[item].budgetAmount}
-													tabID={tabID}
+                          tabID={tabID}
                         />
                       );
                   })}
