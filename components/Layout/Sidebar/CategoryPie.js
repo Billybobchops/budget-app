@@ -45,6 +45,8 @@ const CategoryPie = () => {
   };
   calcUncategorizedPercentage();
 
+	console.log(dataArr);
+
   return (
     <div className={classes.container}>
       <div>
@@ -75,7 +77,7 @@ const CategoryPie = () => {
                   id: 'dots',
                   type: 'patternDots',
                   background: 'inherit',
-                  color: 'rgba(255, 255, 255, 0.17)',
+                  color: 'rgba(255, 255, 255, 0.37)',
                   size: 4,
                   padding: 1,
                   stagger: true,
@@ -84,7 +86,7 @@ const CategoryPie = () => {
                   id: 'lines',
                   type: 'patternLines',
                   background: 'inherit',
-                  color: 'rgba(255, 255, 255, 0.18)',
+                  color: 'rgba(255, 255, 255, 0.98)',
                   rotation: -45,
                   lineWidth: 6,
                   spacing: 10,
@@ -93,13 +95,13 @@ const CategoryPie = () => {
               fill={[
                 {
                   match: {
-                    id: dataArr.length >=2 ? dataArr[2].id : '',
+                    id: dataArr.length >2 ? dataArr[2].id : '',
                   },
                   id: 'dots',
                 },
                 {
                   match: {
-                    id: dataArr.length >=5 ? dataArr[5].id : '',
+                    id: dataArr.length >5 ? dataArr[5].id : '',
                   },
                   id: 'lines',
                 },

@@ -231,11 +231,21 @@ const itemPlannerSlice = createSlice({
         const itemCat = action.payload.category;
         const itemAmount = action.payload.budgetAmount;
         const itemId = action.payload.id;
-				const paycheck = action.payload.paycheckSelect;
+        const paycheck = action.payload.paycheckSelect;
 
-        state.totalBudgetedCategory[itemCat].budgeted =
-          state.totalBudgetedCategory[itemCat].budgeted + itemAmount;
-        state.totalBudgetedCategory[itemCat].itemIds.push(itemId);
+        if (state.totalBudgetedCategory[itemCat]) {
+          state.totalBudgetedCategory[itemCat].budgeted =
+            state.totalBudgetedCategory[itemCat].budgeted + itemAmount;
+          state.totalBudgetedCategory[itemCat].itemIds.push(itemId);
+        }
+
+        if (!state.totalBudgetedCategory[itemCat]) {
+          state.totalBudgetedCategory[itemCat] = {
+            id: itemCat,
+            budgeted: itemAmount,
+            itemIds: [`${itemId}`],
+          };
+        }
 
         // Update paycheck select
         if (action.payload.paycheckSelect === null) {
@@ -245,9 +255,9 @@ const itemPlannerSlice = createSlice({
 
         // Update all other paychecks
         if (state.totalBudgetedPlanner[paycheck] !== null) {
-					state.totalBudgetedPlanner[paycheck].budgeted + itemAmount;
-					state.totalBudgetedPlanner[paycheck].itemIds.push(itemId);
-				}
+          state.totalBudgetedPlanner[paycheck].budgeted + itemAmount;
+          state.totalBudgetedPlanner[paycheck].itemIds.push(itemId);
+        }
       })
       .addCase(updatePlannerItemDoc.pending, (state) => {
         state.status = 'loading';
