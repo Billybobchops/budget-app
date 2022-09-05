@@ -22,8 +22,10 @@ const BudgetContainer = () => {
       <div className={classes.budgetTitle}>
         <h2>Budget</h2>
         <div>
-          <p>Percentage of Planned Net Income:</p>
-          <HighLowToggle />
+          <HighLowToggle
+            toggleOptions={['High to Low', 'Low to High']}
+            toggleTitle={'Percentage of Planned Net Income:'}
+          />
         </div>
       </div>
       <Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />

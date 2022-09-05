@@ -1,4 +1,4 @@
-.sorting {
+.toggleWrap {
   font-family: "Cairo", sans-serif;
   color: #0f4e31;
   font-size: 16px;
@@ -6,23 +6,29 @@
   margin-bottom: 12px;
 }
 
-.sortingBtn {
-  padding: 0;
-  font-size: 15px;
-}
-
 .slash {
   padding: 0 11px;
 }
 
-.sortingBtn {
+.toggleClass {
   background: none;
+	padding: 0;
+  font-size: 15px;
   border: none;
   color: #0f4e31;
 }
 
+.toggleClass:hover {
+	text-decoration: underline;
+}
+
+.toggleActive {
+	font-weight: 700;
+	font-size: 15.5px;
+}
+
 @media (max-width: 480px) {
-  .sorting {
+  .toggleWrap {
     margin-bottom: 20px;
   }
 }
