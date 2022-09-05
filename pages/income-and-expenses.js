@@ -19,6 +19,11 @@ import Portal from '../components/UI/Portal';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import IncomeForm from '../components/Forms/IncomeForm';
 import ExpenseForm from '../components/Forms/ExpenseForm';
+import { selectFormattedMonthYear } from '../store/date-slice';
+import { selectCategoryEntities } from '../store/category-slice';
+import { selectExpenseEntities } from '../store/expenses-slice';
+import { selectPaycheckEntities } from '../store/itemsAndPlanner-slice';
+import { selectFundEntities } from '../store/fund-slice';
 
 const IncomeExpenses = () => {
   const {
@@ -31,13 +36,11 @@ const IncomeExpenses = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
-  const currentDate = useSelector((state) => state.date.formattedMonthYear);
-  const categories = useSelector((state) => state.categories.entities);
-  const expenses = useSelector((state) => state.expenses.entities);
-  const paychecks = useSelector(
-    (state) => state.itemsAndPlanner.planner.entities
-  );
-  const funds = useSelector((state) => state.funds.entities);
+	const currentDate = useSelector(selectFormattedMonthYear);
+  const categories = useSelector(selectCategoryEntities);
+  const expenses = useSelector(selectExpenseEntities);
+  const paychecks = useSelector(selectPaycheckEntities);
+  const funds = useSelector(selectFundEntities);
 
   useEffect(() => {
     if (

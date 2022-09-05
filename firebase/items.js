@@ -76,7 +76,7 @@ export const getAllItems = async (uid) => {
  * @param {string} document - document id
  * @param {string} newLocation - the newly updated paycheck for the item
  */
-export const updatePlannerItem = async (uid, document, newLocation) => {
+export const updateItemPaycheckSelect = async (uid, document, newLocation) => {
   try {
     const q = query(
       collection(db, `budgetItems/${uid}/items`),
@@ -102,7 +102,7 @@ export const updatePlannerItem = async (uid, document, newLocation) => {
  * @param {string} document - document id
  * @param {string} newCategory - the newly updated category for the item
  */
- export const updateCategoryItem = async (uid, document, newCategory) => {
+export const updateCategoryItem = async (uid, document, newCategory) => {
   try {
     const q = query(
       collection(db, `budgetItems/${uid}/items`),

@@ -9,6 +9,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import BudgetItem from '../UI/BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
+import { selectItemEntities } from '../../store/itemsAndPlanner-slice';
+import { selectExpenseEntities } from '../../store/expenses-slice';
 
 const Table = ({ children }) => {
   return (
@@ -23,27 +25,32 @@ const Table = ({ children }) => {
 const BudgetCategory = ({ categoryTitle, tabID }) => {
   const [isActive, setIsActive] = useState(false);
 
-  const spentCategories = useSelector(
-    (state) => state.expenses.spentCategories
-  );
   let totalExpectedPay = useSelector(
     (state) => state.itemsAndPlanner.totalExpectedPay
   );
+
   const totalBudgeted = useSelector(
     (state) => state.itemsAndPlanner.totalBudgetedCategory
   );
+
   const itemIds = useSelector(
     (state) =>
       state.itemsAndPlanner.totalBudgetedCategory[categoryTitle]?.itemIds
   );
-  const itemEntities = useSelector(
-    (state) => state.itemsAndPlanner.items.entities
-  );
 
-  const spent =
-    spentCategories[categoryTitle] !== undefined
-      ? spentCategories[categoryTitle].spent
-      : 0;
+  const itemEntities = useSelector(selectItemEntities);
+  
+  const expenses = useSelector(selectExpenseEntities);
+
+  const calcSpentAmount = (expenses) => {
+		console.log(`calcSpentAmount running in ${categoryTitle}...`);
+    let spent = 0;
+    Object.values(expenses).map((e) => {
+      if (e.category === categoryTitle) spent += e.amount;
+    });
+    return spent;
+  };
+	const spent = calcSpentAmount(expenses);
 
   let budgeted =
     totalBudgeted[categoryTitle] !== undefined

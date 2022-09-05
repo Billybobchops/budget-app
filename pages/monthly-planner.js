@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
@@ -6,7 +6,8 @@ import store from '../store';
 import {
   fetchItems,
   fetchPaychecks,
-  updatePlannerItemDoc,
+  updateItemPaycheckSelectDoc,
+  updateItemPaycheckSortIndexDoc,
   reorderPlannerIds,
   updatePlannerEnd,
   updatePlannerStart,
@@ -25,6 +26,9 @@ import ItemForm from '../components/Forms/ItemForm';
 import PlannerForm from '../components/Forms/PlannerForm';
 import CategoryForm from '../components/Forms/CategoryForm';
 import ProfileBar from '../components/Layout/Sidebar/ProfileBar';
+import { selectFormattedMonthYear } from '../store/date-slice';
+import { selectCategoryEntities } from '../store/category-slice';
+import { selectItemEntities } from '../store/itemsAndPlanner-slice';
 
 const PlannerPage = () => {
   const {
@@ -38,26 +42,13 @@ const PlannerPage = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
-  const currentDate = useSelector((state) => state.date.formattedMonthYear);
-  const categories = useSelector((state) => state.categories.entities);
-  const expenses = useSelector((state) => state.expenses.entities);
-  const paychecks = useSelector(
-    (state) => state.itemsAndPlanner.planner.entities
-  );
-  const funds = useSelector((state) => state.funds.entities);
-  const dropContainers = useSelector(
-    (state) => state.itemsAndPlanner.totalBudgetedPlanner
-  );
+  const currentDate = useSelector(selectFormattedMonthYear);
+  const categories = useSelector(selectCategoryEntities);
+  // const items = useSelector(selectItemEntities);
   const buttonsArr = [{ text: 'Budget Item', clickHandler: onItemClick }];
 
   useEffect(() => {
-    if (
-      auth.user &&
-      Object.keys(categories).length === 0 &&
-      Object.keys(expenses).length === 0 &&
-      Object.keys(paychecks).length === 0 &&
-      Object.keys(funds).length === 0
-    ) {
+    if (auth.user && Object.keys(categories).length === 0) {
       const uid = auth.user.uid;
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
@@ -65,7 +56,7 @@ const PlannerPage = () => {
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
-  }, [auth.user, currentDate, categories, expenses, paychecks, funds]);
+  });
 
   if (!auth.user) return <p>Loading!</p>;
 
@@ -81,23 +72,29 @@ const PlannerPage = () => {
     )
       return;
 
-    // create data under totalBudgetedPlanner if it doesn't exist
-    if (!dropContainers[destination.droppableId]) {
-      const id = destination.droppableId;
-      store.dispatch(createDroppableData({ id }));
-    }
-
-    const start = dropContainers[source.droppableId];
+    const start = plannerItems[source.droppableId];
     const startId = start.id;
-    const end = dropContainers[destination.droppableId]; // undefined, bc apart of old closure
+    const end = plannerItems[destination.droppableId];
     const endId = end.id;
+    const destinationIndex = destination.index;
+		const document = draggableId;
+		const uid = auth.user.uid;
+    const newLocation = destination.droppableId;
 
     if (start === end) {
       // Re-Order operation to happen here: (droppable is the same)
       const newItemIds = Array.from(start.itemIds);
       newItemIds.splice(source.index, 1);
-      newItemIds.splice(destination.index, 0, draggableId);
-      store.dispatch(reorderPlannerIds({ startId, newItemIds }));
+      newItemIds.splice(destinationIndex, 0, draggableId);
+      // store.dispatch(reorderPlannerIds({ startId, newItemIds })); // no longer need this line!
+			console.log(destinationIndex);
+      // First, update state
+     
+      // Second, update firestore
+      // we'll pass in the destination index here to replace the paycheckSortIndex in firestore
+      // store.dispatch(
+      //   updateItemPaycheckSortIndexDoc({ uid, document, destinationIndex })
+      // );
       return;
     }
 
@@ -110,10 +107,8 @@ const PlannerPage = () => {
     endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
     store.dispatch(updatePlannerEnd({ endId, endItemsIds, draggableId }));
     // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
-    const uid = auth.user.uid;
-    const document = draggableId;
-    const newLocation = destination.droppableId;
-    store.dispatch(updatePlannerItemDoc({ uid, document, newLocation })); // persisting
+    
+    store.dispatch(updateItemPaycheckSelectDoc({ uid, document, newLocation })); // persisting
   };
 
   return (

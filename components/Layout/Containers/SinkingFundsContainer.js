@@ -3,10 +3,27 @@ import HighLowToggle from '../../UI/HighLowToggle';
 import SinkingFundsItem from '../../UI/SinkingFundItem';
 import Button from '../../UI/Buttons/Button';
 import { useSelector } from 'react-redux';
+import { selectFundEntities } from '../../../store/fund-slice';
 
 const SinkingFundsContainer = ({ fundHandler }) => {
-  const funds = useSelector((state) => state.funds.entities);
-  const totalFundAmount = useSelector((state) => state.funds.totalFundAmount);
+  const funds = useSelector(selectFundEntities);
+
+  const calcTotalFundAmount = (funds) => {
+    let arr = [];
+		console.log('calcTotalFundAmount is running...');
+    Object.values(funds).map((fund) => {
+      let months;
+      if (fund.timeType === 'Year') months = fund.timePeriod * 12;
+      if (fund.timeType === 'Month') months = fund.timePeriod;
+      arr.push(+(fund.totalAmount / months).toFixed(2));
+    });
+
+    const total = arr.reduce((acc, current) => {
+      return acc + current;
+    }, 0);
+    return total;
+  };
+  const totalFundAmount = calcTotalFundAmount(funds);
 
   return (
     <section>

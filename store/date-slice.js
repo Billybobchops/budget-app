@@ -22,7 +22,7 @@ const monthNum = monthNums[monthString.slice(0, 3)];
 const initialState = {
   headerDate: `${monthString} ${day}, ${year}`,
   formattedFullDate: `${monthNum}/${day}/${year}`,
-  formattedMonthYear: `${monthNum}/${year}`, 
+  formattedMonthYear: `${monthNum}/${year}`,
   monthNum,
   selectedMonthString: monthString,
   year,
@@ -72,5 +72,7 @@ const dateSlice = createSlice({
 
 export const { setHeaderMonth, incrementYear, decrementYear, setDateToToday } =
   dateSlice.actions;
+
+export const selectFormattedMonthYear = (state) => state.date.formattedMonthYear;
 
 export default dateSlice.reducer;

@@ -9,8 +9,6 @@ const expensesAdapter = createEntityAdapter();
 
 const initialState = expensesAdapter.getInitialState({
   status: 'idle',
-  spentAmounts: {},
-  spentCategories: {},
 });
 
 export const fetchExpenses = createAsyncThunk(
@@ -49,42 +47,13 @@ const expenseSlice = createSlice({
       .addCase(fetchExpenses.fulfilled, (state, action) => {
         expensesAdapter.setAll(state, action.payload);
         state.status = 'idle';
-
-        Object.values(action.payload).map((expense) => {
-          // initialize if it doesn't already exist
-          if (state.spentAmounts[expense.title] === undefined) {
-            state.spentAmounts[expense.title] = {
-              id: expense.title,
-              spent: expense.amount,
-            };
-            return;
-          }
-          // if it exists already, add additional spent amount to current spent amount
-          if (state.spentAmounts[expense.title])
-            state.spentAmounts[expense.title].spent += expense.amount;
-        });
-
-        Object.values(action.payload).map((expense) => {
-          // initialize
-          if (
-            state.spentCategories[expense.category] === undefined &&
-            state.spentCategories[expense.category] !== null
-          ) {
-            state.spentCategories[expense.category] = {
-              id: expense.category,
-              spent: expense.amount,
-            };
-            return;
-          }
-          // if it exists already, add additional spent amount to current spent amount
-          if (state.spentCategories[expense.category])
-            state.spentCategories[expense.category].spent += expense.amount;
-        });
       })
       .addCase(addNewExpense.fulfilled, expensesAdapter.addOne);
   },
 });
 
 // export const { asdf } = expenseSlice.actions;
+
+export const selectExpenseEntities = (state) => state.expenses.entities;
 
 export default expenseSlice.reducer;

@@ -6,12 +6,13 @@ import store from '../store';
 import {
   fetchItems,
   fetchPaychecks,
-	updateCategoryItemDoc,
+  updateCategoryItemDoc,
   reorderCategoryIds,
-	updateCategoryStart,
-	updateCategoryEnd,
+  updateCategoryStart,
+  updateCategoryEnd,
 } from '../store/itemsAndPlanner-slice';
 import { fetchCategories } from '../store/category-slice';
+import { fetchCategoryOrder } from '../store/categoryOrder-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
@@ -27,6 +28,15 @@ import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
 import CategoryForm from '../components/Forms/CategoryForm';
 import ItemForm from '../components/Forms/ItemForm';
+import { selectFormattedMonthYear } from '../store/date-slice';
+import { selectCategoryEntities } from '../store/category-slice';
+import { selectExpenseEntities } from '../store/expenses-slice';
+import {
+  selectItemEntities,
+  selectPaycheckEntities,
+  selectPaycheckStatus,
+} from '../store/itemsAndPlanner-slice';
+import { selectFundEntities } from '../store/fund-slice';
 
 const Overview = () => {
   const {
@@ -39,48 +49,36 @@ const Overview = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
-  const currentDate = useSelector((state) => state.date.formattedMonthYear);
-  const categories = useSelector((state) => state.categories.entities);
-  const items = useSelector((state) => state.itemsAndPlanner.items.entities);
-  const expenses = useSelector((state) => state.expenses.entities);
-  const paychecks = useSelector(
-    (state) => state.itemsAndPlanner.planner.entities
-  );
-  const paycheckStatus = useSelector(
-    (state) => state.itemsAndPlanner.planner.status
-  );
-  const funds = useSelector((state) => state.funds.entities);
+  const currentDate = useSelector(selectFormattedMonthYear);
+  const categories = useSelector(selectCategoryEntities);
+  // const expenses = useSelector(selectExpenseEntities);
+  // const items = useSelector(selectItemEntities);
+  // const paychecks = useSelector(selectPaycheckEntities);
+  // const paycheckStatus = useSelector(selectPaycheckStatus);
   const dropContainers = useSelector(
     (state) => state.itemsAndPlanner.totalBudgetedCategory
   );
+  // const funds = useSelector(selectFundEntities);
 
   useEffect(() => {
     if (
       auth.user &&
-      Object.keys(categories).length === 0 &&
-      Object.keys(items).length === 0 &&
-      Object.keys(expenses).length === 0 &&
-      Object.keys(paychecks).length === 0 &&
-      paycheckStatus !== 'noPaychecksAdded' &&
-      Object.keys(funds).length === 0
+      Object.keys(categories).length === 0
+      // Object.keys(items).length === 0 &&
+      // Object.keys(expenses).length === 0 &&
+      // Object.keys(paychecks).length === 0 &&
+      // paycheckStatus !== 'noPaychecksAdded' &&
+      // Object.keys(funds).length === 0
     ) {
       const uid = auth.user.uid;
+      store.dispatch(fetchCategoryOrder(uid));
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
-  }, [
-    auth.user,
-    currentDate,
-    categories,
-    items,
-    expenses,
-    paychecks,
-    funds,
-    paycheckStatus,
-  ]);
+  });
 
   if (!auth.user) {
     return <p>Loading!</p>;
@@ -115,7 +113,9 @@ const Overview = () => {
     // Moving from one droppable list to another
     const startItemsIds = Array.from(start.itemIds);
     startItemsIds.splice(source.index, 1); // remove the dragged itemId from the new array
-    store.dispatch(updateCategoryStart({ startId, startItemsIds, draggableId }));
+    store.dispatch(
+      updateCategoryStart({ startId, startItemsIds, draggableId })
+    );
 
     const endItemsIds = Array.from(end.itemIds);
     endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array

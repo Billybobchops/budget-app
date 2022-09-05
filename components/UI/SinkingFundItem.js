@@ -13,8 +13,6 @@ const SinkingFundsItem = ({
 }) => {
   const date = formatDate(billDate);
 
-  console.log(totalAmount);
-
   return (
     <div className={classes.container}>
       <table className={classes.table}>

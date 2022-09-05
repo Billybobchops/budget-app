@@ -15,16 +15,21 @@ import Header from '../components/Layout/Header';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import SinkingFundsContainer from '../components/Layout/Containers/SinkingFundsContainer';
 import FundForm from '../components/Forms/FundForm';
+import { selectFormattedMonthYear } from '../store/date-slice';
+import { selectCategoryEntities } from '../store/category-slice';
+import { selectExpenseEntities } from '../store/expenses-slice';
+import { selectPaycheckEntities } from '../store/itemsAndPlanner-slice';
+import { selectFundEntities } from '../store/fund-slice';
 
 const SinkingFunds = () => {
   const { modal, fundForm, onkeydown, onFundClick } = useContext(FormContext);
 
   const auth = useRequireAuth();
-  const currentDate = useSelector((state) => state.date.formattedMonthYear);
-  const categories = useSelector((state) => state.categories.entities);
-  const expenses = useSelector((state) => state.expenses.entities);
-  const paychecks = useSelector((state) => state.itemsAndPlanner.planner.entities);
-  const funds = useSelector((state) => state.funds.entities);
+  const currentDate = useSelector(selectFormattedMonthYear);
+  const categories = useSelector(selectCategoryEntities);
+  const expenses = useSelector(selectExpenseEntities);
+  const paychecks = useSelector(selectPaycheckEntities);
+  const funds = useSelector(selectFundEntities);
 
   useEffect(() => {
     if (

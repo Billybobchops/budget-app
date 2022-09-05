@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import itemReducer from './itemsAndPlanner-slice';
 import categoryReducer from './category-slice';
+import categoryOrderReducer from './categoryOrder-slice';
+import itemReducer from './itemsAndPlanner-slice';
+// import plannerReducer from './planner-slice';
 import expenseReducer from './expenses-slice';
 import fundReducer from './fund-slice';
 import dateReducer from './date-slice';
@@ -8,6 +10,8 @@ import dateReducer from './date-slice';
 const store = configureStore({
   reducer: {
     categories: categoryReducer,
+		categoryOrder: categoryOrderReducer,
+		// planner: plannerReducer,
     itemsAndPlanner: itemReducer,
     expenses: expenseReducer,
     funds: fundReducer,

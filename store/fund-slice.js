@@ -9,7 +9,6 @@ const fundsAdapter = createEntityAdapter();
 
 const initialState = fundsAdapter.getInitialState({
   status: 'idle',
-  totalFundAmount: 0,
 });
 
 export const fetchFunds = createAsyncThunk('funds/fetchfunds', async (uid) => {
@@ -44,24 +43,14 @@ const fundSlice = createSlice({
       })
       .addCase(fetchFunds.fulfilled, (state, action) => {
         fundsAdapter.setAll(state, action.payload);
-
-        let arr = [];
-        Object.values(action.payload).map((fund) => {
-          let months;
-          if (fund.timeType === 'Year') months = fund.timePeriod * 12;
-          if (fund.timeType === 'Month') months = fund.timePeriod;
-          arr.push(+(fund.totalAmount / months).toFixed(2))
-        });
-        state.totalFundAmount = arr.reduce((acc, current) => {
-          return acc + current;
-        }, 0);
-
         state.status = 'idle';
       })
       .addCase(addNewFund.fulfilled, fundsAdapter.addOne);
   },
 });
 
-export const { calcTotalFund } = fundSlice.actions;
+// export const { calcTotalFund } = fundSlice.actions;
+
+export const selectFundEntities = (state) => state.funds.entities;
 
 export default fundSlice.reducer;

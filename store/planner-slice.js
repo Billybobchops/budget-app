@@ -3,29 +3,17 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import {
-  addItem,
-  getAllItems,
-  updateItemPaycheckSelect,
-  updateItemPaycheckSortIndex,
-  updateCategoryItem,
-} from '../firebase/items';
+import { updateItemPaycheckSelect } from '../firebase/items';
 import { addPlannedIncome, getPlannedIncome } from '../firebase/planner';
 
-export const fetchItems = createAsyncThunk(
-  'itemsAndPlanner/fetchItems',
-  async (uid) => {
-    try {
-      const response = await getAllItems(uid);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
+const paycheckAdapter = createEntityAdapter();
+
+const initialState = paycheckAdapter.getInitialState({
+  status: 'idle',
+});
 
 export const fetchPaychecks = createAsyncThunk(
-  'itemsAndPlanner/fetchPaychecks',
+  'planner/fetchPaychecks',
   async (uid) => {
     try {
       const response = await getPlannedIncome(uid);
@@ -37,22 +25,8 @@ export const fetchPaychecks = createAsyncThunk(
   }
 );
 
-export const addNewItem = createAsyncThunk(
-  'itemsAndPlanner/addNewItem',
-  async ({ uid, formData }) => {
-    try {
-      const response = await addItem(uid, formData);
-      console.log('response');
-      console.log(response);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
 export const addNewIncome = createAsyncThunk(
-  'itemsAndPlanner/addNewIncome',
+  'planner/addNewIncome',
   async ({ uid, formData }) => {
     const response = await addPlannedIncome(uid, formData);
     return response;
@@ -60,55 +34,20 @@ export const addNewIncome = createAsyncThunk(
 );
 
 export const updateItemPaycheckSelectDoc = createAsyncThunk(
-  'itemsAndPlanner/updateItemPaycheckSelectDoc',
+  'planner/updateItemPaycheckSelectDoc',
   async ({ uid, document, newLocation }) => {
     const response = await updateItemPaycheckSelect(uid, document, newLocation);
     return response;
   }
 );
 
-export const updateItemPaycheckSortIndexDoc = createAsyncThunk(
-  'itemsAndPlanner/updateItemPaycheckSortIndexDoc',
-  async ({ uid, document, newIndex }) => {
-    const response = await updateItemPaycheckSortIndex(
-      uid,
-      document,
-      newIndex
-    );
-    return response;
-  }
-);
-
-export const updateCategoryItemDoc = createAsyncThunk(
-  'itemsAndPlanner/updateCategoryItemDoc',
-  async ({ uid, document, newCategory }) => {
-    const response = await updateCategoryItem(uid, document, newCategory);
-    return response;
-  }
-);
-
-const itemsAdapter = createEntityAdapter();
-
-const paycheckAdapter = createEntityAdapter();
-
 const itemPlannerSlice = createSlice({
-  name: 'itemsAndPlanner',
-  initialState: {
-    status: 'idle',
-    items: itemsAdapter.getInitialState(),
-    planner: paycheckAdapter.getInitialState(),
-    totalBudgetedCategory: {},
-    totalBudgetedPlanner: {},
-    totalExpectedPay: 0,
-  },
+  name: 'planner',
+  initialState,
   reducers: {
     reorderPlannerIds: (state, action) => {
       const { startId, newItemIds } = action.payload;
       state.totalBudgetedPlanner[startId].itemIds = newItemIds;
-    },
-    reorderCategoryIds: (state, action) => {
-      const { startId, newItemIds } = action.payload;
-      state.totalBudgetedCategory[startId].itemIds = newItemIds;
     },
     updatePlannerStart: (state, action) => {
       const { startId, startItemsIds, draggableId } = action.payload;
@@ -116,24 +55,11 @@ const itemPlannerSlice = createSlice({
       state.totalBudgetedPlanner[startId].budgeted -=
         state.items.entities[draggableId].budgetAmount;
     },
-    updateCategoryStart: (state, action) => {
-      const { startId, startItemsIds, draggableId } = action.payload;
-      state.totalBudgetedCategory[startId].itemIds = startItemsIds;
-      state.totalBudgetedCategory[startId].budgeted -=
-        state.items.entities[draggableId].budgetAmount;
-    },
     updatePlannerEnd: (state, action) => {
       const { endId, endItemsIds, draggableId } = action.payload;
       state.totalBudgetedPlanner[endId].itemIds = endItemsIds;
       state.items.entities[draggableId].paycheckSelect = endId;
       state.totalBudgetedPlanner[endId].budgeted +=
-        state.items.entities[draggableId].budgetAmount;
-    },
-    updateCategoryEnd: (state, action) => {
-      const { endId, endItemsIds, draggableId } = action.payload;
-      state.totalBudgetedCategory[endId].itemIds = endItemsIds;
-      state.items.entities[draggableId].category = endId;
-      state.totalBudgetedCategory[endId].budgeted +=
         state.items.entities[draggableId].budgetAmount;
     },
   },
@@ -289,17 +215,11 @@ const itemPlannerSlice = createSlice({
 
 export const {
   reorderPlannerIds,
-  reorderCategoryIds,
   updatePlannerStart,
-  updateCategoryStart,
   updatePlannerEnd,
-  updateCategoryEnd,
 } = itemPlannerSlice.actions;
 
-export const selectItemEntities = (state) =>
-  state.itemsAndPlanner.items.entities;
 export const selectPaycheckEntities = (state) =>
   state.itemsAndPlanner.planner.entities;
-export const selectPaycheckStatus = (state) => state.itemsAndPlanner.status;
 
 export default itemPlannerSlice.reducer;
