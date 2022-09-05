@@ -26,9 +26,9 @@ const CategoryForm = () => {
       createdOn: new Date().toLocaleDateString(),
       createdOnMonthYear: generateMonthYear(),
     };
-    const id = { formData };
+    const { id: newCategory } = formData;
     store.dispatch(addNewCategory({ uid, formData }));
-    store.dispatch(addNewCategoryOrder({ uid, id }));
+    store.dispatch(addNewCategoryOrder({ uid, newCategory }));
     onkeydown();
   };
 

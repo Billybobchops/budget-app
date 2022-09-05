@@ -43,12 +43,14 @@ const categoryOrderSlice = createSlice({
         state.status = 'idle';
         state.order = action.payload;
       })
-      .addCase(addNewCategoryOrder.pending, (state) => {
+      .addCase(addNewCategoryOrder.pending, (state, action) => {
         state.status = 'loading';
       })
       .addCase(addNewCategoryOrder.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.order = action.payload;
+        console.log('action.payload is...');
+        console.log(action.payload);
+        state.order = [...state.order, action.payload];
       });
   },
 });

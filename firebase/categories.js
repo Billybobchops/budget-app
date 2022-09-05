@@ -24,8 +24,8 @@ export const addCategory = async (uid, formData) => {
 
 /**
  * adds a newly created category to the end of the categoryOrder array
- * @param {*} uid - to give categoryOrder a user's unique id
- * @param {*} newCategory - the newCategory title string
+ * @param {string} uid - to give categoryOrder a user's unique id
+ * @param {string} newCategory - the newCategory title string
  */
 export const addOneToCategoryOrder = async (uid, newCategory) => {
   try {
@@ -34,6 +34,8 @@ export const addOneToCategoryOrder = async (uid, newCategory) => {
     await updateDoc(orderRef, {
       order: arrayUnion(newCategory),
     });
+
+		return newCategory;
   } catch (error) {
     console.log(error);
   }
