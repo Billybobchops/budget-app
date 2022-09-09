@@ -1,16 +1,12 @@
 import classes from './ItemsDragList.module.css';
 import { useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
+import { selectItemEntities } from '../../../store/items-slice';
 import DragItem from '../../UI/DragItem';
 
 const ItemsDragList = () => {
-  const itemIds = useSelector(
-    (state) =>
-      state.itemsAndPlanner.totalBudgetedPlanner['ItemsDragList']?.itemIds
-  );
-  const itemEntities = useSelector(
-    (state) => state.itemsAndPlanner.items.entities
-  );
+  // const itemIds = useSelector((state) => state.totalBudgetedPlanner['ItemsDragList']?.itemIds);
+  const itemEntities = useSelector(selectItemEntities);
 
   return (
     <Droppable droppableId='ItemsDragList' key='ItemsDragList'>

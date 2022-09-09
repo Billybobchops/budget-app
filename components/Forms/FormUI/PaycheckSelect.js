@@ -17,7 +17,7 @@ const PaycheckSelect = ({
 }) => {
   const columns = `${layout}`;
 
-  const paychecks = useSelector((state) => state.itemsAndPlanner.planner.entities);
+  const paychecks = useSelector((state) => state.planner.entities);
   const options = [];
 
   Object.values(paychecks).forEach((check) => {

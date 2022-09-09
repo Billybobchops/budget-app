@@ -17,7 +17,7 @@ const ItemSelect = ({
 }) => {
   const columns = `${layout}`;
 
-  const items = useSelector((state) => state.itemsAndPlanner.items.entities);
+  const items = useSelector((state) => state.items.entities);
   const options = [];
 
   Object.values(items).forEach((item) => {

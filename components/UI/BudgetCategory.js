@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import BudgetItem from '../UI/BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
-import { selectItemEntities } from '../../store/itemsAndPlanner-slice';
+import { selectItemEntities } from '../../store/items-slice';
 import { selectExpenseEntities } from '../../store/expenses-slice';
 
 const Table = ({ children }) => {
@@ -39,18 +39,18 @@ const BudgetCategory = ({ categoryTitle, tabID }) => {
   );
 
   const itemEntities = useSelector(selectItemEntities);
-  
+
   const expenses = useSelector(selectExpenseEntities);
 
   const calcSpentAmount = (expenses) => {
-		console.log(`calcSpentAmount running in ${categoryTitle}...`);
+    console.log(`calcSpentAmount running in ${categoryTitle}...`);
     let spent = 0;
     Object.values(expenses).map((e) => {
       if (e.category === categoryTitle) spent += e.amount;
     });
     return spent;
   };
-	const spent = calcSpentAmount(expenses);
+  const spent = calcSpentAmount(expenses);
 
   let budgeted =
     totalBudgeted[categoryTitle] !== undefined

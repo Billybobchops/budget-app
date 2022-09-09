@@ -1,7 +1,7 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import store from '../../store';
-import { addNewIncome } from '../../store/itemsAndPlanner-slice';
+import { addNewIncome } from '../../store/items-slice';
 import useForm from '../../hooks/useForm';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';

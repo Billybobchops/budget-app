@@ -5,14 +5,13 @@ import { useSelector } from 'react-redux';
 import store from '../store';
 import {
   fetchItems,
-  fetchPaychecks,
   updateCategoryItemDoc,
   reorderCategoryIds,
   updateCategoryStart,
   updateCategoryEnd,
-} from '../store/itemsAndPlanner-slice';
+} from '../store/items-slice';
+import { fetchPaychecks } from '../store/planner-slice';
 import { fetchCategories } from '../store/category-slice';
-import { fetchCategoryOrder } from '../store/categoryOrder-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
@@ -33,9 +32,9 @@ import { selectCategoryEntities } from '../store/category-slice';
 import { selectExpenseEntities } from '../store/expenses-slice';
 import {
   selectItemEntities,
-  selectPaycheckEntities,
   selectPaycheckStatus,
-} from '../store/itemsAndPlanner-slice';
+} from '../store/items-slice';
+import { selectPaycheckEntities } from '../store/planner-slice';
 import { selectFundEntities } from '../store/fund-slice';
 
 const Overview = () => {
@@ -55,9 +54,9 @@ const Overview = () => {
   // const items = useSelector(selectItemEntities);
   // const paychecks = useSelector(selectPaycheckEntities);
   // const paycheckStatus = useSelector(selectPaycheckStatus);
-  const dropContainers = useSelector(
-    (state) => state.itemsAndPlanner.totalBudgetedCategory
-  );
+  // const dropContainers = useSelector(
+  //   (state) => state.itemsAndPlanne.totalBudgetedCategory
+  // );
   // const funds = useSelector(selectFundEntities);
 
   useEffect(() => {
@@ -71,7 +70,6 @@ const Overview = () => {
       // Object.keys(funds).length === 0
     ) {
       const uid = auth.user.uid;
-      store.dispatch(fetchCategoryOrder(uid));
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
@@ -152,7 +150,7 @@ const Overview = () => {
         <Sidebar
           hasProfileBar={true}
           hasBudgetMessage={true}
-          hasCategoryPie={true}
+          // hasCategoryPie={true}
           hasUpcomingBills={true}
         />
       </PageBackground>

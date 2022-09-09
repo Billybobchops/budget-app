@@ -8,7 +8,6 @@ import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 import store from '../../store';
 import { addNewCategory } from '../../store/category-slice';
-import { addNewCategoryOrder } from '../../store/categoryOrder-slice';
 import { generateMonthYear } from '../../utils/helpers';
 
 const CategoryForm = () => {
@@ -28,7 +27,6 @@ const CategoryForm = () => {
     };
     const { id: newCategory } = formData;
     store.dispatch(addNewCategory({ uid, formData }));
-    store.dispatch(addNewCategoryOrder({ uid, newCategory }));
     onkeydown();
   };
 

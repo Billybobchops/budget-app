@@ -2,7 +2,8 @@ import { useContext, useEffect } from 'react';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { useSelector } from 'react-redux';
 import store from '../store';
-import { fetchItems, fetchPaychecks } from '../store/itemsAndPlanner-slice';
+import { fetchItems } from '../store/items-slice';
+import { fetchPaychecks } from '../store/planner-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
@@ -22,7 +23,7 @@ import ExpenseForm from '../components/Forms/ExpenseForm';
 import { selectFormattedMonthYear } from '../store/date-slice';
 import { selectCategoryEntities } from '../store/category-slice';
 import { selectExpenseEntities } from '../store/expenses-slice';
-import { selectPaycheckEntities } from '../store/itemsAndPlanner-slice';
+import { selectPaycheckEntities } from '../store/planner-slice';
 import { selectFundEntities } from '../store/fund-slice';
 
 const IncomeExpenses = () => {
@@ -36,7 +37,7 @@ const IncomeExpenses = () => {
   } = useContext(FormContext);
 
   const auth = useRequireAuth();
-	const currentDate = useSelector(selectFormattedMonthYear);
+  const currentDate = useSelector(selectFormattedMonthYear);
   const categories = useSelector(selectCategoryEntities);
   const expenses = useSelector(selectExpenseEntities);
   const paychecks = useSelector(selectPaycheckEntities);

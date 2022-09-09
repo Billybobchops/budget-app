@@ -11,7 +11,7 @@ import {
   reorderPlannerIds,
   updatePlannerEnd,
   updatePlannerStart,
-} from '../store/itemsAndPlanner-slice';
+} from '../store/items-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
@@ -28,7 +28,7 @@ import CategoryForm from '../components/Forms/CategoryForm';
 import ProfileBar from '../components/Layout/Sidebar/ProfileBar';
 import { selectFormattedMonthYear } from '../store/date-slice';
 import { selectCategoryEntities } from '../store/category-slice';
-import { selectItemEntities } from '../store/itemsAndPlanner-slice';
+import { selectItemEntities } from '../store/items-slice';
 
 const PlannerPage = () => {
   const {
@@ -77,8 +77,8 @@ const PlannerPage = () => {
     const end = plannerItems[destination.droppableId];
     const endId = end.id;
     const destinationIndex = destination.index;
-		const document = draggableId;
-		const uid = auth.user.uid;
+    const document = draggableId;
+    const uid = auth.user.uid;
     const newLocation = destination.droppableId;
 
     if (start === end) {
@@ -87,9 +87,9 @@ const PlannerPage = () => {
       newItemIds.splice(source.index, 1);
       newItemIds.splice(destinationIndex, 0, draggableId);
       // store.dispatch(reorderPlannerIds({ startId, newItemIds })); // no longer need this line!
-			console.log(destinationIndex);
+      console.log(destinationIndex);
       // First, update state
-     
+
       // Second, update firestore
       // we'll pass in the destination index here to replace the paycheckSortIndex in firestore
       // store.dispatch(
@@ -107,7 +107,7 @@ const PlannerPage = () => {
     endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
     store.dispatch(updatePlannerEnd({ endId, endItemsIds, draggableId }));
     // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
-    
+
     store.dispatch(updateItemPaycheckSelectDoc({ uid, document, newLocation })); // persisting
   };
 

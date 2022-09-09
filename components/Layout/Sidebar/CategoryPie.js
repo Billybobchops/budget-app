@@ -1,19 +1,14 @@
 import classes from './CategoryPie.module.css';
 import { useSelector } from 'react-redux';
 import { ResponsivePie } from '@nivo/pie';
+import { selectPaycheckEntities } from '../../../store/planner-slice';
 
 const CategoryPie = () => {
-  const totalBudgeted = useSelector(
-    (state) => state.itemsAndPlanner.totalBudgetedCategory
-  );
+  // const totalBudgeted = useSelector();
 
-  let totalExpectedPay = useSelector(
-    (state) => state.itemsAndPlanner.totalExpectedPay
-  );
+  // let totalExpectedPay = useSelector();
 
-  const paychecks = useSelector(
-    (state) => state.itemsAndPlanner.planner.entities
-  );
+  const checks = useSelector(selectPaycheckEntities);
 
   let dataArr = [];
 
@@ -45,14 +40,14 @@ const CategoryPie = () => {
   };
   calcUncategorizedPercentage();
 
-	console.log(dataArr);
+  console.log(dataArr);
 
   return (
     <div className={classes.container}>
       <div>
         <h2 className={classes.title}>Monthly Breakdown</h2>
       </div>
-      {paychecks && (
+      {checks && (
         <div className={classes.background}>
           {Object.values(totalBudgeted).length !== 0 && totalExpectedPay && (
             <ResponsivePie
@@ -95,13 +90,13 @@ const CategoryPie = () => {
               fill={[
                 {
                   match: {
-                    id: dataArr.length >2 ? dataArr[2].id : '',
+                    id: dataArr.length > 2 ? dataArr[2].id : '',
                   },
                   id: 'dots',
                 },
                 {
                   match: {
-                    id: dataArr.length >5 ? dataArr[5].id : '',
+                    id: dataArr.length > 5 ? dataArr[5].id : '',
                   },
                   id: 'lines',
                 },

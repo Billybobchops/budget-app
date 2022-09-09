@@ -21,7 +21,7 @@ const ToggleButton = (props) => {
 };
 
 const HighLowToggle = ({ toggleOptions, toggleTitle }) => {
-  const [toggle, setToggle] = useState(toggleOptions[0]); // default: 'High to Low'
+  const [toggle, setToggle] = useState(toggleOptions[0]); 
 
   return (
     <>

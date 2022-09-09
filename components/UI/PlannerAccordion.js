@@ -9,6 +9,7 @@ import {
 import { useState } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import BudgetItem from '../UI/BudgetItem';
+import { selectItemEntities } from '../../store/items-slice';
 
 const Table = (props) => {
   return (
@@ -22,15 +23,10 @@ const Table = (props) => {
 
 const PlannerAccordion = ({ title, nickname, expectedPay }) => {
   const [isActive, setIsActive] = useState(false);
-  const itemIds = useSelector(
-    (state) => state.itemsAndPlanner.totalBudgetedPlanner[title]?.itemIds
-  );
-  const itemEntities = useSelector(
-    (state) => state.itemsAndPlanner.items.entities
-  );
-  const totalPlannedBudget = useSelector(
-    (state) => state.itemsAndPlanner.totalBudgetedPlanner
-  );
+  const itemEntities = useSelector(selectItemEntities);
+  // const itemIds = useSelector();
+  // const totalPlannedBudget = useSelector();
+
   let budgeted =
     totalPlannedBudget[title] !== undefined
       ? totalPlannedBudget[title].budgeted.toFixed(2)

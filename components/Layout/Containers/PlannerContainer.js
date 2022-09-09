@@ -2,12 +2,11 @@ import PlannerAccordion from '../../UI/PlannerAccordion';
 import classes from './PlannerContainer.module.css';
 import Button from '../../UI/Buttons/Button';
 import { useSelector } from 'react-redux';
+import { selectPaycheckEntities } from '../../../store/planner-slice';
 
 const PlannerContainer = ({ plannerHandler }) => {
-  const checks = useSelector((state) => state.itemsAndPlanner.planner.entities);
-  const totalPay = useSelector(
-    (state) => state.itemsAndPlanner.totalExpectedPay
-  );
+  const checks = useSelector(selectPaycheckEntities);
+  // const totalPay = useSelector();
 
   return (
     <section className={classes.gridArea}>
