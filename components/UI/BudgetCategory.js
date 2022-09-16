@@ -10,7 +10,6 @@ import {
 import BudgetItem from '../UI/BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
 import { selectItemEntities } from '../../store/items-slice';
-import { selectExpenseEntities } from '../../store/expenses-slice';
 
 const Table = ({ children }) => {
   return (
@@ -22,48 +21,29 @@ const Table = ({ children }) => {
   );
 };
 
-const BudgetCategory = ({ categoryTitle, tabID }) => {
+const BudgetCategory = ({
+  categoryTitle,
+  percent,
+  budgetedTotal,
+  totalIncome,
+  spent,
+	itemIds,
+  tabID,
+}) => {
   const [isActive, setIsActive] = useState(false);
-
-  let totalExpectedPay = useSelector(
-    (state) => state.itemsAndPlanner.totalExpectedPay
-  );
-
-  const totalBudgeted = useSelector(
-    (state) => state.itemsAndPlanner.totalBudgetedCategory
-  );
-
-  const itemIds = useSelector(
-    (state) =>
-      state.itemsAndPlanner.totalBudgetedCategory[categoryTitle]?.itemIds
-  );
 
   const itemEntities = useSelector(selectItemEntities);
 
-  const expenses = useSelector(selectExpenseEntities);
+  let budgeted = budgetedTotal !== undefined ? +budgetedTotal.toFixed(2) : 0;
 
-  const calcSpentAmount = (expenses) => {
-    console.log(`calcSpentAmount running in ${categoryTitle}...`);
-    let spent = 0;
-    Object.values(expenses).map((e) => {
-      if (e.category === categoryTitle) spent += e.amount;
-    });
-    return spent;
-  };
-  const spent = calcSpentAmount(expenses);
-
-  let budgeted =
-    totalBudgeted[categoryTitle] !== undefined
-      ? +totalBudgeted[categoryTitle].budgeted.toFixed(2)
-      : 0;
   if (tabID === 'Annual') {
     budgeted = +(budgeted * 12).toFixed(2);
-    totalExpectedPay = totalExpectedPay * 12;
+    totalIncome = totalIncome * 12;
   }
 
-  const percent = totalExpectedPay ? (
+  const percentDisplay = totalIncome ? (
     <span className={classes.percentage}>
-      {((budgeted / totalExpectedPay) * 100).toFixed(2)}% of Income
+      {(percent * 100).toFixed(2)}% of Income
     </span>
   ) : (
     ''
@@ -124,7 +104,7 @@ const BudgetCategory = ({ categoryTitle, tabID }) => {
                     <td className={classes.head2}>
                       <div className={classes.title}>
                         {categoryTitle}
-                        {percent}
+                        {percentDisplay}
                       </div>
                     </td>
                     <td className={classes.head3}>
@@ -174,7 +154,7 @@ const BudgetCategory = ({ categoryTitle, tabID }) => {
                   </div>
                 )}
                 {isActive &&
-                  itemIds !== undefined &&
+                  itemIds !== [] &&
                   itemIds.map((item, index) => {
                     if (categoryTitle === itemEntities[item].category)
                       return (

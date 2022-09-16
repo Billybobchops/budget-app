@@ -122,6 +122,8 @@ export const {
   updateCategoryEnd,
 } = itemPlannerSlice.actions;
 
+export const selectItemIds = (state) => state.items.ids;
+
 export const selectItemEntities = (state) => state.items.entities;
 
 export const selectPaycheckStatus = (state) => state.items.status;
