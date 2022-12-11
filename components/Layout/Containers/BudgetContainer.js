@@ -19,58 +19,13 @@ const BudgetContainer = () => {
   const income = useSelector(selectPaycheckEntities);
   const expenses = useSelector(selectExpenseEntities);
 
-  // let orderObj = {};
-
-  // const initOrderObj = (categories) => {
-  //   let orderObj = {};
-
-  //   categories.map(
-  //     (category) =>
-  //       (orderObj[category] = {
-  //         id: '',
-  //         budgetedItemsTotal: 0,
-  //         percentOfIncome: 0,
-  //       })
-  //   );
-  //   setOrder(orderObj);
-  // };
-
-  // const calcTotalPlannedIncome = (income) => {
-  //   let total = 0;
-  //   Object.values(income).map((check) => {
-  //     total += check.expectedPay;
-  //   });
-  //   setTotalIncome(total);
-  // };
-
-  // const calcTotalItemsAmountPerCategory = (items) => {
-  //   Object.values(items).map((item) => {
-  //     setOrder((current) => {
-  //       return {
-  //         ...current,
-  //         [item.category]: {
-  //           id: item.category,
-  //           budgetedItemsTotal: (budgetedItemsTotal += item.budgetAmount),
-  //         },
-  //       };
-  //     });
-  //   });
-  // };
-
-  // const calcPercentageOfIncome = (order, totalIncome) => {
-  //   Object.values(order).map((category) => {
-  //     category.percentOfIncome = (
-  //       category.budgetedItemsTotal / totalIncome
-  //     ).toFixed(2);
-  //   });
-  // };
-
-  // we don't separate these functions out b/c setState isn't synchronous
-  // would have to use an intermediate variable for order...
+  // we don't separate this out into smaller functions out b/c setState isn't synchronous
+	// and we synchronously build the shape of the data we're passing to each accordion
+	// also you can't call hooks from within loops!
   const calcBudgetAccordionProps = (categories, items, income, expenses) => {
     let orderObj = {};
 
-    // 1. init setup of orderObj
+    // // 1. init setup of orderObj
     categories.map(
       (category) =>
         (orderObj[category] = {
@@ -109,19 +64,14 @@ const BudgetContainer = () => {
         orderObj[expense.category].spent += expense.amount;
     });
 
-    // 6. Finally, update state
+    // 6. Finally, update state, only after orderObj is fully complete
     setOrder(orderObj);
-
     // 7. then .sort below in the return statement by ASC percentOfIncome!
   };
 
   useEffect(() => {
     console.log('useEffect running...');
     calcBudgetAccordionProps(categories, items, income, expenses);
-    // initOrderObj(categories);
-    // calcTotalItemsAmountPerCategory(items);
-    // calcTotalPlannedIncome(income);
-    // calcPercentageOfIncome(order, totalIncome);
   }, [categories, items, income, expenses]);
 
   const toggleTab = (tab) => {
