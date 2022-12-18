@@ -1,4 +1,4 @@
-import classes from './BudgetCategory.module.css';
+import classes from './CategoryAccordion.module.css';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,7 @@ import {
   faMinus,
   faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
-import BudgetItem from '../UI/BudgetItem';
+import BudgetItem from './BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
 import { selectItemEntities } from '../../store/items-slice';
 
@@ -21,7 +21,7 @@ const Table = ({ children }) => {
   );
 };
 
-const BudgetCategory = ({
+const CategoryAccordion = ({
   categoryTitle,
   percent,
   budgetedTotal,
@@ -178,4 +178,4 @@ const BudgetCategory = ({
   );
 };
 
-export default BudgetCategory;
+export default CategoryAccordion;

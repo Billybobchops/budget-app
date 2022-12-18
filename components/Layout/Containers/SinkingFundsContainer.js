@@ -2,15 +2,17 @@ import classes from './SinkingFundsContainer.module.css';
 import HighLowToggle from '../../UI/HighLowToggle';
 import SinkingFundsItem from '../../UI/SinkingFundItem';
 import Button from '../../UI/Buttons/Button';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFundEntities } from '../../../store/fund-slice';
 
 const SinkingFundsContainer = ({ fundHandler }) => {
   const funds = useSelector(selectFundEntities);
+  const [order, setOrder] = useState([]);
 
   const calcTotalFundAmount = (funds) => {
     let arr = [];
-		console.log('calcTotalFundAmount is running...');
+    console.log('calcTotalFundAmount is running...');
     Object.values(funds).map((fund) => {
       let months;
       if (fund.timeType === 'Year') months = fund.timePeriod * 12;
@@ -24,6 +26,33 @@ const SinkingFundsContainer = ({ fundHandler }) => {
     return total;
   };
   const totalFundAmount = calcTotalFundAmount(funds);
+
+  const initFundsOrder = (funds) => {
+    let orderArr = [];
+
+    Object.values(funds).map((fund) => {
+      orderArr.push({
+        billDate: fund.billDate,
+        totalAmount: fund.totalAmount,
+        id: fund.id,
+        timePeriod: fund.timePeriod,
+        timeType: fund.timeType,
+      });
+    });
+
+    orderArr.sort((a, b) => (a.totalAmount > b.totalAmount ? -1 : 1));
+    setOrder(orderArr);
+  };
+
+  useEffect(() => {
+    initFundsOrder(funds);
+  }, [funds]);
+
+  const toggleSort = () => {
+    const orderClone = [...order];
+    const reverseOrder = orderClone.reverse();
+    setOrder(reverseOrder);
+  };
 
   return (
     <section>
@@ -43,10 +72,13 @@ const SinkingFundsContainer = ({ fundHandler }) => {
       </div>
       <div className={classes.container}>
         <div className={classes.toggleAlign}>
-          <HighLowToggle />
+          <HighLowToggle
+            toggleOptions={['High to Low', 'Low to High']}
+            toggleSortFn={toggleSort}
+          />
         </div>
         {Object.values(funds) !== 0 &&
-          Object.values(funds).map((fund) => {
+          order.map((fund) => {
             return (
               <SinkingFundsItem
                 key={fund.id}

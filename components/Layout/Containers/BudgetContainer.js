@@ -1,5 +1,5 @@
 import classes from './BudgetContainer.module.css';
-import BudgetCategory from '../../UI/BudgetCategory';
+import CategoryAccordion from '../../UI/CategoryAccordion';
 import HighLowToggle from '../../UI/HighLowToggle';
 import Tabs from '../../UI/Tabs';
 import { useSelector } from 'react-redux';
@@ -107,7 +107,7 @@ const BudgetContainer = () => {
         {Object.values(categories).length !== 0 &&
           order.map((category) => {
             return (
-              <BudgetCategory
+              <CategoryAccordion
                 key={category.id}
                 categoryTitle={category.id}
                 percent={category.percentOfIncome}
