@@ -20,7 +20,7 @@ const ToggleButton = (props) => {
   );
 };
 
-const HighLowToggle = ({ toggleOptions, toggleTitle }) => {
+const HighLowToggle = ({ toggleOptions, toggleTitle, toggleSortFn }) => {
   const [toggle, setToggle] = useState(toggleOptions[0]); 
 
   return (
@@ -36,8 +36,8 @@ const HighLowToggle = ({ toggleOptions, toggleTitle }) => {
               options={toggleOptions}
               activeToggle={option === toggle}
               onClick={() => {
-                console.log('onClick running...');
                 setToggle(option);
+								toggleSortFn();
               }}
             />
           );
