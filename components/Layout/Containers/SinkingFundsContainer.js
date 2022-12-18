@@ -8,7 +8,7 @@ import { selectFundEntities } from '../../../store/fund-slice';
 
 const SinkingFundsContainer = ({ fundHandler }) => {
   const funds = useSelector(selectFundEntities);
-  const [order, setOrder] = useState([]);
+  const [fundsOrder, setFundsOrder] = useState([]);
 
   const calcTotalFundAmount = (funds) => {
     let arr = [];
@@ -49,9 +49,9 @@ const SinkingFundsContainer = ({ fundHandler }) => {
   }, [funds]);
 
   const toggleSort = () => {
-    const orderClone = [...order];
+    const orderClone = [...fundsOrder];
     const reverseOrder = orderClone.reverse();
-    setOrder(reverseOrder);
+    setFundsOrder(reverseOrder);
   };
 
   return (
@@ -78,7 +78,7 @@ const SinkingFundsContainer = ({ fundHandler }) => {
           />
         </div>
         {Object.values(funds) !== 0 &&
-          order.map((fund) => {
+          fundsOrder.map((fund) => {
             return (
               <SinkingFundsItem
                 key={fund.id}

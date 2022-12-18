@@ -21,7 +21,7 @@ import Header from '../components/Layout/Header';
 import ButtonBar from '../components/Layout/Bars/ButtonBar';
 import Button from '../components/UI/Buttons/Button';
 import TotalsBar from '../components/Layout/Bars/TotalsBar';
-import BudgetContainer from '../components/Layout/Containers/BudgetContainer';
+import CategoryAccordionContainer from '../components/Layout/Containers/CategoryAccordionContainer';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
@@ -144,7 +144,7 @@ const Overview = () => {
           </ButtonBar>
           <TotalsBar />
           <DragDropContext onDragEnd={onDragEnd}>
-            <BudgetContainer />
+            <CategoryAccordionContainer />
           </DragDropContext>
         </MainGrid>
         <Sidebar

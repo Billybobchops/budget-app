@@ -1,4 +1,4 @@
-import classes from './BudgetContainer.module.css';
+import classes from './CategoryAccordionContainer.module.css';
 import CategoryAccordion from '../../UI/CategoryAccordion';
 import HighLowToggle from '../../UI/HighLowToggle';
 import Tabs from '../../UI/Tabs';
@@ -9,8 +9,8 @@ import { selectItemEntities } from '../../../store/items-slice';
 import { selectPaycheckEntities } from '../../../store/planner-slice';
 import { selectExpenseEntities } from '../../../store/expenses-slice';
 
-const BudgetContainer = () => {
-  const [order, setOrder] = useState([]);
+const CategoryAccordionContainer = () => {
+  const [categoryOrder, setCategoryOrder] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [totalIncome, setTotalIncome] = useState(0);
 
@@ -71,7 +71,7 @@ const BudgetContainer = () => {
     orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
 
     // 7. Finally, update state
-    setOrder(orderArr);
+    setCategoryOrder(orderArr);
   };
 
   useEffect(() => {
@@ -87,8 +87,10 @@ const BudgetContainer = () => {
   const toggleSort = () => {
     const orderClone = [...order];
     const reverseOrder = orderClone.reverse();
-    setOrder(reverseOrder);
+    setCategoryOrder(reverseOrder);
   };
+
+	console.log(categoryOrder);
 
   return (
     <div className={classes.budgetContainer}>
@@ -105,7 +107,7 @@ const BudgetContainer = () => {
       <Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />
       <div className={classes.budgetItemsList}>
         {Object.values(categories).length !== 0 &&
-          order.map((category) => {
+          categoryOrder.map((category) => {
             return (
               <CategoryAccordion
                 key={category.id}
@@ -124,4 +126,4 @@ const BudgetContainer = () => {
   );
 };
 
-export default BudgetContainer;
+export default CategoryAccordionContainer;
