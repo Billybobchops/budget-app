@@ -85,12 +85,10 @@ const CategoryAccordionContainer = () => {
   };
 
   const toggleSort = () => {
-    const orderClone = [...order];
+    const orderClone = [...categoryOrder];
     const reverseOrder = orderClone.reverse();
     setCategoryOrder(reverseOrder);
   };
-
-	console.log(categoryOrder);
 
   return (
     <div className={classes.budgetContainer}>

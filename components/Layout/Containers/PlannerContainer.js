@@ -1,12 +1,25 @@
 import PlannerAccordion from '../../UI/PlannerAccordion';
 import classes from './PlannerContainer.module.css';
 import Button from '../../UI/Buttons/Button';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { selectPaycheckEntities } from '../../../store/planner-slice';
 
 const PlannerContainer = ({ plannerHandler }) => {
-  const checks = useSelector(selectPaycheckEntities);
-  // const totalPay = useSelector();
+  const [totalIncome, setTotalIncome] = useState(0);
+  const income = useSelector(selectPaycheckEntities);
+
+  const calcTotalPay = useCallback(() => {
+    let totalPay = 0;
+    Object.values(income).map((check) => {
+      totalPay += check.expectedPay;
+    });
+    setTotalIncome(totalPay);
+  }, [income]);
+
+  useEffect(() => {
+    calcTotalPay();
+  }, [calcTotalPay]);
 
   return (
     <section className={classes.gridArea}>
@@ -24,8 +37,8 @@ const PlannerContainer = ({ plannerHandler }) => {
         </div>
       </div>
       <div className={classes.container}>
-        {Object.values(checks).length !== 0 &&
-          Object.values(checks).map((check) => {
+        {Object.values(income).length !== 0 &&
+          Object.values(income).map((check) => {
             return (
               <PlannerAccordion
                 key={check.id}
@@ -38,7 +51,7 @@ const PlannerContainer = ({ plannerHandler }) => {
       </div>
       <div className={classes.total}>
         <p className={classes.totalTitle}>Total Expected Pay</p>
-        <p className={classes.totalAmmount}>${totalPay.toLocaleString()}</p>
+        <p className={classes.totalAmmount}>${totalIncome.toLocaleString()}</p>
       </div>
     </section>
   );

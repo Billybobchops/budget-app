@@ -6,6 +6,7 @@ import DragItem from '../../UI/DragItem';
 
 const ItemsDragList = () => {
   // const itemIds = useSelector((state) => state.totalBudgetedPlanner['ItemsDragList']?.itemIds);
+	// itemIds for this component are simply any item without a 
   const itemEntities = useSelector(selectItemEntities);
 
   return (

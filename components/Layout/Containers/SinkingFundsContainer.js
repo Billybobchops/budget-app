@@ -12,7 +12,7 @@ const SinkingFundsContainer = ({ fundHandler }) => {
 
   const calcTotalFundAmount = (funds) => {
     let arr = [];
-    console.log('calcTotalFundAmount is running...');
+    console.log('calcTotalFundAmount is running...a bunch');
     Object.values(funds).map((fund) => {
       let months;
       if (fund.timeType === 'Year') months = fund.timePeriod * 12;
@@ -41,7 +41,7 @@ const SinkingFundsContainer = ({ fundHandler }) => {
     });
 
     orderArr.sort((a, b) => (a.totalAmount > b.totalAmount ? -1 : 1));
-    setOrder(orderArr);
+    setFundsOrder(orderArr);
   };
 
   useEffect(() => {
