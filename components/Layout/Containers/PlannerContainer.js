@@ -4,22 +4,52 @@ import Button from '../../UI/Buttons/Button';
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { selectPaycheckEntities } from '../../../store/planner-slice';
+import { selectItemEntities } from '../../../store/items-slice';
 
 const PlannerContainer = ({ plannerHandler }) => {
+	const [plannerOrder, setPlannerOrder] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
-  const income = useSelector(selectPaycheckEntities);
 
-  const calcTotalPay = useCallback(() => {
+  const income = useSelector(selectPaycheckEntities);
+  const items = useSelector(selectItemEntities);
+
+  const calcProps = (income, items) => {
+    let orderArr = [];
+		console.log('items are...', items);
+    Object.values(income).map((check) => {
+      orderArr.push({
+        id: check.id,
+        nickname: check.nickname,
+        expectedPay: check.expectedPay,
+        totalPlannedBudget: 0,
+        itemIds: [],
+      });
+    });
+		
     let totalPay = 0;
     Object.values(income).map((check) => {
       totalPay += check.expectedPay;
     });
     setTotalIncome(totalPay);
-  }, [income]);
+
+    Object.values(items).map((item) => {
+      orderArr.map((check, i) => {
+        if (item.paycheckSelect === check.id) {
+          orderArr[i].totalPlannedBudget += item.budgetAmount;
+          orderArr[i].itemIds.push(item.id);
+        }
+      });
+    });
+
+		// sort by user defined sort order stored in FB
+    // orderArr.sort((a, b) => (a.userOrderIndex > b.userOrderIndex ? -1 : 1));
+
+		setPlannerOrder(orderArr);
+  };
 
   useEffect(() => {
-    calcTotalPay();
-  }, [calcTotalPay]);
+    calcProps(income, items);
+  }, [income, items]);
 
   return (
     <section className={classes.gridArea}>
@@ -38,13 +68,15 @@ const PlannerContainer = ({ plannerHandler }) => {
       </div>
       <div className={classes.container}>
         {Object.values(income).length !== 0 &&
-          Object.values(income).map((check) => {
+          plannerOrder.map((check) => {
             return (
               <PlannerAccordion
                 key={check.id}
                 title={check.id}
                 nickname={check.nickname}
                 expectedPay={check.expectedPay}
+								totalPlannedBudget={check.totalPlannedBudget}
+								itemIds={check.itemIds}
               />
             );
           })}

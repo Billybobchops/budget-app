@@ -1,57 +1,77 @@
 import classes from './CategoryPie.module.css';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { ResponsivePie } from '@nivo/pie';
 import { selectPaycheckEntities } from '../../../store/planner-slice';
+import { selectCategoryIds } from '../../../store/category-slice';
+import { selectItemEntities } from '../../../store/items-slice';
 
 const CategoryPie = () => {
-  // const totalBudgeted = useSelector();
+  const [data, setData] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
 
-  // let totalExpectedPay = useSelector();
+  const categories = useSelector(selectCategoryIds);
+  const items = useSelector(selectItemEntities);
+  const income = useSelector(selectPaycheckEntities);
 
-  const checks = useSelector(selectPaycheckEntities);
+  const getPercent = (categories, income, items) => {
+    let tempArr = [];
 
-  let dataArr = [];
-
-  const getData = () => {
-    Object.values(totalBudgeted).map((category) => {
-      let budgeted =
-        totalBudgeted[category.id] !== undefined
-          ? +totalBudgeted[category.id].budgeted.toFixed(2)
-          : 0;
-
-      const percent = (budgeted / totalExpectedPay).toFixed(2);
-
-      dataArr.push({ id: category.id, value: +percent });
+    categories.map((category) => {
+      tempArr.push({
+        id: category,
+        budgetedItemsTotal: 0,
+        value: 0,
+      });
     });
-  };
-  getData();
 
-  const calcUncategorizedPercentage = () => {
+    let totalPay = 0;
+
+    Object.values(income).map((check) => {
+      totalPay += check.expectedPay;
+    });
+    setTotalIncome(totalPay);
+
+    Object.values(items).map((item) => {
+      tempArr.map((category, i) => {
+        if (category.id === item.category) {
+          tempArr[i].budgetedItemsTotal += item.budgetAmount;
+
+          tempArr[i].value = +(
+            tempArr[i].budgetedItemsTotal / totalPay
+          ).toFixed(2);
+        }
+      });
+    });
+
     let categorized = 0;
 
-    dataArr.map((category) => {
+    tempArr.map((category) => {
       categorized = categorized + category.value;
     });
 
-    dataArr.push({
+    tempArr.push({
       id: 'Uncategorized',
       value: (100 - categorized * 100) / 100,
     });
-  };
-  calcUncategorizedPercentage();
 
-  console.log(dataArr);
+    setData(tempArr);
+  };
+
+  useEffect(() => {
+    getPercent(categories, income, items);
+  }, [categories, income, items]);
 
   return (
     <div className={classes.container}>
       <div>
         <h2 className={classes.title}>Monthly Breakdown</h2>
       </div>
-      {checks && (
+      {income && (
         <div className={classes.background}>
-          {Object.values(totalBudgeted).length !== 0 && totalExpectedPay && (
+          {data.length !== 0 && totalIncome && (
             <ResponsivePie
-              data={dataArr}
+              data={data}
               margin={{ top: 50, right: 80, bottom: 80, left: 80 }}
               innerRadius={0.5}
               padAngle={2}
@@ -90,13 +110,13 @@ const CategoryPie = () => {
               fill={[
                 {
                   match: {
-                    id: dataArr.length > 2 ? dataArr[2].id : '',
+                    id: data.length > 2 ? data[2].id : '',
                   },
                   id: 'dots',
                 },
                 {
                   match: {
-                    id: dataArr.length > 5 ? dataArr[5].id : '',
+                    id: data.length > 5 ? data[5].id : '',
                   },
                   id: 'lines',
                 },

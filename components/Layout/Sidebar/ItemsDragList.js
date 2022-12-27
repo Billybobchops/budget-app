@@ -6,8 +6,9 @@ import DragItem from '../../UI/DragItem';
 
 const ItemsDragList = () => {
   // const itemIds = useSelector((state) => state.totalBudgetedPlanner['ItemsDragList']?.itemIds);
-	// itemIds for this component are simply any item without a 
+	// itemIds for this component are simply any item without a category
   const itemEntities = useSelector(selectItemEntities);
+	console.log(itemEntities);
 
   return (
     <Droppable droppableId='ItemsDragList' key='ItemsDragList'>
@@ -26,7 +27,7 @@ const ItemsDragList = () => {
               </div>
               <div className={dragClass}>
                 <ul className={classes.list}>
-                  {itemIds !== undefined &&
+                  {/* {itemIds !== undefined &&
                     itemIds.map((item, index) => {
                       return (
                         <DragItem
@@ -37,7 +38,7 @@ const ItemsDragList = () => {
                           budgetedAmount={itemEntities[item].budgetAmount}
                         />
                       );
-                    })}
+                    })} */}
                   {provided.placeholder}
                 </ul>
               </div>

@@ -6,7 +6,7 @@ import {
   faMinus,
   faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import BudgetItem from '../UI/BudgetItem';
 import { selectItemEntities } from '../../store/items-slice';
@@ -21,16 +21,20 @@ const Table = (props) => {
   );
 };
 
-const PlannerAccordion = ({ title, nickname, expectedPay }) => {
+const PlannerAccordion = ({
+  title,
+  nickname,
+  expectedPay,
+  totalPlannedBudget,
+  itemIds,
+}) => {
   const [isActive, setIsActive] = useState(false);
+  const [itemsOrder, setItemsOrder] = useState([]);
+
   const itemEntities = useSelector(selectItemEntities);
-  // const itemIds = useSelector();
-  // const totalPlannedBudget = useSelector();
 
   let budgeted =
-    totalPlannedBudget[title] !== undefined
-      ? totalPlannedBudget[title].budgeted.toFixed(2)
-      : 0;
+    totalPlannedBudget !== undefined ? totalPlannedBudget.toFixed(2) : 0;
   let balanceClass = null;
   let balanceString = null;
 
@@ -66,6 +70,24 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
   ) : (
     <FontAwesomeIcon icon={faPlus} className={classes.toggle} />
   );
+
+  const sortItemIds = useCallback(() => {
+    let orderArr = [];
+
+    itemIds.map((item) => {
+      orderArr.push({
+        title: itemEntities[item].id,
+        budgetedAmount: itemEntities[item].budgetAmount,
+      });
+    });
+
+    orderArr.sort((a, b) => (a.budgetedAmount > b.budgetedAmount ? -1 : 1));
+    setItemsOrder(orderArr);
+  }, [itemEntities, itemIds]);
+
+  useEffect(() => {
+    sortItemIds();
+  }, [sortItemIds]);
 
   return (
     <>
@@ -140,14 +162,14 @@ const PlannerAccordion = ({ title, nickname, expectedPay }) => {
                   )}
                   {isActive &&
                     itemIds !== undefined &&
-                    itemIds.map((item, index) => {
+                    itemsOrder.map((item, index) => {
                       return (
                         <BudgetItem
-                          key={itemEntities[item].id}
+                          key={itemEntities[item.title].id}
                           index={index}
-                          title={itemEntities[item].id}
-                          date={itemEntities[item].billDate}
-                          budgetedAmount={itemEntities[item].budgetAmount}
+                          title={itemEntities[item.title].id}
+                          date={itemEntities[item.title].billDate}
+                          budgetedAmount={itemEntities[item.title].budgetAmount}
                         />
                       );
                     })}

@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import store from '../store';
 import {
   fetchItems,
-  fetchPaychecks,
   updateItemPaycheckSelectDoc,
   updateItemPaycheckSortIndexDoc,
   reorderPlannerIds,
@@ -14,6 +13,7 @@ import {
 } from '../store/items-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
+import { fetchPaychecks } from '../store/planner-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import PlannerBackground from '../components/Layout/PlannerBackground';

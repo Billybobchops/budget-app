@@ -22,7 +22,7 @@ const CategoryAccordionContainer = () => {
   // we don't separate big fn into smaller functions out b/c setState isn't synchronous
   // and we synchronously build the shape of the data we're passing to each accordion
   // also... you cannot call hooks from within loops!
-  const calcBudgetAccordionProps = (categories, items, income, expenses) => {
+  const calcProps = (categories, items, income, expenses) => {
     let orderArr = [];
 
     // // 1. init setup of orderArr
@@ -76,7 +76,7 @@ const CategoryAccordionContainer = () => {
 
   useEffect(() => {
     console.log('useEffect running...');
-    calcBudgetAccordionProps(categories, items, income, expenses);
+    calcProps(categories, items, income, expenses);
   }, [categories, items, income, expenses]);
 
   const toggleTab = (tab) => {
