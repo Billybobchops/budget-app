@@ -10,7 +10,7 @@ import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';
-import PageBackground from '../components/Layout/PageBackground';
+import PageBackground from '../components/Layout/Containers/PageBackground';
 import MainGrid from '../components/Layout/MainGrid';
 import Header from '../components/Layout/Header';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';

@@ -8,7 +8,7 @@ import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
-import PageBackground from '../components/Layout/PageBackground';
+import PageBackground from '../components/Layout/Containers/PageBackground';
 import MainGrid from '../components/Layout/MainGrid';
 import Header from '../components/Layout/Header';
 import ButtonBar from '../components/Layout/Bars/ButtonBar';
