@@ -68,10 +68,10 @@ const itemPlannerSlice = createSlice({
   name: 'items',
   initialState,
   reducers: {
-    reorderCategoryIds: (state, action) => {
-      const { startId, newItemIds } = action.payload;
-      state.totalBudgetedCategory[startId].itemIds = newItemIds;
-    },
+    // reorderCategoryIds: (state, action) => {
+    //   const { startId, newItemIds } = action.payload;
+    //   state.totalBudgetedCategory[startId].itemIds = newItemIds;
+    // },
     updateCategoryStart: (state, action) => {
       const { startId, startItemsIds, draggableId } = action.payload;
       state.totalBudgetedCategory[startId].itemIds = startItemsIds;
@@ -115,7 +115,7 @@ const itemPlannerSlice = createSlice({
 
 export const {
   reorderPlannerIds,
-  reorderCategoryIds,
+  // reorderCategoryIds,
   updatePlannerStart,
   updateCategoryStart,
   updatePlannerEnd,

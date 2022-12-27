@@ -6,7 +6,7 @@ import store from '../store';
 import {
   fetchItems,
   updateCategoryItemDoc,
-  reorderCategoryIds,
+  // reorderCategoryIds,
   updateCategoryStart,
   updateCategoryEnd,
 } from '../store/items-slice';
@@ -30,10 +30,7 @@ import ItemForm from '../components/Forms/ItemForm';
 import { selectFormattedMonthYear } from '../store/date-slice';
 import { selectCategoryEntities } from '../store/category-slice';
 import { selectExpenseEntities } from '../store/expenses-slice';
-import {
-  selectItemEntities,
-  selectPaycheckStatus,
-} from '../store/items-slice';
+import { selectItemEntities, selectPaycheckStatus } from '../store/items-slice';
 import { selectPaycheckEntities } from '../store/planner-slice';
 import { selectFundEntities } from '../store/fund-slice';
 
@@ -58,6 +55,8 @@ const Overview = () => {
   //   (state) => state.itemsAndPlanne.totalBudgetedCategory
   // );
   // const funds = useSelector(selectFundEntities);
+
+  // const dropContainers =
 
   useEffect(() => {
     if (
@@ -94,30 +93,25 @@ const Overview = () => {
     )
       return;
 
-    const start = dropContainers[source.droppableId];
-    const startId = start.id;
-    const end = dropContainers[destination.droppableId]; // undefined, bc apart of old closure
+    // const start = dropContainers[source.droppableId];
+    const start = source.droppableId;
+    // const startId = start.id;
+    // const end = dropContainers[destination.droppableId]; // undefined, bc apart of old closure
+    const end = destination.droppableId;
     const endId = end.id;
 
-    if (start === end) {
-      // Re-Order operation to happen here: (droppable is the same)
-      const newItemIds = Array.from(start.itemIds);
-      newItemIds.splice(source.index, 1);
-      newItemIds.splice(destination.index, 0, draggableId);
-      store.dispatch(reorderCategoryIds({ startId, newItemIds }));
-      return;
-    }
+    if (start === end) return;
 
     // Moving from one droppable list to another
     const startItemsIds = Array.from(start.itemIds);
     startItemsIds.splice(source.index, 1); // remove the dragged itemId from the new array
-    store.dispatch(
-      updateCategoryStart({ startId, startItemsIds, draggableId })
-    );
+    // store.dispatch(
+    //   updateCategoryStart({ startId, startItemsIds, draggableId })
+    // );
 
     const endItemsIds = Array.from(end.itemIds);
     endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
-    store.dispatch(updateCategoryEnd({ endId, endItemsIds, draggableId }));
+    // store.dispatch(updateCategoryEnd({ endId, endItemsIds, draggableId }));
     // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
     const uid = auth.user.uid;
     const document = draggableId;

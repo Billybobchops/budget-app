@@ -15,7 +15,7 @@ const PlannerContainer = ({ plannerHandler }) => {
 
   const calcProps = (income, items) => {
     let orderArr = [];
-		console.log('items are...', items);
+		
     Object.values(income).map((check) => {
       orderArr.push({
         id: check.id,
