@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { useSelector } from 'react-redux';
@@ -29,6 +29,7 @@ import CategoryForm from '../components/Forms/CategoryForm';
 import ItemForm from '../components/Forms/ItemForm';
 import { selectFormattedMonthYear } from '../store/date-slice';
 import { selectCategoryEntities } from '../store/category-slice';
+import { selectCategoryIds } from '../store/category-slice';
 import { selectExpenseEntities } from '../store/expenses-slice';
 import { selectItemEntities, selectPaycheckStatus } from '../store/items-slice';
 import { selectPaycheckEntities } from '../store/planner-slice';
@@ -44,27 +45,89 @@ const Overview = () => {
     onItemClick,
   } = useContext(FormContext);
 
+  const [categoryOrder, setCategoryOrder] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
+
   const auth = useRequireAuth();
   const currentDate = useSelector(selectFormattedMonthYear);
-  const categories = useSelector(selectCategoryEntities);
-  // const expenses = useSelector(selectExpenseEntities);
-  // const items = useSelector(selectItemEntities);
-  // const paychecks = useSelector(selectPaycheckEntities);
+  const categoryEntities = useSelector(selectCategoryEntities);
+  const categoryIds = useSelector(selectCategoryIds);
+  const expenses = useSelector(selectExpenseEntities);
+  const items = useSelector(selectItemEntities);
+  const income = useSelector(selectPaycheckEntities);
   // const paycheckStatus = useSelector(selectPaycheckStatus);
   // const dropContainers = useSelector(
   //   (state) => state.itemsAndPlanne.totalBudgetedCategory
   // );
   // const funds = useSelector(selectFundEntities);
 
-  // const dropContainers =
+  const calcCategoryAccordionContainerProps = (
+    categoryIds,
+    items,
+    income,
+    expenses
+  ) => {
+    // we don't separate this big fn into smaller functions out b/c setState isn't synchronous
+    // and we synchronously build the shape of the data we're passing to each accordion
+    // also... you cannot call hooks from within loops!
+    let orderArr = [];
+
+    // // 1. init setup of orderArr
+    categoryIds.map((category) =>
+      orderArr.push({
+        id: category,
+        budgetedItemsTotal: 0,
+        percentOfIncome: 0,
+        spent: 0,
+        itemIds: [],
+      })
+    );
+
+    // 2. calc total planned income
+    let totalPay = 0;
+    Object.values(income).map((check) => {
+      totalPay += check.expectedPay;
+    });
+    setTotalIncome(totalPay);
+
+    // 3. calc total budgetItems amount per category and gather array of items that belong to each category
+    Object.values(items).map((item) => {
+      orderArr.map((category, i) => {
+        if (category.id === item.category) {
+          orderArr[i].budgetedItemsTotal += item.budgetAmount;
+          orderArr[i].itemIds.push(item.id);
+
+          // 4. calc what percentage of budgetedItems in a category make up the total planned income
+          orderArr[i].percentOfIncome = +(
+            orderArr[i].budgetedItemsTotal / totalPay
+          ).toFixed(2);
+        }
+      });
+    });
+
+    // 5. calc spent amount per category
+    Object.values(expenses).map((expense) => {
+      orderArr.map((category, i) => {
+        if (category.id === expense.category) {
+          orderArr[i].spent += expense.amount;
+        }
+      });
+    });
+
+    // 6. Sort by DESC percentOfIncome by default
+    orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
+
+    // 7. Finally, update state
+    setCategoryOrder(orderArr);
+  };
 
   useEffect(() => {
     if (
       auth.user &&
-      Object.keys(categories).length === 0
+      Object.keys(categoryEntities).length === 0
       // Object.keys(items).length === 0 &&
       // Object.keys(expenses).length === 0 &&
-      // Object.keys(paychecks).length === 0 &&
+      // Object.keys(income).length === 0 &&
       // paycheckStatus !== 'noPaychecksAdded' &&
       // Object.keys(funds).length === 0
     ) {
@@ -76,6 +139,10 @@ const Overview = () => {
       store.dispatch(fetchFunds(uid));
     }
   });
+
+  useEffect(() => {
+    calcCategoryAccordionContainerProps(categoryIds, items, income, expenses);
+  }, [categoryIds, items, income, expenses]);
 
   if (!auth.user) {
     return <p>Loading!</p>;
@@ -138,7 +205,10 @@ const Overview = () => {
           </ButtonBar>
           <TotalsBar />
           <DragDropContext onDragEnd={onDragEnd}>
-            <CategoryAccordionContainer />
+            <CategoryAccordionContainer
+              categoryOrder={categoryOrder}
+              totalIncome={totalIncome}
+            />
           </DragDropContext>
         </MainGrid>
         <Sidebar

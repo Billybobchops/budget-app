@@ -3,81 +3,13 @@ import CategoryAccordion from '../../UI/CategoryAccordion';
 import HighLowToggle from '../../UI/HighLowToggle';
 import Tabs from '../../UI/Tabs';
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { selectCategoryIds } from '../../../store/category-slice';
-import { selectItemEntities } from '../../../store/items-slice';
-import { selectPaycheckEntities } from '../../../store/planner-slice';
-import { selectExpenseEntities } from '../../../store/expenses-slice';
 
-const CategoryAccordionContainer = () => {
-  const [categoryOrder, setCategoryOrder] = useState([]);
+const CategoryAccordionContainer = ({ categoryOrder, totalIncome }) => {
   const [activeTab, setActiveTab] = useState(null);
-  const [totalIncome, setTotalIncome] = useState(0);
 
   const categories = useSelector(selectCategoryIds);
-  const items = useSelector(selectItemEntities);
-  const income = useSelector(selectPaycheckEntities);
-  const expenses = useSelector(selectExpenseEntities);
-
-  // we don't separate big fn into smaller functions out b/c setState isn't synchronous
-  // and we synchronously build the shape of the data we're passing to each accordion
-  // also... you cannot call hooks from within loops!
-  const calcProps = (categories, items, income, expenses) => {
-    let orderArr = [];
-
-    // // 1. init setup of orderArr
-    categories.map((category) =>
-      orderArr.push({
-        id: category,
-        budgetedItemsTotal: 0,
-        percentOfIncome: 0,
-        spent: 0,
-        itemIds: [],
-      })
-    );
-
-    // 2. calc total planned income
-    let totalPay = 0;
-    Object.values(income).map((check) => {
-      totalPay += check.expectedPay;
-    });
-    setTotalIncome(totalPay);
-
-    // 3. calc total budgetItems amount per category and gather array of items that belong to each category
-    Object.values(items).map((item) => {
-      orderArr.map((category, i) => {
-        if (category.id === item.category) {
-          orderArr[i].budgetedItemsTotal += item.budgetAmount;
-          orderArr[i].itemIds.push(item.id);
-
-          // 4. calc what percentage of budgetedItems in a category make up the total planned income
-          orderArr[i].percentOfIncome = +(
-            orderArr[i].budgetedItemsTotal / totalPay
-          ).toFixed(2);
-        }
-      });
-    });
-
-    // 5. calc spent amount per category
-    Object.values(expenses).map((expense) => {
-      orderArr.map((category, i) => {
-        if (category.id === expense.category) {
-          orderArr[i].spent += expense.amount;
-        }
-      });
-    });
-
-    // 6. Sort by DESC percentOfIncome by default
-    orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
-
-    // 7. Finally, update state
-    setCategoryOrder(orderArr);
-  };
-
-  useEffect(() => {
-    console.log('useEffect running...');
-    calcProps(categories, items, income, expenses);
-  }, [categories, items, income, expenses]);
 
   const toggleTab = (tab) => {
     const newTab = tab;
