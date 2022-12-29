@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { useSelector } from 'react-redux';
 import store from '../store';
+import { updateCategoryItemDoc } from '../store/items-slice';
 import { fetchItems } from '../store/items-slice';
 import { fetchPaychecks } from '../store/planner-slice';
 import { fetchCategories } from '../store/category-slice';
@@ -119,7 +120,6 @@ const Overview = () => {
     // 7. Finally, update state
     setCategoryOrder(orderArr);
   };
-
   useEffect(() => {
     if (
       auth.user &&
@@ -137,6 +137,7 @@ const Overview = () => {
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
+    console.log('auth useEffect running');
   });
 
   useEffect(() => {
@@ -170,44 +171,41 @@ const Overview = () => {
 
     // Moving from one droppable to another: category update occuring
     let categoryOrderClone = [...categoryOrder];
+    let dragObj;
 
     categoryOrder.map((category, i) => {
-      if (category.id !== start || category.id !== end) return;
-      let dragObj;
+      if (category.id !== start) return;
 
       if (category.id === start) {
-        // const startItemIndex = category.itemIds.indexOf(draggableId);
         const startItemIds = [...category.itemIds];
 
-        // has to be defined here .. but then, END doesn't have access to it
         dragObj = {
           ...categoryOrderClone[i].itemIds[source.index],
         };
-        console.log('dragObj in start', dragObj);
 
         startItemIds.splice(source.index, 1);
         categoryOrderClone[i].itemIds = [...startItemIds];
       }
+    });
+
+    categoryOrder.map((category, i) => {
+      if (category.id !== end) return;
 
       if (category.id === end) {
-        // const endItemIndex = category.itemIds.indexOf(draggableId);
         const endItemIds = [...category.itemIds];
 
-        console.log('dragObj in end', dragObj);
-
-        endItemIds.splice(destination.index, 0, dragObj); // has to be added here
+        endItemIds.splice(destination.index, 0, dragObj);
         categoryOrderClone[i].itemIds = [...endItemIds];
       }
-
-      console.log('global dragObj', dragObj);
     });
+
     console.log('categoryOrderClone', categoryOrderClone);
     setCategoryOrder(categoryOrderClone);
 
     const uid = auth.user.uid;
     const document = draggableId;
     const newCategory = destination.droppableId;
-    // store.dispatch(updateCategoryItemDoc({ uid, document, newCategory }));
+    store.dispatch(updateCategoryItemDoc({ uid, document, newCategory }));
   };
 
   return (
