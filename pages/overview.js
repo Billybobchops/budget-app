@@ -52,7 +52,7 @@ const Overview = () => {
   const income = useSelector(selectPaycheckEntities);
   // const funds = useSelector(selectFundEntities);
 
-  const calcCategoryAccordionContainerProps = (
+  const initCategoryAccordionContainerProps = (
     categoryIds,
     itemEntities,
     income,
@@ -116,10 +116,45 @@ const Overview = () => {
 
     // 7. Sort categories by DESC percentOfIncome by default
     orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
-
-    // 7. Finally, update state
+  
+    // 8. Finally, update state
     setCategoryOrder(orderArr);
   };
+
+  const reCalcProps = (categoryOrder, expenses) => {
+    let orderArr = [...categoryOrder];
+
+    orderArr.map((category) => {
+      category.budgetedItemsTotal = 0;
+
+      category.itemIds.map((item) => {
+        category.budgetedItemsTotal += item.budgetAmount;
+      });
+
+      category.itemIds.sort((a, b) =>
+        a.budgetAmount > b.budgetAmount ? -1 : 1
+      );
+
+      category.percentOfIncome = +(
+        category.budgetedItemsTotal / totalIncome
+      ).toFixed(2);
+    });
+
+    Object.values(expenses).map((expense) => {
+      orderArr.map((category) => {
+        category.spent = 0;
+
+        if (category.id === expense.category) {
+          category.spent += expense.amount;
+        }
+      });
+    });
+
+    orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
+
+    setCategoryOrder(orderArr);
+  };
+
   useEffect(() => {
     if (
       auth.user &&
@@ -141,7 +176,7 @@ const Overview = () => {
   });
 
   useEffect(() => {
-    calcCategoryAccordionContainerProps(
+    initCategoryAccordionContainerProps(
       categoryIds,
       itemEntities,
       income,
@@ -199,8 +234,12 @@ const Overview = () => {
       }
     });
 
-    console.log('categoryOrderClone', categoryOrderClone);
+		// updates the itemIds array within the objects within the categoryOrder array in local state to reflect the dragged item event
     setCategoryOrder(categoryOrderClone);
+
+    // updates the other keys inside the objects inside the categoryOrder array in local state
+    reCalcProps(categoryOrder, expenses);
+    console.log('categoryOrder after onDragEnd()', categoryOrder);
 
     const uid = auth.user.uid;
     const document = draggableId;
