@@ -1,6 +1,5 @@
 import classes from './CategoryAccordion.module.css';
 import { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
@@ -9,7 +8,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import BudgetItem from './BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
-import { selectItemEntities } from '../../store/items-slice';
 
 const Table = ({ children }) => {
   return (
@@ -27,14 +25,11 @@ const CategoryAccordion = ({
   budgetedTotal,
   totalIncome,
   spent,
-  itemIds,
+  items,
   tabID,
 }) => {
   const [isActive, setIsActive] = useState(false);
-  const [itemsOrder, setItemsOrder] = useState([]);
 
-  const itemEntities = useSelector(selectItemEntities);
-  
   let budgeted = budgetedTotal !== undefined ? +budgetedTotal.toFixed(2) : 0;
 
   if (tabID === 'Annual') {
@@ -89,24 +84,6 @@ const CategoryAccordion = ({
   ) : (
     <FontAwesomeIcon icon={faPlus} className={classes.toggle} />
   );
-
-  const sortItemIds = useCallback(() => {
-    let orderArr = [];
-
-    itemIds.map((item) => {
-      orderArr.push({
-        title: itemEntities[item].id,
-        budgetedAmount: itemEntities[item].budgetAmount,
-      });
-    });
-
-    orderArr.sort((a, b) => (a.budgetedAmount > b.budgetedAmount ? -1 : 1));
-    setItemsOrder(orderArr);
-  }, [itemEntities, itemIds]);
-
-  useEffect(() => {
-    sortItemIds();
-  }, [sortItemIds]);
 
   return (
     <>
@@ -173,15 +150,15 @@ const CategoryAccordion = ({
                   </div>
                 )}
                 {isActive &&
-                  itemIds !== [] &&
-                  itemsOrder.map((item, index) => {
+                  items !== [] &&
+                  items.map((item, index) => {
                     return (
                       <BudgetItem
-                        key={itemEntities[item.title].id}
+                        key={item.id}
                         index={index}
-                        title={itemEntities[item.title].id}
-                        date={itemEntities[item.title].billDate}
-                        budgetedAmount={itemEntities[item.title].budgetAmount}
+                        title={item.id}
+                        date={item.billDate}
+                        budgetedAmount={item.budgetAmount}
                         tabID={tabID}
                       />
                     );

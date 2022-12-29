@@ -67,25 +67,7 @@ const initialState = itemsAdapter.getInitialState({
 const itemPlannerSlice = createSlice({
   name: 'items',
   initialState,
-  reducers: {
-    // reorderCategoryIds: (state, action) => {
-    //   const { startId, newItemIds } = action.payload;
-    //   state.totalBudgetedCategory[startId].itemIds = newItemIds;
-    // },
-    updateCategoryStart: (state, action) => {
-      const { startId, startItemsIds, draggableId } = action.payload;
-      state.totalBudgetedCategory[startId].itemIds = startItemsIds;
-      state.totalBudgetedCategory[startId].budgeted -=
-        state.items.entities[draggableId].budgetAmount;
-    },
-    updateCategoryEnd: (state, action) => {
-      const { endId, endItemsIds, draggableId } = action.payload;
-      state.totalBudgetedCategory[endId].itemIds = endItemsIds;
-      state.items.entities[draggableId].category = endId;
-      state.totalBudgetedCategory[endId].budgeted +=
-        state.items.entities[draggableId].budgetAmount;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchItems.pending, (state) => {
@@ -113,19 +95,10 @@ const itemPlannerSlice = createSlice({
   },
 });
 
-export const {
-  reorderPlannerIds,
-  // reorderCategoryIds,
-  updatePlannerStart,
-  updateCategoryStart,
-  updatePlannerEnd,
-  updateCategoryEnd,
-} = itemPlannerSlice.actions;
+// export const { reorderPlannerIds } = itemPlannerSlice.actions;
 
 export const selectItemIds = (state) => state.items.ids;
 
 export const selectItemEntities = (state) => state.items.entities;
-
-export const selectPaycheckStatus = (state) => state.items.status;
 
 export default itemPlannerSlice.reducer;

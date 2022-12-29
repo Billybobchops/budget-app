@@ -3,13 +3,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { useSelector } from 'react-redux';
 import store from '../store';
-import {
-  fetchItems,
-  updateCategoryItemDoc,
-  // reorderCategoryIds,
-  updateCategoryStart,
-  updateCategoryEnd,
-} from '../store/items-slice';
+import { fetchItems } from '../store/items-slice';
 import { fetchPaychecks } from '../store/planner-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
@@ -31,7 +25,7 @@ import { selectFormattedMonthYear } from '../store/date-slice';
 import { selectCategoryEntities } from '../store/category-slice';
 import { selectCategoryIds } from '../store/category-slice';
 import { selectExpenseEntities } from '../store/expenses-slice';
-import { selectItemEntities, selectPaycheckStatus } from '../store/items-slice';
+import { selectItemEntities } from '../store/items-slice';
 import { selectPaycheckEntities } from '../store/planner-slice';
 import { selectFundEntities } from '../store/fund-slice';
 
@@ -53,17 +47,13 @@ const Overview = () => {
   const categoryEntities = useSelector(selectCategoryEntities);
   const categoryIds = useSelector(selectCategoryIds);
   const expenses = useSelector(selectExpenseEntities);
-  const items = useSelector(selectItemEntities);
+  const itemEntities = useSelector(selectItemEntities);
   const income = useSelector(selectPaycheckEntities);
-  // const paycheckStatus = useSelector(selectPaycheckStatus);
-  // const dropContainers = useSelector(
-  //   (state) => state.itemsAndPlanne.totalBudgetedCategory
-  // );
   // const funds = useSelector(selectFundEntities);
 
   const calcCategoryAccordionContainerProps = (
     categoryIds,
-    items,
+    itemEntities,
     income,
     expenses
   ) => {
@@ -91,13 +81,22 @@ const Overview = () => {
     setTotalIncome(totalPay);
 
     // 3. calc total budgetItems amount per category and gather array of items that belong to each category
-    Object.values(items).map((item) => {
+    Object.values(itemEntities).map((item) => {
       orderArr.map((category, i) => {
         if (category.id === item.category) {
           orderArr[i].budgetedItemsTotal += item.budgetAmount;
-          orderArr[i].itemIds.push(item.id);
+          orderArr[i].itemIds.push({
+            id: item.id,
+            budgetAmount: item.budgetAmount,
+            billDate: item.billDate,
+          });
 
-          // 4. calc what percentage of budgetedItems in a category make up the total planned income
+          // 4. Sort itemIds by DESC budget amount
+          orderArr[i].itemIds.sort((a, b) =>
+            a.budgetAmount > b.budgetAmount ? -1 : 1
+          );
+
+          // 5. calc what percentage of budgetedItems in a category make up the total planned income
           orderArr[i].percentOfIncome = +(
             orderArr[i].budgetedItemsTotal / totalPay
           ).toFixed(2);
@@ -105,7 +104,7 @@ const Overview = () => {
       });
     });
 
-    // 5. calc spent amount per category
+    // 6. calc spent amount per category
     Object.values(expenses).map((expense) => {
       orderArr.map((category, i) => {
         if (category.id === expense.category) {
@@ -114,7 +113,7 @@ const Overview = () => {
       });
     });
 
-    // 6. Sort by DESC percentOfIncome by default
+    // 7. Sort categories by DESC percentOfIncome by default
     orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
 
     // 7. Finally, update state
@@ -141,8 +140,13 @@ const Overview = () => {
   });
 
   useEffect(() => {
-    calcCategoryAccordionContainerProps(categoryIds, items, income, expenses);
-  }, [categoryIds, items, income, expenses]);
+    calcCategoryAccordionContainerProps(
+      categoryIds,
+      itemEntities,
+      income,
+      expenses
+    );
+  }, [categoryIds, itemEntities, income, expenses]);
 
   if (!auth.user) {
     return <p>Loading!</p>;
@@ -151,39 +155,59 @@ const Overview = () => {
   const onDragEnd = (result) => {
     const { draggableId, destination, source } = result;
 
-    // if user drops draggable outside of any droppable - return
+    // if user drops draggable outside of any droppable
     if (!destination) return;
-    // The user dropped the item back in the same position - return
+    // The user dropped the item back in the same position
     if (
       destination.droppableId == source.droppableId &&
       destination.index === source.index
     )
       return;
 
-    // const start = dropContainers[source.droppableId];
     const start = source.droppableId;
-    // const startId = start.id;
-    // const end = dropContainers[destination.droppableId]; // undefined, bc apart of old closure
     const end = destination.droppableId;
-    const endId = end.id;
-
     if (start === end) return;
 
-    // Moving from one droppable list to another
-    const startItemsIds = Array.from(start.itemIds);
-    startItemsIds.splice(source.index, 1); // remove the dragged itemId from the new array
-    // store.dispatch(
-    //   updateCategoryStart({ startId, startItemsIds, draggableId })
-    // );
+    // Moving from one droppable to another: category update occuring
+    let categoryOrderClone = [...categoryOrder];
 
-    const endItemsIds = Array.from(end.itemIds);
-    endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
-    // store.dispatch(updateCategoryEnd({ endId, endItemsIds, draggableId }));
-    // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
+    categoryOrder.map((category, i) => {
+      if (category.id !== start || category.id !== end) return;
+      let dragObj;
+
+      if (category.id === start) {
+        // const startItemIndex = category.itemIds.indexOf(draggableId);
+        const startItemIds = [...category.itemIds];
+
+        // has to be defined here .. but then, END doesn't have access to it
+        dragObj = {
+          ...categoryOrderClone[i].itemIds[source.index],
+        };
+        console.log('dragObj in start', dragObj);
+
+        startItemIds.splice(source.index, 1);
+        categoryOrderClone[i].itemIds = [...startItemIds];
+      }
+
+      if (category.id === end) {
+        // const endItemIndex = category.itemIds.indexOf(draggableId);
+        const endItemIds = [...category.itemIds];
+
+        console.log('dragObj in end', dragObj);
+
+        endItemIds.splice(destination.index, 0, dragObj); // has to be added here
+        categoryOrderClone[i].itemIds = [...endItemIds];
+      }
+
+      console.log('global dragObj', dragObj);
+    });
+    console.log('categoryOrderClone', categoryOrderClone);
+    setCategoryOrder(categoryOrderClone);
+
     const uid = auth.user.uid;
     const document = draggableId;
     const newCategory = destination.droppableId;
-    store.dispatch(updateCategoryItemDoc({ uid, document, newCategory })); // persisting
+    // store.dispatch(updateCategoryItemDoc({ uid, document, newCategory }));
   };
 
   return (

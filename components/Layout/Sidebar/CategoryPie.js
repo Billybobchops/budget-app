@@ -69,7 +69,7 @@ const CategoryPie = () => {
       </div>
       {income && (
         <div className={classes.background}>
-          {data.length !== 0 && totalIncome && (
+          {data.length !== 0 && totalIncome !== 0 && (
             <ResponsivePie
               data={data}
               margin={{ top: 50, right: 80, bottom: 80, left: 80 }}

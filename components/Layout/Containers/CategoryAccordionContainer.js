@@ -46,7 +46,7 @@ const CategoryAccordionContainer = ({ categoryOrder, totalIncome }) => {
                 budgetedTotal={category.budgetedItemsTotal}
                 totalIncome={totalIncome}
                 spent={category.spent}
-                itemIds={category.itemIds}
+                items={category.itemIds}
                 tabID={activeTab}
               />
             );
