@@ -184,14 +184,18 @@ const PlannerPage = () => {
       check.itemIds.map((item) => {
         check.totalPlannedBudget += item.budgetAmount;
       });
+
+      check.itemIds.sort((a, b) =>
+        a.budgetAmount > b.budgetAmount ? -1 : 1
+      );
     });
-    console.log('plannerOrderClone in onDragEnd', plannerOrderClone);
+
     setPlannerOrder(plannerOrderClone);
 
     const document = draggableId;
     const uid = auth.user.uid;
     const newLocation = destination.droppableId;
-    // store.dispatch(updateItemPaycheckSelectDoc({ uid, document, newLocation })); // persisting
+    store.dispatch(updateItemPaycheckSelectDoc({ uid, document, newLocation }));
   };
 
   return (

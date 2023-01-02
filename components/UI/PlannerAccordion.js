@@ -1,15 +1,13 @@
 import classes from './PlannerAccordion.module.css';
-import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
   faMinus,
   faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import BudgetItem from '../UI/BudgetItem';
-import { selectItemEntities } from '../../store/items-slice';
 
 const Table = (props) => {
   return (
