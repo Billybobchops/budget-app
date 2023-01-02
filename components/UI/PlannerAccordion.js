@@ -29,9 +29,6 @@ const PlannerAccordion = ({
   itemIds,
 }) => {
   const [isActive, setIsActive] = useState(false);
-  const [itemsOrder, setItemsOrder] = useState([]);
-
-  const itemEntities = useSelector(selectItemEntities);
 
   let budgeted =
     totalPlannedBudget !== undefined ? totalPlannedBudget.toFixed(2) : 0;
@@ -70,24 +67,6 @@ const PlannerAccordion = ({
   ) : (
     <FontAwesomeIcon icon={faPlus} className={classes.toggle} />
   );
-
-  const sortItemIds = useCallback(() => {
-    let orderArr = [];
-
-    itemIds.map((item) => {
-      orderArr.push({
-        title: itemEntities[item].id,
-        budgetedAmount: itemEntities[item].budgetAmount,
-      });
-    });
-
-    orderArr.sort((a, b) => (a.budgetedAmount > b.budgetedAmount ? -1 : 1));
-    setItemsOrder(orderArr);
-  }, [itemEntities, itemIds]);
-
-  useEffect(() => {
-    sortItemIds();
-  }, [sortItemIds]);
 
   return (
     <>
@@ -161,15 +140,15 @@ const PlannerAccordion = ({
                     </div>
                   )}
                   {isActive &&
-                    itemIds !== undefined &&
-                    itemsOrder.map((item, index) => {
+                    itemIds !== [] &&
+                    itemIds.map((item, index) => {
                       return (
                         <BudgetItem
-                          key={itemEntities[item.title].id}
+                          key={item.id}
                           index={index}
-                          title={itemEntities[item.title].id}
-                          date={itemEntities[item.title].billDate}
-                          budgetedAmount={itemEntities[item.title].budgetAmount}
+                          title={item.id}
+                          date={item.billDate}
+                          budgetedAmount={item.budgetAmount}
                         />
                       );
                     })}

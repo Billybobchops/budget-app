@@ -7,9 +7,6 @@ import {
   fetchItems,
   updateItemPaycheckSelectDoc,
   updateItemPaycheckSortIndexDoc,
-  reorderPlannerIds,
-  updatePlannerEnd,
-  updatePlannerStart,
 } from '../store/items-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
@@ -29,6 +26,7 @@ import ProfileBar from '../components/Layout/Sidebar/ProfileBar';
 import { selectFormattedMonthYear } from '../store/date-slice';
 import { selectCategoryEntities } from '../store/category-slice';
 import { selectItemEntities } from '../store/items-slice';
+import { selectPaycheckEntities } from '../store/planner-slice';
 
 const PlannerPage = () => {
   const {
@@ -41,11 +39,77 @@ const PlannerPage = () => {
     onPlannerClick,
   } = useContext(FormContext);
 
+  const [plannerOrder, setPlannerOrder] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
+
   const auth = useRequireAuth();
   const currentDate = useSelector(selectFormattedMonthYear);
   const categories = useSelector(selectCategoryEntities);
-  // const items = useSelector(selectItemEntities);
+  const income = useSelector(selectPaycheckEntities);
+  const items = useSelector(selectItemEntities);
+
   const buttonsArr = [{ text: 'Budget Item', clickHandler: onItemClick }];
+
+  const initPlannerAccordionContainerProps = (income, items) => {
+    let orderArr = [];
+
+    Object.values(income).map((check) => {
+      orderArr.push({
+        id: check.id,
+        nickname: check.nickname,
+        expectedPay: check.expectedPay,
+        totalPlannedBudget: 0,
+        itemIds: [],
+      });
+    });
+
+    orderArr.push({
+      id: 'ItemsDragList',
+      itemIds: [],
+    });
+
+    let totalPay = 0;
+    Object.values(income).map((check) => {
+      totalPay += check.expectedPay;
+    });
+    setTotalIncome(totalPay);
+
+    Object.values(items).map((item) => {
+      orderArr.map((check, i) => {
+        if (item.paycheckSelect === check.id) {
+          orderArr[i].itemIds.push({
+            id: item.id,
+            budgetAmount: item.budgetAmount,
+            billDate: item.billDate,
+          });
+        }
+
+        if (
+          item.paycheckSelect === check.id &&
+          item.paycheckSelect !== 'ItemsDragList'
+        ) {
+          orderArr[i].totalPlannedBudget += item.budgetAmount;
+        }
+
+        if (item.paycheckSelect === null && check.id === 'ItemsDragList') {
+          orderArr[i].itemIds.push({
+            id: item.id,
+            budgetAmount: item.budgetAmount,
+            billDate: item.billDate,
+          });
+        }
+
+        orderArr[i].itemIds.sort((a, b) =>
+          a.budgetAmount > b.budgetAmount ? -1 : 1
+        );
+      });
+    });
+
+    // sort by user defined sort order stored in FB?
+    // orderArr.sort((a, b) => (a.userOrderIndex > b.userOrderIndex ? -1 : 1));
+    console.log('init plannerOrder', orderArr);
+    setPlannerOrder(orderArr);
+  };
 
   useEffect(() => {
     if (auth.user && Object.keys(categories).length === 0) {
@@ -57,6 +121,10 @@ const PlannerPage = () => {
       store.dispatch(fetchFunds(uid));
     }
   });
+
+  useEffect(() => {
+    initPlannerAccordionContainerProps(income, items);
+  }, [income, items]);
 
   if (!auth.user) return <p>Loading!</p>;
 
@@ -72,43 +140,58 @@ const PlannerPage = () => {
     )
       return;
 
-    const start = plannerItems[source.droppableId];
-    const startId = start.id;
-    const end = plannerItems[destination.droppableId];
-    const endId = end.id;
-    const destinationIndex = destination.index;
-    const document = draggableId;
-    const uid = auth.user.uid;
-    const newLocation = destination.droppableId;
-
+    const start = source.droppableId;
+    const end = destination.droppableId;
+    // if (start === end) return;
     if (start === end) {
-      // Re-Order operation to happen here: (droppable is the same)
-      const newItemIds = Array.from(start.itemIds);
-      newItemIds.splice(source.index, 1);
-      newItemIds.splice(destinationIndex, 0, draggableId);
-      // store.dispatch(reorderPlannerIds({ startId, newItemIds })); // no longer need this line!
-      console.log(destinationIndex);
-      // First, update state
-
-      // Second, update firestore
-      // we'll pass in the destination index here to replace the paycheckSortIndex in firestore
-      // store.dispatch(
-      //   updateItemPaycheckSortIndexDoc({ uid, document, destinationIndex })
-      // );
+      console.log('start', start);
       return;
     }
 
-    // Moving from one droppable list to another
-    const startItemsIds = Array.from(start.itemIds);
-    startItemsIds.splice(source.index, 1); // remove the dragged itemId from the new array
-    store.dispatch(updatePlannerStart({ startId, startItemsIds, draggableId }));
+    // Moving from one droppable to another:
+    let plannerOrderClone = [...plannerOrder];
+    let dragObj;
 
-    const endItemsIds = Array.from(end.itemIds);
-    endItemsIds.splice(destination.index, 0, draggableId); // insert the dragged item into the new array
-    store.dispatch(updatePlannerEnd({ endId, endItemsIds, draggableId }));
-    // PERSIST THIS CHANGE ^ let firestore know a re-order has a occurred
+    plannerOrder.map((check, i) => {
+      if (check.id !== start) return;
 
-    store.dispatch(updateItemPaycheckSelectDoc({ uid, document, newLocation })); // persisting
+      if (check.id === start) {
+        const startItemIds = [...check.itemIds];
+
+        dragObj = {
+          ...plannerOrderClone[i].itemIds[source.index],
+        };
+
+        startItemIds.splice(source.index, 1);
+        plannerOrderClone[i].itemIds = [...startItemIds];
+      }
+    });
+
+    plannerOrder.map((check, i) => {
+      if (check.id !== end) return;
+
+      if (check.id === end) {
+        const endItemIds = [...check.itemIds];
+
+        endItemIds.splice(destination.index, 0, dragObj);
+        plannerOrderClone[i].itemIds = [...endItemIds];
+      }
+    });
+
+    plannerOrderClone.map((check) => {
+      check.totalPlannedBudget = 0;
+
+      check.itemIds.map((item) => {
+        check.totalPlannedBudget += item.budgetAmount;
+      });
+    });
+    console.log('plannerOrderClone in onDragEnd', plannerOrderClone);
+    setPlannerOrder(plannerOrderClone);
+
+    const document = draggableId;
+    const uid = auth.user.uid;
+    const newLocation = destination.droppableId;
+    // store.dispatch(updateItemPaycheckSelectDoc({ uid, document, newLocation })); // persisting
   };
 
   return (
@@ -125,10 +208,15 @@ const PlannerPage = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <PlannerBackground>
           <Header title='Monthly Planner' />
-          <PlannerContainer plannerHandler={onPlannerClick} />
+          <PlannerContainer
+            plannerHandler={onPlannerClick}
+            plannerOrder={plannerOrder}
+            totalIncome={totalIncome}
+          />
           <ProfileBar />
           <Sidebar
             hasItemsDragList={true}
+            dragData={plannerOrder}
             hasButtonBar={true}
             buttons={buttonsArr}
           />

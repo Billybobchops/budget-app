@@ -1,11 +1,25 @@
 import classes from './ItemsDragList.module.css';
 import { useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
-import { selectItemEntities, selectItemIds } from '../../../store/items-slice';
+import { selectItemEntities } from '../../../store/items-slice';
 import DragItem from '../../UI/DragItem';
 
-const ItemsDragList = () => {
+const ItemsDragList = ({ dragData }) => {
   const itemEntities = useSelector(selectItemEntities);
+
+  let dragListIds = [];
+
+  dragData.map((check) => {
+    if (check.id === 'ItemsDragList') {
+      check.itemIds.map((item) => {
+        dragListIds.push({
+          id: item.id,
+          billDate: item.billDate,
+          budgetAmount: item.budgetAmount,
+        });
+      });
+    }
+  });
 
   return (
     <Droppable droppableId='ItemsDragList' key='ItemsDragList'>
@@ -25,21 +39,16 @@ const ItemsDragList = () => {
               <div className={dragClass}>
                 <ul className={classes.list}>
                   {Object.values(itemEntities).length !== undefined &&
-                    Object.values(itemEntities).map((item, index) => {
-                      if (
-                        item.paycheckSelect === null ||
-                        item.paycheckSelect === 'ItemsDragList'
-                      ) {
-                        return (
-                          <DragItem
-                            key={item.id}
-                            index={index}
-                            title={item.id}
-                            date={item.billDate}
-                            budgetedAmount={item.budgetAmount}
-                          />
-                        );
-                      }
+                    dragListIds.map((item, index) => {
+                      return (
+                        <DragItem
+                          key={item.id}
+                          index={index}
+                          title={item.id}
+                          date={item.billDate}
+                          budgetedAmount={item.budgetAmount}
+                        />
+                      );
                     })}
                   {provided.placeholder}
                 </ul>

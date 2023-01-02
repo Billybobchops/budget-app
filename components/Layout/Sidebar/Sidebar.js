@@ -12,9 +12,10 @@ const Sidebar = ({
   hasCategoryPie,
   hasBudgetMessage,
   hasUpcomingBills,
-  hasItemsDragList,
   hasButtonBar,
   buttons,
+  hasItemsDragList,
+  dragData,
 }) => {
   const sidebarContents = (
     <>
@@ -35,7 +36,7 @@ const Sidebar = ({
           })}
         </ButtonBar>
       )}
-      {hasItemsDragList && <ItemsDragList />}
+      {hasItemsDragList && <ItemsDragList dragData={dragData} />}
     </>
   );
 

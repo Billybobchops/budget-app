@@ -86,6 +86,7 @@ const Overview = () => {
       orderArr.map((category, i) => {
         if (category.id === item.category) {
           orderArr[i].budgetedItemsTotal += item.budgetAmount;
+					
           orderArr[i].itemIds.push({
             id: item.id,
             budgetAmount: item.budgetAmount,
