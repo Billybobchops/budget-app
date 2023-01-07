@@ -156,6 +156,12 @@ const Overview = () => {
     setCategoryOrder(orderArr);
   };
 
+	const reverseCategoryOrder = () => {
+		const orderClone = [...categoryOrder];
+    const reverseOrder = orderClone.reverse();
+    setCategoryOrder(reverseOrder);
+	};
+
   useEffect(() => {
     if (
       auth.user &&
@@ -269,6 +275,7 @@ const Overview = () => {
           <DragDropContext onDragEnd={onDragEnd}>
             <CategoryAccordionContainer
               categoryOrder={categoryOrder}
+							reverseOrderFn={reverseCategoryOrder}
               totalIncome={totalIncome}
             />
           </DragDropContext>

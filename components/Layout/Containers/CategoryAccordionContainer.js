@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { selectCategoryIds } from '../../../store/category-slice';
 
-const CategoryAccordionContainer = ({ categoryOrder, totalIncome }) => {
+const CategoryAccordionContainer = ({ categoryOrder, reverseOrderFn, totalIncome }) => {
   const [activeTab, setActiveTab] = useState(null);
 
   const categories = useSelector(selectCategoryIds);
@@ -16,11 +16,11 @@ const CategoryAccordionContainer = ({ categoryOrder, totalIncome }) => {
     setActiveTab(newTab);
   };
 
-  const toggleSort = () => {
-    const orderClone = [...categoryOrder];
-    const reverseOrder = orderClone.reverse();
-    setCategoryOrder(reverseOrder);
-  };
+  // const toggleSort = () => {
+  //   const orderClone = [...categoryOrder];
+  //   const reverseOrder = orderClone.reverse();
+  //   setCategoryOrder(reverseOrder);
+  // };
 
   return (
     <div className={classes.budgetContainer}>
@@ -30,7 +30,7 @@ const CategoryAccordionContainer = ({ categoryOrder, totalIncome }) => {
           <HighLowToggle
             toggleOptions={['High to Low', 'Low to High']}
             toggleTitle={'Percentage of Planned Net Income:'}
-            toggleSortFn={toggleSort}
+            toggleSortFn={reverseOrderFn}
           />
         </div>
       </div>

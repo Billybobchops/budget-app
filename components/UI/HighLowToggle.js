@@ -5,29 +5,31 @@ const DividerPipe = () => {
   return <span className={classes.slash}>|</span>;
 };
 
-const ToggleButton = (props) => {
+const ToggleButton = ({ option, options, toggle, onClick }) => {
   let toggleClass = `${classes.toggleClass} ${
-    props.option === props.toggle && classes.toggleActive
+    option === toggle && classes.toggleActive
   }`;
 
   return (
     <>
-      <button className={toggleClass} onClick={props.onClick}>
-        {props.option}
+      <button className={toggleClass} onClick={onClick}>
+        {option}
       </button>
-      {!(props.options.indexOf(props.option) % 2) && <DividerPipe />}
+      {!(options.indexOf(option) % 2) && <DividerPipe />}
     </>
   );
 };
 
 const HighLowToggle = ({ toggleOptions, toggleTitle, toggleSortFn }) => {
-  const [toggle, setToggle] = useState(toggleOptions[0]); 
+  const [toggle, setToggle] = useState(toggleOptions[0]);
 
   return (
     <>
       <p>{toggleTitle}</p>
       <div className={classes.toggleWrap}>
         {toggleOptions.map((option) => {
+          console.log('option', option);
+
           return (
             <ToggleButton
               key={option}
@@ -37,7 +39,10 @@ const HighLowToggle = ({ toggleOptions, toggleTitle, toggleSortFn }) => {
               activeToggle={option === toggle}
               onClick={() => {
                 setToggle(option);
-								toggleSortFn();
+								// make sure the option being clicked is not already the active sorting method
+                if (option !== toggle) {
+                  toggleSortFn();
+                }
               }}
             />
           );
