@@ -3,14 +3,11 @@ import { useRequireAuth } from '../hooks/useRequireAuth';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 import store from '../store';
-import {
-  fetchItems,
-  updateItemPaycheckSelectDoc,
-  updateItemPaycheckSortIndexDoc,
-} from '../store/items-slice';
+import { fetchItems, updateItemPaycheckSelectDoc } from '../store/items-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchPaychecks } from '../store/planner-slice';
+import { fetchPaycheckOrder } from '../store/paycheckOrder-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import PlannerBackground from '../components/Layout/PlannerBackground';
@@ -27,6 +24,7 @@ import { selectFormattedMonthYear } from '../store/date-slice';
 import { selectCategoryEntities } from '../store/category-slice';
 import { selectItemEntities } from '../store/items-slice';
 import { selectPaycheckEntities } from '../store/planner-slice';
+import { selectPaycheckOrder } from '../store/paycheckOrder-slice';
 
 const PlannerPage = () => {
   const {
@@ -47,10 +45,10 @@ const PlannerPage = () => {
   const categories = useSelector(selectCategoryEntities);
   const income = useSelector(selectPaycheckEntities);
   const items = useSelector(selectItemEntities);
-
+  const paycheckOrder = useSelector(selectPaycheckOrder);
   const buttonsArr = [{ text: 'Budget Item', clickHandler: onItemClick }];
 
-  const initPlannerAccordionContainerProps = (income, items) => {
+  const initPlannerAccordionContainerProps = (income, items, paycheckOrder) => {
     let orderArr = [];
 
     Object.values(income).map((check) => {
@@ -60,6 +58,15 @@ const PlannerPage = () => {
         expectedPay: check.expectedPay,
         totalPlannedBudget: 0,
         itemIds: [],
+        userSortOrder: null,
+      });
+    });
+
+    orderArr.map((check) => {
+      paycheckOrder.map((order) => {
+        if (check.id === order) {
+          check.userSortOrder = paycheckOrder.indexOf(order);
+        }
       });
     });
 
@@ -106,8 +113,8 @@ const PlannerPage = () => {
     });
 
     // sort by user defined sort order stored in FB?
-    // orderArr.sort((a, b) => (a.userOrderIndex > b.userOrderIndex ? -1 : 1));
-    console.log('init plannerOrder', orderArr);
+    orderArr.sort((a, b) => (a.userSortOrder > b.userSortOrder ? 1 : -1));
+
     setPlannerOrder(orderArr);
   };
 
@@ -117,16 +124,19 @@ const PlannerPage = () => {
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
+      store.dispatch(fetchPaycheckOrder(uid));
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
   });
 
   useEffect(() => {
-    initPlannerAccordionContainerProps(income, items);
-  }, [income, items]);
+    initPlannerAccordionContainerProps(income, items, paycheckOrder);
+  }, [income, items, paycheckOrder]);
 
   if (!auth.user) return <p>Loading!</p>;
+
+  console.log('plannerOrder', plannerOrder);
 
   const onDragEnd = (result) => {
     const { draggableId, destination, source } = result;
@@ -185,9 +195,7 @@ const PlannerPage = () => {
         check.totalPlannedBudget += item.budgetAmount;
       });
 
-      check.itemIds.sort((a, b) =>
-        a.budgetAmount > b.budgetAmount ? -1 : 1
-      );
+      check.itemIds.sort((a, b) => (a.budgetAmount > b.budgetAmount ? -1 : 1));
     });
 
     setPlannerOrder(plannerOrderClone);

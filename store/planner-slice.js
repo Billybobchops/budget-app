@@ -35,25 +35,7 @@ export const addNewIncome = createAsyncThunk(
 const plannerSlice = createSlice({
   name: 'planner',
   initialState,
-  reducers: {
-    reorderPlannerIds: (state, action) => {
-      const { startId, newItemIds } = action.payload;
-      state.totalBudgetedPlanner[startId].itemIds = newItemIds;
-    },
-    updatePlannerStart: (state, action) => {
-      const { startId, startItemsIds, draggableId } = action.payload;
-      state.totalBudgetedPlanner[startId].itemIds = startItemsIds;
-      state.totalBudgetedPlanner[startId].budgeted -=
-        state.items.entities[draggableId].budgetAmount;
-    },
-    updatePlannerEnd: (state, action) => {
-      const { endId, endItemsIds, draggableId } = action.payload;
-      state.totalBudgetedPlanner[endId].itemIds = endItemsIds;
-      state.items.entities[draggableId].paycheckSelect = endId;
-      state.totalBudgetedPlanner[endId].budgeted +=
-        state.items.entities[draggableId].budgetAmount;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPaychecks.pending, (state) => {
@@ -78,8 +60,7 @@ const plannerSlice = createSlice({
   },
 });
 
-export const { reorderPlannerIds, updatePlannerStart, updatePlannerEnd } =
-  plannerSlice.actions;
+// export const { reorderPlannerIds, updatePlannerStart, updatePlannerEnd } = plannerSlice.actions; // these were basic reducers exported as actions
 
 export const selectPaycheckEntities = (state) => state.planner.entities;
 

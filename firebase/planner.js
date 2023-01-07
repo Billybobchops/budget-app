@@ -43,3 +43,18 @@ export const getPlannedIncome = async (uid) => {
     return paychecks;
   }
 };
+
+export const getPaycheckOrder = async (uid) => {
+  const userPaycheckOrderRef = doc(db, `paycheckOrder/${uid}`);
+	const docSnapshot = await getDoc(userPaycheckOrderRef);
+	let paycheckOrder;
+
+	if (docSnapshot.exists()) {
+		const docData = docSnapshot.data();
+		
+		paycheckOrder = docData.order;
+	}
+
+	return paycheckOrder;
+};
+

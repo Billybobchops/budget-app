@@ -21,8 +21,6 @@ export const addCategory = async (uid, formData) => {
   }
 };
 
-
-
 /**
  * fetches a user's categories
  * @param {string} uid - to get user's collection
@@ -44,4 +42,3 @@ export const getAllCategories = async (uid) => {
 
   return categories;
 };
-

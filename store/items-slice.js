@@ -7,7 +7,6 @@ import {
   addItem,
   getAllItems,
   updateItemPaycheckSelect,
-  updateItemPaycheckSortIndex,
   updateCategoryItem,
 } from '../firebase/items';
 
@@ -38,14 +37,6 @@ export const updateItemPaycheckSelectDoc = createAsyncThunk(
   'items/updateItemPaycheckSelectDoc',
   async ({ uid, document, newLocation }) => {
     const response = await updateItemPaycheckSelect(uid, document, newLocation);
-    return response;
-  }
-);
-
-export const updateItemPaycheckSortIndexDoc = createAsyncThunk(
-  'items/updateItemPaycheckSortIndexDoc',
-  async ({ uid, document, newIndex }) => {
-    const response = await updateItemPaycheckSortIndex(uid, document, newIndex);
     return response;
   }
 );
@@ -94,8 +85,6 @@ const itemPlannerSlice = createSlice({
       });
   },
 });
-
-// export const { reorderPlannerIds } = itemPlannerSlice.actions;
 
 export const selectItemIds = (state) => state.items.ids;
 
