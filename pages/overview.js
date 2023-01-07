@@ -6,6 +6,7 @@ import store from '../store';
 import { updateCategoryItemDoc } from '../store/items-slice';
 import { fetchItems } from '../store/items-slice';
 import { fetchPaychecks } from '../store/planner-slice';
+import { fetchPaycheckOrder } from '../store/paycheckOrder-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
@@ -28,6 +29,7 @@ import { selectCategoryIds } from '../store/category-slice';
 import { selectExpenseEntities } from '../store/expenses-slice';
 import { selectItemEntities } from '../store/items-slice';
 import { selectPaycheckEntities } from '../store/planner-slice';
+import { selectPaycheckOrder } from '../store/paycheckOrder-slice';
 import { selectFundEntities } from '../store/fund-slice';
 
 const Overview = () => {
@@ -50,6 +52,7 @@ const Overview = () => {
   const expenses = useSelector(selectExpenseEntities);
   const itemEntities = useSelector(selectItemEntities);
   const income = useSelector(selectPaycheckEntities);
+	const paycheckOrder = useSelector(selectPaycheckOrder);
   // const funds = useSelector(selectFundEntities);
 
   const initCategoryAccordionContainerProps = (
@@ -176,6 +179,7 @@ const Overview = () => {
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
+			store.dispatch(fetchPaycheckOrder(uid));
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
