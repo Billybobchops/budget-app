@@ -28,8 +28,6 @@ const HighLowToggle = ({ toggleOptions, toggleTitle, toggleSortFn }) => {
       <p>{toggleTitle}</p>
       <div className={classes.toggleWrap}>
         {toggleOptions.map((option) => {
-          console.log('option', option);
-
           return (
             <ToggleButton
               key={option}

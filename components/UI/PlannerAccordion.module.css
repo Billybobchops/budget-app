@@ -3,7 +3,7 @@
   border-top: 4px solid #2d8058;
   box-shadow: #0000004f 0px 3px 5px;
   padding: 12px 0;
-  margin-bottom: 14px;
+  /* margin-bottom: 14px; */
   font-family: 'Cairo', sans-serif;
   color: #04311c;
 }
@@ -18,9 +18,35 @@
   transition: 400ms ease;
 }
 
+.orderButton {
+  display: grid;
+  place-content: center;
+  background-color: #2d8058;
+  box-shadow: #0000004f 0px 3px 5px;
+  width: 25px;
+  aspect-ratio: 1;
+}
+
+.orderButton:hover,
+.orderButton:focus {
+	background-color: #04311c;
+	box-shadow: none;
+}
+
 .list {
   padding: 0;
   list-style-type: none;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+}
+
+.orderWrapper {
+  display: grid;
+  align-content: space-around;
 }
 
 .activeBalanceChip div,
@@ -57,6 +83,11 @@
 
 .toggle {
   font-size: 14px;
+}
+
+.sortArrow {
+  font-size: 12px;
+  color: #fff;
 }
 
 .head1 {
@@ -233,14 +264,14 @@
   }
 
   .title,
-	.toggle {
+  .toggle {
     font-size: 13px;
   }
 
-	.title {
-		/* not elegant but wasting time trying to figure out weird alignment issue */
-		margin-top: 3px;
-	}
+  .title {
+    /* not elegant but wasting time trying to figure out weird alignment issue */
+    margin-top: 3px;
+  }
 
   .flex {
     line-height: 1.3;

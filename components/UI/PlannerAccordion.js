@@ -4,6 +4,8 @@ import {
   faPlus,
   faMinus,
   faEllipsisH,
+  faArrowUp,
+  faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
@@ -75,42 +77,58 @@ const PlannerAccordion = ({
               className={`${snapshot.isDraggingOver && classes.backgroundDrag}`}
             >
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div onClick={activeHandler}>
-                  <Table>
-                    <tr>
-                      <td className={classes.head1}>{toggle}</td>
-                      <td className={classes.head2}>
-                        <div className={classes.title}>
-                          {title} -
-                          <span className={classes.percentage}>
-                            {' '}
-                            {nickname}
-                          </span>
-                        </div>
-                      </td>
-                      <td className={classes.head3}>
-                        <div className={classes.flex}>
-                          <div className={classes.spent}>
-                            <span className={classes.bold}>Expected</span> $
-                            {expectedPay}
+                <div className={classes.wrapper}>
+                  <div className={classes.orderWrapper}>
+                    <div className={classes.orderButton}>
+                      <FontAwesomeIcon
+                        className={classes.sortArrow}
+                        icon={faArrowUp}
+                      />
+                    </div>
+                    <div className={classes.orderButton}>
+                      <FontAwesomeIcon
+                        className={classes.sortArrow}
+                        icon={faArrowDown}
+                      />
+                    </div>
+                  </div>
+                  <div onClick={activeHandler}>
+                    <Table>
+                      <tr>
+                        <td className={classes.head1}>{toggle}</td>
+                        <td className={classes.head2}>
+                          <div className={classes.title}>
+                            {title} -
+                            <span className={classes.percentage}>
+                              {' '}
+                              {nickname}
+                            </span>
                           </div>
-                          <div className={classes.slash}>/</div>
-                          <div className={classes.budgeted}>
-                            <span className={classes.bold}>Budgeted</span> $
-                            {budgeted}
+                        </td>
+                        <td className={classes.head3}>
+                          <div className={classes.flex}>
+                            <div className={classes.spent}>
+                              <span className={classes.bold}>Expected</span> $
+                              {expectedPay}
+                            </div>
+                            <div className={classes.slash}>/</div>
+                            <div className={classes.budgeted}>
+                              <span className={classes.bold}>Budgeted</span> $
+                              {budgeted}
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className={classes.head4}>
-                        <div className={classes[balanceClass]}>
-                          {balanceString}
-                        </div>
-                      </td>
-                      <td className={classes.head5}>
-                        <FontAwesomeIcon icon={faEllipsisH} />
-                      </td>
-                    </tr>
-                  </Table>
+                        </td>
+                        <td className={classes.head4}>
+                          <div className={classes[balanceClass]}>
+                            {balanceString}
+                          </div>
+                        </td>
+                        <td className={classes.head5}>
+                          <FontAwesomeIcon icon={faEllipsisH} />
+                        </td>
+                      </tr>
+                    </Table>
+                  </div>
                 </div>
 
                 <ul className={classes.list}>
