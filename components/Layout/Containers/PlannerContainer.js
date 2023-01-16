@@ -4,7 +4,12 @@ import Button from '../../UI/Buttons/Button';
 import { useSelector } from 'react-redux';
 import { selectPaycheckEntities } from '../../../store/planner-slice';
 
-const PlannerContainer = ({ plannerHandler, plannerOrder, totalIncome }) => {
+const PlannerContainer = ({
+  plannerHandler,
+  plannerOrder,
+  totalIncome,
+  userSortPaycheckOrderFn,
+}) => {
   const income = useSelector(selectPaycheckEntities);
 
   return (
@@ -26,7 +31,7 @@ const PlannerContainer = ({ plannerHandler, plannerOrder, totalIncome }) => {
         {Object.values(income).length !== 0 &&
           plannerOrder.map((check) => {
             if (check.id === 'ItemsDragList') return;
-						
+
             return (
               <PlannerAccordion
                 key={check.id}
@@ -35,6 +40,7 @@ const PlannerContainer = ({ plannerHandler, plannerOrder, totalIncome }) => {
                 expectedPay={check.expectedPay}
                 totalPlannedBudget={check.totalPlannedBudget}
                 itemIds={check.itemIds}
+                userSortPaycheckOrderFn={userSortPaycheckOrderFn}
               />
             );
           })}

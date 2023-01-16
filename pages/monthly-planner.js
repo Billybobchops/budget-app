@@ -25,6 +25,8 @@ import { selectCategoryEntities } from '../store/category-slice';
 import { selectItemEntities } from '../store/items-slice';
 import { selectPaycheckEntities } from '../store/planner-slice';
 import { selectPaycheckOrder } from '../store/paycheckOrder-slice';
+import { userReorderPaychecks } from '../store/paycheckOrder-slice';
+import { updatePaycheckOrder } from '../store/paycheckOrder-slice';
 
 const PlannerPage = () => {
   const {
@@ -118,6 +120,29 @@ const PlannerPage = () => {
     setPlannerOrder(orderArr);
   };
 
+  const userSortPaycheckOrder = (id, forward) => {
+    const uid = auth.user.uid;
+    const orderClone = [...paycheckOrder];
+
+    const fromIndex = orderClone.indexOf(id);
+    let toIndex;
+
+    if (!forward) {
+      toIndex = fromIndex === 0 ? orderClone.length : fromIndex - 1;
+    }
+
+    if (forward) {
+      toIndex = fromIndex === orderClone.length - 1 ? 0 : fromIndex + 1;
+    }
+
+    const movingElement = orderClone.splice(fromIndex, 1)[0];
+    orderClone.splice(toIndex, 0, movingElement);
+
+    const data = { uid, orderClone };
+    store.dispatch(userReorderPaychecks(orderClone));
+    store.dispatch(updatePaycheckOrder(data));
+  };
+
   useEffect(() => {
     if (auth.user && Object.keys(categories).length === 0) {
       const uid = auth.user.uid;
@@ -135,8 +160,6 @@ const PlannerPage = () => {
   }, [income, items, paycheckOrder]);
 
   if (!auth.user) return <p>Loading!</p>;
-
-  console.log('plannerOrder', plannerOrder);
 
   const onDragEnd = (result) => {
     const { draggableId, destination, source } = result;
@@ -224,6 +247,7 @@ const PlannerPage = () => {
             plannerHandler={onPlannerClick}
             plannerOrder={plannerOrder}
             totalIncome={totalIncome}
+            userSortPaycheckOrderFn={userSortPaycheckOrder}
           />
           <ProfileBar />
           <Sidebar

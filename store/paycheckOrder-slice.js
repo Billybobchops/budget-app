@@ -1,14 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getPaycheckOrder } from '../firebase/planner';
+import { getPaycheckOrder, updatePaycheckOrderDoc } from '../firebase/planner';
 
 const initialState = {
   status: 'idle',
 };
 
 export const fetchPaycheckOrder = createAsyncThunk(
-  'plannerOrder/fetchPaycheckOrder',
+  'paycheckOrder/fetchPaycheckOrder',
   async (uid) => {
     const response = await getPaycheckOrder(uid);
+    return response;
+  }
+);
+
+export const updatePaycheckOrder = createAsyncThunk(
+  'paycheckOrder/updatePaycheckOrder',
+  async ({ uid, orderClone }) => {
+    const response = await updatePaycheckOrderDoc(uid, orderClone);
     return response;
   }
 );
@@ -16,20 +24,25 @@ export const fetchPaycheckOrder = createAsyncThunk(
 const paycheckOrderSlice = createSlice({
   name: 'plannerOrder',
   initialState,
-  reducers: {},
+  reducers: {
+    userReorderPaychecks: (state, action) => {
+      state.order = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPaycheckOrder.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(fetchPaycheckOrder.fulfilled, (state, action) => {
-				state.status = 'idle';
-				state.order = action.payload;
-			});
+        state.status = 'idle';
+        state.order = action.payload;
+      });
   },
 });
+
+export const { userReorderPaychecks } = paycheckOrderSlice.actions;
 
 export const selectPaycheckOrder = (state) => state.paycheckOrder.order;
 
 export default paycheckOrderSlice.reducer;
-

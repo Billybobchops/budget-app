@@ -1,5 +1,12 @@
 import { db } from './firebaseClient';
-import { doc, setDoc, Timestamp, getDoc } from 'firebase/firestore';
+import {
+  doc,
+  setDoc,
+  Timestamp,
+  getDoc,
+  updateDoc,
+  addDoc,
+} from 'firebase/firestore';
 
 /**
  *
@@ -46,15 +53,19 @@ export const getPlannedIncome = async (uid) => {
 
 export const getPaycheckOrder = async (uid) => {
   const userPaycheckOrderRef = doc(db, `paycheckOrder/${uid}`);
-	const docSnapshot = await getDoc(userPaycheckOrderRef);
-	let paycheckOrder;
+  const docSnapshot = await getDoc(userPaycheckOrderRef);
+  let paycheckOrder;
 
-	if (docSnapshot.exists()) {
-		const docData = docSnapshot.data();
-		
-		paycheckOrder = docData.order;
-	}
+  if (docSnapshot.exists()) {
+    const docData = docSnapshot.data();
 
-	return paycheckOrder;
+    paycheckOrder = docData.order;
+  }
+
+  return paycheckOrder;
 };
 
+export const updatePaycheckOrderDoc = async (uid, document) => {
+  const docRef = doc(db, `paycheckOrder/${uid}`);
+  await updateDoc(docRef, { order: document });
+};

@@ -27,6 +27,7 @@ const PlannerAccordion = ({
   expectedPay,
   totalPlannedBudget,
   itemIds,
+	userSortPaycheckOrderFn,
 }) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -79,13 +80,23 @@ const PlannerAccordion = ({
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div className={classes.wrapper}>
                   <div className={classes.orderWrapper}>
-                    <div className={classes.orderButton}>
+                    <div
+                      className={classes.orderButton}
+                      onClick={() => {
+                        userSortPaycheckOrderFn(title, false);
+                      }}
+                    >
                       <FontAwesomeIcon
                         className={classes.sortArrow}
                         icon={faArrowUp}
                       />
                     </div>
-                    <div className={classes.orderButton}>
+                    <div
+                      className={classes.orderButton}
+                      onClick={() => {
+                        userSortPaycheckOrderFn(title, true);
+                      }}
+                    >
                       <FontAwesomeIcon
                         className={classes.sortArrow}
                         icon={faArrowDown}
