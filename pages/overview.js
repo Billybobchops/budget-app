@@ -52,7 +52,7 @@ const Overview = () => {
   const expenses = useSelector(selectExpenseEntities);
   const itemEntities = useSelector(selectItemEntities);
   const income = useSelector(selectPaycheckEntities);
-	const paycheckOrder = useSelector(selectPaycheckOrder);
+  const paycheckOrder = useSelector(selectPaycheckOrder);
   // const funds = useSelector(selectFundEntities);
 
   const initCategoryAccordionContainerProps = (
@@ -89,7 +89,7 @@ const Overview = () => {
       orderArr.map((category, i) => {
         if (category.id === item.category) {
           orderArr[i].budgetedItemsTotal += item.budgetAmount;
-					
+
           orderArr[i].itemIds.push({
             id: item.id,
             budgetAmount: item.budgetAmount,
@@ -102,6 +102,8 @@ const Overview = () => {
           );
 
           // 5. calc what percentage of budgetedItems in a category make up the total planned income
+          console.log(orderArr[i].id);
+          console.log(orderArr[i].budgetedItemsTotal / totalPay);
           orderArr[i].percentOfIncome = +(
             orderArr[i].budgetedItemsTotal / totalPay
           ).toFixed(2);
@@ -120,7 +122,7 @@ const Overview = () => {
 
     // 7. Sort categories by DESC percentOfIncome by default
     orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
-  
+
     // 8. Finally, update state
     setCategoryOrder(orderArr);
   };
@@ -159,11 +161,11 @@ const Overview = () => {
     setCategoryOrder(orderArr);
   };
 
-	const reverseCategoryOrder = () => {
-		const orderClone = [...categoryOrder];
+  const reverseCategoryOrder = () => {
+    const orderClone = [...categoryOrder];
     const reverseOrder = orderClone.reverse();
     setCategoryOrder(reverseOrder);
-	};
+  };
 
   useEffect(() => {
     if (
@@ -179,7 +181,7 @@ const Overview = () => {
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
-			store.dispatch(fetchPaycheckOrder(uid));
+      store.dispatch(fetchPaycheckOrder(uid));
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
@@ -245,7 +247,7 @@ const Overview = () => {
       }
     });
 
-		// updates the itemIds array within the objects within the categoryOrder array in local state to reflect the dragged item event
+    // updates the itemIds array within the objects within the categoryOrder array in local state to reflect the dragged item event
     setCategoryOrder(categoryOrderClone);
 
     // updates the other keys inside the objects inside the categoryOrder array in local state
@@ -279,7 +281,7 @@ const Overview = () => {
           <DragDropContext onDragEnd={onDragEnd}>
             <CategoryAccordionContainer
               categoryOrder={categoryOrder}
-							reverseOrderFn={reverseCategoryOrder}
+              reverseOrderFn={reverseCategoryOrder}
               totalIncome={totalIncome}
             />
           </DragDropContext>

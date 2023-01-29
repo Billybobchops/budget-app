@@ -37,13 +37,14 @@ const CategoryAccordion = ({
     totalIncome = totalIncome * 12;
   }
 
-  const percentDisplay = totalIncome ? (
-    <span className={classes.percentage}>
-      {(percent * 100).toFixed(2)}% of Income
-    </span>
-  ) : (
-    ''
-  );
+  const percentDisplay =
+    percent * 100 <= 1 ? (
+      <span className={classes.percentage}>{'< 1%'}</span>
+    ) : (
+      <span className={classes.percentage}>
+        {(percent * 100).toFixed(2)}% of Income
+      </span>
+    );
 
   let balanceClass = null;
   let balanceString = null;
@@ -100,7 +101,8 @@ const CategoryAccordion = ({
                     <td className={classes.head2}>
                       <div className={classes.title}>
                         {categoryTitle}
-                        {percentDisplay}
+                        {totalIncome && percentDisplay}
+                        {!totalIncome && ''}
                       </div>
                     </td>
                     <td className={classes.head3}>

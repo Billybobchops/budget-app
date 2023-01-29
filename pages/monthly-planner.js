@@ -157,8 +157,8 @@ const PlannerPage = () => {
 
   useEffect(() => {
     initPlannerAccordionContainerProps(income, items, paycheckOrder);
-	// removed income from the deps to avoid unecessary render	
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // removed income from the deps to avoid unecessary render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, paycheckOrder]);
 
   if (!auth.user) return <p>Loading!</p>;
