@@ -1,7 +1,7 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import store from '../../store';
-import { addNewIncome } from '../../store/items-slice';
+import { addNewIncome } from '../../store/planner-slice';
 import useForm from '../../hooks/useForm';
 import classes from '../Forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
@@ -9,8 +9,9 @@ import FormContext from '../../store/form-context';
 import SubmitButton from './FormUI/SubmitButton';
 import { plannerConfig } from './formUtils/plannerConfig';
 import { generateMonthYear } from '../../utils/helpers';
+import { updatePaycheckOrder } from '../../store/paycheckOrder-slice';
 
-const PlannerForm = (props) => {
+const PlannerForm = ({ paycheckOrder }) => {
   const { renderFormInputs, isFormValid, form } = useForm(plannerConfig);
   const {
     user: { uid },
@@ -20,6 +21,9 @@ const PlannerForm = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    const orderClone = [...paycheckOrder, form.title.value.trim()];
+
     const formData = {
       id: form.title.value.trim(),
       nickname: form.nickname.value.trim(),
@@ -27,7 +31,9 @@ const PlannerForm = (props) => {
       createdOn: new Date().toLocaleDateString(),
       createdOnMonthYear: generateMonthYear(),
     };
+
     store.dispatch(addNewIncome({ uid, formData }));
+    store.dispatch(updatePaycheckOrder({ uid, orderClone }));
     onkeydown();
   };
 

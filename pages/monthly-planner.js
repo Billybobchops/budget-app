@@ -157,7 +157,9 @@ const PlannerPage = () => {
 
   useEffect(() => {
     initPlannerAccordionContainerProps(income, items, paycheckOrder);
-  }, [income, items, paycheckOrder]);
+	// removed income from the deps to avoid unecessary render	
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, paycheckOrder]);
 
   if (!auth.user) return <p>Loading!</p>;
 
@@ -228,14 +230,14 @@ const PlannerPage = () => {
     const newLocation = destination.droppableId;
     store.dispatch(updateItemPaycheckSelectDoc({ uid, document, newLocation }));
   };
-
+  console.log(plannerOrder);
   return (
     <>
       <Portal selector='#portal'>
         {modal && (
           <DarkOverlay onKeyDown={onkeydown}>
             {itemForm && <ItemForm />}
-            {plannerForm && <PlannerForm />}
+            {plannerForm && <PlannerForm paycheckOrder={paycheckOrder} />}
             {categoryForm && <CategoryForm />}
           </DarkOverlay>
         )}

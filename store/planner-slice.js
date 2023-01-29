@@ -54,8 +54,12 @@ const plannerSlice = createSlice({
           state.status = 'idle';
         }
       })
+			.addCase(addNewIncome.pending, (state) => {
+        state.status = 'loading';
+      })
       .addCase(addNewIncome.fulfilled, (state, action) => {
-        paycheckAdapter.addOne(state, action.payload);
+				paycheckAdapter.addOne(state, action.payload);
+				state.status = 'idle';
       });
   },
 });

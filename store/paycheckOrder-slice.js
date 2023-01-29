@@ -17,7 +17,7 @@ export const updatePaycheckOrder = createAsyncThunk(
   'paycheckOrder/updatePaycheckOrder',
   async ({ uid, orderClone }) => {
     const response = await updatePaycheckOrderDoc(uid, orderClone);
-    return response;
+		return orderClone;
   }
 );
 
@@ -37,6 +37,14 @@ const paycheckOrderSlice = createSlice({
       .addCase(fetchPaycheckOrder.fulfilled, (state, action) => {
         state.status = 'idle';
         state.order = action.payload;
+      })
+      .addCase(updatePaycheckOrder.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updatePaycheckOrder.fulfilled, (state, action) => {
+        console.log('action.payload', action.payload);
+        state.order = action.payload;
+        state.status = 'idle';
       });
   },
 });
