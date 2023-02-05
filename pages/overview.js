@@ -102,8 +102,6 @@ const Overview = () => {
           );
 
           // 5. calc what percentage of budgetedItems in a category make up the total planned income
-          console.log(orderArr[i].id);
-          console.log(orderArr[i].budgetedItemsTotal / totalPay);
           orderArr[i].percentOfIncome = +(
             orderArr[i].budgetedItemsTotal / totalPay
           ).toFixed(2);

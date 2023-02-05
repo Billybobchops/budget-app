@@ -12,7 +12,8 @@ const UpcomingBills = () => {
 
   const isWithinRange = (billDate, range) => {
     const billDay = billDate.slice(-2);
-    if (+billDay >= today && +billDay <= today + 7) return true;
+
+    if (+billDay >= today && +billDay <= today + range) return true;
     return false;
   };
 
@@ -25,11 +26,9 @@ const UpcomingBills = () => {
         {Object.values(items).length !== 0 &&
           Object.values(items).map((item) => {
             const billDay = item.billDate.slice(-2);
-            const displayDate = +billDay === today ? 'Today' : item.billDate;
-            if (
-              item.createdOnMonthYear === currentMonthYear &&
-              isWithinRange(item.billDate, 7)
-            )
+            const displayDate = +billDay === today ? 'Today' : billDay;
+
+            if (isWithinRange(item.billDate, 7))
               return (
                 <UpcomingBill
                   key={item.id}
