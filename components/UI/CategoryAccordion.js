@@ -162,6 +162,7 @@ const CategoryAccordion = ({
                         date={item.billDate}
                         budgetedAmount={item.budgetAmount}
                         tabID={tabID}
+												accordionType={'category'}
                       />
                     );
                   })}

@@ -4,7 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
 
-const BudgetItem = ({ title, index, budgetedAmount, date, tabID }) => {
+const BudgetItem = ({
+  title,
+  index,
+  budgetedAmount,
+  date,
+  tabID,
+  accordionType,
+}) => {
   // className={`${[classes.container, classes[`${snapshot.isDragging && "backgroundDrag"}`],].join(" ")}`}
   const daySlice = date.slice(-2);
   const today = new Date().getDate();
@@ -27,7 +34,7 @@ const BudgetItem = ({ title, index, budgetedAmount, date, tabID }) => {
       if (title === expense.title) spent += expense.amount;
       // console.log('func running'); // 20 freaking times for 5 items! Must fix.
       // runs for each item for EVERY SINGLE EXPENSE that's in state....
-			// ADD THIS TO useEffect ya dingus!
+      // ADD THIS TO useEffect ya dingus!
     });
   }
 
@@ -43,7 +50,7 @@ const BudgetItem = ({ title, index, budgetedAmount, date, tabID }) => {
     balanceClass = 'under';
     balanceString = '🎉 Under';
   }
-	if (tabID === 'Annual') budgetedAmount = budgetedAmount * 12;
+  if (tabID === 'Annual') budgetedAmount = budgetedAmount * 12;
 
   return (
     <>
@@ -52,6 +59,7 @@ const BudgetItem = ({ title, index, budgetedAmount, date, tabID }) => {
           const style = `${[
             classes.container,
             classes[`${snapshot.isDragging && 'backgroundDrag'}`],
+						classes[`${accordionType === 'planner' && 'plannerMargin'}`]
           ].join(' ')}`;
 
           return (

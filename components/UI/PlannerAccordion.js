@@ -176,6 +176,7 @@ const PlannerAccordion = ({
                           title={item.id}
                           date={item.billDate}
                           budgetedAmount={item.budgetAmount}
+													accordionType={'planner'}
                         />
                       );
                     })}
