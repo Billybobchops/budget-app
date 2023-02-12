@@ -55,8 +55,12 @@ const CategoryPie = () => {
       value: (100 - categorized * 100) / 100,
     });
 
+		tempArr.sort((a, b) => (a.value > b.value ? -1 : 1));
+
     setData(tempArr);
   };
+
+	console.log('data', data);
 
   useEffect(() => {
     getPercent(categories, income, items);
@@ -72,19 +76,16 @@ const CategoryPie = () => {
           {data.length !== 0 && totalIncome !== 0 && (
             <ResponsivePie
               data={data}
-              margin={{ top: 50, right: 80, bottom: 80, left: 80 }}
+              height={300}
+              width={300}
+              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
               innerRadius={0.5}
               padAngle={2}
               cornerRadius={3}
-              activeOuterRadiusOffset={8}
-              // colors={{ scheme: 'nivo' }}
-              colors={['lightblue', '#75EEB5', '#2DEB92', '#23B872']}
+              activeOuterRadiusOffset={6}
+              // colors={{ scheme: 'blue_green' }}
               // colors={['#75EEB5', '#2DEB92', '#23B872', '#0f4e31']}
-              // borderWidth={0}
-              // borderColor={{
-              //   from: 'color',
-              //   modifiers: [['darker', 0.2]],
-              // }}
+              colors={['#51b587', '#81d4ae', '#62d5b5', '#75EEB5']}
               enableArcLinkLabels={false}
               valueFormat=' >-~%'
               defs={[
@@ -101,7 +102,7 @@ const CategoryPie = () => {
                   id: 'lines',
                   type: 'patternLines',
                   background: 'inherit',
-                  color: 'rgba(255, 255, 255, 0.98)',
+                  color: 'rgba(255, 255, 255, 0.1)',
                   rotation: -45,
                   lineWidth: 6,
                   spacing: 10,
@@ -110,46 +111,22 @@ const CategoryPie = () => {
               fill={[
                 {
                   match: {
-                    id: data.length > 2 ? data[2].id : '',
+                    id: data.length > 1 ? data[1].id : '',
                   },
                   id: 'dots',
                 },
                 {
                   match: {
-                    id: data.length > 5 ? data[5].id : '',
+                    id: data.length > 0 ? data[0].id : '',
                   },
                   id: 'lines',
-                },
-              ]}
-              legends={[
-                {
-                  anchor: 'bottom',
-                  direction: 'row',
-                  justify: false,
-                  translateX: 0,
-                  translateY: 56,
-                  itemsSpacing: 0,
-                  itemWidth: 100,
-                  itemHeight: 18,
-                  itemTextColor: '#000',
-                  itemDirection: 'left-to-right',
-                  itemOpacity: 1,
-                  symbolSize: 20,
-                  symbolShape: 'circle',
-                  effects: [
-                    {
-                      on: 'hover',
-                      style: {
-                        itemTextColor: '#000',
-                      },
-                    },
-                  ],
                 },
               ]}
             />
           )}
         </div>
       )}
+
     </div>
   );
 };
