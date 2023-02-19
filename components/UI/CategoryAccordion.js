@@ -42,7 +42,7 @@ const CategoryAccordion = ({
       <span className={classes.percentage}>{'< 1%'}</span>
     ) : (
       <span className={classes.percentage}>
-        {(percent * 100).toFixed(2)}% of Income
+        {(percent * 100).toFixed(0)}% of Income
       </span>
     );
 

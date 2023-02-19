@@ -8,12 +8,22 @@
 	place-items: center;
 }
 
-.background {
+.chartBackground,
+.errorBackground {
   background-color: #d4f3da;
   /* Must have a height for child Responsive Pie to render if no height is set on component */
 	/* also, in this case it has to match the defined height in the component */
 	height: 300px;
   width: 100%;
+}
+
+.errorBackground {
+	height: auto;
+	padding: 30px;
+}
+
+.background svg g g g text {
+	font-weight: 700;
 }
 
 .title {

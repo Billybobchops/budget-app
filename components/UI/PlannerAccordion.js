@@ -27,7 +27,7 @@ const PlannerAccordion = ({
   expectedPay,
   totalPlannedBudget,
   itemIds,
-	userSortPaycheckOrderFn,
+  userSortPaycheckOrderFn,
 }) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -176,7 +176,7 @@ const PlannerAccordion = ({
                           title={item.id}
                           date={item.billDate}
                           budgetedAmount={item.budgetAmount}
-													accordionType={'planner'}
+                          accordionType={'planner'}
                         />
                       );
                     })}
