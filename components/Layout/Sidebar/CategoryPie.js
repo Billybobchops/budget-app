@@ -68,7 +68,7 @@ const CategoryPie = () => {
     });
 
     tempArr.push({
-      id: 'Uncategorized',
+      id: 'Unbudgeted',
       value: (100 - categorized * 100) / 100,
     });
 

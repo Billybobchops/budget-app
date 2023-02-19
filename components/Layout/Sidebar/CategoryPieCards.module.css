@@ -29,3 +29,9 @@
 		padding: 0 25% 25px 25%;
 	}
 }
+
+@media (max-width: 690px) {
+  .cardsContainer {
+		padding: 0 12% 25px 12%;
+	}
+}
