@@ -38,7 +38,10 @@ const Nav = () => {
         <Image src={logo} alt='Logo' priority />
       </div>
       <ul className={classes.list}>
-        <NavLink href='/overview' icon={faChartPie} linkText='Overview' />
+        <NavLink
+					href='/overview'
+					icon={faChartPie}
+					linkText='Overview' />
         <NavLink
           href='/income-and-expenses'
           icon={faCreditCard}

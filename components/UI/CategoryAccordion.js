@@ -1,5 +1,6 @@
 import classes from './CategoryAccordion.module.css';
-import { useState, useEffect, useCallback } from 'react';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
@@ -162,7 +163,7 @@ const CategoryAccordion = ({
                         date={item.billDate}
                         budgetedAmount={item.budgetAmount}
                         tabID={tabID}
-												accordionType={'category'}
+                        accordionType={'category'}
                       />
                     );
                   })}
