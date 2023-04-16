@@ -6,8 +6,23 @@ import { selectPaycheckEntities } from '../../../store/planner-slice';
 import { selectCategoryIds } from '../../../store/category-slice';
 import { selectItemEntities } from '../../../store/items-slice';
 import CategoryPieCards from './CategoryPieCards';
+import { useAuth } from '../../../hooks/useAuth';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+
+const ErrorMessage = () => {
+  return (
+    <div className={classes.errorBackground}>
+      <div>
+        <h3>Oops!</h3>
+        <p>Your total budget exceeds your total expected pay.</p>
+        <p>Either correct your expected pay or reduce your budget.</p>
+      </div>
+    </div>
+  );
+};
 
 const CategoryPie = () => {
+  const { user: isLoggedIn } = useAuth();
   const [data, setData] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalBudget, setTotalBudget] = useState(0);
@@ -87,76 +102,47 @@ const CategoryPie = () => {
       <div>
         <h2 className={classes.title}>Monthly Breakdown</h2>
       </div>
-
-      {income && totalIncome > totalBudget && (
-        <>
+      <SkeletonTheme baseColor={'#E1FFE7'} highlightColor={'#EEFFF4'}>
+        {categories && isLoggedIn && data.length > 0 ? (
+          ''
+        ) : (
           <div className={classes.chartBackground}>
-            {data.length !== 0 && totalIncome !== 0 && (
-              <ResponsivePie
-                data={data}
-                height={300}
-                width={300}
-                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-                innerRadius={0.5}
-                padAngle={2}
-                cornerRadius={3}
-                activeOuterRadiusOffset={6}
-                colors={colors}
-                enableArcLinkLabels={false}
-                valueFormat=' >-~%'
-                // defs={[
-                //   {
-                //     id: 'dots',
-                //     type: 'patternDots',
-                //     background: 'inherit',
-                //     color: 'rgba(255, 255, 255, 0.37)',
-                //     size: 4,
-                //     padding: 1,
-                //     stagger: true,
-                //   },
-                //   {
-                //     id: 'lines',
-                //     type: 'patternLines',
-                //     background: 'inherit',
-                //     color: 'rgba(255, 255, 255, 0.15)',
-                //     rotation: -45,
-                //     lineWidth: 6,
-                //     spacing: 10,
-                //   },
-                // ]}
-                fill={[
-                  {
-                    match: {
-                      id: data.length > 1 ? data[1].id : '',
-                    },
-                    id: 'dots',
-                  },
-                  {
-                    match: {
-                      id: data.length > 0 ? data[0].id : '',
-                    },
-                    id: 'lines',
-                  },
-                ]}
-              />
-            )}
+            <Skeleton
+              borderRadius={0}
+              containerClassName={classes.skeleton}
+              height={300}
+            />
           </div>
-        </>
-      )}
+        )}
 
-      {totalIncome < totalBudget && (
-        <div className={classes.errorBackground}>
-          <div>
-            <h3>Oops!</h3>
-            <p>Your total budget exceeds your total expected pay.</p>
-            <p>Either correct your expected pay or reduce your budget.</p>
-          </div>
-        </div>
-      )}
+        {income && totalIncome > totalBudget && (
+          <>
+            <div className={classes.chartBackground}>
+              {data.length !== 0 && totalIncome !== 0 && (
+                <ResponsivePie
+                  data={data}
+                  height={300}
+                  width={300}
+                  margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                  innerRadius={0.5}
+                  padAngle={2}
+                  cornerRadius={3}
+                  activeOuterRadiusOffset={6}
+                  colors={colors}
+                  enableArcLinkLabels={false}
+                  valueFormat=' >-~%'
+                />
+              )}
+            </div>
+          </>
+        )}
 
-      {income && totalIncome > totalBudget && (
-        <CategoryPieCards categories={data} colors={colors} />
-      )}
+        {totalIncome < totalBudget && <ErrorMessage />}
+
+        {income && totalIncome > totalBudget && (
+          <CategoryPieCards categories={data} colors={colors} />
+        )}
+      </SkeletonTheme>
     </div>
   );
 };

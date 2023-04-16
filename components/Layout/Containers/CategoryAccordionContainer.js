@@ -36,7 +36,8 @@ const CategoryAccordionContainer = ({
       </div>
       <Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />
       <div className={classes.budgetItemsList}>
-        <SkeletonTheme baseColor={'#62d5b5'} highlightColor={'#7CEFCF'}>
+        {/* <SkeletonTheme baseColor={'#62d5b5'} highlightColor={'#7CEFCF'}> */}
+        <SkeletonTheme baseColor={'#E1FFE7'} highlightColor={'#EEFFF4'}>
           {Object.values(categoryEntities).length !== 0 && isLoggedIn ? (
             categoryOrder.map((category) => {
               return (
@@ -55,7 +56,7 @@ const CategoryAccordionContainer = ({
           ) : (
             <Skeleton
               borderRadius={0}
-              count={6}
+              count={5}
               containerClassName={classes.barSkeleton}
               height={66}
               style={{

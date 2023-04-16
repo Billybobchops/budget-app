@@ -18,15 +18,14 @@ const TotalsBar = () => {
     });
   }
 
-	// console.log('TotalsBar isLoggedIn:', !!isLoggedIn);
-
   return (
     <div className={classes.container}>
       <div className={classes.title}>
         <h2>Totals</h2>
       </div>
 
-      <SkeletonTheme baseColor={'#d4f3da'} highlightColor={'#E1FFE7'}>
+      {/* <SkeletonTheme baseColor={'#d4f3da'} highlightColor={'#E1FFE7'}> */}
+      <SkeletonTheme baseColor={'#E1FFE7'} highlightColor={'#EEFFF4'}>
         {expenses && isLoggedIn ? (
           <div className={classes.incomeBar}>
             <div className={classes.barTitle}>Income</div>

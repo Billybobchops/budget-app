@@ -195,11 +195,6 @@ const Overview = () => {
     );
   }, [categoryIds, itemEntities, income, expenses]);
 
-	// We can delete this now?
-  // if (!auth.user) {
-  //   return <p>Loading!</p>;
-  // }
-
   const onDragEnd = (result) => {
     const { draggableId, destination, source } = result;
 
