@@ -3,7 +3,7 @@ import CategoryAccordion from '../../UI/CategoryAccordion';
 import HighLowToggle from '../../UI/HighLowToggle';
 import Tabs from '../../UI/Tabs';
 import { useAuth } from '../../../hooks/useAuth';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import Skeleton from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { selectCategoryEntities } from '../../../store/category-slice';
@@ -22,6 +22,11 @@ const CategoryAccordionContainer = ({
     setActiveTab(newTab);
   };
 
+  const listBackgroundClass =
+    Object.values(categoryEntities).length !== 0 && isLoggedIn
+      ? classes.budgetItemsList
+      : classes.budgetItemsListLoading;
+
   return (
     <div className={classes.budgetContainer}>
       <div className={classes.budgetTitle}>
@@ -34,38 +39,35 @@ const CategoryAccordionContainer = ({
           />
         </div>
       </div>
+
       <Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />
-      <div className={classes.budgetItemsList}>
-        {/* <SkeletonTheme baseColor={'#62d5b5'} highlightColor={'#7CEFCF'}> */}
-        <SkeletonTheme baseColor={'#E1FFE7'} highlightColor={'#EEFFF4'}>
-          {Object.values(categoryEntities).length !== 0 && isLoggedIn ? (
-            categoryOrder.map((category) => {
-              return (
-                <CategoryAccordion
-                  key={category.id}
-                  categoryTitle={category.id}
-                  percent={category.percentOfIncome}
-                  budgetedTotal={category.budgetedItemsTotal}
-                  totalIncome={totalIncome}
-                  spent={category.spent}
-                  items={category.itemIds}
-                  tabID={activeTab}
-                />
-              );
-            })
-          ) : (
-            <Skeleton
-              borderRadius={0}
-              count={5}
-              containerClassName={classes.barSkeleton}
-              height={66}
-              style={{
-                borderTop: '4px solid #2d8058',
-                marginBottom: '14px',
-              }}
-            />
-          )}
-        </SkeletonTheme>
+			
+      <div className={listBackgroundClass}>
+        {Object.values(categoryEntities).length !== 0 && isLoggedIn ? (
+          categoryOrder.map((category) => {
+            return (
+              <CategoryAccordion
+                key={category.id}
+                categoryTitle={category.id}
+                percent={category.percentOfIncome}
+                budgetedTotal={category.budgetedItemsTotal}
+                totalIncome={totalIncome}
+                spent={category.spent}
+                items={category.itemIds}
+                tabID={activeTab}
+              />
+            );
+          })
+        ) : (
+          <Skeleton
+            borderRadius={0}
+            count={5}
+            height={66}
+            style={{
+              marginBottom: '14px',
+            }}
+          />
+        )}
       </div>
     </div>
   );

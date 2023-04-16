@@ -1,6 +1,6 @@
 import classes from './TotalsBar.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import Skeleton from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';
 import { selectExpenseEntities } from '../../../store/expenses-slice';
 import { useAuth } from '../../../hooks/useAuth';
@@ -24,36 +24,31 @@ const TotalsBar = () => {
         <h2>Totals</h2>
       </div>
 
-      {/* <SkeletonTheme baseColor={'#d4f3da'} highlightColor={'#E1FFE7'}> */}
-      <SkeletonTheme baseColor={'#E1FFE7'} highlightColor={'#EEFFF4'}>
-        {expenses && isLoggedIn ? (
-          <div className={classes.incomeBar}>
-            <div className={classes.barTitle}>Income</div>
-            <div className={classes.barAmount}>
-              {`$${totalIn.toLocaleString()}`}
-            </div>
+      {expenses && isLoggedIn ? (
+        <div className={classes.incomeBar}>
+          <div className={classes.barTitle}>Income</div>
+          <div className={classes.barAmount}>
+            {`$${totalIn.toLocaleString()}`}
           </div>
-        ) : (
-          <div className={classes.barSkeleton}>
-            <Skeleton borderRadius={0} height={48} />
-          </div>
-        )}
-      </SkeletonTheme>
+        </div>
+      ) : (
+        <div className={classes.barSkeleton}>
+          <Skeleton borderRadius={0} height={48} />
+        </div>
+      )}
 
-      <SkeletonTheme baseColor={'#FFDDDD'} highlightColor={'#FFEAEA'}>
-        {expenses && isLoggedIn ? (
-          <div className={classes.expensesBar}>
-            <div className={classes.barTitle}>Expenses</div>
-            <div className={classes.barAmount}>
-              {`$${totalOut.toLocaleString()}`}
-            </div>
+      {expenses && isLoggedIn ? (
+        <div className={classes.expensesBar}>
+          <div className={classes.barTitle}>Expenses</div>
+          <div className={classes.barAmount}>
+            {`$${totalOut.toLocaleString()}`}
           </div>
-        ) : (
-          <div className={classes.barSkeleton}>
-            <Skeleton borderRadius={0} height={48} />
-          </div>
-        )}
-      </SkeletonTheme>
+        </div>
+      ) : (
+        <div className={classes.barSkeleton}>
+          <Skeleton borderRadius={0} height={48} />
+        </div>
+      )}
     </div>
   );
 };

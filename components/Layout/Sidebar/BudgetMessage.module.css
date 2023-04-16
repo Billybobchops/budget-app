@@ -1,7 +1,16 @@
+/* .container,
+.containerLoading {
+
+} */
+
 .container {
   background-color: #d4f3da;
   padding: 18px;
   margin-bottom: 20px;
+}
+
+.containerLoading {
+	background-color: transparent;
 }
 
 .messageTitle, .message {

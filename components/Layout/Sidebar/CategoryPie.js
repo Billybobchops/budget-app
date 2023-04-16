@@ -102,47 +102,40 @@ const CategoryPie = () => {
       <div>
         <h2 className={classes.title}>Monthly Breakdown</h2>
       </div>
-      <SkeletonTheme baseColor={'#E1FFE7'} highlightColor={'#EEFFF4'}>
-        {categories && isLoggedIn && data.length > 0 ? (
-          ''
+
+      <div className={classes.chartBackground}>
+        {categories &&
+        isLoggedIn &&
+        data.length > 0 &&
+        income &&
+        totalIncome > totalBudget ? (
+          <ResponsivePie
+            data={data}
+            height={300}
+            width={300}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+            innerRadius={0.5}
+            padAngle={2}
+            cornerRadius={3}
+            activeOuterRadiusOffset={6}
+            colors={colors}
+            enableArcLinkLabels={false}
+            valueFormat=' >-~%'
+          />
         ) : (
-          <div className={classes.chartBackground}>
-            <Skeleton
-              borderRadius={0}
-              containerClassName={classes.skeleton}
-              height={300}
-            />
-          </div>
+          <Skeleton
+            borderRadius={0}
+            containerClassName={classes.skeleton}
+            height={300}
+          />
         )}
+      </div>
 
-        {income && totalIncome > totalBudget && (
-          <>
-            <div className={classes.chartBackground}>
-              {data.length !== 0 && totalIncome !== 0 && (
-                <ResponsivePie
-                  data={data}
-                  height={300}
-                  width={300}
-                  margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-                  innerRadius={0.5}
-                  padAngle={2}
-                  cornerRadius={3}
-                  activeOuterRadiusOffset={6}
-                  colors={colors}
-                  enableArcLinkLabels={false}
-                  valueFormat=' >-~%'
-                />
-              )}
-            </div>
-          </>
-        )}
+      {totalIncome < totalBudget && <ErrorMessage />}
 
-        {totalIncome < totalBudget && <ErrorMessage />}
-
-        {income && totalIncome > totalBudget && (
-          <CategoryPieCards categories={data} colors={colors} />
-        )}
-      </SkeletonTheme>
+      {income && totalIncome > totalBudget && (
+        <CategoryPieCards categories={data} colors={colors} />
+      )}
     </div>
   );
 };

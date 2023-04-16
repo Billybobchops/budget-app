@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: auto 1fr;
   grid-template-columns: 60% 40%;
-  grid-template-areas: "title tabs" "content content";
+  grid-template-areas: 'title tabs' 'content content';
 }
 
 .budgetTitle {
@@ -37,17 +37,26 @@
   border-bottom: 2px solid #0f4e31;
 }
 
-.budgetItemsList {
+.budgetItemsList,
+.budgetItemsListLoading {
   grid-area: content;
-  background-color: #d4f3da;
-  padding: 20px;
+}
+
+.budgetItemsList {
+	background-color: #d4f3da;
+	padding: 20px;
+}
+
+.budgetItemsListLoading {
+	background-color: transparent;
+	padding-top: 20px;
 }
 
 @media (max-width: 960px) {
   .budgetContainer {
     grid-template-rows: auto auto 1fr;
     grid-template-columns: auto;
-    grid-template-areas: "title" "tabs" "content";
+    grid-template-areas: 'title' 'tabs' 'content';
   }
 }
 
