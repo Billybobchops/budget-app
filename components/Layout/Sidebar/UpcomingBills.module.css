@@ -4,6 +4,11 @@
   margin-bottom: 20px;
 }
 
+.containerLoading {
+	background-color: transparent;
+	margin-top: 20px;
+}
+
 .background {
   padding: 30px;
   background-color: #D4F3DA;

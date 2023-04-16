@@ -10,9 +10,9 @@ const BudgetMessage = () => {
     : classes.containerLoading;
 
   return (
-    <>
+    <div className={containerClass}>
       {isLoggedIn ? (
-        <div className={containerClass}>
+        <>
           <div className={classes.messageTitle}>
             <h2>Congrats!</h2>
           </div>
@@ -21,15 +21,11 @@ const BudgetMessage = () => {
               You are currently $xx.xx under budget!
             </p>
           </div>
-        </div>
+        </>
       ) : (
-        <Skeleton
-          borderRadius={0}
-          containerClassName={classes.skeleton}
-          height={100}
-        />
+        <Skeleton borderRadius={0} height={100} />
       )}
-    </>
+    </div>
   );
 };
 

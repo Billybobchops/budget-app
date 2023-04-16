@@ -40,8 +40,12 @@ const CategoryAccordionContainer = ({
         </div>
       </div>
 
-      <Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />
-			
+      {isLoggedIn ? (
+        <Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />
+      ) : (
+        ''
+      )}
+
       <div className={listBackgroundClass}>
         {Object.values(categoryEntities).length !== 0 && isLoggedIn ? (
           categoryOrder.map((category) => {
