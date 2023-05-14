@@ -1,6 +1,8 @@
 import PlannerAccordion from '../../UI/PlannerAccordion';
 import classes from './PlannerContainer.module.css';
 import Button from '../../UI/Buttons/Button';
+import { useAuth } from '../../../hooks/useAuth';
+import Skeleton from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';
 import { selectPaycheckEntities } from '../../../store/planner-slice';
 
@@ -11,6 +13,12 @@ const PlannerContainer = ({
   userSortPaycheckOrderFn,
 }) => {
   const income = useSelector(selectPaycheckEntities);
+  const { user: isLoggedIn } = useAuth();
+
+  const containerBackgroundClass =
+    Object.values(income).length !== 0 && isLoggedIn
+      ? classes.container
+      : classes.containerLoading;
 
   return (
     <section className={classes.gridArea}>
@@ -27,8 +35,8 @@ const PlannerContainer = ({
           />
         </div>
       </div>
-      <div className={classes.container}>
-        {Object.values(income).length !== 0 &&
+      <div className={containerBackgroundClass}>
+        {Object.values(income).length !== 0 && isLoggedIn ? (
           plannerOrder.map((check) => {
             if (check.id === 'ItemsDragList') return;
 
@@ -43,12 +51,29 @@ const PlannerContainer = ({
                 userSortPaycheckOrderFn={userSortPaycheckOrderFn}
               />
             );
-          })}
+          })
+        ) : (
+          <Skeleton
+            borderRadius={0}
+            count={4}
+            height={66}
+            style={{
+              marginBottom: '10px',
+            }}
+          />
+        )}
       </div>
-      <div className={classes.total}>
-        <p className={classes.totalTitle}>Total Expected Pay</p>
-        <p className={classes.totalAmmount}>${totalIncome.toLocaleString()}</p>
-      </div>
+
+      {Object.values(income).length !== 0 && isLoggedIn ? (
+        <div className={classes.total}>
+          <p className={classes.totalTitle}>Total Expected Pay</p>
+          <p className={classes.totalAmmount}>
+            ${totalIncome.toLocaleString()}
+          </p>
+        </div>
+      ) : (
+        <Skeleton borderRadius={0} height={64} />
+      )}
     </section>
   );
 };

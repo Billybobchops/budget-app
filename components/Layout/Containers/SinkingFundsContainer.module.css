@@ -11,9 +11,18 @@
   margin: 0;
 }
 
+.container,
+.containerLoading {
+	padding: 20px;
+}
+
 .container {
   background-color: #d4f3da;
-  padding: 20px;
+}
+
+.containerLoading {
+	background-color: transparent;
+	padding-top: 40px;
 }
 
 .total {

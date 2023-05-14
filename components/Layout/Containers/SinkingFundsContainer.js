@@ -5,10 +5,18 @@ import Button from '../../UI/Buttons/Button';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFundEntities } from '../../../store/fund-slice';
+import Skeleton from 'react-loading-skeleton';
+import { useAuth } from '../../../hooks/useAuth';
 
 const SinkingFundsContainer = ({ fundHandler }) => {
   const funds = useSelector(selectFundEntities);
   const [fundsOrder, setFundsOrder] = useState([]);
+  const { user: isLoggedIn } = useAuth();
+
+  const containerBackgroundClass =
+    Object.values(funds).length !== 0 && isLoggedIn
+      ? classes.container
+      : classes.containerLoading;
 
   const calcTotalFundAmount = (funds) => {
     let arr = [];
@@ -70,14 +78,19 @@ const SinkingFundsContainer = ({ fundHandler }) => {
           />
         </div>
       </div>
-      <div className={classes.container}>
-        <div className={classes.toggleAlign}>
-          <HighLowToggle
-            toggleOptions={['High to Low', 'Low to High']}
-            toggleSortFn={toggleSort}
-          />
-        </div>
-        {Object.values(funds) !== 0 &&
+      <div className={containerBackgroundClass}>
+        {Object.values(funds) !== 0 && isLoggedIn ? (
+          <div className={classes.toggleAlign}>
+            <HighLowToggle
+              toggleOptions={['High to Low', 'Low to High']}
+              toggleSortFn={toggleSort}
+            />
+          </div>
+        ) : (
+          ''
+        )}
+
+        {Object.values(funds) !== 0 && isLoggedIn ? (
           fundsOrder.map((fund) => {
             return (
               <SinkingFundsItem
@@ -102,7 +115,17 @@ const SinkingFundsContainer = ({ fundHandler }) => {
                 }
               />
             );
-          })}
+          })
+        ) : (
+          <Skeleton
+            borderRadius={0}
+            count={4}
+            height={64}
+            style={{
+              marginBottom: '14px',
+            }}
+          />
+        )}
       </div>
       <div className={classes.total}>
         <p className={classes.totalTitle}>Total Monthly</p>

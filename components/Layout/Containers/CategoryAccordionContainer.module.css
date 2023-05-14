@@ -42,14 +42,17 @@
   grid-area: content;
 }
 
+.budgetItemsList,
+.budgetItemsListLoading {
+	padding: 20px;
+}
+
 .budgetItemsList {
 	background-color: #d4f3da;
-	padding: 20px;
 }
 
 .budgetItemsListLoading {
 	background-color: transparent;
-	padding-top: 20px;
 }
 
 @media (max-width: 960px) {

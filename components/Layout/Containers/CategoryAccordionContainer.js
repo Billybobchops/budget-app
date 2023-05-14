@@ -40,7 +40,7 @@ const CategoryAccordionContainer = ({
         </div>
       </div>
 
-      {isLoggedIn ? (
+      {Object.values(categoryEntities).length !== 0 && isLoggedIn ? (
         <Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />
       ) : (
         ''

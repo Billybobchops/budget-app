@@ -161,8 +161,6 @@ const PlannerPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, paycheckOrder]);
 
-  if (!auth.user) return <p>Loading!</p>;
-
   const onDragEnd = (result) => {
     const { draggableId, destination, source } = result;
 
@@ -230,7 +228,7 @@ const PlannerPage = () => {
     const newLocation = destination.droppableId;
     store.dispatch(updateItemPaycheckSelectDoc({ uid, document, newLocation }));
   };
-  console.log(plannerOrder);
+  
   return (
     <>
       <Portal selector='#portal'>

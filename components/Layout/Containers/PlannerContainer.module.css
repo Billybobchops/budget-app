@@ -25,6 +25,11 @@
   padding: 20px;
 }
 
+.containerLoading {
+	background-color: transparent;
+	padding: 15px 0 25px 50px;
+}
+
 .total {
   background-color: #04311c;
   padding: 12px 30px;

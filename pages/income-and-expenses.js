@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import store from '../store';
 import { fetchItems } from '../store/items-slice';
 import { fetchPaychecks } from '../store/planner-slice';
+import { fetchPaycheckOrder } from '../store/paycheckOrder-slice';
 import { fetchCategories } from '../store/category-slice';
 import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
@@ -55,14 +56,11 @@ const IncomeExpenses = () => {
       store.dispatch(fetchCategories(uid));
       store.dispatch(fetchExpenses({ uid, currentDate }));
       store.dispatch(fetchPaychecks(uid));
+			store.dispatch(fetchPaycheckOrder(uid));
       store.dispatch(fetchItems(uid));
       store.dispatch(fetchFunds(uid));
     }
   }, [auth.user, currentDate, categories, expenses, paychecks, funds]);
-
-  if (!auth.user) {
-    return <p>Loading!</p>;
-  }
 
   return (
     <>
