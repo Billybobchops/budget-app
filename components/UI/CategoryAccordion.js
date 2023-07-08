@@ -10,16 +10,6 @@ import {
 import BudgetItem from './BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
 
-const Table = ({ children }) => {
-  return (
-    <div className={classes.container}>
-      <table className={classes.table}>
-        <tbody>{children}</tbody>
-      </table>
-    </div>
-  );
-};
-
 const CategoryAccordion = ({
   categoryTitle,
   percent,
@@ -81,6 +71,10 @@ const CategoryAccordion = ({
     setIsActive(!isActive);
   };
 
+  const displayKebabOptions = () => {
+    console.log('Function separate oh yeah');
+  };
+
   const toggle = isActive ? (
     <FontAwesomeIcon icon={faMinus} className={classes.toggle} />
   ) : (
@@ -95,18 +89,18 @@ const CategoryAccordion = ({
             className={`${snapshot.isDraggingOver && classes.backgroundDrag}`}
           >
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              <div onClick={activeHandler}>
-                <Table>
-                  <tr>
-                    <td className={classes.head1}>{toggle}</td>
-                    <td className={classes.head2}>
+              <div className={classes.parentContainer}>
+                <div onClick={activeHandler}>
+                  <div className={classes.container}>
+                    <div className={classes.toggle}>{toggle}</div>
+                    <div>
                       <div className={classes.title}>
                         {categoryTitle}
                         {totalIncome && percentDisplay}
                         {!totalIncome && ''}
                       </div>
-                    </td>
-                    <td className={classes.head3}>
+                    </div>
+                    <div className={classes.budgetGridItem}>
                       <div className={classes.flex}>
                         <div className={classes.spent}>
                           <span className={classes.bold}>Spent</span> ${spent}
@@ -116,17 +110,18 @@ const CategoryAccordion = ({
                           ${budgeted.toLocaleString()}
                         </div>
                       </div>
-                    </td>
-                    <td className={classes.head4}>
+                    </div>
+                    <div>
                       <div className={classes[balanceClass]}>
                         {balanceString}
                       </div>
-                    </td>
-                    <td className={classes.head5}>
-                      <FontAwesomeIcon icon={faEllipsisH} />
-                    </td>
-                  </tr>
-                </Table>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={classes.kebab} onClick={displayKebabOptions}>
+                  <FontAwesomeIcon icon={faEllipsisH} />
+                </div>
               </div>
 
               <ul className={classes.list}>
@@ -152,6 +147,7 @@ const CategoryAccordion = ({
                     </div>
                   </div>
                 )}
+
                 {isActive &&
                   items !== [] &&
                   items.map((item, index) => {
