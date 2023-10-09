@@ -1,0 +1,45 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr 1fr;
+  margin-bottom: 30px;
+}
+
+.title {
+  align-self: end;
+  padding-bottom: 10px;
+}
+
+.incomeBar,
+.expensesBar {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  padding: 6px 20px;
+  margin-bottom: 10px;
+  font-family: "Cairo", sans-serif;
+  color: #04311c;
+	font-size: 19px;
+}
+
+.incomeBar {
+  background-color: #d4f3da;
+}
+
+.expensesBar {
+  background-color: #FFDDDD;
+}
+
+.barSkeleton {
+	margin-bottom: 10px;
+}
+
+.barTitle {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.barAmount {
+  /* font-size: 19px; */
+  justify-self: end;
+}

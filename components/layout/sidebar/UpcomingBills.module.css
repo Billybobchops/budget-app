@@ -1,0 +1,31 @@
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  margin-bottom: 20px;
+}
+
+.containerLoading {
+	background-color: transparent;
+	margin-top: 20px;
+}
+
+.background {
+  padding: 30px;
+  background-color: #D4F3DA;
+}
+
+.title {
+  padding-bottom: 5px;
+}
+
+@media (max-width: 1485px) {
+  .background {
+    padding: 30px 20%;
+  }
+}
+
+@media (max-width: 730px) {
+  .background {
+    padding: 30px 5%;
+  }
+}

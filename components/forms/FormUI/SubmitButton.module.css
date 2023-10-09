@@ -1,0 +1,21 @@
+.submitBtn,
+.disabled {
+  background-color: #bd275c;
+  color: #fff;
+  border: none;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 600;
+  width: 100%;
+  padding: 12px 0;
+  margin: 14px 0;
+  font-size: 19px;
+  box-shadow: #00000030 0px 10px 20px, #0000003b 0px 6px 6px;
+}
+
+.disabled {
+  box-shadow: none;
+  background-color: #ffe2e3;
+  color: #464646;
+  cursor: not-allowed;
+}

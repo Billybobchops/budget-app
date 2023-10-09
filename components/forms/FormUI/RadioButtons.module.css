@@ -1,0 +1,18 @@
+.inputRadio {
+  width: auto;
+  display: block;
+  min-height: 0;
+  display: inline;
+  margin: 12px;
+  margin-left: 5px;
+}
+
+.label {
+  margin: 5px 8px 0 0;
+}
+
+.errorMessage {
+  color: #BF0D0D;
+  display: block;
+  font-size: 14.5px;
+}

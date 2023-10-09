@@ -1,0 +1,55 @@
+.header {
+  text-align: center;
+  font-weight: 700;
+  color: #2d8058;
+}
+
+.paragraph {
+  text-align: center;
+  font-size: 17px;
+}
+
+.buttonLink {
+  background: none;
+  color: #007fad;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.label {
+  display: block;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 600;
+  color: #04311c;
+  border-bottom: 1px solid #04311c;
+}
+
+.miniLabel {
+  font-size: 14px;
+  display: block;
+}
+
+.iconClose {
+  font-size: 24px;
+  color: #2d8058;
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.iconButton {
+  border: none;
+  background: transparent;
+}
+
+@media (max-width: 550px) {
+  .header {
+    text-align: left;
+    line-height: 2.2rem;
+    margin-bottom: 10px;
+  }
+}

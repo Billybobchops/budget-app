@@ -1,0 +1,17 @@
+.container,
+.containerLoading {
+	padding: 20px;
+}
+
+.container {
+  background-color: #d4f3da;
+}
+
+.containerLoading {
+  background-color: transparent;
+	padding-top: 0;
+}
+
+.title {
+  padding-bottom: 10px;
+}

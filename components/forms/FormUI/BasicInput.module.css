@@ -1,0 +1,84 @@
+.label {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 600;
+  color: #04311c;
+  padding-right: 14px;
+  display: block;
+  font-size: 15px;
+}
+
+.input::placeholder,
+.input {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.input {
+  display: block;
+  /* color: #2d8058; */
+  border: 1px solid #2d8058;
+  width: 100%;
+  min-height: 50px;
+  padding: 0 14px;
+  margin-bottom: 10px;
+  font-size: 15px;
+
+  font-weight: 600;
+  color: #757575;
+}
+
+.input::placeholder {
+  font-weight: 600;
+  color: #757575;
+}
+
+.input:hover {
+  border-left: 3px solid #2d8058;
+}
+
+.input:focus {
+  outline: none;
+  color: #2d8058;
+  font-weight: 700;
+  border: 1px solid #d4f3da;
+  border-bottom: 4px solid #d4f3da;
+}
+
+.errorMessage {
+  color: #bf0d0d;
+  display: block;
+  font-size: 14.5px;
+}
+
+.errorInput {
+  margin-bottom: 2px;
+  color: #bf0d0d;
+  /* background-color: #bf0d0d13; */
+  background-color: #fff6f6;
+  border: 1px solid #bf0d0d;
+}
+
+.errorInput:focus {
+  border: 1px solid #bf0d0d;
+}
+
+.twoCol {
+  display: inline-block;
+  width: 48%;
+}
+
+.twoColEnd {
+  display: inline-block;
+  width: 48%;
+  margin-left: 4%;
+}
+
+@media (max-width: 550px) {
+  .input {
+    min-height: 44px;
+  }
+  .label {
+    font-size: 15px;
+  }
+}

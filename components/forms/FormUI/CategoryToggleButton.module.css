@@ -1,0 +1,19 @@
+.button {
+  color: #04311c;
+  display: block;
+  background-color: #62d5b4;
+  border-radius: 50px;
+  border: none;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 30px;
+  margin: 6px 12px 7px 0;
+}
+
+@media (max-width: 360px) {
+  .button {
+    font-size: 12px;
+    margin: 0 9px 9px 0;
+  }
+}

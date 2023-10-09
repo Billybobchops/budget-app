@@ -1,0 +1,24 @@
+.label {
+  font-family: "Cairo", sans-serif;
+  font-weight: 600;
+  color: #04311c;
+  padding-right:  14px;
+  display: block;
+}
+
+.twoCol {
+  display: inline-block;
+  width: 48%;
+}
+
+.twoColEnd {
+  display: inline-block;
+  width: 48%;
+  margin-left: 4%;
+}
+
+@media (max-width: 550px) {
+  .label {
+    font-size: 15px;
+  }
+}

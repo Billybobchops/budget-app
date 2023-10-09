@@ -1,0 +1,45 @@
+.mainGrid {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-template-areas: "nav content";
+  /* This parent container needs to have the height */
+  height: 100vh;
+}
+
+.pageGrid {
+  display: grid;
+  grid-template-columns: 70% 1fr;
+  grid-template-areas: "main sidebar";
+  padding: 35px;
+  gap: 35px;
+}
+
+.navDrawer {
+  grid-area: nav;
+  background-color: #d4f3da;
+  display: grid;
+  justify-items: center;
+}
+
+@media (max-width: 1485px) {
+  .mainGrid {
+    grid-template-columns: 0 100%;
+  }
+  
+  .pageGrid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main" "sidebar";
+  }
+}
+
+@media (max-width: 645px) {
+  .pageGrid {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageGrid {
+    padding: 10px;
+  }
+}

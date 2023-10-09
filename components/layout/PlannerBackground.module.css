@@ -1,0 +1,76 @@
+.mainGrid {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-template-areas: 'nav content';
+  /* This parent container needs to have the height */
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+/* this is the 80% */
+.pageGrid {
+  display: grid;
+  grid-template-columns: 70% 1fr;
+  grid-template-rows: repeat(2, auto);
+  column-gap: 35px;
+  grid-template-areas:
+    'header profile'
+    'mainContent sidebar';
+  padding: 35px;
+
+	/* width: 100vw; */
+}
+
+.navDrawer {
+  grid-area: nav;
+  background-color: #d4f3da;
+  display: grid;
+  justify-items: center;
+}
+
+@media (max-width: 1485px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'content';
+  }
+
+  .pageGrid {
+    grid-template-areas:
+      'header header'
+      'mainContent sidebar';
+
+			width: 100vw;
+  }
+}
+
+@media (max-width: 1325px) {
+  .pageGrid {
+    grid-template-columns: 70% 320px;
+    overflow-x: scroll;
+    grid-template-areas:
+      'header sidebar'
+      'mainContent sidebar';
+    /* template areas prevent losing the date to the right side of the screen */
+  }
+}
+
+@media (max-width: 690px) {
+  .pageGrid {
+    grid-template-columns: 85% 320px;
+  }
+}
+
+@media (max-width: 645px) {
+  .pageGrid {
+    padding: 20px;
+    /* width 100vw fixed it! ...above */
+    /* width: 100vw; */
+  }
+}
+
+@media (max-width: 480px) {
+  .pageGrid {
+    column-gap: 20px;
+    grid-template-columns: 85% 220px;
+  }
+}
