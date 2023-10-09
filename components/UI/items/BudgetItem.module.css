@@ -27,14 +27,13 @@
     padding-left: 15px;
 }
 
-.kebab {
+/* .kebab {
 	background-color: transparent;
 	border: none;
 	position: absolute;
-    /* margin: 10px 12px; */
     right: 20px;
     text-align: center;
-}
+} */
 
 .plannerMargin {
     margin: 14px 0px 14px 37px;
@@ -92,9 +91,9 @@
         text-align: right;
     }
 
-    .kebab {
+    /* .kebab {
         text-align: center;
-    }
+    } */
 }
 
 @media (max-width: 420px) {
@@ -102,7 +101,7 @@
         margin: 14px 0;
     }
 
-	.kebab {
+	/* .kebab {
         top: 20%;
-    }
+    } */
 }

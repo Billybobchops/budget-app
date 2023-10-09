@@ -1,5 +1,5 @@
 import classes from './CategoryAccordionContainer.module.css';
-import CategoryAccordion from '../../UI/CategoryAccordion';
+import CategoryAccordion from '../../UI/accordions/CategoryAccordion';
 import HighLowToggle from '../../UI/HighLowToggle';
 import Tabs from '../../UI/Tabs';
 import { useAuth } from '../../../hooks/useAuth';

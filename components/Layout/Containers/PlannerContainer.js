@@ -1,4 +1,4 @@
-import PlannerAccordion from '../../UI/PlannerAccordion';
+import PlannerAccordion from '../../UI/accordions/PlannerAccordion';
 import classes from './PlannerContainer.module.css';
 import Button from '../../UI/buttons/Button';
 import { useAuth } from '../../../hooks/useAuth';

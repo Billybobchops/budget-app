@@ -1,0 +1,32 @@
+.kebabToggleButton {
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 15px;
+	position: absolute;
+    right: 20px;
+    text-align: center;
+}
+
+.kebabMenu {
+	background-color: #fff;
+	box-shadow: #0000004f 0px 3px 5px;
+	display: flex;
+	flex-direction: column;
+	list-style-type: none;
+	padding: 0;
+	position: absolute;
+	right: 50px;
+	top: 10px;
+	z-index: 25;
+}
+
+.kebabMenuItem {
+	border-bottom: 2px black;
+	font-size: 14px;
+	margin: 5px 8px;
+}
+
+.kebabMenuItem:last-child {
+	border-bottom: none;
+}

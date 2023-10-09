@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
+import KebabMenu from '../KebabMenu';
 
 const BudgetItem = ({
     title,
@@ -55,9 +56,15 @@ const BudgetItem = ({
 
     if (tabID === 'Annual') budgetedAmount = budgetedAmount * 12;
 
-    const displayKebabOptions = () => {
-        console.log('Function separate oh yeah');
+    const editBudgetItem = () => {
+        console.log('Edit budget item function import here');
     };
+
+    const deleteBudgetItem = () => {
+        console.log('Delete budget item function import here');
+    };
+
+    const kebabMenuActions = [{ title: 'Edit', actionFn: editBudgetItem }, { title: 'Delete', actionFn: deleteBudgetItem }];
 
     return (
         <Draggable key={title} draggableId={title} index={index}>
@@ -75,46 +82,48 @@ const BudgetItem = ({
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                    >
-						<div className={classes.parentContainer}>
-							<div className={style}>
-								<div className={classes.secondaryContainer}>
-									<div className={classes.title}>{title}</div>
+					>
+                        <div className={classes.parentContainer}>
+                            <div className={style}>
+                                <div className={classes.secondaryContainer}>
+                                    <div className={classes.title}>{title}</div>
 
-									<div className={classes.date}>
-										<div>{displayDate}</div>
-									</div>
+                                    <div className={classes.date}>
+                                        <div>{displayDate}</div>
+                                    </div>
 
-									<div className={classes.spent}>
-										<div className={classes.flex}>
-											<div>
-												<span className={classes.bold}>
-													Spent
-												</span>{' '}
-												${spent}
-											</div>
+                                    <div className={classes.spent}>
+                                        <div className={classes.flex}>
+                                            <div>
+                                                <span className={classes.bold}>
+                                                    Spent
+                                                </span>{' '}
+                                                ${spent}
+                                            </div>
 
 											<div className={classes.slash}>/</div>
 
-											<div>${budgetedAmount}</div>
-										</div>
-									</div>
+                                            <div>${budgetedAmount}</div>
+                                        </div>
+                                    </div>
 
-									<div className={classes.chip}>
-										<div className={classes[balanceClass]}>
-											{balanceString}!
-										</div>
-									</div>
-								</div>
-								
-								<button
+                                    <div className={classes.chip}>
+                                        <div className={classes[balanceClass]}>
+                                            {balanceString}!
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* <button
 									className={classes.kebab}
 									onClick={displayKebabOptions}
 								>
 									<FontAwesomeIcon icon={faEllipsisH} />
-								</button>
-							</div>
-						</div>
+								</button> */}
+
+                                <KebabMenu kebabMenuActions={kebabMenuActions} />
+                            </div>
+                        </div>
                     </li>
                 );
             }}
