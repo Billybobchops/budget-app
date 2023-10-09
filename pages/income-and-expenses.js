@@ -10,7 +10,7 @@ import { fetchExpenses } from '../store/expenses-slice';
 import { fetchFunds } from '../store/fund-slice';
 import FormContext from '../store/form-context';
 import PageBackground from '../components/layout/containers/PageBackground';
-import MainGrid from '../components/layout/mainGrid';
+import MainGrid from '../components/layout/MainGrid';
 import Header from '../components/layout/header/Header';
 import ButtonBar from '../components/layout/bars/ButtonBar';
 import Button from '../components/UI/buttons/Button';
