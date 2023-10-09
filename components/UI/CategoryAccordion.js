@@ -185,9 +185,7 @@ const CategoryAccordion = ({
                                                 index={index}
                                                 title={item.id}
                                                 date={item.billDate}
-                                                budgetedAmount={
-                                                    item.budgetAmount
-                                                }
+                                                budgetedAmount={item.budgetAmount}
                                                 tabID={tabID}
                                                 accordionType={'category'}
                                             />
