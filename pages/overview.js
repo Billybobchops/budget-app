@@ -17,7 +17,7 @@ import Header from '../components/layout/header/Header';
 import ButtonBar from '../components/layout/bars/ButtonBar';
 import Button from '../components/UI/buttons/Button';
 import TotalsBar from '../components/layout/bars/TotalsBar';
-import CategoryAccordionContainer from '../components/layout/Containers/CategoryAccordionContainer';
+import CategoryAccordionContainer from '../components/layout/containers/CategoryAccordionContainer';
 import Sidebar from '../components/layout/sidebar/Sidebar';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import Portal from '../components/UI/Portal';

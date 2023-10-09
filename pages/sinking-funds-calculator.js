@@ -15,7 +15,7 @@ import PageBackground from '../components/layout/containers/PageBackground';
 import MainGrid from '../components/layout/MainGrid';
 import Header from '../components/layout/header/Header';
 import Sidebar from '../components/layout/sidebar/Sidebar';
-import SinkingFundsContainer from '../components/layout/Containers/SinkingFundsContainer';
+import SinkingFundsContainer from '../components/layout/containers/SinkingFundsContainer';
 import FundForm from '../components/forms/FundForm';
 import { selectFormattedMonthYear } from '../store/date-slice';
 import { selectCategoryEntities } from '../store/category-slice';
