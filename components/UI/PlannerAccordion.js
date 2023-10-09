@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
-import BudgetItem from '../UI/BudgetItem';
+import BudgetItem from './items/BudgetItem';
 
 const Table = (props) => {
   return (

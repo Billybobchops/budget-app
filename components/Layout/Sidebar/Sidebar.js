@@ -4,8 +4,8 @@ import ProfileBar from './ProfileBar';
 import classes from './Sidebar.module.css';
 import UpcomingBills from './UpcomingBills';
 import ItemsDragList from './ItemsDragList';
-import ButtonBar from '../Bars/ButtonBar';
-import Button from '../../UI/Buttons/Button';
+import ButtonBar from '../bars/ButtonBar';
+import Button from '../../UI/buttons/Button';
 
 const Sidebar = ({
   hasProfileBar,

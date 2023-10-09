@@ -1,8 +1,8 @@
 import classes from './Header.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import DatePicker from '../UI/DatePicker';
-import { useAuth } from '../../hooks/useAuth';
+import Skeleton from 'react-loading-skeleton';
+import DatePicker from '../../UI/DatePicker';
+import { useAuth } from '../../../hooks/useAuth';
 import { useSelector } from 'react-redux';
 
 const Header = ({ title, hasDatePicker }) => {

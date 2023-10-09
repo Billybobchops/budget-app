@@ -3,9 +3,9 @@ import classes from '../styles/HomeAuth.module.css';
 import logo from '../public/LogoPlaceholder.png';
 import Video from '../components/UI/Video';
 import Image from 'next/image';
-import LoginForm from '../components/Forms/LoginForm';
-import SignUpForm from '../components/Forms/SignUpForm';
-import PasswordResetForm from '../components/Forms/PasswordResetForm';
+import LoginForm from '../components/forms/LoginForm';
+import SignUpForm from '../components/forms/SignUpForm';
+import PasswordResetForm from '../components/forms/PasswordResetForm';
 
 export default function HomeAuth() {
   const [isNewUser, setIsNewUser] = useState(true);

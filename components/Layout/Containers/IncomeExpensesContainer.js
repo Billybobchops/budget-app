@@ -1,5 +1,5 @@
 import classes from './IncomeExpensesContainer.module.css';
-import IncomeExpenseItem from '../../UI/IncomeExpenseItem';
+import IncomeExpenseItem from '../../UI/items/IncomeExpenseItem';
 import { useSelector } from 'react-redux';
 import { useAuth } from '../../../hooks/useAuth';
 import Skeleton from 'react-loading-skeleton';

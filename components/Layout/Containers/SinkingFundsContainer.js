@@ -1,7 +1,7 @@
 import classes from './SinkingFundsContainer.module.css';
 import HighLowToggle from '../../UI/HighLowToggle';
-import SinkingFundsItem from '../../UI/SinkingFundItem';
-import Button from '../../UI/Buttons/Button';
+import SinkingFundsItem from '../../UI/items/SinkingFundItem';
+import Button from '../../UI/buttons/Button';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFundEntities } from '../../../store/fund-slice';

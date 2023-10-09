@@ -1,6 +1,6 @@
 import classes from "./PlannerBackground.module.css";
-import MobileNav from "../Navigation/MobileNav";
-import Nav from "../Navigation/Nav";
+import MobileNav from "../navigation/MobileNav";
+import Nav from "../navigation/Nav";
 
 const PlannerBackground = (props) => {
   return (

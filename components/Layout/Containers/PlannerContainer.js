@@ -1,6 +1,6 @@
 import PlannerAccordion from '../../UI/PlannerAccordion';
 import classes from './PlannerContainer.module.css';
-import Button from '../../UI/Buttons/Button';
+import Button from '../../UI/buttons/Button';
 import { useAuth } from '../../../hooks/useAuth';
 import Skeleton from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';

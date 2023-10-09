@@ -7,7 +7,7 @@ import {
     faMinus,
     faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
-import BudgetItem from './BudgetItem';
+import BudgetItem from './items/BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
 
 const CategoryAccordion = ({

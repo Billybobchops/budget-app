@@ -5,7 +5,7 @@ import { addNewItem } from '../../store/items-slice';
 import useForm from '../../hooks/useForm';
 import FormContext from '../../store/form-context';
 import { itemConfig } from './formUtils/itemConfig';
-import classes from '../Forms/FormUI/FormStyles.module.css';
+import classes from '../forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 import { formatItemDate, generateMonthYear } from '../../utils/helpers';

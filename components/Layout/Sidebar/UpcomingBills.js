@@ -1,6 +1,6 @@
 import classes from './UpcomingBills.module.css';
 import { useSelector } from 'react-redux';
-import UpcomingBill from '../../UI/UpcomingBill';
+import UpcomingBill from '../../UI/items/UpcomingBill';
 import { selectItemEntities } from '../../../store/items-slice';
 import Skeleton from 'react-loading-skeleton';
 import { useAuth } from '../../../hooks/useAuth';

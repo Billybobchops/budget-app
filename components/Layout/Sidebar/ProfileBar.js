@@ -2,7 +2,7 @@ import classes from "./ProfileBar.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import profilePicture from "../../../public/Profile-picture.png";
-import SquareButton from "../../UI/Buttons/SquareButton";
+import SquareButton from "../../UI/buttons/SquareButton";
 import { useAuth } from "../../../hooks/useAuth";
 
 const ProfileBar = () => {

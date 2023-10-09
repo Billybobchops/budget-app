@@ -12,7 +12,7 @@ import { fetchItems } from '../../store/items-slice';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import Button from './Buttons/Button';
+import Button from './buttons/Button';
 
 const DatePicker = () => {
   const picker = useRef();

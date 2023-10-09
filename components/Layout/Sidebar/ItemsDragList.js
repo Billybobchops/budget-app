@@ -4,7 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import { selectItemEntities } from '../../../store/items-slice';
 import Skeleton from 'react-loading-skeleton';
 import { useAuth } from '../../../hooks/useAuth';
-import DragItem from '../../UI/DragItem';
+import DragItem from '../../UI/items/DragItem';
 
 const ItemsDragList = ({ dragData }) => {
   const itemEntities = useSelector(selectItemEntities);

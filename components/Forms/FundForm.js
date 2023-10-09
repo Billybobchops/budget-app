@@ -1,7 +1,7 @@
 import { useRef, useEffect, useContext, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import FormContext from '../../store/form-context';
-import classes from '../Forms/FormUI/FormStyles.module.css';
+import classes from '../forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 import { fundConfig } from './formUtils/fundConfig';

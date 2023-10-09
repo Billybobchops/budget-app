@@ -1,7 +1,7 @@
 import classes from './SinkingFundItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import { formatDate } from '../../utils/helpers';
+import { formatDate } from '../../../utils/helpers';
 
 const SinkingFundsItem = ({
   billDate,

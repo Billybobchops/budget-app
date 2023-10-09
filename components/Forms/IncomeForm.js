@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import useForm from '../../hooks/useForm';
 import { incomeConfig } from './formUtils/incomeConfig';
 import FormContext from '../../store/form-context';
-import classes from '../Forms/FormUI/FormStyles.module.css';
+import classes from '../forms/FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import SubmitButton from './FormUI/SubmitButton';
 import store from '../../store';
