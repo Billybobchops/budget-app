@@ -1,4 +1,8 @@
-.parentContainer {
+/* .parentContainer {
+	position: relative;
+} */
+
+.relative {
 	position: relative;
 }
 
@@ -9,8 +13,8 @@
     color: #04311c;
     display: grid;
     font-family: 'Cairo', sans-serif;
-    grid-template-areas: 'itemContents kebab';
-    grid-template-columns: 1fr 41px;
+    grid-template-areas: 'itemContents kebabSpace';
+    grid-template-columns: 1fr 50px;
     list-style-type: none;
     margin: 14px;
     padding: 10px 0;
@@ -26,14 +30,6 @@
 .spent {
     padding-left: 15px;
 }
-
-/* .kebab {
-	background-color: transparent;
-	border: none;
-	position: absolute;
-    right: 20px;
-    text-align: center;
-} */
 
 .plannerMargin {
     margin: 14px 0px 14px 37px;
@@ -90,18 +86,10 @@
     .chip {
         text-align: right;
     }
-
-    /* .kebab {
-        text-align: center;
-    } */
 }
 
 @media (max-width: 420px) {
     .primaryContainer {
         margin: 14px 0;
     }
-
-	/* .kebab {
-        top: 20%;
-    } */
 }

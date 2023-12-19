@@ -20,7 +20,7 @@ class MyDocument extends Document {
                 <body>
                     <div id='portal' />
                     <div id='toast-portal' />
-					
+
                     <Main />
                     <NextScript />
                 </body>

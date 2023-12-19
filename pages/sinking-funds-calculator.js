@@ -24,51 +24,51 @@ import { selectPaycheckEntities } from '../store/planner-slice';
 import { selectFundEntities } from '../store/fund-slice';
 
 const SinkingFunds = () => {
-  const { modal, fundForm, onkeydown, onFundClick } = useContext(FormContext);
+    const { modal, fundForm, onkeydown, onFundClick } = useContext(FormContext);
 
-  const auth = useRequireAuth();
-  const currentDate = useSelector(selectFormattedMonthYear);
-  const categories = useSelector(selectCategoryEntities);
-  const expenses = useSelector(selectExpenseEntities);
-  const paychecks = useSelector(selectPaycheckEntities);
-  const funds = useSelector(selectFundEntities);
+    const auth = useRequireAuth();
+    const currentDate = useSelector(selectFormattedMonthYear);
+    const categories = useSelector(selectCategoryEntities);
+    const expenses = useSelector(selectExpenseEntities);
+    const paychecks = useSelector(selectPaycheckEntities);
+    const funds = useSelector(selectFundEntities);
 
-  useEffect(() => {
-    if (
-      auth.user &&
-      Object.keys(categories).length === 0 &&
-      Object.keys(expenses).length === 0 &&
-      Object.keys(paychecks).length === 0 &&
-      Object.keys(funds).length === 0
-    ) {
-      const uid = auth.user.uid;
-      store.dispatch(fetchCategories(uid));
-      store.dispatch(fetchExpenses({ uid, currentDate }));
-      store.dispatch(fetchPaychecks(uid));
-      store.dispatch(fetchPaycheckOrder(uid));
-      store.dispatch(fetchItems(uid));
-      store.dispatch(fetchFunds(uid));
-    }
-  }, [auth.user, currentDate, categories, expenses, paychecks, funds]);
+    useEffect(() => {
+        if (
+            auth.user &&
+            Object.keys(categories).length === 0 &&
+            Object.keys(expenses).length === 0 &&
+            Object.keys(paychecks).length === 0 &&
+            Object.keys(funds).length === 0
+        ) {
+            const uid = auth.user.uid;
+            store.dispatch(fetchCategories(uid));
+            store.dispatch(fetchExpenses({ uid, currentDate }));
+            store.dispatch(fetchPaychecks(uid));
+            store.dispatch(fetchPaycheckOrder(uid));
+            store.dispatch(fetchItems(uid));
+            store.dispatch(fetchFunds(uid));
+        }
+    }, [auth.user, currentDate, categories, expenses, paychecks, funds]);
 
-  return (
-    <>
-      <Portal selector='#portal'>
-        {modal && (
-          <DarkOverlay onKeyDown={onkeydown}>
-            {fundForm && <FundForm />}
-          </DarkOverlay>
-        )}
-      </Portal>
-      <PageBackground>
-        <MainGrid>
-          <Header title='Sinking Funds Calculator' />
-          <SinkingFundsContainer fundHandler={onFundClick} />
-        </MainGrid>
-        <Sidebar hasProfileBar={true} hasBudgetMessage={true} />
-      </PageBackground>
-    </>
-  );
+    return (
+        <>
+            <Portal selector='#portal'>
+                {modal && (
+                    <DarkOverlay onKeyDown={onkeydown}>
+                        {fundForm && <FundForm />}
+                    </DarkOverlay>
+                )}
+            </Portal>
+            <PageBackground>
+                <MainGrid>
+                    <Header title='Sinking Funds Calculator' />
+                    <SinkingFundsContainer fundHandler={onFundClick} />
+                </MainGrid>
+                <Sidebar hasProfileBar={true} hasBudgetMessage={true} />
+            </PageBackground>
+        </>
+    );
 };
 
 export default SinkingFunds;

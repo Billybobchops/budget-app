@@ -1,7 +1,5 @@
 import classes from './BudgetItem.module.css';
 import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
 import KebabMenu from '../KebabMenu';
 
@@ -64,7 +62,10 @@ const BudgetItem = ({
         console.log('Delete budget item function import here');
     };
 
-    const kebabMenuActions = [{ title: 'Edit', actionFn: editBudgetItem }, { title: 'Delete', actionFn: deleteBudgetItem }];
+    const kebabMenuActions = [
+		{ title: 'Edit', actionFn: editBudgetItem },
+		{ title: 'Delete', actionFn: deleteBudgetItem }
+	];
 
     return (
         <Draggable key={title} draggableId={title} index={index}>
@@ -78,19 +79,17 @@ const BudgetItem = ({
                 ].join(' ')}`;
 
                 return (
-                    <li
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-					>
-                        <div className={classes.parentContainer}>
+                    <li className={classes.relative}>
+                        <div
+							ref={provided.innerRef}
+							{...provided.draggableProps}
+							{...provided.dragHandleProps}
+						>
                             <div className={style}>
                                 <div className={classes.secondaryContainer}>
                                     <div className={classes.title}>{title}</div>
 
-                                    <div className={classes.date}>
-                                        <div>{displayDate}</div>
-                                    </div>
+                                    <div className={classes.date}>{displayDate}</div>
 
                                     <div className={classes.spent}>
                                         <div className={classes.flex}>
@@ -114,16 +113,10 @@ const BudgetItem = ({
                                     </div>
                                 </div>
 
-                                {/* <button
-									className={classes.kebab}
-									onClick={displayKebabOptions}
-								>
-									<FontAwesomeIcon icon={faEllipsisH} />
-								</button> */}
-
-                                <KebabMenu kebabMenuActions={kebabMenuActions} />
                             </div>
                         </div>
+						
+						<KebabMenu kebabMenuActions={kebabMenuActions} />
                     </li>
                 );
             }}

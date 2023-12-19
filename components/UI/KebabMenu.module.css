@@ -4,6 +4,7 @@
 	margin: 0;
 	padding: 15px;
 	position: absolute;
+	top: 2px;
     right: 20px;
     text-align: center;
 }
@@ -16,17 +17,37 @@
 	list-style-type: none;
 	padding: 0;
 	position: absolute;
-	right: 50px;
+	right: 55px;
 	top: 10px;
 	z-index: 25;
 }
 
 .kebabMenuItem {
-	border-bottom: 2px black;
+	border-bottom: 1px solid black;
 	font-size: 14px;
-	margin: 5px 8px;
+	padding: 5px 8px;
+}
+
+.kebabMenuItem:hover {
+	background-color: #e7e7e7;
 }
 
 .kebabMenuItem:last-child {
 	border-bottom: none;
+}
+
+/* .buttonClose {
+	transform: rotate(45deg);
+} */
+
+@media (max-width: 840px) {
+    .kebabToggleButton {
+        right: 17px;
+    }
+}
+
+@media (max-width: 420px) {
+    .kebabToggleButton {
+        right: 2px;
+    }
 }
