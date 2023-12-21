@@ -19,7 +19,7 @@ const DatePicker = () => {
   const auth = useRequireAuth();
   const headerDate = useSelector((state) => state.date.headerDate);
   const isCurrentDate = useSelector((state) => state.date.isCurrentDate);
-  const year = useSelector((state) => state.date.year);
+  let year = useSelector((state) => state.date.year);
   const month = useSelector((state) => state.date.monthNum);
   // const [selectedMonthNum, setSelectedMonthNum] = useState(+initialMonth);
   // const [selectedYear, setSelectedYear] = useState(initialYear);
@@ -62,7 +62,7 @@ const DatePicker = () => {
     e.preventDefault();
     // setSelectedYear(selectedYear++);
 
-    const selectedDate = `${monthNum}/${year++}`;
+    const selectedDate = `${monthNum}/${++year}`;
     store.dispatch(incrementYear());
     fetchAllData(selectedDate);
   };
@@ -71,7 +71,7 @@ const DatePicker = () => {
     e.preventDefault();
     // setSelectedYear(selectedYear--);
 
-    const selectedDate = `${monthNum}/${year--}`;
+    const selectedDate = `${monthNum}/${--year}`;
     store.dispatch(decrementYear());
     fetchAllData(selectedDate);
   };

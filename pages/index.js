@@ -8,42 +8,44 @@ import SignUpForm from '../components/forms/SignUpForm';
 import PasswordResetForm from '../components/forms/PasswordResetForm';
 
 export default function HomeAuth() {
-  const [isNewUser, setIsNewUser] = useState(true);
-  const [forgotPass, setForgotPass] = useState(false);
+    const [isNewUser, setIsNewUser] = useState(true);
+    const [forgotPass, setForgotPass] = useState(false);
 
-  const toggleUserStatus = (e) => {
-    e.preventDefault();
-    setIsNewUser(!isNewUser);
-  };
+    const toggleUserStatus = (e) => {
+        e.preventDefault();
+        setIsNewUser(!isNewUser);
+    };
 
-  const toggleForgotForm = (e) => {
-    e.preventDefault();
-    setForgotPass(!forgotPass);
-  };
+    const toggleForgotForm = (e) => {
+        e.preventDefault();
+        setForgotPass(!forgotPass);
+    };
 
-  const authForm = (
-    <>
-      {isNewUser && <SignUpForm onSignInClick={toggleUserStatus} />}
-      {!isNewUser && (
-        <LoginForm
-          onSignUpClick={toggleUserStatus}
-          onResetClick={toggleForgotForm}
-        />
-      )}
-    </>
-  );
+    const authForm = (
+        <>
+            {isNewUser && <SignUpForm onSignInClick={toggleUserStatus} />}
+            {!isNewUser && (
+                <LoginForm
+                    onSignUpClick={toggleUserStatus}
+                    onResetClick={toggleForgotForm}
+                />
+            )}
+        </>
+    );
 
-  return (
-    <div className={classes.gridContainer}>
-      <div className={classes.gradient}></div>
-      <Video />
-      <main className={classes.contentColumn}>
-        <div className={classes.logo}>
-          <Image src={logo} alt='Logo' />
+    return (
+        <div className={classes.gridContainer}>
+            <div className={classes.gradient}></div>
+            <Video />
+            <main className={classes.contentColumn}>
+                <div className={classes.logo}>
+                    <Image src={logo} height={75} alt='Logo' />
+                </div>
+                {!forgotPass && authForm}
+                {forgotPass && (
+                    <PasswordResetForm onCloseOut={toggleForgotForm} />
+                )}
+            </main>
         </div>
-        {!forgotPass && authForm}
-        {forgotPass && <PasswordResetForm onCloseOut={toggleForgotForm} />}
-      </main>
-    </div>
-  );
+    );
 }
