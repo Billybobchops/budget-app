@@ -39,7 +39,7 @@ export default function HomeAuth() {
             <Video />
             <main className={classes.contentColumn}>
                 <div className={classes.logo}>
-                    <Image src={logo} height={75} alt='Logo' />
+                    <Image src={logo} height={75} alt='Logo' priority={true} />
                 </div>
                 {!forgotPass && authForm}
                 {forgotPass && (
