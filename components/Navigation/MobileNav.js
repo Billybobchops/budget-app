@@ -43,7 +43,7 @@ const MobileNav = () => {
         return (
             <nav className={classes.mobileNav}>
                 <div className={classes.logo}>
-                    <Image src={logo} alt='Logo' />
+                    <Image height={50} src={logo} alt='Logo' priority />
                 </div>
                 <button className={classes.iconBtn} onClick={clickHandler}>
                     {icon}

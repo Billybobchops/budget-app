@@ -6,21 +6,23 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 const KebabMenu = ({ kebabMenuActions }) => {
     const [isActive, setIsActive] = useState(false);
     const kebabMenuRef = useRef();
-	const buttonRef = useRef();
+    const buttonRef = useRef();
 
     const toggleMenu = () => {
-		// Check if the clicked button is the "X" button
-		const isXButton = buttonRef.current && buttonRef.current.contains(document.activeElement);
-	
-		// If the clicked button is the "X" button, only close the menu
-		if (isActive && isXButton) {
-		  closeMenu();
-		} else {
-		  // Otherwise, toggle the menu
-		  setIsActive((prevIsActive) => !prevIsActive);
-		  console.log('toggleMenu');
-		}
-	  };
+        // Check if the clicked button is the "X" button
+        const isXButton =
+            buttonRef.current &&
+            buttonRef.current.contains(document.activeElement);
+
+        // If the clicked button is the "X" button, only close the menu
+        if (isActive && isXButton) {
+            closeMenu();
+        } else {
+            // Otherwise, toggle the menu
+            setIsActive((prevIsActive) => !prevIsActive);
+            console.log('toggleMenu');
+        }
+    };
 
     const closeMenu = useCallback(() => {
         console.log('closeMenu');
@@ -41,8 +43,8 @@ const KebabMenu = ({ kebabMenuActions }) => {
             if (
                 isActive &&
                 kebabMenuRef.current &&
-                !kebabMenuRef.current.contains(e.target) && 
-				!buttonRef.current.contains(e.target)
+                !kebabMenuRef.current.contains(e.target) &&
+                !buttonRef.current.contains(e.target)
             ) {
                 closeMenu();
             }
@@ -63,24 +65,30 @@ const KebabMenu = ({ kebabMenuActions }) => {
     return (
         <>
             <button
-                className={`${classes.kebabToggleButton} ${isActive ? classes.buttonClose : ''}`}
+                className={`${classes.kebabToggleButton} ${
+                    isActive ? classes.buttonClose : ''
+                }`}
                 onClick={isActive ? closeMenu : toggleMenu}
-				ref={buttonRef}
-			>
-                {isActive ? <FontAwesomeIcon icon={faSquareXmark} /> : <FontAwesomeIcon icon={faEllipsisH} />}
+                ref={buttonRef}>
+                {isActive ? (
+                    <FontAwesomeIcon icon={faSquareXmark} />
+                ) : (
+                    <FontAwesomeIcon icon={faEllipsisH} />
+                )}
             </button>
 
             {kebabMenuActions && isActive && (
                 <ul ref={kebabMenuRef} className={classes.kebabMenu}>
                     {kebabMenuActions.map((action) => (
-                        <li
-                            className={classes.kebabMenuItem}
-                            key={action.title}
-                            onClick={() => {
-                                action.actionFn();
-                                closeMenu();
-                            }}>
-                            {action.title}
+                        <li key={action.title}>
+                            <button
+                                className={classes.kebabMenuItem}
+                                onClick={() => {
+                                    action.actionFn();
+                                    closeMenu();
+                                }}>
+                                {action.title}
+                            </button>
                         </li>
                     ))}
                 </ul>

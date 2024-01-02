@@ -23,9 +23,15 @@
 }
 
 .kebabMenuItem {
+	background-color: transparent;
+	border-top: none;
+	border-left: none;
+	border-right: none;
 	border-bottom: 1px solid black;
 	font-size: 14px;
 	padding: 5px 8px;
+	text-align: left;
+	width: 100%
 }
 
 .kebabMenuItem:hover {
@@ -36,9 +42,9 @@
 	border-bottom: none;
 }
 
-/* .buttonClose {
-	transform: rotate(45deg);
-} */
+.buttonClose {
+	font-size: 25px;
+}
 
 @media (max-width: 840px) {
     .kebabToggleButton {
