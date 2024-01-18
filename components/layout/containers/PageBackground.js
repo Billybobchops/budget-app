@@ -1,6 +1,6 @@
 import classes from "./PageBackground.module.css";
-import MobileNav from "../../navigation/MobileNav";
-import Nav from "../../navigation/Nav";
+import MobileNav from "../../Navigation/MobileNav";
+import Nav from "../../Navigation/Nav";
 
 const PageBackground = (props) => {
   return (
