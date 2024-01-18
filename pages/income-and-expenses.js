@@ -16,7 +16,7 @@ import ButtonBar from '../components/layout/bars/ButtonBar';
 import Button from '../components/UI/buttons/Button';
 import TotalsBar from '../components/layout/bars/TotalsBar';
 import IncomeExpensesContainer from '../components/layout/containers/IncomeExpensesContainer';
-import Sidebar from '../components/layout/sidebar/Sidebar';
+import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import Portal from '../components/UI/Portal';
 import DarkOverlay from '../components/UI/DarkOverlay';
 import IncomeForm from '../components/forms/IncomeForm';

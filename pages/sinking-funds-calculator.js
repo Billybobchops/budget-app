@@ -14,7 +14,7 @@ import Portal from '../components/UI/Portal';
 import PageBackground from '../components/layout/containers/PageBackground';
 import MainGrid from '../components/layout/MainGrid';
 import Header from '../components/layout/header/Header';
-import Sidebar from '../components/layout/sidebar/Sidebar';
+import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import SinkingFundsContainer from '../components/layout/containers/SinkingFundsContainer';
 import FundForm from '../components/forms/FundForm';
 import { selectFormattedMonthYear } from '../store/date-slice';

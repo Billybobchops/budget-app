@@ -1,102 +1,102 @@
 .mobileNav,
 .navigation {
-  display: none;
+    display: none;
 }
 
 .logo {
-  max-width: 7rem;
-  height: 47px;
+    max-width: 7rem;
+    height: 47px;
 }
 
 .list {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 @media (max-width: 1485px) {
-  .mobileNav {
-    padding: 16px 35px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #d4f3da;
-  }
+    .mobileNav {
+        padding: 16px 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #d4f3da;
+    }
 
-  .icon {
-    font-size: 26px;
-    color: #04311c;
-  }
+    .icon {
+        font-size: 26px;
+        color: #04311c;
+    }
 
-  .iconBtn {
-    border: none;
-    background: transparent;
-  }
+    .iconBtn {
+        border: none;
+        background: transparent;
+    }
 
-  .navigation {
-    display: grid;
-    height: 100vh;
-    justify-content: center;
-    margin-top: 50px;
-  }
+    .navigation {
+        display: grid;
+        height: 100vh;
+        justify-content: center;
+        margin-top: 50px;
+    }
 
-  .mobileNavLink {
-    font-family: 'Cairo', sans-serif;
-    font-size: 25px;
-    font-weight: 700;
-    text-decoration: none;
-    color: #2d8058;
-    line-height: 60px;
-  }
+    .mobileNavLink {
+        font-family: 'Cairo', sans-serif;
+        font-size: 25px;
+        font-weight: 700;
+        text-decoration: none;
+        color: #2d8058;
+        line-height: 60px;
+    }
 
-  .mobileNavLink:hover,
-  .active {
-    color: #bd275c;
-  }
+    .mobileNavLink:hover,
+    .active {
+        color: #bd275c;
+    }
 
-  .list {
-    list-style-type: none;
-    padding: 0;
-  }
+    .list {
+        list-style-type: none;
+        padding: 0;
+    }
 
-  .listItem {
-    list-style-type: none;
-    color: #2d8058;
-    margin-bottom: 30px;
-  }
+    .listItem {
+        list-style-type: none;
+        color: #2d8058;
+        margin-bottom: 30px;
+    }
 
-  .mobileIcon {
-    margin-right: 18px;
-  }
+    .mobileIcon {
+        margin-right: 18px;
+    }
 }
 
 @media (max-width: 955px) {
-  .mobileNav {
-    padding: 8px 35px;
-  }
+    .mobileNav {
+        padding: 8px 35px;
+    }
 }
 
 @media (max-width: 645px) {
-  .mobileNav {
-    padding: 8px 20px;
-  }
+    .mobileNav {
+        padding: 8px 20px;
+    }
 
-	.logo {
-		max-width: 6rem;
-		height: 39px;
-	}
+    .logo {
+        max-width: 6rem;
+        height: 39px;
+    }
 }
 
 @media (max-width: 500px) {
-  .navigation {
-    margin-top: 20px;
-  }
+    .navigation {
+        margin-top: 20px;
+    }
 
-  .mobileNavLink {
-    font-size: 20px;
-    line-height: 40px;
-  }
+    .mobileNavLink {
+        font-size: 20px;
+        line-height: 40px;
+    }
 
-  .listItem {
-    margin-bottom: 18px;
-  }
+    .listItem {
+        margin-bottom: 18px;
+    }
 }

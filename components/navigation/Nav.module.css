@@ -1,47 +1,47 @@
 .navigation {
-  position: fixed;
+    position: fixed;
 }
 
 .logo {
-  max-width: 10rem;
-  margin: 50px 0 20px 0;
+    max-width: 10rem;
+    margin: 50px 0 20px 0;
 }
 
 .navLink {
-  font-family: 'Cairo', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  text-decoration: none;
-  color: #2d8058;
-	transition: 200ms ease;
+    font-family: 'Cairo', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #2d8058;
+    transition: 200ms ease;
 }
 
 .navLink:hover,
 .active {
-  color: #bd275c;
-	transition: 400ms ease;
+    color: #bd275c;
+    transition: 400ms ease;
 }
 
 .list {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 .listItem {
-  color: #2d8058;
-  margin-bottom: 10px;
+    color: #2d8058;
+    margin-bottom: 10px;
 }
 
 .icon {
-  margin-right: 18px;
+    margin-right: 18px;
 }
 
 @media (max-width: 1485px) {
-  .navLink {
-    display: none;
-  }
+    .navLink {
+        display: none;
+    }
 
-  .logo {
-    display: none;
-  }
+    .logo {
+        display: none;
+    }
 }
