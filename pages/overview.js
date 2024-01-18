@@ -16,7 +16,7 @@ import MainGrid from '../components/Layout/MainGrid';
 import Header from '../components/Layout/header/Header';
 import ButtonBar from '../components/Layout/Bars/ButtonBar';
 import Button from '../components/UI/buttons/Button';
-import TotalsBar from '../components/Layout/bars/TotalsBar';
+import TotalsBar from '../components/Layout/Bars/TotalsBar';
 import CategoryAccordionContainer from '../components/Layout/Containers/CategoryAccordionContainer';
 import Sidebar from '../components/Layout/Sidebar/Sidebar';
 import DarkOverlay from '../components/UI/DarkOverlay';

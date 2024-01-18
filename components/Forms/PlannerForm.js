@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import store from '../../store';
 import { addNewIncome } from '../../store/planner-slice';
 import useForm from '../../hooks/useForm';
-import classes from '../forms/FormUI/FormStyles.module.css';
+import classes from './FormUI/FormStyles.module.css';
 import FormBackground from './FormUI/FormBackground';
 import FormContext from '../../store/form-context';
 import SubmitButton from './FormUI/SubmitButton';
