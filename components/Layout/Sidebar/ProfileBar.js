@@ -21,8 +21,8 @@ const ProfileBar = () => {
 					className={classes.profilePicture}
 				/>
 			</div>
-			<Link href={'/my-account'}>
-				<a className={classes.link}>My Account</a>
+			<Link className={classes.link} href={'/my-account'}>
+				My Account
 			</Link>
 			<SquareButton text='Logout' onClick={logoutHandler} />
 		</div>

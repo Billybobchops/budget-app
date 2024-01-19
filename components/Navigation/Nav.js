@@ -8,7 +8,7 @@ import {
 	faList,
 	faCalculator,
 } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../public/LogoPlaceholder.png';
+import logo from '../../public/Budgie-Logo.png';
 import classes from './Nav.module.css';
 
 const NavLink = ({ href, icon, linkText }) => {
@@ -17,10 +17,8 @@ const NavLink = ({ href, icon, linkText }) => {
 	return (
 		<li className={classes.listItem}>
 			<FontAwesomeIcon icon={icon} className={classes.icon} />
-			<Link href={href}>
-				<a className={`${classes.navLink} ${router.pathname === href ? classes.active : ''}`}>
-					{linkText}
-				</a>
+			<Link className={`${classes.navLink} ${router.pathname === href ? classes.active : ''}`} href={href}>
+				{linkText}
 			</Link>
 		</li>
 	);
@@ -30,7 +28,13 @@ const Nav = () => {
 	return (
 		<nav className={classes.navigation}>
 			<div className={classes.logo}>
-				<Image src={logo} alt='Logo' priority />
+				<Image
+					src={logo}
+					alt='Logo'
+					height={41}
+					width={125}
+					priority={true}
+				/>
 			</div>
 			<ul className={classes.list}>
 				<NavLink

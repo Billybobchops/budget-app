@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import classes from '../styles/HomeAuth.module.css';
-import logo from '../public/LogoPlaceholder.png';
+import logo from '../public/Budgie-Logo.png';
 import Video from '../components/UI/Video';
 import Image from 'next/image';
 import LoginForm from '../components/Forms/LoginForm';
@@ -39,7 +39,13 @@ export default function HomeAuth() {
 			<Video />
 			<main className={classes.contentColumn}>
 				<div className={classes.logo}>
-					<Image src={logo} alt='Logo' priority={true} />
+					<Image
+						alt='Logo'
+						src={logo}
+						height={49}
+						width={150}
+						priority={true}
+					/>
 				</div>
 				{!forgotPass && authForm}
 				{forgotPass && (

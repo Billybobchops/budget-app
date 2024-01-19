@@ -14,7 +14,7 @@ import {
 	faList,
 	faCalculator,
 } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../public/LogoPlaceholder.png';
+import logo from '../../public/Budgie-Logo.png';
 import { useAuth } from '../../hooks/useAuth';
 
 const MobileNav = () => {
@@ -42,9 +42,13 @@ const MobileNav = () => {
 	const NavBar = () => {
 		return (
 			<nav className={classes.mobileNav}>
-				<div className={classes.logo}>
-					<Image src={logo} alt='Logo' priority />
-				</div>
+				<Image
+					src={logo}
+					alt='Logo'
+					height={25}
+					width={75}
+					priority={true}
+				/>
 				<button className={classes.iconBtn} onClick={clickHandler}>
 					{icon}
 				</button>
@@ -58,8 +62,12 @@ const MobileNav = () => {
 		return (
 			<li className={classes.listItem}>
 				<FontAwesomeIcon icon={icon} className={classes.mobileIcon} />
-				<Link href={href}>
-					<a className={`${classes.mobileNavLink} ${router.pathname === href ? classes.active : ''}`}>{linkText}</a>
+				<Link
+					className={`${classes.mobileNavLink} ${
+						router.pathname === href ? classes.active : ''
+					}`}
+					href={href}>
+					{linkText}
 				</Link>
 			</li>
 		);
@@ -93,7 +101,9 @@ const MobileNav = () => {
 						/>
 						<li className={classes.listItem}>
 							<Link href={'/my-account'}>
-								<a className={classes.mobileNavLink}>My Account</a>
+								<a className={classes.mobileNavLink}>
+									My Account
+								</a>
 							</Link>
 						</li>
 						<li className={classes.listItem}>
