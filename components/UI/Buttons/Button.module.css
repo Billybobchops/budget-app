@@ -1,26 +1,23 @@
 .button {
-  color: #fff;
-  background-color: #bd275c;
-  border-radius: 50px;
-  border: none;
-  font-family: 'Cairo', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 30px;
-  margin: 0px 12px 12px 0;
-}
-
-.buttonEvenMargin {
-  margin: 12px;
-}
-
-@media (max-width: 390px) {
-  .button {
-    font-size: 12px;
-    margin: 0 9px 9px 0;
+	background-color: #bd275c;
+	border-radius: 50px;
+	border: none;
+	color: #fff;
+	font-family: 'Cairo', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	margin: 0px 12px 12px 0;
+	padding: 8px 30px;
   }
-
+  
   .buttonEvenMargin {
-    margin: 12px;
+	margin: 12px;
   }
-}
+  
+  @media (max-width: 390px) {
+	.button {
+	  font-size: 12px;
+	  margin: 0 9px 9px 0;
+	}
+  }
+  

@@ -47,7 +47,6 @@ const MobileNav = () => {
 					alt='Logo'
 					height={25}
 					width={75}
-					priority={true}
 				/>
 				<button className={classes.iconBtn} onClick={clickHandler}>
 					{icon}

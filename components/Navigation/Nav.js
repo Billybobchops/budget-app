@@ -34,6 +34,7 @@ const Nav = () => {
 					height={41}
 					width={125}
 					priority={true}
+					as="image"
 				/>
 			</div>
 			<ul className={classes.list}>

@@ -8,39 +8,39 @@ import ButtonBar from '../Bars/ButtonBar';
 import Button from '../../UI/buttons/Button';
 
 const Sidebar = ({
-  hasProfileBar,
-  hasCategoryPie,
-  hasBudgetMessage,
-  hasUpcomingBills,
-  hasButtonBar,
-  buttons,
-  hasItemsDragList,
-  dragData,
+	buttons,
+	dragData,
+	hasBudgetMessage,
+	hasButtonBar,
+	hasCategoryPie,
+	hasItemsDragList,
+	hasProfileBar,
+	hasUpcomingBills,
 }) => {
-  const sidebarContents = (
-    <>
-      {hasProfileBar && <ProfileBar />}
-      {hasCategoryPie && <CategoryPie />}
-      {hasBudgetMessage && <BudgetMessage />}
-      {hasUpcomingBills && <UpcomingBills />}
-      {hasButtonBar && (
-        <ButtonBar>
-          {buttons.map((btn) => {
-            return (
-              <Button
-                key={btn.text}
-                text={btn.text}
-                clickHandler={btn.clickHandler}
-              />
-            );
-          })}
-        </ButtonBar>
-      )}
-      {hasItemsDragList && <ItemsDragList dragData={dragData} />}
-    </>
-  );
+	const sidebarContents = (
+		<aside>
+			{hasProfileBar && <ProfileBar />}
+			{hasCategoryPie && <CategoryPie />}
+			{hasBudgetMessage && <BudgetMessage />}
+			{hasUpcomingBills && <UpcomingBills />}
+			{hasButtonBar && (
+				<ButtonBar>
+					{buttons.map((btn) => {
+						return (
+							<Button
+								key={btn.text}
+								text={btn.text}
+								clickHandler={btn.clickHandler}
+							/>
+						);
+					})}
+				</ButtonBar>
+			)}
+			{hasItemsDragList && <ItemsDragList dragData={dragData} />}
+		</aside>
+	);
 
-  return <aside className={classes.sidebar}>{sidebarContents}</aside>;
+	return <aside className={classes.sidebar}>{sidebarContents}</aside>;
 };
 
 export default Sidebar;

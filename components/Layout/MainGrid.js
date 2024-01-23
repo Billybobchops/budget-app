@@ -1,7 +1,7 @@
-import classes from "./MainGrid.module.css";
+import classes from './MainGrid.module.css';
 
-const MainGrid = (props) => {
-  return <main className={classes.main}>{props.children}</main>
+const MainGrid = ({ children }) => {
+	return <main className={classes.main}>{children}</main>;
 };
 
 export default MainGrid;

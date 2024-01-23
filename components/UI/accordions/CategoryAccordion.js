@@ -11,13 +11,13 @@ import BudgetItem from '../items/BudgetItem';
 import { Droppable } from 'react-beautiful-dnd';
 
 const CategoryAccordion = ({
-    categoryTitle,
-    percent,
     budgetedTotal,
-    totalIncome,
-    spent,
+    categoryTitle,
     items,
+    percent,
+    spent,
     tabID,
+    totalIncome,
 }) => {
     const [isActive, setIsActive] = useState(false);
 

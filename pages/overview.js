@@ -33,262 +33,269 @@ import { selectPaycheckOrder } from '../store/paycheckOrder-slice';
 import { selectFundEntities } from '../store/fund-slice';
 
 const Overview = () => {
-  const {
-    modal,
-    itemForm,
-    categoryForm,
-    onkeydown,
-    onCategoryClick,
-    onItemClick,
-  } = useContext(FormContext);
+	const {
+		modal,
+		itemForm,
+		categoryForm,
+		onkeydown,
+		onCategoryClick,
+		onItemClick,
+	} = useContext(FormContext);
 
-  const [categoryOrder, setCategoryOrder] = useState([]);
-  const [totalIncome, setTotalIncome] = useState(0);
+	const [categoryOrder, setCategoryOrder] = useState([]);
+	const [totalIncome, setTotalIncome] = useState(0);
 
-  const auth = useRequireAuth();
-  const currentDate = useSelector(selectFormattedMonthYear);
-  const categoryEntities = useSelector(selectCategoryEntities);
-  const categoryIds = useSelector(selectCategoryIds);
-  const expenses = useSelector(selectExpenseEntities);
-  const itemEntities = useSelector(selectItemEntities);
-  const income = useSelector(selectPaycheckEntities);
-  const paycheckOrder = useSelector(selectPaycheckOrder);
-  // const funds = useSelector(selectFundEntities);
+	const auth = useRequireAuth();
+	const currentDate = useSelector(selectFormattedMonthYear);
+	const categoryEntities = useSelector(selectCategoryEntities);
+	const categoryIds = useSelector(selectCategoryIds);
+	const expenses = useSelector(selectExpenseEntities);
+	const itemEntities = useSelector(selectItemEntities);
+	const income = useSelector(selectPaycheckEntities);
+	//   const paycheckOrder = useSelector(selectPaycheckOrder);
+	//   const funds = useSelector(selectFundEntities);
 
-  const initCategoryAccordionContainerProps = (
-    categoryIds,
-    itemEntities,
-    income,
-    expenses
-  ) => {
-    // we don't separate this big fn into smaller functions out b/c setState isn't synchronous
-    // and we synchronously build the shape of the data we're passing to each accordion
-    // also... you cannot call hooks from within loops!
-    let orderArr = [];
+	const initCategoryAccordionContainerProps = (
+		categoryIds,
+		itemEntities,
+		income,
+		expenses
+	) => {
+		// we don't separate this big fn into smaller functions out b/c setState isn't synchronous
+		// and we synchronously build the shape of the data we're passing to each accordion
+		// also... you cannot call hooks from within loops!
+		let orderArr = [];
 
-    // // 1. init setup of orderArr
-    categoryIds.map((category) =>
-      orderArr.push({
-        id: category,
-        budgetedItemsTotal: 0,
-        percentOfIncome: 0,
-        spent: 0,
-        itemIds: [],
-      })
-    );
+		// // 1. init setup of orderArr
+		categoryIds.map((category) =>
+			orderArr.push({
+				id: category,
+				budgetedItemsTotal: 0,
+				percentOfIncome: 0,
+				spent: 0,
+				itemIds: [],
+			})
+		);
 
-    // 2. calc total planned income
-    let totalPay = 0;
-    Object.values(income).map((check) => {
-      totalPay += check.expectedPay;
-    });
-    setTotalIncome(totalPay);
+		// 2. calc total planned income
+		let totalPay = 0;
+		Object.values(income).map((check) => {
+			totalPay += check.expectedPay;
+		});
+		setTotalIncome(totalPay);
 
-    // 3. calc total budgetItems amount per category and gather array of items that belong to each category
-    Object.values(itemEntities).map((item) => {
-      orderArr.map((category, i) => {
-        if (category.id === item.category) {
-          orderArr[i].budgetedItemsTotal += item.budgetAmount;
+		// 3. calc total budgetItems amount per category and gather array of items that belong to each category
+		Object.values(itemEntities).map((item) => {
+			orderArr.map((category, i) => {
+				if (category.id === item.category) {
+					orderArr[i].budgetedItemsTotal += item.budgetAmount;
 
-          orderArr[i].itemIds.push({
-            id: item.id,
-            budgetAmount: item.budgetAmount,
-            billDate: item.billDate,
-          });
+					orderArr[i].itemIds.push({
+						id: item.id,
+						budgetAmount: item.budgetAmount,
+						billDate: item.billDate,
+					});
 
-          // 4. Sort itemIds by DESC budget amount
-          orderArr[i].itemIds.sort((a, b) =>
-            a.budgetAmount > b.budgetAmount ? -1 : 1
-          );
+					// 4. Sort itemIds by DESC budget amount
+					orderArr[i].itemIds.sort((a, b) =>
+						a.budgetAmount > b.budgetAmount ? -1 : 1
+					);
 
-          // 5. calc what percentage of budgetedItems in a category make up the total planned income
-          orderArr[i].percentOfIncome = +(
-            orderArr[i].budgetedItemsTotal / totalPay
-          ).toFixed(2);
-        }
-      });
-    });
+					// 5. calc what percentage of budgetedItems in a category make up the total planned income
+					orderArr[i].percentOfIncome = +(
+						orderArr[i].budgetedItemsTotal / totalPay
+					).toFixed(2);
+				}
+			});
+		});
 
-    // 6. calc spent amount per category
-    Object.values(expenses).map((expense) => {
-      orderArr.map((category, i) => {
-        if (category.id === expense.category) {
-          orderArr[i].spent += expense.amount;
-        }
-      });
-    });
+		// 6. calc spent amount per category
+		Object.values(expenses).map((expense) => {
+			orderArr.map((category, i) => {
+				if (category.id === expense.category) {
+					orderArr[i].spent += expense.amount;
+				}
+			});
+		});
 
-    // 7. Sort categories by DESC percentOfIncome by default
-    orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
+		// 7. Sort categories by DESC percentOfIncome by default
+		orderArr.sort((a, b) =>
+			a.percentOfIncome > b.percentOfIncome ? -1 : 1
+		);
 
-    // 8. Finally, update state
-    setCategoryOrder(orderArr);
-  };
+		// 8. Finally, update state
+		setCategoryOrder(orderArr);
+	};
 
-  const reCalcProps = (categoryOrder, expenses) => {
-    let orderArr = [...categoryOrder];
+	const reCalcProps = (categoryOrder, expenses) => {
+		let orderArr = [...categoryOrder];
 
-    orderArr.map((category) => {
-      category.budgetedItemsTotal = 0;
+		orderArr.map((category) => {
+			category.budgetedItemsTotal = 0;
 
-      category.itemIds.map((item) => {
-        category.budgetedItemsTotal += item.budgetAmount;
-      });
+			category.itemIds.map((item) => {
+				category.budgetedItemsTotal += item.budgetAmount;
+			});
 
-      category.itemIds.sort((a, b) =>
-        a.budgetAmount > b.budgetAmount ? -1 : 1
-      );
+			category.itemIds.sort((a, b) =>
+				a.budgetAmount > b.budgetAmount ? -1 : 1
+			);
 
-      category.percentOfIncome = +(
-        category.budgetedItemsTotal / totalIncome
-      ).toFixed(2);
-    });
+			category.percentOfIncome = +(
+				category.budgetedItemsTotal / totalIncome
+			).toFixed(2);
+		});
 
-    Object.values(expenses).map((expense) => {
-      orderArr.map((category) => {
-        category.spent = 0;
+		Object.values(expenses).map((expense) => {
+			orderArr.map((category) => {
+				category.spent = 0;
 
-        if (category.id === expense.category) {
-          category.spent += expense.amount;
-        }
-      });
-    });
+				if (category.id === expense.category) {
+					category.spent += expense.amount;
+				}
+			});
+		});
 
-    orderArr.sort((a, b) => (a.percentOfIncome > b.percentOfIncome ? -1 : 1));
+		orderArr.sort((a, b) =>
+			a.percentOfIncome > b.percentOfIncome ? -1 : 1
+		);
 
-    setCategoryOrder(orderArr);
-  };
+		setCategoryOrder(orderArr);
+	};
 
-  const reverseCategoryOrder = () => {
-    const orderClone = [...categoryOrder];
-    const reverseOrder = orderClone.reverse();
-    setCategoryOrder(reverseOrder);
-  };
+	const reverseCategoryOrder = () => {
+		const orderClone = [...categoryOrder];
+		const reverseOrder = orderClone.reverse();
+		setCategoryOrder(reverseOrder);
+	};
 
-  useEffect(() => {
-    if (
-      auth.user &&
-      Object.keys(categoryEntities).length === 0
-      // Object.keys(items).length === 0 &&
-      // Object.keys(expenses).length === 0 &&
-      // Object.keys(income).length === 0 &&
-      // paycheckStatus !== 'noPaychecksAdded' &&
-      // Object.keys(funds).length === 0
-    ) {
-      const uid = auth.user.uid;
-      store.dispatch(fetchCategories(uid));
-      store.dispatch(fetchExpenses({ uid, currentDate }));
-      store.dispatch(fetchPaychecks(uid));
-      store.dispatch(fetchPaycheckOrder(uid));
-      store.dispatch(fetchItems(uid));
-      store.dispatch(fetchFunds(uid));
-    }
-    console.log('auth useEffect running');
-  });
+	useEffect(() => {
+		if (
+			auth.user &&
+			Object.keys(categoryEntities).length === 0
+			// Object.keys(items).length === 0 &&
+			// Object.keys(expenses).length === 0 &&
+			// Object.keys(income).length === 0 &&
+			// paycheckStatus !== 'noPaychecksAdded' &&
+			// Object.keys(funds).length === 0
+		) {
+			const uid = auth.user.uid;
+			store.dispatch(fetchCategories(uid));
+			store.dispatch(fetchExpenses({ uid, currentDate }));
+			store.dispatch(fetchPaychecks(uid));
+			store.dispatch(fetchPaycheckOrder(uid));
+			store.dispatch(fetchItems(uid));
+			store.dispatch(fetchFunds(uid));
+		}
+		console.log('auth useEffect running');
+	});
 
-  useEffect(() => {
-    initCategoryAccordionContainerProps(
-      categoryIds,
-      itemEntities,
-      income,
-      expenses
-    );
-  }, [categoryIds, itemEntities, income, expenses]);
+	useEffect(() => {
+		initCategoryAccordionContainerProps(
+			categoryIds,
+			itemEntities,
+			income,
+			expenses
+		);
+	}, [categoryIds, itemEntities, income, expenses]);
 
-  const onDragEnd = (result) => {
-    const { draggableId, destination, source } = result;
+	const onDragEnd = (result) => {
+		const { draggableId, destination, source } = result;
 
-    // if user drops draggable outside of any droppable
-    if (!destination) return;
-    // The user dropped the item back in the same position
-    if (
-      destination.droppableId == source.droppableId &&
-      destination.index === source.index
-    )
-      return;
+		// if user drops draggable outside of any droppable
+		if (!destination) return;
+		// The user dropped the item back in the same position
+		if (
+			destination.droppableId == source.droppableId &&
+			destination.index === source.index
+		)
+			return;
 
-    const start = source.droppableId;
-    const end = destination.droppableId;
-    if (start === end) return;
+		const start = source.droppableId;
+		const end = destination.droppableId;
+		if (start === end) return;
 
-    // Moving from one droppable to another: category update occuring
-    let categoryOrderClone = [...categoryOrder];
-    let dragObj;
+		// Moving from one droppable to another: category update occuring
+		let categoryOrderClone = [...categoryOrder];
+		let dragObj;
 
-    categoryOrder.map((category, i) => {
-      if (category.id !== start) return;
+		categoryOrder.map((category, i) => {
+			if (category.id !== start) return;
 
-      if (category.id === start) {
-        const startItemIds = [...category.itemIds];
+			if (category.id === start) {
+				const startItemIds = [...category.itemIds];
 
-        dragObj = {
-          ...categoryOrderClone[i].itemIds[source.index],
-        };
+				dragObj = {
+					...categoryOrderClone[i].itemIds[source.index],
+				};
 
-        startItemIds.splice(source.index, 1);
-        categoryOrderClone[i].itemIds = [...startItemIds];
-      }
-    });
+				startItemIds.splice(source.index, 1);
+				categoryOrderClone[i].itemIds = [...startItemIds];
+			}
+		});
 
-    categoryOrder.map((category, i) => {
-      if (category.id !== end) return;
+		categoryOrder.map((category, i) => {
+			if (category.id !== end) return;
 
-      if (category.id === end) {
-        const endItemIds = [...category.itemIds];
+			if (category.id === end) {
+				const endItemIds = [...category.itemIds];
 
-        endItemIds.splice(destination.index, 0, dragObj);
-        categoryOrderClone[i].itemIds = [...endItemIds];
-      }
-    });
+				endItemIds.splice(destination.index, 0, dragObj);
+				categoryOrderClone[i].itemIds = [...endItemIds];
+			}
+		});
 
-    // updates the itemIds array within the objects within the categoryOrder array in local state to reflect the dragged item event
-    setCategoryOrder(categoryOrderClone);
+		// updates the itemIds array within the objects within the categoryOrder array in local state to reflect the dragged item event
+		setCategoryOrder(categoryOrderClone);
 
-    // updates the other keys inside the objects inside the categoryOrder array in local state
-    reCalcProps(categoryOrder, expenses);
-    console.log('categoryOrder after onDragEnd()', categoryOrder);
+		// updates the other keys inside the objects inside the categoryOrder array in local state
+		reCalcProps(categoryOrder, expenses);
+		console.log('categoryOrder after onDragEnd()', categoryOrder);
 
-    const uid = auth.user.uid;
-    const document = draggableId;
-    const newCategory = destination.droppableId;
-    store.dispatch(updateCategoryItemDoc({ uid, document, newCategory }));
-  };
+		const uid = auth.user.uid;
+		const document = draggableId;
+		const newCategory = destination.droppableId;
+		store.dispatch(updateCategoryItemDoc({ uid, document, newCategory }));
+	};
 
-  return (
-    <>
-      <Portal selector='#portal'>
-        {modal && (
-          <DarkOverlay onKeyDown={onkeydown}>
-            {categoryForm && <CategoryForm />}
-            {itemForm && <ItemForm />}
-          </DarkOverlay>
-        )}
-      </Portal>
-      <PageBackground>
-        <MainGrid>
-          <Header title='Overview' />
-          <ButtonBar>
-            <Button text='Budget Category' clickHandler={onCategoryClick} />
-            <Button text='Budget Item' clickHandler={onItemClick} />
-          </ButtonBar>
-          <TotalsBar />
-          <DragDropContext onDragEnd={onDragEnd}>
-            <CategoryAccordionContainer
-              categoryOrder={categoryOrder}
-              reverseOrderFn={reverseCategoryOrder}
-              totalIncome={totalIncome}
-            />
-          </DragDropContext>
-        </MainGrid>
-        <Sidebar
-          hasProfileBar={true}
-          hasBudgetMessage={true}
-          hasCategoryPie={true}
-          hasUpcomingBills={true}
-        />
-      </PageBackground>
-    </>
-  );
+	return (
+		<>
+			<Portal selector='#portal'>
+				{modal && (
+					<DarkOverlay onKeyDown={onkeydown}>
+						{categoryForm && <CategoryForm />}
+						{itemForm && <ItemForm />}
+					</DarkOverlay>
+				)}
+			</Portal>
+			<PageBackground>
+				<MainGrid>
+					<Header title='Overview' />
+					<ButtonBar>
+						<Button
+							text='Budget Category'
+							clickHandler={onCategoryClick}
+						/>
+						<Button text='Budget Item' clickHandler={onItemClick} />
+					</ButtonBar>
+					<TotalsBar />
+					<DragDropContext onDragEnd={onDragEnd}>
+						<CategoryAccordionContainer
+							categoryOrder={categoryOrder}
+							reverseOrderFn={reverseCategoryOrder}
+							totalIncome={totalIncome}
+						/>
+					</DragDropContext>
+				</MainGrid>
+				<Sidebar
+					hasBudgetMessage={true}
+					hasCategoryPie={true}
+					hasProfileBar={true}
+					hasUpcomingBills={true}
+				/>
+			</PageBackground>
+		</>
+	);
 };
 
 export default Overview;

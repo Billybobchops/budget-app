@@ -44,7 +44,6 @@ export default function HomeAuth() {
 						src={logo}
 						height={49}
 						width={150}
-						priority={true}
 					/>
 				</div>
 				{!forgotPass && authForm}

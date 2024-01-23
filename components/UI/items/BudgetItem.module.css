@@ -1,95 +1,213 @@
-/* .parentContainer {
-	position: relative;
-} */
-
 .relative {
 	position: relative;
 }
 
-.primaryContainer {
-    align-items: center;
-    background-color: #fff;
-    box-shadow: #0000004f 0px 3px 5px;
-    color: #04311c;
-    display: grid;
-    font-family: 'Cairo', sans-serif;
-    grid-template-areas: 'itemContents kebabSpace';
-    grid-template-columns: 1fr 50px;
-    list-style-type: none;
-    margin: 14px;
-    padding: 10px 0;
+.primaryContainer,
+.editContainer {
+	align-items: center;
+	background-color: #fff;
+	box-shadow: #0000004f 0px 3px 5px;
+	color: #04311c;
+	display: grid;
+	font-family: 'Cairo', sans-serif;
+	grid-template-areas: 'itemContents kebabSpace';
+	grid-template-columns: 1fr 50px;
+	list-style-type: none;
+	margin: 14px;
+	padding: 10px 15px;
 }
 
-.secondaryContainer {
-    display: grid;
-    grid-template-areas: 'title spent date chip';
-    grid-template-columns: 45% 85px 1fr 15%;
+.editContainer {
+	grid-template-columns: 1fr;
 }
 
-.title,
-.spent {
-    padding-left: 15px;
+.deleteContainer,
+.formContainer {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.deleteContainer {
+	row-gap: 5px;
+}
+
+.staticChildContainer {
+	align-items: center;
+	display: grid;
+	grid-template-areas: 'title spent date chip';
+	grid-template-columns: 45% 85px 1fr 15%;
+}
+
+.buttonsContainer {
+	align-items: center;
+	display: flex;
+	margin-left: auto;
+}
+
+.buttonsContainer button:first-child,
+.confirmDelete {
+	margin-right: 6px;
+}
+
+.confirmDelete {
+	margin-left: 10px;
+}
+
+.button,
+.cancelDelete,
+.confirmDelete {
+	background-color: #2d8058;
+	border-radius: 50px;
+	border: none;
+	color: #fff;
+	font-family: 'Cairo', sans-serif;
+	font-size: 12px;
+	padding: 2px 15px;
+}
+
+.cancelButton {
+	background-color: #e3e3e3;
+	border-radius: 50%;
+	border: none;
+	color: #1e1e1e;
+	font-size: 10px;
+	height: 25px;
+	padding: 2px 2px;
+	width: 25px;
+}
+
+.cancelDelete {
+	background-color: #ffdddd;
+	color: #1e1e1e;
+}
+
+.mobileCancelText {
+	display: none;
+}
+
+.button:hover,
+.confirmDelete:hover {
+	background-color: #1f6845;
+}
+
+.cancelButton:hover {
+	background-color: #d2d2d2;
+}
+
+.cancelDelete:hover {
+	background-color: #fbcdcd;
+}
+
+.input {
+	border: 1px solid #2d8058;
+	color: #1e1e1e;
+	margin: 0 20px 0 5px;
+	padding: 4px 0 4px 6px;
+}
+
+.staticChildContainer {
+	font-size: 15px;
+}
+
+.amountInput {
+	width: 85px;
 }
 
 .plannerMargin {
-    margin: 14px 0px 14px 37px;
+	margin: 14px 0px 14px 37px;
 }
 
 .backgroundDrag {
-    background-color: #d0ffe9;
-    border-left: 7px solid #04311c;
+	background-color: #d0ffe9;
+	border-left: 7px solid #04311c;
 }
 
 .secondaryRow {
-    display: none;
+	display: none;
 }
 
 .flex {
-    display: flex;
+	display: flex;
 }
 
 .slash {
-    margin: 0 5px;
+	margin: 0 5px;
 }
 
 .bold {
-    font-weight: 700;
+	font-weight: 700;
 }
 
 .under {
-    color: #2d8058;
+	color: #2d8058;
 }
 
 .over {
-    color: red;
+	color: red;
 }
 
 @media (max-width: 840px) {
-    .primaryContainer {
-        align-items: center;
-        padding: 6px 0;
-        font-size: 13px;
-    }
+	.primaryContainer {
+		align-items: center;
+		padding: 6px 0;
+	}
 
-    .secondaryContainer {
-        grid-template-areas: 'title date' 'spent chip';
-        grid-template-columns: 2fr 1fr;
-        grid-template-rows: repeat(2, 1fr);
-    }
+	.deleteContainer {
+		font-size: 13px;
+	}
 
-    .title,
-    .date {
-        border-bottom: 1px solid #62d5b5;
-    }
+	.staticChildContainer {
+		font-size: 13px;
+		grid-template-areas: 'title date' 'spent chip';
+		grid-template-columns: 2fr 1fr;
+		grid-template-rows: repeat(2, 1fr);
+		padding-left: 15px;
+	}
 
-    .date,
-    .chip {
-        text-align: right;
-    }
+	.formContainer {
+		flex-wrap: wrap;
+	}
+
+	.formContainer label,
+	.buttonsContainer {
+		width: 100%;
+	}
+
+	.buttonsContainer {
+		margin: 6px 0 4px 0;
+	}
+
+	.mobileCancelText {
+		display: inline;
+		font-size: 11px;
+		margin-left: 5px;
+	}
+
+	.cancelButton {
+		border-radius: 50px;
+		padding: 0 12px;
+		width: auto;
+	}
+
+	.input {
+		margin-bottom: 6px;
+	}
+
+	.title,
+	.date {
+		border-bottom: 1px solid #62d5b5;
+	}
+
+	.date,
+	.chip {
+		text-align: right;
+	}
 }
 
 @media (max-width: 420px) {
-    .primaryContainer {
-        margin: 14px 0;
-    }
+	.primaryContainer,
+	.editContainer {
+		margin: 14px 0;
+	}
 }

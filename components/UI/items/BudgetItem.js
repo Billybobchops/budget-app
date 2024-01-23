@@ -1,127 +1,243 @@
 import classes from './BudgetItem.module.css';
+import { useState } from 'react';
+import { useAuth } from '../../../hooks/useAuth';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 import KebabMenu from '../KebabMenu';
+import store from '../../../store';
+import { deleteItemDoc, updateItemDoc } from '../../../store/items-slice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 const BudgetItem = ({
-    title,
-    index,
-    budgetedAmount,
-    date,
-    tabID,
-    accordionType,
+	accordionType,
+	budgetedAmount,
+	date,
+	index,
+	tabID,
+	title,
 }) => {
-    // className={`${[classes.primaryContainer, classes[`${snapshot.isDragging && "backgroundDrag"}`],].join(" ")}`}
-    const daySlice = date.slice(-2);
-    const today = new Date().getDate();
-    const dateString = +daySlice === today ? 'Today' : date;
-    // const displayDate = `${
-    //   dateString === 'Today' ? `Bills` : 'Bills on'
-    // } ${dateString}`;
+	const expenses = useSelector((state) => state.expenses.entities);
+	const { user: { uid } } = useAuth();
+	const currentYear = new Date().getFullYear();
+	const initialLocalItem = {
+		title,
+		billDate: `${currentYear}-${date.slice(0, 2)}-${date.slice(-2)}`,
+		amount: budgetedAmount,
+	};
+	const [localItem, setLocalItem] = useState(initialLocalItem);
+	const [isEditing, setIsEditing] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
+	const idToUpdate = title;
+	const daySlice = date.slice(-2);
+	const staticDisplayDate = new Date().getDate() === +daySlice ? 'Today' : date;
 
-    const displayDate = `${dateString === 'Today' ? `Today` : date}`;
+	////////////////////////////////////////////
+	// Question: Would it be better to do this in the parent CategoryAccordion so every time the accordion opens/closes we don't calculate it again?
+	let balanceClass = null;
+	let balanceString = null;
+	let spent = 0;
 
-    const expenses = useSelector((state) => state.expenses.entities);
-    let balanceClass = null;
-    let balanceString = null;
-    let spent = 0;
+	if (Object.values(expenses).length !== 0) {
+		Object.values(expenses).map((expense) => {
+			if (title === expense.title) spent += expense.amount;
+			// console.log('spent += expense.amount');
+		});
+	}
 
-    // would it be better to do this via item-slice once on fetch?
-    // instead of every time the accordion opens/closes...
-    if (Object.values(expenses).length !== 0) {
-        Object.values(expenses).map((expense) => {
-            if (title === expense.title) spent += expense.amount;
-            // console.log('func running'); // 20 freaking times for 5 items! Must fix.
-            // runs for each item for EVERY SINGLE EXPENSE that's in state....
-            // ADD THIS TO useEffect ya dingus!
-        });
-    }
+	if (spent === budgetedAmount) {
+		balanceClass = 'balanced';
+		balanceString = '✅ Balanced';
+	} else if (spent > budgetedAmount) {
+		balanceClass = 'over';
+		balanceString = '🔺 Over';
+	} else if (spent < budgetedAmount) {
+		balanceClass = 'under';
+		balanceString = '🎉 Under';
+	}
+	////////////////////////////////////////////
 
-    if (spent === budgetedAmount) {
-        balanceClass = 'balanced';
-        balanceString = '✅ Balanced';
-    }
+	if (tabID === 'Annual') budgetedAmount = budgetedAmount * 12;
 
-    if (spent > budgetedAmount) {
-        balanceClass = 'over';
-        balanceString = '🔺 Over';
-    }
+	const handleDateChange = (e) => {
+		const formattedDate = `${currentYear}-${e.target.value.slice(5, 7)}-${e.target.value.slice(-2)}`;
+		setLocalItem({ ...localItem, billDate: formattedDate });
+	};
 
-    if (spent < budgetedAmount) {
-        balanceClass = 'under';
-        balanceString = '🎉 Under';
-    }
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const newData = {
+			id: localItem.title,
+			billDate: `${localItem.billDate.slice(5, 7)}/${localItem.billDate.slice(-2)}`,
+			budgetAmount: +localItem.amount,
+		};
+		store.dispatch(updateItemDoc({ uid, idToUpdate, newData }));
+		setIsEditing(false);
+	};
 
-    if (tabID === 'Annual') budgetedAmount = budgetedAmount * 12;
-
-    const editBudgetItem = () => {
-        console.log('Edit budget item function import here');
-    };
-
-    const deleteBudgetItem = () => {
-        console.log('Delete budget item function import here');
-    };
-
-    const kebabMenuActions = [
-		{ title: 'Edit', actionFn: editBudgetItem },
-		{ title: 'Delete', actionFn: deleteBudgetItem }
+	const kebabMenuActions = [
+		{
+			title: 'Edit',
+			actionFn: () => {
+				setIsEditing(true);
+			},
+		},
+		{
+			title: 'Move',
+			actionFn: () => {
+				// setIsMoving(true);
+				// display form of sorts for choosing which category to move the item to
+			},
+		},
+		{
+			title: 'Delete',
+			actionFn: () => {
+				setIsDeleting(true);
+			},
+		},
 	];
 
-    return (
-        <Draggable key={title} draggableId={title} index={index}>
-            {(provided, snapshot) => {
-                const style = `${[
-                    classes.primaryContainer,
-                    classes[`${snapshot.isDragging && 'backgroundDrag'}`],
-                    classes[
-                        `${accordionType === 'planner' && 'plannerMargin'}`
-                    ],
-                ].join(' ')}`;
+	const deleteItem = (
+		<div className={classes.deleteContainer}>
+			<p>Are you sure you want to delete: {localItem.title}?</p>
+			<div>
+				<button
+					className={`${classes.confirmDelete}`}
+					onClick={() => {
+						const documentId = localItem.title;
+						store.dispatch(deleteItemDoc({ uid, documentId }));
+						setIsDeleting(false);
+					}}
+				>
+					Yes
+				</button>
+				<button
+					className={`${classes.cancelDelete}`}
+					onClick={() => {
+						setIsDeleting(false);
+					}}>
+					No
+				</button>
+			</div>
+		</div>
+	);
+	// EDIT FORM DEFINITELY NEEDS INPUT VALIDATION...
+	const editItem = (
+		<form className={classes.formContainer} onSubmit={handleSubmit}>
+			<label>
+				Title:
+				<input
+					className={classes.input}
+					minLength='1'
+					name='title'
+					onChange={(e) =>
+						setLocalItem({ ...localItem, title: e.target.value })
+					}
+					required
+					type='text'
+					value={localItem.title}
+				/>
+			</label>
+			<label>
+				Bill Date:
+				<input
+					className={classes.input}
+					name='date'
+					onChange={(e) => {
+						handleDateChange(e)
+					}}
+					required
+					type='date'
+					value={localItem.billDate}
+				/>
+			</label>
+			<label>
+				Amount:
+				<input
+					className={`${classes.input} ${classes.amountInput}`}
+					name='amount'
+					onChange={(e) =>
+						setLocalItem({ ...localItem, amount: e.target.value })
+					}
+					required
+					type='number'
+					value={localItem.amount}
+				/>
+			</label>
+			<div className={classes.buttonsContainer}>
+				<button className={`${classes.button}`}>Save</button>
+				<button
+					className={`${classes.cancelButton}`}
+					onClick={(e) => {
+						e.preventDefault();
+						setIsEditing(false);
+						setLocalItem({ ...initialLocalItem });
+					}}
+					aria-label='Cancel'>
+					<FontAwesomeIcon icon={faX} />
+					<span className={classes.mobileCancelText}>Cancel</span>
+				</button>
+			</div>
+		</form>
+	);
 
-                return (
-                    <li className={classes.relative}>
-                        <div
+	const staticItem = (
+		<div className={classes.staticChildContainer}>
+			<p className={classes.title}>{localItem.title}</p>
+			<p className={classes.date}>{staticDisplayDate}</p>
+			<div className={classes.spent}>
+				<div className={classes.flex}>
+					<p><span className={classes.bold}>Spent</span> ${spent}</p>
+					<div className={classes.slash}>/</div>
+					<div>${localItem.amount}</div>
+				</div>
+			</div>
+			<div className={classes.chip}>
+				<p className={classes[balanceClass]}>{balanceString}!</p>
+			</div>
+		</div>
+	);
+
+	let itemContent;
+	if (isEditing) {
+		itemContent = editItem;
+	} else if (isDeleting) {
+		itemContent = deleteItem;
+	} else {
+		itemContent = staticItem;
+	}
+
+	return (
+		<Draggable
+			key={title}
+			draggableId={title}
+			index={index}
+			isDragDisabled={isEditing || isDeleting}
+		>
+			{(provided, snapshot) => {
+				return (
+					<li className={classes.relative}>
+						<div
 							ref={provided.innerRef}
 							{...provided.draggableProps}
 							{...provided.dragHandleProps}
 						>
-                            <div className={style}>
-                                <div className={classes.secondaryContainer}>
-                                    <div className={classes.title}>{title}</div>
-
-                                    <div className={classes.date}>{displayDate}</div>
-
-                                    <div className={classes.spent}>
-                                        <div className={classes.flex}>
-                                            <div>
-                                                <span className={classes.bold}>
-                                                    Spent
-                                                </span>{' '}
-                                                ${spent}
-                                            </div>
-
-											<div className={classes.slash}>/</div>
-
-                                            <div>${budgetedAmount}</div>
-                                        </div>
-                                    </div>
-
-                                    <div className={classes.chip}>
-                                        <div className={classes[balanceClass]}>
-                                            {balanceString}!
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-						
-						<KebabMenu kebabMenuActions={kebabMenuActions} />
-                    </li>
-                );
-            }}
-        </Draggable>
-    );
+							<div
+								className={`${isEditing || isDeleting ? classes.editContainer : classes.primaryContainer} ${snapshot.isDragging && 'backgroundDrag'} ${accordionType === 'planner' && 'plannerMargin'}`}
+							>
+								{itemContent}
+								{!isEditing && !isDeleting && (
+									<KebabMenu
+										kebabMenuActions={kebabMenuActions}
+									/>
+								)}
+							</div>
+						</div>
+					</li>
+				);
+			}}
+		</Draggable>
+	);
 };
 
 export default BudgetItem;

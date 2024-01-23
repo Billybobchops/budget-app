@@ -1,12 +1,13 @@
 .kebabToggleButton {
-	background-color: transparent;
+	background-color: #e3e3e3;
+	border-radius: 50%;
 	border: none;
-	margin: 0;
-	padding: 15px;
-	position: absolute;
-	top: 2px;
-    right: 20px;
-    text-align: center;
+	color: #1e1e1e;
+	font-size: 10px;
+	height: 25px;
+	justify-self: end;
+	padding: 2px 2px;
+	width: 25px;
 }
 
 .kebabMenu {
@@ -24,36 +25,30 @@
 
 .kebabMenuItem {
 	background-color: transparent;
-	border-top: none;
+	border-bottom: 1px solid rgb(165, 165, 165);
 	border-left: none;
 	border-right: none;
-	border-bottom: 1px solid black;
-	font-size: 14px;
+	border-top: none;
+	font-size: 12px;
 	padding: 5px 8px;
 	text-align: left;
-	width: 100%
+	width: 100%;
 }
 
-.kebabMenuItem:hover {
+.kebabToggleButton:hover {
+	background-color: #d2d2d2;
+}
+
+.kebabMenu li:hover {
 	background-color: #e7e7e7;
 }
 
-.kebabMenuItem:last-child {
+.kebabMenu li:last-child {
 	border-bottom: none;
 }
 
-.buttonClose {
-	font-size: 25px;
-}
-
 @media (max-width: 840px) {
-    .kebabToggleButton {
-        right: 17px;
-    }
-}
-
-@media (max-width: 420px) {
-    .kebabToggleButton {
-        right: 2px;
-    }
+	.kebabToggleButton {
+		justify-self: center;
+	}
 }

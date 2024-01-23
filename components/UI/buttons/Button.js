@@ -1,17 +1,13 @@
 import classes from './Button.module.css';
 
 const Button = ({ text, clickHandler, evenMargin }) => {
-  let evenMarginClass = `${evenMargin && 'buttonEvenMargin'}`;
+	const buttonClasses = `${classes.button} ${evenMargin ? classes.buttonEvenMargin : ''}`;
 
-  return (
-    <button
-      type='button'
-      className={`${[classes.button, classes[evenMarginClass]].join(' ')}`}
-      onClick={clickHandler}
-    >
-      {text}
-    </button>
-  );
+	return (
+		<button type='button' className={buttonClasses} onClick={clickHandler}>
+			{text}
+		</button>
+	);
 };
 
 export default Button;
