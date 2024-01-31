@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import classes from '../styles/HomeAuth.module.css';
-import logo from '../public/Budgie-Logo.png';
 import Video from '../components/UI/Video';
 import Image from 'next/image';
+import logo from '../public/Budgie-Logo.png'
 import LoginForm from '../components/Forms/LoginForm';
 import SignUpForm from '../components/Forms/SignUpForm';
 import PasswordResetForm from '../components/Forms/PasswordResetForm';
@@ -39,12 +39,7 @@ export default function HomeAuth() {
 			<Video />
 			<main className={classes.contentColumn}>
 				<div className={classes.logo}>
-					<Image
-						alt='Logo'
-						src={logo}
-						height={49}
-						width={150}
-					/>
+					<Image alt='Logo' src={logo} height={49} width={150} />
 				</div>
 				{!forgotPass && authForm}
 				{forgotPass && (

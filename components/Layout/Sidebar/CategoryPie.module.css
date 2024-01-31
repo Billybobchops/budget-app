@@ -1,46 +1,46 @@
 .container {
-  margin-bottom: 35px;
+	margin-bottom: 35px;
 }
 
 /* Hacky way to position nivo pie chart centered */
 .container div:nth-child(2) div div,
 .skeleton {
-  display: grid;
-  place-items: center;
+	display: grid;
+	place-items: center;
 }
 
 .chartBackground,
 .errorBackground,
 .skeleton {
-  background-color: #d4f3da;
-  /* Must have a height for child Responsive Pie to render if no height is set on component */
-  /* also, in this case it has to match the defined height in the component */
-  height: 300px;
-  width: 100%;
+	background-color: #d4f3da;
+	/* Must have a height for child Responsive Pie to render if no height is set on component */
+	/* also, in this case it has to match the defined height in the component */
+	height: 300px;
+	width: 100%;
 }
 
 .errorBackground {
-  height: auto;
-  padding: 30px;
+	height: auto;
+	padding: 30px;
 }
 
 .background svg g g g text {
-  font-weight: 700;
+	font-weight: 700;
 }
 
 .title {
-  padding-bottom: 5px;
+	padding-bottom: 5px;
 }
 
 @media (max-width: 1485px) {
-  .background {
-    padding: 30px 20%;
-    height: auto;
-  }
+	.background {
+		height: auto;
+		padding: 30px 20%;
+	}
 }
 
 @media (max-width: 767px) {
-  .background {
-    padding: 0;
-  }
+	.background {
+		padding: 0;
+	}
 }

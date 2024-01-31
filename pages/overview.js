@@ -271,12 +271,15 @@ const Overview = () => {
 			<PageBackground>
 				<MainGrid>
 					<Header title='Overview' />
-					<ButtonBar>
+					<ButtonBar title={'Add New'}>
 						<Button
 							text='Budget Category'
 							clickHandler={onCategoryClick}
 						/>
-						<Button text='Budget Item' clickHandler={onItemClick} />
+						<Button 
+							text='Budget Item' 
+							clickHandler={onItemClick}
+						/>
 					</ButtonBar>
 					<TotalsBar />
 					<DragDropContext onDragEnd={onDragEnd}>

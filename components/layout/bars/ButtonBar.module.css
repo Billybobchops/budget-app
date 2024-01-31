@@ -1,37 +1,16 @@
-.gridArea {
-  grid-area: buttons;
-}
-
 .buttonBar {
-  display: grid;
-  /* grid-template-rows: auto 1fr; */
-  grid-template-rows: auto;
-  grid-template-columns: 95px auto;
-  /* grid-template-areas: 'header' 'buttons'; */
-  align-items: center;
-  border-bottom: 1px solid #2d8058;
-  margin-bottom: 30px;
-
-  grid-template-rows: auto;
-  grid-template-areas: 'header children';
+	display: flex;
+	flex-wrap: wrap;
+	border-bottom: 1px solid #62d5b5;
+	margin-bottom: 30px;
 }
 
 .buttonBarTitle {
-  padding-bottom: 10px;
-}
-
-.headerContainer {
-  grid-area: header;
-}
-
-.buttonContainer {
-  grid-area: children;
+	padding: 0 15px 10px 0;
 }
 
 @media (max-width: 800px) {
-  .buttonBar {
-    grid-template-rows: auto 1fr;
-		grid-template-columns: 1fr;
-    grid-template-areas: 'header' 'children';
-  }
+	.buttonBarTitle {
+		width: 100%;
+	}
 }

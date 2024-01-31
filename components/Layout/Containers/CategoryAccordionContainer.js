@@ -31,20 +31,14 @@ const CategoryAccordionContainer = ({
 		<div className={classes.budgetContainer}>
 			<div className={classes.budgetTitle}>
 				<h2>Budget Categories</h2>
-				<div>
-					<HighLowToggle
-						toggleOptions={['High to Low', 'Low to High']}
-						toggleTitle={'Percentage of Planned Net Income:'}
-						toggleSortFn={reverseOrderFn}
-					/>
-				</div>
+				<HighLowToggle
+					toggleOptions={['High to Low', 'Low to High']}
+					toggleTitle={'Percentage of Planned Net Income:'}
+					toggleSortFn={reverseOrderFn}
+				/>
 			</div>
 
-			{Object.values(categoryEntities).length !== 0 && isLoggedIn ? (
-				<Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />
-			) : (
-				''
-			)}
+			{Object.values(categoryEntities).length !== 0 && isLoggedIn ? (<Tabs labels={['Monthly', 'Annual']} activeTabFn={toggleTab} />) : ('')}
 
 			<div className={listBackgroundClass}>
 				{Object.values(categoryEntities).length !== 0 && isLoggedIn ? (
@@ -67,9 +61,7 @@ const CategoryAccordionContainer = ({
 						borderRadius={0}
 						count={5}
 						height={66}
-						style={{
-							marginBottom: '14px',
-						}}
+						style={{ marginBottom: '14px'}}
 					/>
 				)}
 			</div>

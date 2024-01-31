@@ -1,12 +1,11 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: 'Cairo', sans-serif;
+	padding: 0;
+	margin: 0;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 h1,
@@ -16,16 +15,15 @@ h4,
 h5,
 h6,
 p {
-  font-family: 'Cairo', sans-serif;
-  color: #04311c;
-  margin: 0;
+	color: #04311c;
+	margin: 0;
 }
 
 h1 {
-  font-size: 26px;
+	font-size: 26px;
 }
 
 h2 {
-  font-size: 20px;
-  font-weight: 700;
+	font-size: 20px;
+	font-weight: 700;
 }

@@ -41,17 +41,12 @@ const MobileNav = () => {
 
 	const NavBar = () => {
 		return (
-			<nav className={classes.mobileNav}>
-				<Image
-					src={logo}
-					alt='Logo'
-					height={25}
-					width={75}
-				/>
+			<div className={classes.mobileNav}>
+				<Image src={logo} alt='Logo' height={25} width={75} />
 				<button className={classes.iconBtn} onClick={clickHandler}>
 					{icon}
 				</button>
-			</nav>
+			</div>
 		);
 	};
 
@@ -121,12 +116,12 @@ const MobileNav = () => {
 	};
 
 	return (
-		<>
+		<nav>
 			<NavBar />
 			<Portal selector='#portal'>
 				<NavLinks />
 			</Portal>
-		</>
+		</nav>
 	);
 };
 

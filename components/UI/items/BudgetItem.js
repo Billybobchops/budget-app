@@ -41,7 +41,6 @@ const BudgetItem = ({
 	if (Object.values(expenses).length !== 0) {
 		Object.values(expenses).map((expense) => {
 			if (title === expense.title) spent += expense.amount;
-			// console.log('spent += expense.amount');
 		});
 	}
 
@@ -86,7 +85,7 @@ const BudgetItem = ({
 			title: 'Move',
 			actionFn: () => {
 				// setIsMoving(true);
-				// display form of sorts for choosing which category to move the item to
+				// To-Do: display form of sorts for choosing which category to move the item to
 			},
 		},
 		{
@@ -216,7 +215,7 @@ const BudgetItem = ({
 		>
 			{(provided, snapshot) => {
 				return (
-					<li className={classes.relative}>
+					<li>
 						<div
 							ref={provided.innerRef}
 							{...provided.draggableProps}
@@ -227,9 +226,7 @@ const BudgetItem = ({
 							>
 								{itemContent}
 								{!isEditing && !isDeleting && (
-									<KebabMenu
-										kebabMenuActions={kebabMenuActions}
-									/>
+									<KebabMenu kebabMenuActions={kebabMenuActions} baseColor="#e3e3e3"/>
 								)}
 							</div>
 						</div>

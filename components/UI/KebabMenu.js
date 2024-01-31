@@ -3,10 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH, faX } from '@fortawesome/free-solid-svg-icons';
 import { useState, useCallback, useEffect, useRef } from 'react';
 
-const KebabMenu = ({ kebabMenuActions }) => {
+const KebabMenu = ({ kebabMenuActions, baseColor }) => {
 	const [isActive, setIsActive] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
 	const kebabMenuRef = useRef();
 	const buttonRef = useRef();
+
+	const handleMouseEnter = () => setIsHovered(true);
+	const handleMouseLeave = () => setIsHovered(false);
+
+	const buttonStyle = {
+		backgroundColor: baseColor,
+		filter: isHovered ? 'brightness(90%)' : 'none'
+	};
 
 	const toggleMenu = () => {
 		// Check if the clicked button is the "X" button
@@ -23,9 +32,7 @@ const KebabMenu = ({ kebabMenuActions }) => {
 		}
 	};
 
-	const closeMenu = useCallback(() => {
-		setIsActive(false);
-	}, []);
+	const closeMenu = useCallback(() => { setIsActive(false) }, []);
 
 	const escFunction = useCallback(
 		(e) => {
@@ -61,12 +68,15 @@ const KebabMenu = ({ kebabMenuActions }) => {
 	}, [escFunction, checkIfClickedOutside]);
 
 	return (
-		<>
+		<div className={classes.container}>
 			<button
-				aria-label={isActive ? "Cancel" : undefined}
+				aria-label={isActive ? 'Cancel' : undefined}
 				className={classes.kebabToggleButton}
 				onClick={isActive ? closeMenu : toggleMenu}
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
 				ref={buttonRef}
+				style={buttonStyle}
 			>
 				<FontAwesomeIcon icon={isActive ? faX : faEllipsisH} />
 			</button>
@@ -88,7 +98,7 @@ const KebabMenu = ({ kebabMenuActions }) => {
 					))}
 				</ul>
 			)}
-		</>
+		</div>
 	);
 };
 

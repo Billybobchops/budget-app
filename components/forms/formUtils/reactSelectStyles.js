@@ -3,7 +3,7 @@ const customStyles = {
     ...provided,
     backgroundColor: state.isFocused ? '#D4F3DA' : null,
     color: '#2d8058',
-    fontFamily: '"Cairo", sans-serif',
+    fontFamily: '"Mukta", sans-serif',
     fontWeight: 700,
   }),
   singleValue: (provided) => ({
@@ -18,7 +18,7 @@ const customStyles = {
     padding: '0 0 0 14px',
     margin: '10px 0 10px 0',
     fontSize: '15px',
-    fontFamily: '"Cairo", sans-serif',
+    fontFamily: '"Mukta", sans-serif',
     fontWeight: 700,
     transition: 0,
     border: state.isFocused ? '1px solid #04311c' : '1px solid #2d8058',
@@ -33,13 +33,13 @@ const customStyles = {
   placeholder: (provided) => ({
     ...provided,
     color: '#757575',
-    fontFamily: '"Cairo", sans-serif',
+    fontFamily: '"Mukta", sans-serif',
     fontWeight: 600,
   }),
   input: (provided) => ({
     ...provided,
     color: '#2d8058',
-    fontFamily: '"Cairo", sans-serif',
+    fontFamily: '"Mukta", sans-serif',
     fontWeight: 700,
   }),
 };

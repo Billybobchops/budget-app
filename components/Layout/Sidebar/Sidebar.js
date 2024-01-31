@@ -24,7 +24,7 @@ const Sidebar = ({
 			{hasBudgetMessage && <BudgetMessage />}
 			{hasUpcomingBills && <UpcomingBills />}
 			{hasButtonBar && (
-				<ButtonBar>
+				<ButtonBar title={'Add New'}>
 					{buttons.map((btn) => {
 						return (
 							<Button

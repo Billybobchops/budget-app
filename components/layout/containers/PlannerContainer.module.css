@@ -40,7 +40,7 @@
 
 .totalTitle,
 .totalAmmount {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Mukta', sans-serif;
   color: white;
 }
 
@@ -58,7 +58,7 @@
   background-color: #bd275c;
   border-radius: 50px;
   border: none;
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Mukta', sans-serif;
   font-size: 14px;
   font-weight: 600;
   padding: 8px 30px;
