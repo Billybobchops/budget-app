@@ -2,10 +2,13 @@ import classes from './CategoryAccordion.module.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus, faX } from '@fortawesome/free-solid-svg-icons';
 import BudgetItem from '../items/BudgetItem';
 import KebabMenu from '../KebabMenu';
 import { Droppable } from 'react-beautiful-dnd';
+import store from '../../../store';
+import { updateCategoryDoc } from '../../../store/category-slice';
+import { useAuth } from '../../../hooks/useAuth';
 
 const CategoryAccordion = ({
 	budgetedTotal,
@@ -17,6 +20,11 @@ const CategoryAccordion = ({
 	totalIncome,
 }) => {
 	const [isActive, setIsActive] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
+	const [prevTitle, setPrevTitle] = useState(categoryTitle);
+	const [localTitle, setLocalTitle] = useState(categoryTitle);
+	const { user: { uid } } = useAuth();
 	const activeHandler = () => { setIsActive(!isActive) };
 	
 	const percentDisplay =
@@ -69,7 +77,6 @@ const CategoryAccordion = ({
 	const activeBar = (
 		<div className={classes.activeBar}>
 			<div className={`${classes.activeBalanceChip} ${classes[balanceClass]}`}>{balanceString}</div>
-
 			<div className={classes.activeFraction}>
 				<div className={classes.flex}>
 					<div className={classes.spent}><span className={classes.bold}>Spent</span> ${spent}</div>
@@ -80,27 +87,117 @@ const CategoryAccordion = ({
 		</div>
 	);
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setIsEditing(false);
+		const prevID = prevTitle;
+		const newID = localTitle;
+		store.dispatch(updateCategoryDoc({ uid, prevID, newID })); 
+		setPrevTitle(newID);
+	};
+
 	const kebabMenuActions = [
 		{
 			title: 'Edit',
 			actionFn: () => {
-				// setIsEditing(true);
-			},
-		},
-		{
-			title: 'Move',
-			actionFn: () => {
-				// setIsMoving(true);
-				// To-Do: display form of sorts for choosing which category to move the item to
+				setIsEditing(true);
 			},
 		},
 		{
 			title: 'Delete',
 			actionFn: () => {
-				// setIsDeleting(true);
+				setIsDeleting(true);
 			},
 		},
 	];
+
+	const editCategory = (
+		<form className={classes.formContainer} onSubmit={handleSubmit}>
+			<label>
+				Title:
+				<input
+					className={classes.input}
+					onChange={(e) => setLocalTitle(e.target.value)}
+					required
+					type='text'
+					value={localTitle}
+				/>
+			</label>
+			<div className={classes.buttonsContainer}>
+				<button className={`${classes.button}`}>Save</button>
+				<button
+					className={`${classes.cancelButton}`}
+					onClick={(e) => {
+						e.preventDefault();
+						setIsEditing(false);
+						setLocalTitle(prevTitle);
+					}}
+					aria-label='Cancel'>
+					<FontAwesomeIcon icon={faX} />
+					<span className={classes.mobileCancelText}>Cancel</span>
+				</button>
+			</div>
+		</form>
+	);
+
+	const deleteCategory = (
+		<div className={classes.deleteContainer}>
+			<p>Are you sure you want to delete: {localTitle}?</p>
+			<div>
+				<button
+					className={`${classes.confirmDelete}`}
+					onClick={() => {
+						const documentId = localTitle;
+						store.dispatch(deleteItemDoc({ uid, documentId }));
+						setIsDeleting(false);
+					}}
+				>
+					Yes
+				</button>
+				<button
+					className={`${classes.cancelDelete}`}
+					onClick={() => {setIsDeleting(false)}}
+				>
+					No
+				</button>
+			</div>
+		</div>
+	);
+
+	const staticCategory = (
+		<>
+			<div onClick={activeHandler} className={classes.childContainer}>
+				<FontAwesomeIcon
+					icon={isActive ? faMinus : faPlus}
+					className={classes.toggle}
+				/>
+				<h2 className={classes.title}>
+					{localTitle}
+					{totalIncome && percentDisplay}
+					{!totalIncome && ''}
+				</h2>
+				<div className={`${classes.budgetGridItem} ${classes.flex}`}>
+					<p className={classes.spent}><span className={classes.bold}>Spent</span> ${spent}</p>
+					<span className={classes.slash}>/</span>
+					<p className={classes.budgeted}>${budgeted.toLocaleString()}</p>
+				</div>
+				<p className={classes[balanceClass]}>{balanceString}</p>
+			</div>
+			<KebabMenu
+				kebabMenuActions={kebabMenuActions}
+				baseColor='#3fb896'
+			/>
+		</>
+	);
+
+	let categoryContent;
+	if (isEditing) {
+		categoryContent = editCategory;
+	} else if (isDeleting) {
+		categoryContent = deleteCategory;
+	} else {
+		categoryContent = staticCategory;
+	}
 
 	return (
 		<Droppable droppableId={categoryTitle} key={categoryTitle}>
@@ -110,26 +207,7 @@ const CategoryAccordion = ({
 					{...provided.droppableProps}
 					ref={provided.innerRef}
 				>
-					<div className={classes.primaryContainer}>
-						<div onClick={activeHandler} className={classes.childContainer}>
-							<FontAwesomeIcon icon={isActive ? faMinus : faPlus} className={classes.toggle}/>
-
-							<h2 className={classes.title}>
-								{categoryTitle}
-								{totalIncome && percentDisplay}
-								{!totalIncome && ''}
-							</h2>
-
-							<div className={`${classes.budgetGridItem} ${classes.flex}`}>
-								<p className={classes.spent}><span className={classes.bold}>Spent</span>{' '}${spent}</p>
-								<span className={classes.slash}>/</span>
-								<p className={classes.budgeted}>${budgeted.toLocaleString()}</p>
-							</div>
-
-							<p className={classes[balanceClass]}>{balanceString}</p>
-						</div>
-						<KebabMenu kebabMenuActions={kebabMenuActions} baseColor='#3fb896'/>
-					</div>
+					<div className={classes.primaryContainer}>{categoryContent}</div>
 
 					<ul className={classes.list}>
 						{isActive && activeBar}

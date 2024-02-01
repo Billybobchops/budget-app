@@ -32,8 +32,6 @@ const BudgetItem = ({
 	const daySlice = date.slice(-2);
 	const staticDisplayDate = new Date().getDate() === +daySlice ? 'Today' : date;
 
-	////////////////////////////////////////////
-	// Question: Would it be better to do this in the parent CategoryAccordion so every time the accordion opens/closes we don't calculate it again?
 	let balanceClass = null;
 	let balanceString = null;
 	let spent = 0;
@@ -54,7 +52,6 @@ const BudgetItem = ({
 		balanceClass = 'under';
 		balanceString = '🎉 Under';
 	}
-	////////////////////////////////////////////
 
 	if (tabID === 'Annual') budgetedAmount = budgetedAmount * 12;
 
@@ -96,6 +93,60 @@ const BudgetItem = ({
 		},
 	];
 
+	// EDIT FORM DEFINITELY NEEDS INPUT VALIDATION...
+	const editItem = (
+		<form className={classes.formContainer} onSubmit={handleSubmit}>
+			<label>
+				Title:
+				<input
+					className={classes.input}
+					minLength='1'
+					name='title'
+					onChange={(e) => setLocalItem({ ...localItem, title: e.target.value })}
+					required
+					type='text'
+					value={localItem.title}
+				/>
+			</label>
+			<label>
+				Bill Date:
+				<input
+					className={classes.input}
+					name='date'
+					onChange={(e) => {handleDateChange(e)}}
+					required
+					type='date'
+					value={localItem.billDate}
+				/>
+			</label>
+			<label>
+				Amount:
+				<input
+					className={`${classes.input} ${classes.amountInput}`}
+					name='amount'
+					onChange={(e) => setLocalItem({ ...localItem, amount: e.target.value })}
+					required
+					type='number'
+					value={localItem.amount}
+				/>
+			</label>
+			<div className={classes.buttonsContainer}>
+				<button className={`${classes.button}`}>Save</button>
+				<button
+					className={`${classes.cancelButton}`}
+					onClick={(e) => {
+						e.preventDefault();
+						setIsEditing(false);
+						setLocalItem({ ...initialLocalItem });
+					}}
+					aria-label='Cancel'>
+					<FontAwesomeIcon icon={faX} />
+					<span className={classes.mobileCancelText}>Cancel</span>
+				</button>
+			</div>
+		</form>
+	);
+	
 	const deleteItem = (
 		<div className={classes.deleteContainer}>
 			<p>Are you sure you want to delete: {localItem.title}?</p>
@@ -119,65 +170,6 @@ const BudgetItem = ({
 				</button>
 			</div>
 		</div>
-	);
-	// EDIT FORM DEFINITELY NEEDS INPUT VALIDATION...
-	const editItem = (
-		<form className={classes.formContainer} onSubmit={handleSubmit}>
-			<label>
-				Title:
-				<input
-					className={classes.input}
-					minLength='1'
-					name='title'
-					onChange={(e) =>
-						setLocalItem({ ...localItem, title: e.target.value })
-					}
-					required
-					type='text'
-					value={localItem.title}
-				/>
-			</label>
-			<label>
-				Bill Date:
-				<input
-					className={classes.input}
-					name='date'
-					onChange={(e) => {
-						handleDateChange(e)
-					}}
-					required
-					type='date'
-					value={localItem.billDate}
-				/>
-			</label>
-			<label>
-				Amount:
-				<input
-					className={`${classes.input} ${classes.amountInput}`}
-					name='amount'
-					onChange={(e) =>
-						setLocalItem({ ...localItem, amount: e.target.value })
-					}
-					required
-					type='number'
-					value={localItem.amount}
-				/>
-			</label>
-			<div className={classes.buttonsContainer}>
-				<button className={`${classes.button}`}>Save</button>
-				<button
-					className={`${classes.cancelButton}`}
-					onClick={(e) => {
-						e.preventDefault();
-						setIsEditing(false);
-						setLocalItem({ ...initialLocalItem });
-					}}
-					aria-label='Cancel'>
-					<FontAwesomeIcon icon={faX} />
-					<span className={classes.mobileCancelText}>Cancel</span>
-				</button>
-			</div>
-		</form>
 	);
 
 	const staticItem = (

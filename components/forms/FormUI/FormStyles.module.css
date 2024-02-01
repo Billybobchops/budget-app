@@ -1,55 +1,56 @@
 .header {
-  text-align: center;
-  font-weight: 700;
-  color: #2d8058;
+	color: #2d8058;
+	font-family: 'Mukta', sans-serif;
+	font-weight: 700;
+	text-align: center;
 }
 
 .paragraph {
-  text-align: center;
-  font-size: 17px;
+	font-size: 17px;
+	text-align: center;
 }
 
 .buttonLink {
-  background: none;
-  color: #007fad;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
+	background: none;
+	border: none;
+	color: #007fad;
+	cursor: pointer;
+	font: inherit;
+	padding: 0;
 }
 
 .label {
-  display: block;
-  font-family: 'Mukta', sans-serif;
-  font-weight: 600;
-  color: #04311c;
-  border-bottom: 1px solid #04311c;
+	border-bottom: 1px solid #04311c;
+	color: #04311c;
+	display: block;
+	font-family: 'Mukta', sans-serif;
+	font-weight: 600;
 }
 
 .miniLabel {
-  font-size: 14px;
-  display: block;
+	display: block;
+	font-size: 14px;
 }
 
 .iconClose {
-  font-size: 24px;
-  color: #2d8058;
+	color: #2d8058;
+	font-size: 24px;
 }
 
 .iconWrapper {
-  display: flex;
-  justify-content: flex-end;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .iconButton {
-  border: none;
-  background: transparent;
+	background: transparent;
+	border: none;
 }
 
 @media (max-width: 550px) {
-  .header {
-    text-align: left;
-    line-height: 2.2rem;
-    margin-bottom: 10px;
-  }
+	.header {
+		line-height: 2.2rem;
+		margin-bottom: 10px;
+		text-align: left;
+	}
 }
