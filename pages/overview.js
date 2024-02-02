@@ -3,7 +3,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { useRequireAuth } from '../hooks/useRequireAuth';
 import { useSelector } from 'react-redux';
 import store from '../store';
-import { updateCategoryItemDoc } from '../store/items-slice';
+import { updateItemsCategoryDoc } from '../store/items-slice';
 import { fetchItems } from '../store/items-slice';
 import { fetchPaychecks } from '../store/planner-slice';
 import { fetchPaycheckOrder } from '../store/paycheckOrder-slice';
@@ -44,29 +44,28 @@ const Overview = () => {
 
 	const [categoryOrder, setCategoryOrder] = useState([]);
 	const [totalIncome, setTotalIncome] = useState(0);
-
 	const auth = useRequireAuth();
-	const currentDate = useSelector(selectFormattedMonthYear);
 	const categoryEntities = useSelector(selectCategoryEntities);
-	const categoryIds = useSelector(selectCategoryIds);
-	const expenses = useSelector(selectExpenseEntities);
 	const itemEntities = useSelector(selectItemEntities);
+	const categoryIds = useSelector(selectCategoryIds);
+	const currentDate = useSelector(selectFormattedMonthYear);
+	const expenses = useSelector(selectExpenseEntities);
 	const income = useSelector(selectPaycheckEntities);
 	//   const paycheckOrder = useSelector(selectPaycheckOrder);
 	//   const funds = useSelector(selectFundEntities);
 
-	const initCategoryAccordionContainerProps = (
+	const initProps = (
 		categoryIds,
 		itemEntities,
 		income,
 		expenses
 	) => {
 		// we don't separate this big fn into smaller functions out b/c setState isn't synchronous
-		// and we synchronously build the shape of the data we're passing to each accordion
+		// and we synchronously build the shape of the data we're passing to each child accordion
 		// also... you cannot call hooks from within loops!
 		let orderArr = [];
 
-		// // 1. init setup of orderArr
+		// 1. init setup of orderArr shape
 		categoryIds.map((category) =>
 			orderArr.push({
 				id: category,
@@ -77,7 +76,7 @@ const Overview = () => {
 			})
 		);
 
-		// 2. calc total planned income
+		// 2. calc the global total planned income for the user
 		let totalPay = 0;
 		Object.values(income).map((check) => { totalPay += check.expectedPay });
 		setTotalIncome(totalPay);
@@ -95,14 +94,10 @@ const Overview = () => {
 					});
 
 					// 4. Sort itemIds by DESC budget amount
-					orderArr[i].itemIds.sort((a, b) =>
-						a.budgetAmount > b.budgetAmount ? -1 : 1
-					);
+					orderArr[i].itemIds.sort((a, b) => a.budgetAmount > b.budgetAmount ? -1 : 1);
 
 					// 5. calc what percentage of budgetedItems in a category make up the total planned income
-					orderArr[i].percentOfIncome = +(
-						orderArr[i].budgetedItemsTotal / totalPay
-					).toFixed(2);
+					orderArr[i].percentOfIncome = +(orderArr[i].budgetedItemsTotal / totalPay).toFixed(2);
 				}
 			});
 		});
@@ -116,43 +111,10 @@ const Overview = () => {
 			});
 		});
 
-		// 7. Sort categories by DESC percentOfIncome by default
+		// 7. Sort categories high to low % of income (by default)
 		orderArr.sort((a, b) => a.percentOfIncome > b.percentOfIncome ? -1 : 1);
 
-		// 8. Finally, update state
-		setCategoryOrder(orderArr);
-	};
-
-	const reCalcProps = (categoryOrder, expenses) => {
-		let orderArr = [...categoryOrder];
-
-		orderArr.map((category) => {
-			category.budgetedItemsTotal = 0;
-
-			category.itemIds.map((item) => {
-				category.budgetedItemsTotal += item.budgetAmount;
-			});
-
-			category.itemIds.sort((a, b) =>
-				a.budgetAmount > b.budgetAmount ? -1 : 1
-			);
-
-			category.percentOfIncome = +(
-				category.budgetedItemsTotal / totalIncome
-			).toFixed(2);
-		});
-
-		Object.values(expenses).map((expense) => {
-			orderArr.map((category) => {
-				category.spent = 0;
-
-				if (category.id === expense.category) {
-					category.spent += expense.amount;
-				}
-			});
-		});
-
-		orderArr.sort((a, b) => a.percentOfIncome > b.percentOfIncome ? -1 : 1);
+		// 8. Finally, update state from the initial [] to this:
 		setCategoryOrder(orderArr);
 	};
 
@@ -184,7 +146,7 @@ const Overview = () => {
 	});
 
 	useEffect(() => {
-		initCategoryAccordionContainerProps(
+		initProps(
 			categoryIds,
 			itemEntities,
 			income,
@@ -194,21 +156,17 @@ const Overview = () => {
 
 	const onDragEnd = (result) => {
 		const { draggableId, destination, source } = result;
+		const start = source.droppableId;
+		const end = destination.droppableId;
 
 		// if user drops draggable outside of any droppable
 		if (!destination) return;
 		// The user dropped the item back in the same position
-		if (
-			destination.droppableId == source.droppableId &&
-			destination.index === source.index
-		)
+		if (end == start && destination.index === source.index) {
 			return;
-
-		const start = source.droppableId;
-		const end = destination.droppableId;
+		}
 		if (start === end) return;
 
-		// Moving from one droppable to another: category update occuring
 		let categoryOrderClone = [...categoryOrder];
 		let dragObj;
 
@@ -233,17 +191,30 @@ const Overview = () => {
 			}
 		});
 
-		// updates the itemIds array within the objects within the categoryOrder array in local state to reflect the dragged item event
-		setCategoryOrder(categoryOrderClone);
+		categoryOrderClone.map((category) => {
+			category.budgetedItemsTotal = 0;
+			category.itemIds.map((item) => { category.budgetedItemsTotal += item.budgetAmount });
+			category.itemIds.sort((a, b) => a.budgetAmount > b.budgetAmount ? -1 : 1);
+			category.percentOfIncome = +(category.budgetedItemsTotal / totalIncome).toFixed(2);
+		});
 
-		// updates the other keys inside the objects inside the categoryOrder array in local state
-		reCalcProps(categoryOrder, expenses);
-		console.log('categoryOrder after onDragEnd()', categoryOrder);
+		Object.values(expenses).map((expense) => {
+			categoryOrderClone.map((category) => {
+				category.spent = 0;
+
+				if (category.id === expense.category) {
+					category.spent += expense.amount;
+				}
+			});
+		});
+
+		categoryOrderClone.sort((a, b) => a.percentOfIncome > b.percentOfIncome ? -1 : 1);
+		setCategoryOrder(categoryOrderClone);
 
 		const uid = auth.user.uid;
 		const document = draggableId;
 		const newCategory = destination.droppableId;
-		store.dispatch(updateCategoryItemDoc({ uid, document, newCategory }));
+		store.dispatch(updateItemsCategoryDoc({ uid, document, newCategory }));
 	};
 
 	return (

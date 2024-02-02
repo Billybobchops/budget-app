@@ -111,12 +111,13 @@ export const updateCategory = async (uid, prevID, newID) => {
 		// Commit the batch
 		await batch.commit();
 		console.log('Batch update successful');
+		return newID;
 	} catch (error) {
 		console.error('Batch update failed', error);
 	}
 };
 
-export const deleteCategory = async () => {
+export const deleteCategory = async (uid, categoryID,) => {
 	try {
 		// 
 	} catch(error) {

@@ -7,13 +7,12 @@ import {
 	addItem,
 	deleteItem,
 	getAllItems,
-	updateCategoryItem,
+	updateItemsCategory,
 	updateItem,
 	updateItemPaycheckSelect,
 } from '../firebase/items';
 
-export const fetchItems = createAsyncThunk(
-	'items/fetchItems', async (uid) => {
+export const fetchItems = createAsyncThunk('items/fetchItems', async (uid) => {
 	try {
 		const response = await getAllItems(uid);
 		return response;
@@ -58,10 +57,10 @@ export const updateItemPaycheckSelectDoc = createAsyncThunk(
 	}
 );
 
-export const updateCategoryItemDoc = createAsyncThunk(
-	'items/updateCategoryItemDoc',
+export const updateItemsCategoryDoc = createAsyncThunk(
+	'items/updateItemsCategoryDoc',
 	async ({ uid, document, newCategory }) => {
-		const response = await updateCategoryItem(uid, document, newCategory);
+		const response = await updateItemsCategory(uid, document, newCategory);
 		return response;
 	}
 );
@@ -113,10 +112,12 @@ const itemPlannerSlice = createSlice({
 			.addCase(updateItemPaycheckSelectDoc.fulfilled, (state) => {
 				state.status = 'idle';
 			})
-			.addCase(updateCategoryItemDoc.pending, (state) => {
+			.addCase(updateItemsCategoryDoc.pending, (state) => {
 				state.status = 'loading';
 			})
-			.addCase(updateCategoryItemDoc.fulfilled, (state) => {
+			.addCase(updateItemsCategoryDoc.fulfilled, (state, action) => {
+				const { document, newCategory } = action.payload;
+				state.entities[document].category = newCategory;
 				state.status = 'idle';
 			})
 			.addCase(updateItemDoc.pending, (state) => {

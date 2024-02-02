@@ -131,7 +131,7 @@ export const updateItemPaycheckSelect = async (uid, document, newLocation) => {
  * @param {string} document - document id
  * @param {string} newCategory - the newly updated category for the item
  */
-export const updateCategoryItem = async (uid, document, newCategory) => {
+export const updateItemsCategory = async (uid, document, newCategory) => {
 	try {
 		const q = query(
 			collection(db, `budgetItems/${uid}/items`),
@@ -146,12 +146,19 @@ export const updateCategoryItem = async (uid, document, newCategory) => {
 
 		const docRef = doc(db, `budgetItems/${uid}/items`, docId);
 		await updateDoc(docRef, { 'data.category': newCategory });
+		return { document, newCategory };
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-// THIS WILL MAYBE REPLACE THE ABOVE ^ AND BE MORE FLEXIBLE...FOR ANY CHANGES TO THE DATA...
+/**
+ * Updates a budget item's data
+ * @param {*} uid - user's id to update the correct user's data
+ * @param {*} idToUpdate - id of the budget item we need to update
+ * @param {*} newData - newData for the budget item
+ * @returns the updated data and the ID that is being updated
+ */
 export const updateItem = async (uid, idToUpdate, newData) => {
 	try {
 		const q = query(
