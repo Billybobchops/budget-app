@@ -79,9 +79,7 @@ const Overview = () => {
 
 		// 2. calc total planned income
 		let totalPay = 0;
-		Object.values(income).map((check) => {
-			totalPay += check.expectedPay;
-		});
+		Object.values(income).map((check) => { totalPay += check.expectedPay });
 		setTotalIncome(totalPay);
 
 		// 3. calc total budgetItems amount per category and gather array of items that belong to each category
@@ -119,9 +117,7 @@ const Overview = () => {
 		});
 
 		// 7. Sort categories by DESC percentOfIncome by default
-		orderArr.sort((a, b) =>
-			a.percentOfIncome > b.percentOfIncome ? -1 : 1
-		);
+		orderArr.sort((a, b) => a.percentOfIncome > b.percentOfIncome ? -1 : 1);
 
 		// 8. Finally, update state
 		setCategoryOrder(orderArr);
@@ -156,10 +152,7 @@ const Overview = () => {
 			});
 		});
 
-		orderArr.sort((a, b) =>
-			a.percentOfIncome > b.percentOfIncome ? -1 : 1
-		);
-
+		orderArr.sort((a, b) => a.percentOfIncome > b.percentOfIncome ? -1 : 1);
 		setCategoryOrder(orderArr);
 	};
 
@@ -224,11 +217,7 @@ const Overview = () => {
 
 			if (category.id === start) {
 				const startItemIds = [...category.itemIds];
-
-				dragObj = {
-					...categoryOrderClone[i].itemIds[source.index],
-				};
-
+				dragObj = { ...categoryOrderClone[i].itemIds[source.index] };
 				startItemIds.splice(source.index, 1);
 				categoryOrderClone[i].itemIds = [...startItemIds];
 			}
@@ -239,7 +228,6 @@ const Overview = () => {
 
 			if (category.id === end) {
 				const endItemIds = [...category.itemIds];
-
 				endItemIds.splice(destination.index, 0, dragObj);
 				categoryOrderClone[i].itemIds = [...endItemIds];
 			}

@@ -12,7 +12,8 @@ import {
 	updateItemPaycheckSelect,
 } from '../firebase/items';
 
-export const fetchItems = createAsyncThunk('items/fetchItems', async (uid) => {
+export const fetchItems = createAsyncThunk(
+	'items/fetchItems', async (uid) => {
 	try {
 		const response = await getAllItems(uid);
 		return response;
@@ -26,8 +27,6 @@ export const addNewItem = createAsyncThunk(
 	async ({ uid, formData }) => {
 		try {
 			const response = await addItem(uid, formData);
-			console.log('response');
-			console.log(response);
 			return response;
 		} catch (error) {
 			console.log(error);

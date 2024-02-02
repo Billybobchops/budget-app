@@ -117,6 +117,7 @@ const CategoryAccordion = ({
 				Title:
 				<input
 					className={classes.input}
+					name='Title'
 					onChange={(e) => setLocalTitle(e.target.value)}
 					required
 					type='text'
@@ -172,9 +173,7 @@ const CategoryAccordion = ({
 					className={classes.toggle}
 				/>
 				<h2 className={classes.title}>
-					{localTitle}
-					{totalIncome && percentDisplay}
-					{!totalIncome && ''}
+					{localTitle}{totalIncome && percentDisplay}{!totalIncome && ''}
 				</h2>
 				<div className={`${classes.budgetGridItem} ${classes.flex}`}>
 					<p className={classes.spent}><span className={classes.bold}>Spent</span> ${spent}</p>

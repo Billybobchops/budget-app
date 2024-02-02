@@ -1,10 +1,14 @@
 import { db } from './firebaseClient';
 import {
+	collection,
+	deleteField,
 	doc,
 	getDoc,
+	getDocs,
+	query,
 	setDoc,
-	updateDoc,
-	deleteField,
+	where,
+	writeBatch,
 } from 'firebase/firestore';
 
 /**
@@ -49,61 +53,73 @@ export const getAllCategories = async (uid) => {
 	return categories;
 };
 
-// export const updateCategoryOG = async (uid, prevID, newID) => {
-// 	try {
-// 		const userCategoriesRef = doc(db, `categories/${uid}`);
-// 		const docSnapshot = await getDoc(userCategoriesRef);
-
-// 		if (docSnapshot.exists()) {
-// 			const docData = docSnapshot.data();
-
-// 			await updateDoc(userCategoriesRef, );
-// 		}
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// };
-
+/**
+ * updates a user's category id and:
+ * updates the category field for each associated item in the budgetItems collection
+ * updates the category field for each associated item in the expenseItems collection
+ * @param {*} uid - to get user's collections
+ * @param {*} prevID - the previous category ID
+ * @param {*} newID - the new category ID to update to 
+ */
 export const updateCategory = async (uid, prevID, newID) => {
+	const batch = writeBatch(db);
+
 	try {
-		const userCategoriesRef = doc(db, `categories/${uid}`);
-		const docSnapshot = await getDoc(userCategoriesRef);
+		// Update category name in Categories collection
+		const categoryRef = doc(db, `categories/${uid}`);
+		const categorySnapshot = await getDoc(categoryRef);
 
-		if (docSnapshot.exists()) {
-			const docData = docSnapshot.data();
+		if (categorySnapshot.exists()) {
+			const prevCategoryData = categorySnapshot.data()?.[prevID];
 
-			if (docData[prevID]) {
-				const prevCategoryData = docData[prevID];
+			// Delete the old category entry
+			batch.update(categoryRef, { [prevID]: deleteField() });
 
-				// Remove the old category entry using arrayRemove
-				await updateDoc(userCategoriesRef, {
-					[prevID]: deleteField(),
-				});
+			// Create a new category entry with the updated ID
+			const newCategoryData = {
+				[newID]: {
+					id: newID,
+					createdOn: prevCategoryData?.createdOn,
+					createdOnMonthYear: prevCategoryData?.createdOnMonthYear,
+				},
+			};
 
-				// Check if prevCategoryData is defined before setting the new category entry
-				if (prevCategoryData) {
-					// Create a new category entry with the updated ID
-					const newCategoryData = {
-						[newID]: {
-							id: newID,
-							createdOn: prevCategoryData.createdOn,
-							createdOnMonthYear: prevCategoryData.createdOnMonthYear,
-						},
-					};
-
-					// Check if newCategoryData is valid (not undefined)
-					if (newCategoryData[newID]) {
-						// Merge the new category entry with the existing data
-						await setDoc(userCategoriesRef, newCategoryData, { merge: true,});
-					} else {
-						console.log(`Invalid data for new category with ID ${newID}.`);
-					}
-				} else {
-					console.log(`Category with ID ${prevID} is undefined.`);
-				}
-			}
+			// Merge the new category entry with the existing data
+			batch.set(categoryRef, newCategoryData, { merge: true });
 		}
+
+		// Update associated items in BudgetItems collection
+		const budgetItemsRef = collection(db, `budgetItems/${uid}/items`);
+		const budgetItemsQuery = query(budgetItemsRef, where('data.category', '==', prevID));
+		const budgetItemsSnapshot = await getDocs(budgetItemsQuery);
+
+		budgetItemsSnapshot.forEach((doc) => {
+			const itemRef = doc.ref;
+			batch.update(itemRef, { 'data.category': newID });
+		});
+
+		// Update associated items in ExpenseItems collection
+		const expenseItemsRef = collection(db, `expenseItems/${uid}/items`);
+		const expenseItemsQuery = query(expenseItemsRef, where('data.category', '==', prevID));
+		const expenseItemsSnapshot = await getDocs(expenseItemsQuery);
+
+		expenseItemsSnapshot.forEach((doc) => {
+			const itemRef = doc.ref;
+			batch.update(itemRef, { 'data.category': newID });
+		});
+
+		// Commit the batch
+		await batch.commit();
+		console.log('Batch update successful');
 	} catch (error) {
+		console.error('Batch update failed', error);
+	}
+};
+
+export const deleteCategory = async () => {
+	try {
+		// 
+	} catch(error) {
 		console.log(error);
 	}
 };

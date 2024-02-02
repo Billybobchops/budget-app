@@ -12,9 +12,7 @@ import { formatItemDate, generateMonthYear } from '../../utils/helpers';
 
 const ItemForm = () => {
 	const { renderFormInputs, isFormValid, form } = useForm(itemConfig);
-	const {
-		user: { uid },
-	} = useAuth();
+	const { user: { uid } } = useAuth();
 	const formRef = useRef();
 	const { onkeydown } = useContext(FormContext);
 
