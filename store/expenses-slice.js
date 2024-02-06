@@ -38,7 +38,19 @@ export const addNewExpense = createAsyncThunk(
 const expenseSlice = createSlice({
 	name: 'expenses',
 	initialState,
-	reducers: {},
+	reducers: {
+		deleteClientExpenses: (state, action) => {
+			const categoryID = action.payload;
+
+			Object.values(state.entities).map((expense) => {
+				if (expense.category !== categoryID) {
+					return;
+				} else if (expense.category === categoryID) {
+					expensesAdapter.removeOne(state, expense.id);
+				}
+			});
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchExpenses.pending, (state) => {
@@ -58,6 +70,7 @@ const expenseSlice = createSlice({
 	},
 });
 
+export const { deleteClientExpenses } = expenseSlice.actions;
 export const selectExpenseEntities = (state) => state.expenses.entities;
 
 export default expenseSlice.reducer;

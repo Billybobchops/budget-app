@@ -7,8 +7,10 @@ import BudgetItem from '../items/BudgetItem';
 import KebabMenu from '../KebabMenu';
 import { Droppable } from 'react-beautiful-dnd';
 import store from '../../../store';
-import { updateCategoryDoc } from '../../../store/category-slice';
+import { batchUpdateCategoryDoc, batchDeleteCategoryDoc } from '../../../store/category-slice';
 import { useAuth } from '../../../hooks/useAuth';
+import { deleteClientItems } from '../../../store/items-slice';
+import { deleteClientExpenses } from '../../../store/expenses-slice';
 
 const CategoryAccordion = ({
 	budgetedTotal,
@@ -92,7 +94,7 @@ const CategoryAccordion = ({
 		setIsEditing(false);
 		const prevID = prevTitle;
 		const newID = localTitle;
-		store.dispatch(updateCategoryDoc({ uid, prevID, newID })); 
+		store.dispatch(batchUpdateCategoryDoc({ uid, prevID, newID })); 
 		setPrevTitle(newID);
 	};
 
@@ -143,13 +145,16 @@ const CategoryAccordion = ({
 
 	const deleteCategory = (
 		<div className={classes.deleteContainer}>
-			<p>Are you sure you want to delete: {localTitle}?</p>
+			<p>Are you sure you want to delete: <strong>{localTitle}</strong>? This will delete all associated budget items and expenses.</p>
 			<div>
 				<button
 					className={`${classes.confirmDelete}`}
 					onClick={() => {
-						const documentId = localTitle;
-						store.dispatch(deleteItemDoc({ uid, documentId }));
+						const categoryID = localTitle;
+						store.dispatch(batchDeleteCategoryDoc({ uid, categoryID })); // batch FB update
+						// dispatch front end only (non-thunk) actions that update the FE for budgetItems & expenseItems
+						store.dispatch(deleteClientItems(categoryID));
+						store.dispatch(deleteClientExpenses(categoryID));
 						setIsDeleting(false);
 					}}
 				>
@@ -206,7 +211,7 @@ const CategoryAccordion = ({
 					{...provided.droppableProps}
 					ref={provided.innerRef}
 				>
-					<div className={classes.primaryContainer}>{categoryContent}</div>
+					<div className={`${classes.primaryContainer} ${isDeleting ? classes.deleteBackground : ''}`}>{categoryContent}</div>
 
 					<ul className={classes.list}>
 						{isActive && activeBar}

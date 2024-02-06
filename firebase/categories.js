@@ -61,11 +61,11 @@ export const getAllCategories = async (uid) => {
  * @param {*} prevID - the previous category ID
  * @param {*} newID - the new category ID to update to 
  */
-export const updateCategory = async (uid, prevID, newID) => {
+export const batchUpdateCategory = async (uid, prevID, newID) => {
 	const batch = writeBatch(db);
 
 	try {
-		// Update category name in Categories collection
+		// 1. Update category name in Categories collection
 		const categoryRef = doc(db, `categories/${uid}`);
 		const categorySnapshot = await getDoc(categoryRef);
 
@@ -88,7 +88,7 @@ export const updateCategory = async (uid, prevID, newID) => {
 			batch.set(categoryRef, newCategoryData, { merge: true });
 		}
 
-		// Update associated items in BudgetItems collection
+		// 2. Update associated items in BudgetItems collection
 		const budgetItemsRef = collection(db, `budgetItems/${uid}/items`);
 		const budgetItemsQuery = query(budgetItemsRef, where('data.category', '==', prevID));
 		const budgetItemsSnapshot = await getDocs(budgetItemsQuery);
@@ -98,7 +98,7 @@ export const updateCategory = async (uid, prevID, newID) => {
 			batch.update(itemRef, { 'data.category': newID });
 		});
 
-		// Update associated items in ExpenseItems collection
+		// 3. Update associated items in ExpenseItems collection
 		const expenseItemsRef = collection(db, `expenseItems/${uid}/items`);
 		const expenseItemsQuery = query(expenseItemsRef, where('data.category', '==', prevID));
 		const expenseItemsSnapshot = await getDocs(expenseItemsQuery);
@@ -117,10 +117,37 @@ export const updateCategory = async (uid, prevID, newID) => {
 	}
 };
 
-export const deleteCategory = async (uid, categoryID,) => {
+/**
+ * Deletes a category and its associated items from budgetItems and expenseItems collections
+ * @param {string} uid - User ID
+ * @param {string} categoryID - Category ID to delete
+ */
+export const batchDeleteCategory = async (uid, categoryID) => {
+	const batch = writeBatch(db);
+
 	try {
-		// 
-	} catch(error) {
-		console.log(error);
+		// 1. Delete the category entry from Categories collection
+		const categoryRef = doc(db, `categories/${uid}`);
+		batch.update(categoryRef, { [categoryID]: deleteField() });
+
+		// 2. Delete associated items in BudgetItems collection
+		const budgetItemsRef = collection(db, `budgetItems/${uid}/items`);
+		const budgetItemsQuery = query(budgetItemsRef, where('data.category', '==', categoryID));
+		const budgetItemsSnapshot = await getDocs(budgetItemsQuery);
+
+		budgetItemsSnapshot.forEach((doc) => { batch.delete(doc.ref) });
+
+		// 3. Delete associated items in ExpenseItems collection
+		const expenseItemsRef = collection(db, `expenseItems/${uid}/items`);
+		const expenseItemsQuery = query(expenseItemsRef, where('data.category', '==', categoryID));
+		const expenseItemsSnapshot = await getDocs(expenseItemsQuery);
+
+		expenseItemsSnapshot.forEach((doc) => { batch.delete(doc.ref) });
+
+		// Commit the batch
+		await batch.commit();
+		console.log('Batch deletion successful');
+	} catch (error) {
+		console.error('Batch deletion failed', error);
 	}
 };

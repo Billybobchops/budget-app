@@ -10,7 +10,7 @@ import { addDoc, getDocs, collection, query, where } from 'firebase/firestore';
 export const addExpense = async (uid, formData) => {
 	const id = formData.id;
 	const userExpenseRef = collection(db, `expenseItems/${uid}/items`);
-	console.log("id", id);
+
 	try {
 		await addDoc(
 			userExpenseRef,
@@ -74,4 +74,3 @@ export const getExpenses = async (uid, currentDate) => {
 		console.log(error);
 	}
 };
-

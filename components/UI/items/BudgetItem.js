@@ -149,7 +149,7 @@ const BudgetItem = ({
 	
 	const deleteItem = (
 		<div className={classes.deleteContainer}>
-			<p>Are you sure you want to delete: {localItem.title}?</p>
+			<p>Are you sure you want to delete: <strong>{localItem.title}</strong>?</p>
 			<div>
 				<button
 					className={`${classes.confirmDelete}`}

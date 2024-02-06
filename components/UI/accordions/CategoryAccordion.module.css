@@ -27,6 +27,11 @@
 	transition: 400ms ease;
 }
 
+.deleteBackground {
+	background-color: white;
+	border: 1px solid #d80202;
+}
+
 .deleteContainer,
 .formContainer {
 	align-items: center;
@@ -68,6 +73,10 @@
 	padding: 2px 15px;
 }
 
+.confirmDelete {
+	background-color: #d80202;
+}
+
 .cancelButton {
 	background-color: #e3e3e3;
 	border-radius: 50%;
@@ -88,9 +97,12 @@
 	display: none;
 }
 
-.button:hover,
-.confirmDelete:hover {
+.button:hover {
 	background-color: #1f6845;
+}
+
+.confirmDelete:hover {
+	background-color: #b60000;
 }
 
 .cancelButton:hover {

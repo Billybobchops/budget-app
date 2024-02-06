@@ -5,8 +5,9 @@ import {
 } from '@reduxjs/toolkit';
 import {
 	addCategory,
+	batchDeleteCategory,
+	batchUpdateCategory,
 	getAllCategories,
-	updateCategory,
 } from '../firebase/categories';
 
 const categoriesAdapter = createEntityAdapter();
@@ -35,11 +36,19 @@ export const addNewCategory = createAsyncThunk(
 	}
 );
 
-export const updateCategoryDoc = createAsyncThunk(
-	'categories/updateCategory',
+export const batchUpdateCategoryDoc = createAsyncThunk(
+	'categories/batchUpdateCategoryDoc',
 	async ({ uid, prevID, newID }) => {
-		await updateCategory(uid, prevID, newID);
+		await batchUpdateCategory(uid, prevID, newID);
 		return newID;
+	}
+);
+
+export const batchDeleteCategoryDoc = createAsyncThunk(
+	'categories/batchDeleteCategoryDoc',
+	async ({ uid, categoryID }) => {
+		await batchDeleteCategory(uid, categoryID);
+		return categoryID;
 	}
 );
 
@@ -63,16 +72,21 @@ const categorySlice = createSlice({
 				categoriesAdapter.addOne(state, action.payload);
 				state.status = 'idle';
 			})
-			.addCase(updateCategoryDoc.pending, (state) => {
+			.addCase(batchUpdateCategoryDoc.pending, (state) => {
 				state.status = 'loading';
 			})
-			.addCase(updateCategoryDoc.fulfilled, (state, action) => {
+			.addCase(batchUpdateCategoryDoc.fulfilled, (state, action) => {
 				categoriesAdapter.updateOne(state, {
-					// might need to updateMany here? (items associated with prevCategory)
-					// that might be a separate action for separate slice though...
 					id: action.payload,
 					changes: action.payload,
 				});
+				state.status = 'idle';
+			})
+			.addCase(batchDeleteCategoryDoc.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(batchDeleteCategoryDoc.fulfilled, (state, action) => {
+				categoriesAdapter.removeOne(state, action.payload);
 				state.status = 'idle';
 			});
 	},

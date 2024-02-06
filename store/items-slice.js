@@ -79,10 +79,22 @@ const initialState = itemsAdapter.getInitialState({
 	status: 'idle',
 });
 
-const itemPlannerSlice = createSlice({
+const itemSlice = createSlice({
 	name: 'items',
 	initialState,
-	reducers: {},
+	reducers: {
+		deleteClientItems: (state, action) => {
+			const categoryID = action.payload;
+			
+			Object.values(state.entities).map((item) => {
+				if (item.category !== categoryID) {
+					return;
+				} else if (item.category === categoryID) {
+					itemsAdapter.removeOne(state, item.id);
+				}
+			});
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchItems.pending, (state) => {
@@ -133,7 +145,8 @@ const itemPlannerSlice = createSlice({
 	},
 });
 
+export const { deleteClientItems } = itemSlice.actions;
 export const selectItemIds = (state) => state.items.ids;
 export const selectItemEntities = (state) => state.items.entities;
 
-export default itemPlannerSlice.reducer;
+export default itemSlice.reducer;
