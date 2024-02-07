@@ -2,7 +2,8 @@
 .editContainer {
 	align-items: center;
 	background-color: #fff;
-	box-shadow: #0000004f 0px 3px 5px;
+	border-radius: 6px;
+	box-shadow: #00000022 0px 3px 5px;
 	color: #04311c;
 	display: grid;
 	font-family: 'Mukta', sans-serif;

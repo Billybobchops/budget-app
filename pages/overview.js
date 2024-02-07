@@ -232,12 +232,12 @@ const Overview = () => {
 					<Header title='Overview' />
 					<ButtonBar title={'Add New'}>
 						<Button
-							text='Budget Category'
 							clickHandler={onCategoryClick}
+							text='Budget Category'
 						/>
 						<Button 
-							text='Budget Item' 
 							clickHandler={onItemClick}
+							text='Budget Item' 
 						/>
 					</ButtonBar>
 					<TotalsBar />

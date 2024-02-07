@@ -1,23 +1,21 @@
 .button {
-	background-color: #bd275c;
-	border-radius: 50px;
+	border-radius: 6px;
 	border: none;
 	color: #fff;
 	font-family: 'Mukta', sans-serif;
 	font-size: 14px;
 	font-weight: 600;
-	margin: 0px 12px 12px 0;
-	padding: 8px 30px;
-  }
-  
-  .buttonEvenMargin {
+	margin: 0px 12px 0 0;
+	padding: 8px 20px;
+}
+
+.buttonEvenMargin {
 	margin: 12px;
-  }
-  
-  @media (max-width: 390px) {
+}
+
+@media (max-width: 390px) {
 	.button {
-	  font-size: 12px;
-	  margin: 0 9px 9px 0;
+		font-size: 12px;
+		margin: 0 9px 9px 0;
 	}
-  }
-  
+}

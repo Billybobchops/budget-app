@@ -13,6 +13,7 @@
 .errorBackground,
 .skeleton {
 	background-color: #d4f3da;
+	border-radius: 12px 12px 0 0;
 	/* Must have a height for child Responsive Pie to render if no height is set on component */
 	/* also, in this case it has to match the defined height in the component */
 	height: 300px;

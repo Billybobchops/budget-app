@@ -1,34 +1,28 @@
 .tabsWrapper {
-  grid-area: tabs;
-  align-self: flex-end;
-  justify-self: flex-end;
+	align-self: flex-end;
+	grid-area: tabs;
+	justify-self: flex-end;
 }
 
 .tabBtn {
-  background: none;
-  border: none;
-  color: #0f4e31;
+	background: none;
+	border: none;
+	border-radius: 6px 6px 0 0;
+	color: #0f4e31;
+	font-size: 16px;
+	padding: 10px 20px;
 }
-
-.tabBtn {
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-/* .tabBtn:hover {
-  text-decoration: underline;
-} */
 
 .tabBtnActive {
-  font-size: 16px;
-  border: none;
-  background-color: #d4f3da;
-  border-bottom: 2px solid #0f4e31;
+	background-color: #d4f3da;
+	border: none;
+	border-bottom: 2px solid #0f4e31;
+	font-size: 16px;
 }
 
 @media (max-width: 480px) {
-  .tabBtn {
-    font-size: 14px;
-    padding: 10px 18px;
-  }
+	.tabBtn {
+		font-size: 14px;
+		padding: 10px 18px;
+	}
 }

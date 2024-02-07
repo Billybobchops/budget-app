@@ -159,6 +159,7 @@
 
 .under,
 .over {
+	border-radius: 6px;
 	font-size: 14px;
 	max-width: max-content;
 	padding: 5px 15px;

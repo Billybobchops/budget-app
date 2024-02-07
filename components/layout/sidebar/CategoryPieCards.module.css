@@ -1,37 +1,39 @@
 .cardsContainer {
-  display: grid;
-  /* grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); */
-  grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
-  background-color: #d4f3da;
-  gap: 15px;
-  padding: 20px;
+	background-color: #d4f3da;
+	border-radius: 0 0 12px 12px;
+	display: grid;
+	gap: 15px;
+	/* grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); */
+	grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+	padding: 20px;
 }
 
 .pieCard {
-  background-color: #fff;
-  display: grid;
-  grid-template-rows: 16px 1fr;
-  box-shadow: #0000002c 0px 3px 5px;
+	background-color: #fff;
+	border-radius: 6px;
+	box-shadow: #0000002c 0px 3px 5px;
+	display: grid;
+	grid-template-rows: 16px 1fr;
 }
 
 .title {
-  align-self: center;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.2;
-  padding: 9px;
-  text-align: center;
-  word-break: break-word;
+	align-self: center;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.2;
+	padding: 9px;
+	text-align: center;
+	word-break: break-word;
 }
 
 @media (max-width: 1485px) {
-  .cardsContainer {
+	.cardsContainer {
 		padding: 0 25% 25px 25%;
 	}
 }
 
 @media (max-width: 690px) {
-  .cardsContainer {
+	.cardsContainer {
 		padding: 0 12% 25px 12%;
 	}
 }
